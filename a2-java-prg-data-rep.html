@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 14: Programming & Data Representation (Java)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background: #f9f9f9;
+    }
+    header {
+      background: #34495e;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8em;
+    }
+    header p {
+      margin: 5px 0 0;
+      font-size: 0.9em;
+    }
+    main {
+      max-width: 1000px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    h2, h3 {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+      color: #2c3e50;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    .note {
+      background: #fef5e7;
+      padding: 10px;
+      border-left: 5px solid #f39c12;
+      margin: 10px 0;
+    }
+    .mistake {
+      background: #fdecea;
+      padding: 10px;
+      border-left: 5px solid #e74c3c;
+      margin: 10px 0;
+    }
+    .quiz {
+      background: #ecf0f1;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+    .quiz button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #34495e;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .quiz button:hover {
+      background: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Chapter 14: Programming & Data Representation</h1>
+    <p>Prepared by Ravi Raju</p>
+  </header>
+  <main>
+    <section>
+      <h2>Learning Objectives</h2>
+      <ul>
+        <li>Understand variables, constants, and operators in Java.</li>
+        <li>Learn about control structures: conditionals and loops.</li>
+        <li>Work with arrays, strings, and methods.</li>
+        <li>Handle input/output and basic file operations.</li>
+        <li>Get introduced to Object-Oriented Programming (OOP).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>1. Variables and Constants</h2>
+      <p>In Java, every variable must have a declared type. Constants are declared using <code>final</code>. Data types are broadly categorized into:</p>
+      <ul>
+        <li><strong>Primitive types:</strong> int, double, char, boolean, etc.</li>
+        <li><strong>Reference types:</strong> Strings, Arrays, Objects.</li>
+      </ul>
+      <pre><code>class Main {
+  public static void main(String[] args) {
+    int age = 18; // variable
+    final double PI = 3.14159; // constant
+    char grade = 'A';
+    boolean passed = true;
+
+    System.out.println("Age: " + age);
+    System.out.println("Pi: " + PI);
+    System.out.println("Grade: " + grade);
+    System.out.println("Passed? " + passed);
+  }
+}</code></pre>
+      <div class="note">📌 Note: Java is strongly typed. A variable’s type cannot be changed after declaration.</div>
+    </section>
+
+    <section>
+      <h2>2. Operators</h2>
+      <p>Java supports arithmetic (+, -, *, /, %), relational (==, !=, &lt;, &gt;), logical (&&, ||, !), and assignment operators (=, +=, -=).</p>
+      <pre><code>class OperatorsDemo {
+  public static void main(String[] args) {
+    int a = 10, b = 5;
+    System.out.println("a + b = " + (a + b));
+    System.out.println("a &gt; b: " + (a &gt; b));
+    System.out.println("(a &gt; 0) &amp;&amp; (b &gt; 0): " + ((a &gt; 0) &amp;&amp; (b &gt; 0)));
+  }
+}</code></pre>
+      <div class="mistake">⚠️ Common mistake: Using '=' instead of '==' in condition checks.</div>
+    </section>
+
+    <section>
+      <h2>3. Control Structures</h2>
+      <h3>If-Else Example</h3>
+      <pre><code>class IfElseDemo {
+  public static void main(String[] args) {
+    int score = 75;
+    if (score &gt;= 90) {
+      System.out.println("Grade: A");
+    } else if (score &gt;= 60) {
+      System.out.println("Grade: B");
+    } else {
+      System.out.println("Grade: C");
+    }
+  }
+}</code></pre>
+      <h3>Switch Example</h3>
+      <pre><code>class SwitchDemo {
+  public static void main(String[] args) {
+    int day = 3;
+    switch(day) {
+      case 1: System.out.println("Monday"); break;
+      case 2: System.out.println("Tuesday"); break;
+      case 3: System.out.println("Wednesday"); break;
+      default: System.out.println("Other day");
+    }
+  }
+}</code></pre>
+      <h3>Loops</h3>
+      <pre><code>// for loop
+for (int i = 1; i &lt;= 5; i++) {
+  System.out.println("i = " + i);
+}
+
+// while loop
+int j = 1;
+while (j &lt;= 5) {
+  System.out.println("j = " + j);
+  j++;
+}
+
+// do-while loop
+int k = 1;
+do {
+  System.out.println("k = " + k);
+  k++;
+} while (k &lt;= 5);
+</code></pre>
+    </section>
+
+    <section>
+      <h2>4. Arrays and Strings</h2>
+      <p>Arrays store multiple values of the same type. Strings are objects in Java.</p>
+      <pre><code>// Array example
+class ArrayDemo {
+  public static void main(String[] args) {
+    int[] marks = {85, 90, 78, 92};
+    for (int i = 0; i &lt; marks.length; i++) {
+      System.out.println("Mark " + i + ": " + marks[i]);
+    }
+  }
+}</code></pre>
+      <pre><code>// String example
+class StringDemo {
+  public static void main(String[] args) {
+    String name = "Java Programming";
+    System.out.println("Length: " + name.length());
+    System.out.println("Uppercase: " + name.toUpperCase());
+    System.out.println("Substring: " + name.substring(0,4));
+  }
+}</code></pre>
+      <div class="note">📌 ASCII diagram of memory representation of an array:<br>
+      Index → 0 | 1 | 2 | 3<br>
+      Value → 85 | 90 | 78 | 92
+      </div>
+    </section>
+
+    <section>
+      <h2>5. Methods</h2>
+      <p>Methods allow reusability and modularity in Java.</p>
+      <pre><code>class MethodDemo {
+  static int square(int n) {
+    return n * n;
+  }
+
+  public static void main(String[] args) {
+    System.out.println("Square of 5 = " + square(5));
+  }
+}</code></pre>
+      <div class="note">📌 Methods can be overloaded by changing parameter type or count.</div>
+    </section>
+
+    <section>
+      <h2>6. File Handling</h2>
+      <p>Java uses classes like <code>FileWriter</code> and <code>Scanner</code> for file operations.</p>
+      <pre><code>import java.io.*;
+import java.util.*;
+
+class FileDemo {
+  public static void main(String[] args) throws Exception {
+    // Write to file
+    FileWriter fw = new FileWriter("output.txt");
+    fw.write("Hello, Java File Handling!\n");
+    fw.close();
+
+    // Read from file
+    Scanner sc = new Scanner(new File("output.txt"));
+    while (sc.hasNextLine()) {
+      System.out.println(sc.nextLine());
+    }
+    sc.close();
+  }
+}</code></pre>
+    </section>
+
+    <section>
+      <h2>7. Object-Oriented Programming (OOP)</h2>
+      <pre><code>class Student {
+  String name;
+  int age;
+
+  Student(String n, int a) {
+    name = n;
+    age = a;
+  }
+
+  void display() {
+    System.out.println(name + " (" + age + ")");
+  }
+}
+
+class OOPDemo {
+  public static void main(String[] args) {
+    Student s1 = new Student("Alice", 20);
+    Student s2 = new Student("Bob", 22);
+    s1.display();
+    s2.display();
+  }
+}</code></pre>
+      <div class="note">📌 Key concepts: Encapsulation, Inheritance, Polymorphism, Abstraction.</div>
+    </section>
+
+    <section>
+      <h2>8. Mini Projects</h2>
+      <h3>Calculator</h3>
+      <pre><code>import java.util.*;
+class Calculator {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter first number: ");
+    double a = sc.nextDouble();
+    System.out.print("Enter operator (+,-,*,/): ");
+    char op = sc.next().charAt(0);
+    System.out.print("Enter second number: ");
+    double b = sc.nextDouble();
+
+    double result;
+    switch(op) {
+      case '+': result = a + b; break;
+      case '-': result = a - b; break;
+      case '*': result = a * b; break;
+      case '/': result = a / b; break;
+      default: result = 0;
+    }
+    System.out.println("Result = " + result);
+  }
+}</code></pre>
+
+      <h3>Student Grade System</h3>
+      <pre><code>import java.util.*;
+class GradeSystem {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter student name: ");
+    String name = sc.nextLine();
+    System.out.print("Enter score: ");
+    int score = sc.nextInt();
+
+    String grade;
+    if (score &gt;= 90) grade = "A";
+    else if (score &gt;= 80) grade = "B";
+    else if (score &gt;= 70) grade = "C";
+    else grade = "D";
+
+    System.out.println(name + "'s grade: " + grade);
+  }
+}</code></pre>
+    </section>
+
+    <section class="quiz">
+      <h2>Quick Quiz</h2>
+      <p>1. What keyword is used to declare a constant in Java?</p>
+      <p>2. Which loop runs at least once regardless of condition?</p>
+      <button onclick="document.getElementById('answers').style.display='block'">Show Answers</button>
+      <div id="answers" style="display:none; color:#27ae60;">
+        <p><strong>1:</strong> final</p>
+        <p><strong>2:</strong> do-while loop</p>
+      </div>
+    </section>
+  </main>
+<!-- ================== START OF 14.03 Data Types ================== -->
+<div class="section">
+  <h2 onclick="toggleSection('datatypes')">14.03 Data Types</h2>
+  <div id="datatypes" class="content">
+    <p>Every programming language has built-in data types. Below are some of the commonly used data types in Java.</p>
+
+    <h3>Simple Data Types in Java</h3>
+    <ul>
+      <li><b>int</b> (4 bytes) → whole numbers (signed)</li>
+      <li><b>double</b> (8 bytes) → numbers with decimal places</li>
+      <li><b>char</b> (2 bytes, Unicode) → a single character, e.g., <code>'A'</code></li>
+      <li><b>String</b> (object, 2 bytes per character) → sequence of characters, e.g., <code>"Hello"</code></li>
+      <li><b>boolean</b> (1 bit, JVM uses 1 byte) → <code>true</code> or <code>false</code></li>
+    </ul>
+
+    <h3>Date Data Type</h3>
+    <p>Java does not have a built-in <code>Date</code> type. Instead, it provides the <code>Date</code> class from the <code>java.util</code> package.</p>
+
+    <pre><code class="language-java">
+// Example of using Date class in Java
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        Date today = new Date();
+        System.out.println("Today's date: " + today);
+    }
+}
+    </code></pre>
+  </div>
+</div>
+<!-- ================== END OF 14.03 Data Types ================== -->
+
+
+<!-- ================== START OF 14.04 Boolean Expressions ================== -->
+<div class="section">
+  <h2 onclick="toggleSection('boolexp')">14.04 Boolean Expressions</h2>
+  <div id="boolexp" class="content">
+    <p>Boolean expressions are conditions that evaluate to either <b>true</b> or <b>false</b>. Java supports:</p>
+
+    <h3>Comparison Operators</h3>
+    <ul>
+      <li><code>==</code> → equal to</li>
+      <li><code>!=</code> → not equal to</li>
+      <li><code>&gt;</code> → greater than</li>
+      <li><code>&lt;</code> → less than</li>
+      <li><code>&gt;=</code> → greater than or equal to</li>
+      <li><code>&lt;=</code> → less than or equal to</li>
+    </ul>
+
+    <h3>Boolean Operators</h3>
+    <ul>
+      <li><code>&&</code> → AND</li>
+      <li><code>||</code> → OR</li>
+      <li><code>!</code> → NOT</li>
+    </ul>
+
+    <pre><code class="language-java">
+// Example of Boolean expressions in Java
+public class Main {
+    public static void main(String[] args) {
+        int x = 10, y = 20;
+
+        System.out.println(x == y);   // false
+        System.out.println(x < y);    // true
+        System.out.println((x < y) && (y > 15)); // true
+        System.out.println(!(x > y)); // true
+    }
+}
+    </code></pre>
+  </div>
+</div>
+<!-- ================== END OF 14.04 Boolean Expressions ================== -->
+
+
+<!-- ================== START OF 14.05 Selection ================== -->
+<div class="section">
+  <h2 onclick="toggleSection('selection')">14.05 Selection</h2>
+  <div id="selection" class="content">
+    <p>Selection allows programs to make decisions. In Java, this is done using <b>if</b>, <b>if...else</b>, <b>nested if</b>, and <b>switch</b>.</p>
+
+    <h3>IF...THEN</h3>
+    <pre><code class="language-java">
+if (x < 0) {
+    System.out.println("Negative");
+}
+    </code></pre>
+
+    <h3>IF...THEN...ELSE</h3>
+    <pre><code class="language-java">
+if (x < 0) {
+    System.out.println("Negative");
+} else {
+    System.out.println("Positive");
+}
+    </code></pre>
+
+    <h3>Nested IF</h3>
+    <pre><code class="language-java">
+if (x < 0) {
+    System.out.println("Negative");
+} else if (x == 0) {
+    System.out.println("Zero");
+} else {
+    System.out.println("Positive");
+}
+    </code></pre>
+
+    <h3>Switch (CASE equivalent)</h3>
+    <pre><code class="language-java">
+switch (grade) {
+    case 'A': 
+        System.out.println("Top Grade");
+        break;
+    case 'F': case 'U':
+        System.out.println("Fail");
+        break;
+    case 'B': case 'C': case 'D': case 'E':
+        System.out.println("Pass");
+        break;
+    default:
+        System.out.println("Invalid grade");
+}
+    </code></pre>
+
+    <h3>Example: Days in a Month (with leap year check)</h3>
+    <pre><code class="language-java">
+import java.util.Scanner;
+
+public class DaysInMonth {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter month number (1-12): ");
+        int month = input.nextInt();
+        System.out.print("Enter year: ");
+        int year = input.nextInt();
+
+        int days = 0;
+        switch (month) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                days = 31; break;
+            case 4: case 6: case 9: case 11:
+                days = 30; break;
+            case 2:
+                days = 28;
+                if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
+                    days = 29;
+                }
+                break;
+            default:
+                System.out.println("Invalid month number");
+        }
+        if (days > 0) {
+            System.out.println("Days: " + days);
+        }
+    }
+}
+    </code></pre>
+  </div>
+</div>
+<!-- ================== END OF 14.05 Selection ================== -->
+<!-- ================== START OF 14.06 Iteration ================== -->
+<div class="section">
+  <h2 onclick="toggleSection('iteration')">14.06 Iteration</h2>
+  <div id="iteration" class="content">
+    <p>Iteration (loops) allows a block of code to be executed repeatedly. In Java, there are three main types:</p>
+
+    <h3>FOR Loop</h3>
+    <pre><code class="language-java">
+// Print numbers 1 to 5 using a for loop
+public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(i);
+        }
+    }
+}
+    </code></pre>
+
+    <h3>WHILE Loop</h3>
+    <pre><code class="language-java">
+// Sum of numbers 1 to 5 using while loop
+public class Main {
+    public static void main(String[] args) {
+        int i = 1, sum = 0;
+        while (i <= 5) {
+            sum += i;
+            i++;
+        }
+        System.out.println("Sum = " + sum);
+    }
+}
+    </code></pre>
+
+    <h3>DO...WHILE Loop</h3>
+    <pre><code class="language-java">
+// At least one execution guaranteed
+public class Main {
+    public static void main(String[] args) {
+        int i = 1;
+        do {
+            System.out.println("Value: " + i);
+            i++;
+        } while (i <= 3);
+    }
+}
+    </code></pre>
+
+    <h3>Task 14.06</h3>
+    <div class="task">
+      Write a program that prints all even numbers from 2 to 20 using a <code>for</code> loop.
+    </div>
+
+    <h3>Task 14.07</h3>
+    <div class="task">
+      Write a program that asks the user for 5 numbers and calculates their average using a <code>while</code> loop.
+    </div>
+
+    <h3>Task 14.08</h3>
+    <div class="task">
+      Write a program using a <code>do...while</code> loop to repeatedly ask the user to enter a password until it is correct.
+    </div>
+  </div>
+</div>
+<!-- ================== END OF 14.06 Iteration ================== -->
+
+
+<!-- ================== START OF 14.07 Built-in Functions ================== -->
+<div class="section">
+  <h2 onclick="toggleSection('builtins')">14.07 Built-in Functions</h2>
+  <div id="builtins" class="content">
+    <p>Java provides many built-in functions (methods) to simplify programming.</p>
+
+    <h3>String Methods</h3>
+    <pre><code class="language-java">
+public class Main {
+    public static void main(String[] args) {
+        String text = "Hello World";
+        System.out.println(text.length());        // 11
+        System.out.println(text.charAt(0));       // H
+        System.out.println(text.substring(0, 5)); // Hello
+        System.out.println(text.toUpperCase());   // HELLO WORLD
+        System.out.println(text.toLowerCase());   // hello world
+    }
+}
+    </code></pre>
+
+    <h3>Type Conversion</h3>
+    <pre><code class="language-java">
+public class Main {
+    public static void main(String[] args) {
+        String s = "123";
+        int num = Integer.parseInt(s); // String to int
+        double d = Double.parseDouble("3.14"); // String to double
+        System.out.println(num + d); // 126.14
+    }
+}
+    </code></pre>
+
+    <h3>Random Numbers</h3>
+    <pre><code class="language-java">
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random rand = new Random();
+        int r = rand.nextInt(6) + 1; // Random dice roll (1–6)
+        System.out.println("You rolled: " + r);
+    }
+}
+    </code></pre>
+
+    <h3>Task 14.09</h3>
+    <div class="task">
+      Write a program that asks the user for their name and prints it in uppercase and lowercase.
+    </div>
+  </div>
+</div>
+<!-- ================== END OF 14.07 Built-in Functions ================== -->
+
+
+<!-- ================== START OF 14.08 Procedures ================== -->
+<div class="section">
+  <h2 onclick="toggleSection('procedures')">14.08 Procedures (Methods in Java)</h2>
+  <div id="procedures" class="content">
+    <p>In Java, a <b>procedure</b> is represented as a <b>method</b>. Methods can be:</p>
+    <ul>
+      <li><b>Void methods</b> → perform an action but return nothing.</li>
+      <li><b>Return methods</b> → perform an action and return a value.</li>
+    </ul>
+
+    <h3>Example of a Procedure (Void Method)</h3>
+    <pre><code class="language-java">
+public class Main {
+    static void greetUser(String name) {
+        System.out.println("Hello, " + name + "!");
+    }
+
+    public static void main(String[] args) {
+        greetUser("Alice");
+        greetUser("Bob");
+    }
+}
+    </code></pre>
+
+    <h3>Example with User Input</h3>
+    <pre><code class="language-java">
+import java.util.Scanner;
+
+public class Main {
+    static void displaySquare(int number) {
+        System.out.println("Square of " + number + " = " + (number * number));
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int n = input.nextInt();
+        displaySquare(n);
+    }
+}
+    </code></pre>
+
+    <h3>Task 14.10</h3>
+    <div class="task">
+      Write a procedure (method) that takes a string and prints the string reversed.
+    </div>
+  </div>
+</div>
+<!-- ================== END OF 14.08 Procedures ================== -->
+<!-- ========================== -->
+<!-- 14.09 Functions -->
+<!-- ========================== -->
+<section id="functions">
+  <h2>14.09 Functions</h2>
+  <p>
+    In Java, a <strong>function</strong> is implemented as a <em>method that returns a value</em>. 
+    Functions allow us to break a program into smaller reusable parts and avoid repetition.
+  </p>
+
+  <h3>Syntax</h3>
+  <pre><code class="language-java">
+returnType functionName(parameters) {
+    // statements
+    return value;
+}
+  </code></pre>
+
+  <h3>Example: Maximum of Two Numbers</h3>
+  <pre><code class="language-java">
+public class Main {
+    public static int maximum(int a, int b) {
+        if (a > b) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Max is: " + maximum(5, 8));
+    }
+}
+  </code></pre>
+
+  <p><strong>Output:</strong></p>
+  <pre><code>
+Max is: 8
+  </code></pre>
+
+  <div class="task">
+    <button onclick="toggleTask('task1409')">Task 14.11: Try it Yourself</button>
+    <div id="task1409" class="task-content">
+      <p>Write a function in Java that calculates the square of an integer. 
+      Call this function from <code>main()</code> and print the result for the value 7.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================== -->
+<!-- 14.10 Passing Parameters to Subroutines -->
+<!-- ========================== -->
+<section id="passing-parameters">
+  <h2>14.10 Passing Parameters to Subroutines</h2>
+  <p>
+    In Java, when you call a method you can pass values to it. 
+    These values are called <strong>parameters</strong>. 
+    Java always passes <em>primitives by value</em>, and <em>objects/arrays by reference (technically by value of reference)</em>.
+  </p>
+
+  <h3>Example: Square Function with Parameter</h3>
+  <pre><code class="language-java">
+public class Main {
+    public static int square(int n) {
+        return n * n;
+    }
+
+    public static void main(String[] args) {
+        int number = 6;
+        System.out.println("Square of " + number + " = " + square(number));
+    }
+}
+  </code></pre>
+
+  <p><strong>Output:</strong></p>
+  <pre><code>
+Square of 6 = 36
+  </code></pre>
+</section>
+
+
+<!-- ========================== -->
+<!-- 14.11 Passing Parameters to Functions -->
+<!-- ========================== -->
+<section id="passing-parameters-functions">
+  <h2>14.11 Passing Parameters to Functions</h2>
+  <p>
+    Functions can accept multiple parameters. You simply list them in the method header.
+  </p>
+
+  <h3>Example: Sum of Range</h3>
+  <pre><code class="language-java">
+public class Main {
+    public static int sumRange(int a, int b) {
+        int sum = 0;
+        for (int i = a; i <= b; i++) {
+            sum += i;
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Sum from 1 to 5 = " + sumRange(1, 5));
+        System.out.println("Sum from 10 to 15 = " + sumRange(10, 15));
+    }
+}
+  </code></pre>
+
+  <p><strong>Output:</strong></p>
+  <pre><code>
+Sum from 1 to 5 = 15
+Sum from 10 to 15 = 75
+  </code></pre>
+
+  <div class="task">
+    <button onclick="toggleTask('task1411')">Task 14.12: Try it Yourself</button>
+    <div id="task1411" class="task-content">
+      <p>Write a Java function <code>factorial(int n)</code> that calculates n! (n factorial). 
+      Call it from <code>main()</code> with input <code>5</code> and print the result.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================== -->
+<!-- 14.12 Passing Parameters to Procedures -->
+<!-- ========================== -->
+<section id="passing-parameters-procedures">
+  <h2>14.12 Passing Parameters to Procedures</h2>
+  <p>
+    In Java, a <strong>procedure</strong> is simply a method with <code>void</code> return type (no value returned).
+    You can still pass parameters to it, and it will perform actions without returning data.
+  </p>
+
+  <h3>Example: Greeting Procedure</h3>
+  <pre><code class="language-java">
+public class Main {
+    public static void greet(String name) {
+        System.out.println("Hello, " + name + "!");
+    }
+
+    public static void main(String[] args) {
+        greet("Alice");
+        greet("Bob");
+    }
+}
+  </code></pre>
+
+  <p><strong>Output:</strong></p>
+  <pre><code>
+Hello, Alice!
+Hello, Bob!
+  </code></pre>
+
+  <div class="note">
+    <p><strong>Note:</strong> Since Java does not allow true global variables, 
+    parameters are the main way to share values between methods.</p>
+  </div>
+</section>
+<!-- ========================== -->
+<!-- 14.13 Putting it all together -->
+<!-- ========================== -->
+<section id="pyramid-program">
+  <h2>14.13 Putting it all together</h2>
+  <p>
+    In this section, we bring together the concepts of <strong>functions, procedures, and parameters</strong>
+    by writing a complete Java program that draws a pyramid of symbols.
+  </p>
+  <p>
+    Notice how the <em>parameters of the methods</em> have identifiers that differ from the variables
+    in <code>main()</code>. This helps make clear that <strong>parameters and local variables inside
+    methods are separate from those in the calling program</strong>.
+  </p>
+
+  <h3>Java Pyramid Drawing Program</h3>
+  <pre><code class="language-java">
+import java.util.Scanner;
+
+public class Pyramid {
+    static final char SPACE = ' ';
+
+    public static char getSymbol() {
+        Scanner console = new Scanner(System.in);
+        System.out.print("What symbol do you want to use? ");
+        String response = console.next();
+        return response.charAt(0);
+    }
+
+    public static int inputMaxNumberOfSymbols() {
+        Scanner console = new Scanner(System.in);
+        int number = 0;
+        while ((number % 2) == 0) {
+            System.out.print("How many symbols make the base? (odd number): ");
+            number = console.nextInt();
+        }
+        return number;
+    }
+
+    public static void outputChars(int number, char symbol) {
+        for (int count = 0; count < number; count++) {
+            System.out.print(symbol);
+        }
+    }
+
+    public static int adjustSpacesForNextRow(int spaces) {
+        return spaces - 1;
+    }
+
+    public static int adjustSymbolsForNextRow(int symbols) {
+        return symbols + 2;
+    }
+
+    public static void main(String[] args) {
+        char thisSymbol = getSymbol();
+        int maxNumberOfSymbols = inputMaxNumberOfSymbols();
+        int numberOfSpaces = (maxNumberOfSymbols + 1) / 2;
+        int numberOfSymbols = 1;
+
+        while (numberOfSymbols <= maxNumberOfSymbols) {
+            outputChars(numberOfSpaces, SPACE);
+            outputChars(numberOfSymbols, thisSymbol);
+            System.out.println();
+            numberOfSpaces = adjustSpacesForNextRow(numberOfSpaces);
+            numberOfSymbols = adjustSymbolsForNextRow(numberOfSymbols);
+        }
+    }
+}
+  </code></pre>
+
+  <div class="note">
+    <p><strong>Discussion Point:</strong> Notice how the two procedures <code>OutputSpaces</code> and
+    <code>OutputSymbols</code> have been replaced by a single method <code>outputChars()</code> 
+    without changing the program’s effect.</p>
+  </div>
+</section>
+
+
+<!-- ========================== -->
+<!-- 14.14 Arrays -->
+<!-- ========================== -->
+<section id="arrays">
+  <h2>14.14 Arrays</h2>
+  <p>
+    An <strong>array</strong> is a fixed-size structure used to store multiple values of the same data type.
+    In Java, arrays are indexed from <code>0</code> (zero-based indexing).
+  </p>
+
+  <h3>Creating 1D Arrays</h3>
+  <pre><code class="language-java">
+// Declaring and initialising arrays
+String[] list1 = {"Fred", "Jack", "Ali"}; // 3 elements
+int[] list2 = new int[6];                 // 6 integers, default 0
+int[] list3 = new int[100];               // 100 integers
+String[] aList = new String[26];          // 26 strings
+  </code></pre>
+
+  <p>
+    Elements can be accessed by index:
+  </p>
+  <pre><code class="language-java">
+list2[2] = 50;      // sets the 3rd element to 50
+aList[3] = "D";     // sets the 4th element to "D"
+System.out.println(list1[0]); // prints "Fred"
+  </code></pre>
+
+  <div class="task">
+    <button onclick="toggleTask('task1413')">Task 14.13: Try it Yourself</button>
+    <div id="task1413" class="task-content">
+      <ol>
+        <li>Write Java code to declare an array of 5 integers and set each element to its index value.</li>
+        <li>Write Java code to declare an array of 10 doubles and set each element to 3.14.</li>
+        <li>Modify the above to print all array contents using a loop.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>Creating 2D Arrays</h3>
+  <p>
+    A <strong>2D array</strong> is like a table of rows and columns. 
+    In Java, this is represented as an array of arrays.
+  </p>
+  <pre><code class="language-java">
+// Declaring and initialising 2D arrays
+int[][] board = {
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0}
+};
+
+// Alternative way
+int[][] anotherBoard = new int[6][7]; // 6 rows × 7 columns
+  </code></pre>
+
+  <h3>Accessing 2D Arrays</h3>
+  <p>
+    A specific element is accessed by two indices: <code>board[row][col]</code>.
+  </p>
+  <pre><code class="language-java">
+board[2][3] = 1; // sets the 3rd row, 4th column to 1
+System.out.println(board[2][3]); // prints the value at row 3, col 4
+  </code></pre>
+
+  <div class="task">
+    <button onclick="toggleTask('task1414')">Task 14.14: Try it Yourself</button>
+    <div id="task1414" class="task-content">
+      <ol>
+        <li>Declare a 2D array of size 4×4 to represent a grid.</li>
+        <li>Initialise all elements with 0, then set the diagonal elements to 1.</li>
+        <li>Print the array in a grid format.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tip">
+    <p><strong>Tip:</strong> When printing an array in Java, always use a loop to output the elements.</p>
+  </div>
+</section>
+<!-- ============================= -->
+<!-- 14.15 Text Files (Java Only)  -->
+<!-- ============================= -->
+
+<section id="text-files">
+  <h2>14.15 Text Files</h2>
+  <p>
+    In Java, text file handling is done using classes from the <code>java.io</code> package.
+    You can write data to files, read data back, append to existing files, and process
+    until the <strong>end-of-file (EOF)</strong> is reached.
+  </p>
+
+  <!-- Writing to a file -->
+  <h3>Writing to a Text File</h3>
+  <p>
+    To write to a text file, you typically use <code>FileWriter</code> combined with
+    <code>PrintWriter</code>. If the file already exists, writing will overwrite it
+    unless you explicitly open it in append mode.
+  </p>
+
+<pre><code class="language-java">
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+public class WriteExample {
+    public static void main(String[] args) throws IOException {
+        FileWriter fileHandle = new FileWriter("SampleFile.txt", false); // false = overwrite
+        PrintWriter printLine = new PrintWriter(fileHandle);
+
+        String lineOfText = "Hello, this is my first line!";
+        printLine.printf("%s%n", lineOfText);
+
+        printLine.close();
+        System.out.println("File written successfully.");
+    }
+}
+</code></pre>
+
+  <div class="note">
+    <strong>Note:</strong> Always close the file after writing, otherwise data may not
+    be saved properly.
+  </div>
+
+  <!-- Reading from a file -->
+  <h3>Reading from a Text File</h3>
+  <p>
+    To read from a text file, use <code>FileReader</code> wrapped in
+    <code>BufferedReader</code>. Each call to <code>readLine()</code> returns one line,
+    or <code>null</code> when the end of the file is reached.
+  </p>
+
+<pre><code class="language-java">
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class ReadExample {
+    public static void main(String[] args) throws IOException {
+        FileReader fileHandle = new FileReader("SampleFile.txt");
+        BufferedReader textReader = new BufferedReader(fileHandle);
+
+        String lineOfText = textReader.readLine();
+        while (lineOfText != null) {
+            System.out.println(lineOfText);
+            lineOfText = textReader.readLine();
+        }
+
+        textReader.close();
+    }
+}
+</code></pre>
+
+  <div class="tip">
+    <strong>Tip:</strong> You can also use <code>Scanner</code> for simple file reading,
+    but <code>BufferedReader</code> is faster for larger files.
+  </div>
+
+  <!-- Appending to a file -->
+  <h3>Appending to a Text File</h3>
+  <p>
+    To append data without overwriting existing content, set the second parameter of
+    <code>FileWriter</code> to <code>true</code>.
+  </p>
+
+<pre><code class="language-java">
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+public class AppendExample {
+    public static void main(String[] args) throws IOException {
+        FileWriter fileHandle = new FileWriter("SampleFile.txt", true); // true = append
+        PrintWriter printLine = new PrintWriter(fileHandle);
+
+        String lineOfText = "This line will be added to the end.";
+        printLine.printf("%s%n", lineOfText);
+
+        printLine.close();
+        System.out.println("Line appended successfully.");
+    }
+}
+</code></pre>
+
+  <!-- End of file -->
+  <h3>End-of-File (EOF)</h3>
+  <p>
+    In Java, there is no explicit EOF marker. Instead, methods such as
+    <code>readLine()</code> return <code>null</code> when the end of the file is reached.
+  </p>
+
+<pre><code class="language-java">
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class EOFExample {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("Test.txt"));
+        String line = reader.readLine();
+
+        while (line != null) {
+            System.out.println(line);
+            line = reader.readLine();
+        }
+
+        reader.close();
+    }
+}
+</code></pre>
+
+  <!-- Task -->
+  <h3>Task 14.15 – Hobby Tally Program</h3>
+  <p>
+    Fred surveys the students at his college to find out their favourite hobby.
+    He wants to present the data as a tally chart and save the results in a text file.
+  </p>
+
+  <details>
+    <summary><strong>Step 1: Declare and Initialise the Tally Array</strong></summary>
+<pre><code class="language-java">
+int[] tally = new int[5]; // all values start at 0
+String[] hobbies = {"Reading", "Computer Games", "Sport", "Programming", "Watching TV"};
+</code></pre>
+  </details>
+
+  <details>
+    <summary><strong>Step 2: Input Choices Until Sentinel (0)</strong></summary>
+<pre><code class="language-java">
+import java.util.Scanner;
+
+Scanner sc = new Scanner(System.in);
+int choice;
+
+do {
+    System.out.print("Enter choice (1-5, 0 to end): ");
+    choice = sc.nextInt();
+    if (choice >= 1 && choice <= 5) {
+        tally[choice - 1]++;
+    }
+} while (choice != 0);
+</code></pre>
+  </details>
+
+  <details>
+    <summary><strong>Step 3: Output Results with Hobby Titles</strong></summary>
+<pre><code class="language-java">
+for (int i = 0; i < tally.length; i++) {
+    System.out.println(hobbies[i] + ": " + tally[i]);
+}
+</code></pre>
+  </details>
+
+  <details>
+    <summary><strong>Step 4: Save Results to File</strong></summary>
+<pre><code class="language-java">
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+FileWriter fw = new FileWriter("Hobbies.txt", false);
+PrintWriter pw = new PrintWriter(fw);
+
+for (int i = 0; i < tally.length; i++) {
+    pw.println(hobbies[i] + ": " + tally[i]);
+}
+
+pw.close();
+System.out.println("Results saved to Hobbies.txt");
+</code></pre>
+  </details>
+
+  <details>
+    <summary><strong>Step 5: Read Results Back from File</strong></summary>
+<pre><code class="language-java">
+import java.io.FileReader;
+import java.io.BufferedReader;
+
+BufferedReader br = new BufferedReader(new FileReader("Hobbies.txt"));
+String line;
+while ((line = br.readLine()) != null) {
+    System.out.println(line);
+}
+br.close();
+</code></pre>
+  </details>
+
+  <!-- Reflection -->
+  <h3>Reflection Point</h3>
+  <p>
+    Which programming constructs do you find easiest, and which are hardest?
+    Try ordering the following by difficulty:
+  </p>
+  <ul>
+    <li>Using <code>for</code> loops</li>
+    <li>Using <code>while</code> loops</li>
+    <li>Using <code>if-else</code> statements</li>
+    <li>Declaring variables and constants</li>
+    <li>Using 1D and 2D arrays</li>
+    <li>File input/output</li>
+    <li>Built-in functions</li>
+    <li>Writing and calling methods (procedures/functions)</li>
+    <li>Using parameters</li>
+  </ul>
+
+  <!-- Summary -->
+  <h3>Summary</h3>
+  <ul>
+    <li>Java uses <code>FileWriter</code>, <code>PrintWriter</code>, <code>FileReader</code>, and <code>BufferedReader</code> for text file operations.</li>
+    <li>Always close files to prevent data loss.</li>
+    <li>Writing without append mode overwrites the file.</li>
+    <li><code>readLine()</code> returns <code>null</code> at the end of the file (EOF).</li>
+    <li>Arrays can be used to tally results and save them to a file.</li>
+  </ul>
+</section>
+
+</body>
+</html>

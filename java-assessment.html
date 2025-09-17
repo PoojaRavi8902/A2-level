@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapter 14 Assessment</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+    h2 { color: #2c3e50; }
+    .question { margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+    .answer { display: none; margin-top: 8px; padding: 8px; background: #ecf0f1; border-radius: 5px; }
+    button { margin-top: 10px; padding: 6px 12px; border: none; border-radius: 6px; background: #3498db; color: white; cursor: pointer; }
+    button:hover { background: #2980b9; }
+    textarea { width: 100%; height: 100px; margin-top: 8px; }
+    .exam-answer { display: none; background: #f9f9f9; border: 1px solid #aaa; padding: 10px; border-radius: 5px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <h1>Chapter 14 Assessment</h1>
+
+  <!-- MCQs -->
+  <h2>Multiple Choice Questions (MCQs)</h2>
+  <div id="mcq-section">
+
+    <div class="question">
+      <p>1. Which of the following is NOT a Java primitive data type?</p>
+      <label><input type="radio" name="mcq1" value="A"> int</label><br>
+      <label><input type="radio" name="mcq1" value="B"> double</label><br>
+      <label><input type="radio" name="mcq1" value="C"> String</label><br>
+      <label><input type="radio" name="mcq1" value="D"> boolean</label>
+      <div class="answer">Answer: C. String</div>
+    </div>
+
+    <div class="question">
+      <p>2. What does the <code>break</code> statement do in Java?</p>
+      <label><input type="radio" name="mcq2" value="A"> Exits the program</label><br>
+      <label><input type="radio" name="mcq2" value="B"> Exits the current loop/switch</label><br>
+      <label><input type="radio" name="mcq2" value="C"> Skips one iteration</label><br>
+      <label><input type="radio" name="mcq2" value="D"> Throws an exception</label>
+      <div class="answer">Answer: B. Exits the current loop/switch</div>
+    </div>
+
+    <div class="question">
+      <p>3. Which keyword is used to create an object in Java?</p>
+      <label><input type="radio" name="mcq3" value="A"> new</label><br>
+      <label><input type="radio" name="mcq3" value="B"> class</label><br>
+      <label><input type="radio" name="mcq3" value="C"> this</label><br>
+      <label><input type="radio" name="mcq3" value="D"> void</label>
+      <div class="answer">Answer: A. new</div>
+    </div>
+
+    <div class="question">
+      <p>4. Which of the following loops always executes at least once?</p>
+      <label><input type="radio" name="mcq4" value="A"> for</label><br>
+      <label><input type="radio" name="mcq4" value="B"> while</label><br>
+      <label><input type="radio" name="mcq4" value="C"> do-while</label><br>
+      <label><input type="radio" name="mcq4" value="D"> foreach</label>
+      <div class="answer">Answer: C. do-while</div>
+    </div>
+
+    <div class="question">
+      <p>5. Which access modifier makes a member visible only within its own class?</p>
+      <label><input type="radio" name="mcq5" value="A"> private</label><br>
+      <label><input type="radio" name="mcq5" value="B"> protected</label><br>
+      <label><input type="radio" name="mcq5" value="C"> public</label><br>
+      <label><input type="radio" name="mcq5" value="D"> default</label>
+      <div class="answer">Answer: A. private</div>
+    </div>
+
+    <div class="question">
+      <p>6. Which of these is a valid array declaration?</p>
+      <label><input type="radio" name="mcq6" value="A"> int arr[] = new int[5];</label><br>
+      <label><input type="radio" name="mcq6" value="B"> array arr = new int[5];</label><br>
+      <label><input type="radio" name="mcq6" value="C"> int arr() = new int[5];</label><br>
+      <label><input type="radio" name="mcq6" value="D"> int arr = new int[5];</label>
+      <div class="answer">Answer: A. int arr[] = new int[5];</div>
+    </div>
+
+    <div class="question">
+      <p>7. Which exception is thrown when dividing an integer by zero?</p>
+      <label><input type="radio" name="mcq7" value="A"> IOException</label><br>
+      <label><input type="radio" name="mcq7" value="B"> NullPointerException</label><br>
+      <label><input type="radio" name="mcq7" value="C"> ArithmeticException</label><br>
+      <label><input type="radio" name="mcq7" value="D"> NumberFormatException</label>
+      <div class="answer">Answer: C. ArithmeticException</div>
+    </div>
+
+    <div class="question">
+      <p>8. Which collection allows duplicate elements in Java?</p>
+      <label><input type="radio" name="mcq8" value="A"> Set</label><br>
+      <label><input type="radio" name="mcq8" value="B"> List</label><br>
+      <label><input type="radio" name="mcq8" value="C"> Map</label><br>
+      <label><input type="radio" name="mcq8" value="D"> None</label>
+      <div class="answer">Answer: B. List</div>
+    </div>
+
+    <div class="question">
+      <p>9. Which keyword is used to inherit a class in Java?</p>
+      <label><input type="radio" name="mcq9" value="A"> implements</label><br>
+      <label><input type="radio" name="mcq9" value="B"> inherits</label><br>
+      <label><input type="radio" name="mcq9" value="C"> extends</label><br>
+      <label><input type="radio" name="mcq9" value="D"> super</label>
+      <div class="answer">Answer: C. extends</div>
+    </div>
+
+    <div class="question">
+      <p>10. Which interface must a class implement to support multithreading in Java?</p>
+      <label><input type="radio" name="mcq10" value="A"> Serializable</label><br>
+      <label><input type="radio" name="mcq10" value="B"> Runnable</label><br>
+      <label><input type="radio" name="mcq10" value="C"> Cloneable</label><br>
+      <label><input type="radio" name="mcq10" value="D"> Comparable</label>
+      <div class="answer">Answer: B. Runnable</div>
+    </div>
+
+    <div class="question">
+      <p>11. Which of these is not a valid Java keyword?</p>
+      <label><input type="radio" name="mcq11" value="A"> static</label><br>
+      <label><input type="radio" name="mcq11" value="B"> void</label><br>
+      <label><input type="radio" name="mcq11" value="C"> then</label><br>
+      <label><input type="radio" name="mcq11" value="D"> final</label>
+      <div class="answer">Answer: C. then</div>
+    </div>
+
+    <div class="question">
+      <p>12. Which operator is used for logical AND in Java?</p>
+      <label><input type="radio" name="mcq12" value="A"> &amp;&amp;</label><br>
+      <label><input type="radio" name="mcq12" value="B"> ||</label><br>
+      <label><input type="radio" name="mcq12" value="C"> &amp;</label><br>
+      <label><input type="radio" name="mcq12" value="D"> !</label>
+      <div class="answer">Answer: A. &amp;&amp;</div>
+    </div>
+
+    <div class="question">
+      <p>13. What is the default value of an uninitialized int in Java?</p>
+      <label><input type="radio" name="mcq13" value="A"> 0</label><br>
+      <label><input type="radio" name="mcq13" value="B"> null</label><br>
+      <label><input type="radio" name="mcq13" value="C"> undefined</label><br>
+      <label><input type="radio" name="mcq13" value="D"> garbage value</label>
+      <div class="answer">Answer: A. 0</div>
+    </div>
+
+    <div class="question">
+      <p>14. Which loop is best suited when the number of iterations is known?</p>
+      <label><input type="radio" name="mcq14" value="A"> while</label><br>
+      <label><input type="radio" name="mcq14" value="B"> do-while</label><br>
+      <label><input type="radio" name="mcq14" value="C"> for</label><br>
+      <label><input type="radio" name="mcq14" value="D"> foreach</label>
+      <div class="answer">Answer: C. for</div>
+    </div>
+
+    <div class="question">
+      <p>15. Which keyword is used to prevent inheritance of a class?</p>
+      <label><input type="radio" name="mcq15" value="A"> final</label><br>
+      <label><input type="radio" name="mcq15" value="B"> static</label><br>
+      <label><input type="radio" name="mcq15" value="C"> private</label><br>
+      <label><input type="radio" name="mcq15" value="D"> const</label>
+      <div class="answer">Answer: A. final</div>
+    </div>
+
+    <div class="question">
+      <p>16. Which exception is a checked exception?</p>
+      <label><input type="radio" name="mcq16" value="A"> NullPointerException</label><br>
+      <label><input type="radio" name="mcq16" value="B"> IOException</label><br>
+      <label><input type="radio" name="mcq16" value="C"> ArithmeticException</label><br>
+      <label><input type="radio" name="mcq16" value="D"> ArrayIndexOutOfBoundsException</label>
+      <div class="answer">Answer: B. IOException</div>
+    </div>
+
+    <div class="question">
+      <p>17. Which keyword is used to access the parent class constructor?</p>
+      <label><input type="radio" name="mcq17" value="A"> this</label><br>
+      <label><input type="radio" name="mcq17" value="B"> super</label><br>
+      <label><input type="radio" name="mcq17" value="C"> parent</label><br>
+      <label><input type="radio" name="mcq17" value="D"> base</label>
+      <div class="answer">Answer: B. super</div>
+    </div>
+
+    <div class="question">
+      <p>18. Which keyword is used to handle exceptions in Java?</p>
+      <label><input type="radio" name="mcq18" value="A"> try</label><br>
+      <label><input type="radio" name="mcq18" value="B"> catch</label><br>
+      <label><input type="radio" name="mcq18" value="C"> throw</label><br>
+      <label><input type="radio" name="mcq18" value="D"> All of the above</label>
+      <div class="answer">Answer: D. All of the above</div>
+    </div>
+
+    <div class="question">
+      <p>19. Which keyword is used to define a constant in Java?</p>
+      <label><input type="radio" name="mcq19" value="A"> const</label><br>
+      <label><input type="radio" name="mcq19" value="B"> final</label><br>
+      <label><input type="radio" name="mcq19" value="C"> static</label><br>
+      <label><input type="radio" name="mcq19" value="D"> constant</label>
+      <div class="answer">Answer: B. final</div>
+    </div>
+
+    <div class="question">
+      <p>20. Which package is automatically imported in every Java program?</p>
+      <label><input type="radio" name="mcq20" value="A"> java.util</label><br>
+      <label><input type="radio" name="mcq20" value="B"> java.lang</label><br>
+      <label><input type="radio" name="mcq20" value="C"> java.io</label><br>
+      <label><input type="radio" name="mcq20" value="D"> java.net</label>
+      <div class="answer">Answer: B. java.lang</div>
+    </div>
+
+  </div>
+  <button onclick="showAnswers('mcq-section')">Submit MCQs</button>
+  <!-- Short Answer Questions -->
+  <h2>Short Answer Questions</h2>
+  <div id="short-section">
+    <div class="question">
+      <p>1. Explain the difference between <code>==</code> and <code>.equals()</code> in Java.</p>
+      <div class="answer">Answer: <code>==</code> compares references (memory addresses), while <code>.equals()</code> compares object content when overridden properly.</div>
+    </div>
+
+    <div class="question">
+      <p>2. What is the default value of an uninitialized <code>boolean</code> variable in Java?</p>
+      <div class="answer">Answer: false</div>
+    </div>
+
+    <div class="question">
+      <p>3. What does the <code>static</code> keyword mean for a method?</p>
+      <div class="answer">Answer: It belongs to the class, not instances; can be called without creating an object.</div>
+    </div>
+
+    <div class="question">
+      <p>4. What is the purpose of the <code>finally</code> block?</p>
+      <div class="answer">Answer: It always executes after try-catch, used for cleanup like closing resources.</div>
+    </div>
+
+    <div class="question">
+      <p>5. What is method overriding?</p>
+      <div class="answer">Answer: A subclass provides a new implementation for a method defined in its superclass.</div>
+    </div>
+
+    <div class="question">
+      <p>6. State one difference between an abstract class and an interface.</p>
+      <div class="answer">Answer: Abstract class can have implemented methods; interface methods are abstract by default (until Java 8).</div>
+    </div>
+
+    <div class="question">
+      <p>7. What is a constructor in Java?</p>
+      <div class="answer">Answer: A special method with the same name as the class used to initialize objects.</div>
+    </div>
+
+    <div class="question">
+      <p>8. What happens if you don’t provide a constructor in a class?</p>
+      <div class="answer">Answer: The compiler provides a default no-argument constructor.</div>
+    </div>
+
+    <div class="question">
+      <p>9. What is polymorphism?</p>
+      <div class="answer">Answer: The ability of an object to take many forms, e.g., method overriding and overloading.</div>
+    </div>
+
+    <div class="question">
+      <p>10. What is the purpose of the <code>this</code> keyword?</p>
+      <div class="answer">Answer: Refers to the current object instance.</div>
+    </div>
+
+    <div class="question">
+      <p>11. What is garbage collection in Java?</p>
+      <div class="answer">Answer: Automatic process of reclaiming memory by destroying unused objects.</div>
+    </div>
+
+    <div class="question">
+      <p>12. What is the difference between <code>ArrayList</code> and array?</p>
+      <div class="answer">Answer: Arrays are fixed size; ArrayLists are resizable and part of Java Collections.</div>
+    </div>
+
+    <div class="question">
+      <p>13. Which keyword is used to create a subclass?</p>
+      <div class="answer">Answer: extends</div>
+    </div>
+
+    <div class="question">
+      <p>14. What is the difference between checked and unchecked exceptions?</p>
+      <div class="answer">Answer: Checked exceptions are checked at compile time, unchecked occur at runtime.</div>
+    </div>
+
+    <div class="question">
+      <p>15. What is encapsulation?</p>
+      <div class="answer">Answer: Bundling data and methods together, restricting direct access to fields.</div>
+    </div>
+
+    <div class="question">
+      <p>16. What is the difference between <code>String</code> and <code>StringBuilder</code>?</p>
+      <div class="answer">Answer: String is immutable, StringBuilder is mutable and faster for modifications.</div>
+    </div>
+
+    <div class="question">
+      <p>17. What does <code>public static void main</code> mean?</p>
+      <div class="answer">Answer: Entry point of a Java program; public = accessible, static = no object needed, void = no return, main = method name.</div>
+    </div>
+
+    <div class="question">
+      <p>18. What is inheritance?</p>
+      <div class="answer">Answer: Mechanism where one class acquires properties and methods of another.</div>
+    </div>
+
+    <div class="question">
+      <p>19. Which class is the superclass of all Java classes?</p>
+      <div class="answer">Answer: Object</div>
+    </div>
+
+    <div class="question">
+      <p>20. What is a package in Java?</p>
+      <div class="answer">Answer: A collection of related classes and interfaces grouped together.</div>
+    </div>
+  </div>
+  <button onclick="showAnswers('short-section')">Submit Short Answers</button>
+
+  <!-- Exam Style Questions -->
+  <h2>Exam-Style Questions</h2>
+
+  <div class="question">
+    <p>1. Write a Java program that reads 10 integers into an array and prints the largest number.</p>
+    <textarea placeholder="Type your answer here..."></textarea>
+    <button onclick="toggleExamAnswer(this)">Show Answer</button>
+    <div class="exam-answer">
+      <pre>
+int[] arr = new int[10];
+Scanner sc = new Scanner(System.in);
+for (int i = 0; i < 10; i++) {
+    arr[i] = sc.nextInt();
+}
+int max = arr[0];
+for (int num : arr) {
+    if (num > max) max = num;
+}
+System.out.println("Largest: " + max);
+      </pre>
+    </div>
+  </div>
+
+  <div class="question">
+    <p>2. Explain the concept of method overloading in Java with an example.</p>
+    <textarea placeholder="Type your answer here..."></textarea>
+    <button onclick="toggleExamAnswer(this)">Show Answer</button>
+    <div class="exam-answer">
+      <pre>
+Method overloading = multiple methods in the same class with the same name but different parameter lists.
+
+Example:
+class MathUtil {
+    int add(int a, int b) { return a+b; }
+    double add(double a, double b) { return a+b; }
+}
+      </pre>
+    </div>
+  </div>
+
+  <div class="question">
+    <p>3. Write a Java class <code>BankAccount</code> with fields accountNumber and balance. 
+       Add deposit() and withdraw() methods. Show usage in main().</p>
+    <textarea placeholder="Type your answer here..."></textarea>
+    <button onclick="toggleExamAnswer(this)">Show Answer</button>
+    <div class="exam-answer">
+      <pre>
+class BankAccount {
+    int accountNumber;
+    double balance;
+
+    BankAccount(int acc, double bal) {
+        accountNumber = acc;
+        balance = bal;
+    }
+
+    void deposit(double amt) { balance += amt; }
+    void withdraw(double amt) { balance -= amt; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount b = new BankAccount(123, 500);
+        b.deposit(200);
+        b.withdraw(100);
+        System.out.println(b.balance);
+    }
+}
+      </pre>
+    </div>
+  </div>
+
+  <div class="question">
+    <p>4. Describe the differences between abstract classes and interfaces in Java. 
+       Give an example use case for each.</p>
+    <textarea placeholder="Type your answer here..."></textarea>
+    <button onclick="toggleExamAnswer(this)">Show Answer</button>
+    <div class="exam-answer">
+      <pre>
+Abstract class: can have concrete + abstract methods, use when classes share common behavior.
+Interface: only method signatures (until Java 8 added default methods), use when unrelated classes share capability.
+
+Example:
+abstract class Animal { abstract void makeSound(); }
+interface Flyable { void fly(); }
+      </pre>
+    </div>
+  </div>
+
+  <div class="question">
+    <p>5. Write a Java program using <code>try-catch-finally</code> to handle division by zero exception.</p>
+    <textarea placeholder="Type your answer here..."></textarea>
+    <button onclick="toggleExamAnswer(this)">Show Answer</button>
+    <div class="exam-answer">
+      <pre>
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        try {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = a / b;
+            System.out.println("Result: " + c);
+        } catch (ArithmeticException e) {
+            System.out.println("Division by zero not allowed!");
+        } finally {
+            System.out.println("Execution completed.");
+        }
+    }
+}
+      </pre>
+    </div>
+  </div>
+
+  <script>
+    function showAnswers(sectionId) {
+      let section = document.getElementById(sectionId);
+      let answers = section.getElementsByClassName("answer");
+      for (let ans of answers) {
+        ans.style.display = "block";
+      }
+    }
+
+    function toggleExamAnswer(btn) {
+      let ans = btn.nextElementSibling;
+      if (ans.style.display === "block") {
+        ans.style.display = "none";
+        btn.textContent = "Show Answer";
+      } else {
+        ans.style.display = "block";
+        btn.textContent = "Hide Answer";
+      }
+    }
+  </script>
+</body>
+</html>
