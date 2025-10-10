@@ -1,60 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Java Programming – Chapter 14 Portal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computer Science Resources | Modern English School Cairo</title>
   <style>
+    /* --- Base Styling --- */
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f4f4f9;
-      color: #333;
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d0d0f;
+      color: #eaeaea;
+      overflow-x: hidden;
     }
-    h1 {
+
+    header {
       text-align: center;
-      color: #222;
+      padding: 70px 20px 40px;
+      background: linear-gradient(145deg, #111, #181818, #101010);
+      border-bottom: 2px solid #333;
     }
-    .link-container {
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center;
+
+    header h1 {
+      font-size: 2.6rem;
+      color: #f1d18a;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
     }
-    a {
-      display: block;
-      margin: 20px;
-      padding: 15px;
-      background: #0073e6;
-      color: white;
+
+    header h2 {
+      color: #aaa;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      color: #bbb;
+      font-size: 1rem;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      padding: 50px;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    /* --- Card Styling --- */
+    .card {
+      background-color: #1a1a1d;
+      border: 1px solid #2f2f33;
+      border-radius: 16px;
+      padding: 25px;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+      border-color: #f1d18a;
+    }
+
+    .card h3 {
+      color: #f1d18a;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #cfcfcf;
+      margin-bottom: 15px;
+      min-height: 50px;
+    }
+
+    .card a {
       text-decoration: none;
-      border-radius: 8px;
-      font-size: 1.2em;
-      transition: background 0.3s;
+      color: #00adb5;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 5px;
+      transition: color 0.3s;
     }
-    a:hover {
-      background: #005bb5;
+
+    .card a:hover {
+      color: #f1d18a;
     }
+
     footer {
       text-align: center;
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #666;
+      padding: 25px;
+      border-top: 1px solid #333;
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    footer span {
+      color: #f1d18a;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      .container { padding: 20px; }
     }
   </style>
 </head>
 <body>
-  <h1>Java Programming – Chapter 14</h1>
 
-  <div class="link-container">
-    <a href="a2-java-prg-data-rep.html">📘 Study Material: Java Programming Chapter 14</a>
-    <a href="java-assessment.html">📝 Assessment: Chapter 14</a>
-  </div>
+  <header>
+    <h1>Computer Science Interactive Resources</h1>
+    <h2>Modern English School Cairo</h2>
+    <p>Prepared by <strong>Ravi Raju</strong></p>
+  </header>
+
+  <main class="container">
+    <!-- --- List of Linked Pages --- -->
+
+    <div class="card">
+      <h3>Chapter 13 – Data Representation (Year 12)</h3>
+      <p>Learn binary, hexadecimal, character encoding, and how text, images, and sound are represented in digital systems.</p>
+      <a href="data-representation-y12.html" target="_blank">Open Notes →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 13 – Data Representation Assessment</h3>
+      <p>Test your understanding of number systems, encoding, and binary conversions through this interactive assessment.</p>
+      <a href="data-representation-assessment.html" target="_blank">Open Assessment →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 14 – Communication & Internet Technologies</h3>
+      <p>Understand how data is transmitted, protocols like TCP/IP, and OSI layers through clear diagrams and notes.</p>
+      <a href="communication-internet-tech.html" target="_blank">Open Notes →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 14 – Communication & Internet Technologies Assessment</h3>
+      <p>Assess your grasp of networking, protocols, and security with detailed MCQs and short questions.</p>
+      <a href="communication-internet-tech-assessment.html" target="_blank">Open Assessment →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 14 – Bookback Questions</h3>
+      <p>Access textbook-style revision and structured questions from the Communication & Internet Technologies chapter.</p>
+      <a href="communication-internet-tech-bookquestions.html" target="_blank">View Questions →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 15 – Hardware & Virtual Machine</h3>
+      <p>Explore computer architecture, processor design, instruction sets, and the concept of virtual machines.</p>
+      <a href="Hardware and Virtual Machine.html" target="_blank">Open Notes →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 15 – Hardware Assessment</h3>
+      <p>Interactive quiz and structured questions to evaluate your understanding of hardware components and virtualization.</p>
+      <a href="Hardware-assessment.html" target="_blank">Open Assessment →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 19 – Logic Gates & Boolean Algebra</h3>
+      <p>Detailed notes on logic circuits, Boolean laws, simplification techniques, and Karnaugh maps with examples.</p>
+      <a href="logic-gates-boolean-algebra.html" target="_blank">Open Notes →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 19 – Logic Gates & Boolean Algebra Assessment</h3>
+      <p>Challenge yourself with MCQs, short answers, and scenario-based problems on logic circuits and Boolean simplification.</p>
+      <a href="logicgates-booleanalgebra-assessment.html" target="_blank">Open Assessment →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 20 – Software Development</h3>
+      <p>Learn about software engineering principles, development life cycles, testing methods, and documentation standards.</p>
+      <a href="software-development.html" target="_blank">Open Notes →</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 23 – Algorithms</h3>
+      <p>Study algorithm design, efficiency, flowcharts, and pseudocode examples aligned with the Cambridge syllabus.</p>
+      <a href="ch-23-algorithms.html" target="_blank">Open Notes →</a>
+    </div>
+  </main>
 
   <footer>
-    Prepared by Ravi Raju
+    © <span>Modern English School Cairo</span> | Prepared by <span>Ravi Raju</span> | All Rights Reserved
   </footer>
+
 </body>
 </html>
