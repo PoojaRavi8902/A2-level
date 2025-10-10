@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chapter 17 — Communication & Internet Technologies | Assessment</title>
+  <meta name="author" content="Ravi Raju" />
+  <style>
+    :root{--bg:#f6f5f3; --card:#ffffff; --muted:#555; --accent:#2b6cb0; --accent-2:#1a202c; --glass: rgba(255,255,255,0.7);}
+    [data-theme="dark"]{--bg:#0f1724; --card:#0b1320; --muted:#b7c1cd; --accent:#67c1ff; --accent-2:#e6eef8; --glass: rgba(255,255,255,0.03);}
+    *{box-sizing:border-box} html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial;background:var(--bg);color:var(--accent-2);} 
+    .container{max-width:1100px;margin:28px auto;padding:22px} 
+    .title{font-size:22px;font-weight:700} 
+    .subtitle{font-size:13px;color:var(--muted)} 
+    h2{margin-top:0} 
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(2,6,23,0.06);margin-bottom:14px} 
+    input[type=radio]{margin-right:6px} 
+    textarea{width:100%;margin:6px 0;padding:6px;border-radius:6px;border:1px solid #ccc} 
+    button{border:0;background:linear-gradient(180deg,var(--accent),#0b63a8);color:white;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600;margin-top:6px} 
+    footer{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;margin-top:20px;border-radius:10px;background:var(--card)}
+  </style>
+</head>
+<body data-theme="light">
+  <div class="container">
+    <header>
+      <div class="title">Chapter 17 Assessment — Communication & Internet Technologies</div>
+      <div class="subtitle">Prepared by Ravi Raju</div>
+    </header>
+
+    <section class="card">
+      <h2>Multiple Choice Questions (25)</h2>
+      <form id="mcqForm">
+        <div id="mcqContainer"></div>
+        <button type="button" onclick="checkMCQAnswers()">Submit MCQs</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Short Answer Questions (15)</h2>
+      <form id="shortForm">
+        <div id="shortContainer"></div>
+        <button type="button" onclick="checkShortAnswers()">Submit Short Answers</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Scenario-Based Questions (5)</h2>
+      <form id="scenarioForm">
+        <div id="scenarioContainer"></div>
+        <button type="button" onclick="checkScenarioAnswers()">Submit Scenario Answers</button>
+      </form>
+    </section>
+
+    <footer>
+      <div>Prepared by Ravi Raju</div>
+      <div>Modern English School Cairo</div>
+    </footer>
+  </div>
+
+  <script>
+    const mcqs = [];
+    for(let i=1;i<=25;i++){
+      mcqs.push({question:`MCQ ${i}: What is a key concept in data transmission?`,options:['Circuit switching','Packet switching','Protocol','All of the above'],answer:3});
+    }
+
+    const shorts = [];
+    for(let i=1;i<=15;i++){
+      shorts.push({question:`Short Answer ${i}: Explain an important concept from Chapter 17.`,answer:`Answer ${i}`});
+    }
+
+    const scenarios = [];
+    for(let i=1;i<=5;i++){
+      scenarios.push({question:`Scenario ${i}: Describe a real-life scenario involving network communication.`,answer:`Answer ${i}`});
+    }
+
+    const mcqContainer = document.getElementById('mcqContainer');
+    mcqs.forEach((q,i)=>{
+      let html = `<p><strong>${q.question}</strong></p>`;
+      q.options.forEach((opt,j)=>{
+        html += `<label><input type='radio' name='mcq${i}' value='${j}'>${opt}</label><br>`;
+      });
+      mcqContainer.innerHTML += html;
+    });
+
+    const shortContainer = document.getElementById('shortContainer');
+    shorts.forEach((q,i)=>{
+      shortContainer.innerHTML += `<p><strong>${q.question}</strong></p><textarea rows='3' readonly></textarea>`;
+    });
+
+    const scenarioContainer = document.getElementById('scenarioContainer');
+    scenarios.forEach((q,i)=>{
+      scenarioContainer.innerHTML += `<p><strong>${q.question}</strong></p><textarea rows='5' readonly></textarea>`;
+    });
+
+    function checkMCQAnswers(){
+      mcqs.forEach((q,i)=>{
+        const selected = document.querySelector(`input[name='mcq${i}']:checked`);
+        if(selected){
+          const idx = parseInt(selected.value);
+          selected.parentNode.innerHTML += idx === q.answer ? ` <strong style='color:green'>✔ Correct</strong>` : ` <strong style='color:red'>✖ Wrong (Answer: ${q.options[q.answer]})</strong>`;
+        } else {
+          mcqContainer.querySelectorAll('p')[i].innerHTML += ` <strong style='color:red'>✖ Not answered (Answer: ${q.options[q.answer]})</strong>`;
+        }
+      });
+    }
+
+    function checkShortAnswers(){
+      const areas = shortContainer.querySelectorAll('textarea');
+      areas.forEach((ta,i)=>{ta.value = shorts[i].answer;});
+    }
+
+    function checkScenarioAnswers(){
+      const areas = scenarioContainer.querySelectorAll('textarea');
+      areas.forEach((ta,i)=>{ta.value = scenarios[i].answer;});
+    }
+  </script>
+</body>
+</html>

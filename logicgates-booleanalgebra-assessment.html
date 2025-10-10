@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chapter 19 Assessment — Logic Circuits & Boolean Algebra | Modern English School Cairo</title>
+  <style>
+    /* Dark academic theme */
+    :root{--bg:#0b0f14;--card:#0f1720;--muted:#9aa5b1;--accent:#9bdbff;--accent-2:#6be0b8;--danger:#ff7b7b;font-family:Inter,ui-sans-serif,system-ui,Roboto,Segoe UI,Arial}
+    html,body{height:100%;margin:0;background:radial-gradient(ellipse at 10% 10%, rgba(11,13,20,0.8), rgba(6,8,12,1)), var(--bg);color:#e6f6fb}
+    .container{max-width:1100px;margin:24px auto;padding:20px}
+    header{display:flex;justify-content:space-between;gap:12px;align-items:center}
+    h1{margin:0;font-size:22px;color:var(--accent)}
+    .sub{color:var(--muted);font-size:13px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(155,219,255,0.06);padding:18px;border-radius:10px;margin-top:16px}
+    .section-title{color:var(--accent-2);margin:0 0 8px 0}
+    .mcq-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    .q{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;border:1px solid rgba(155,219,255,0.04)}
+    label{display:block;cursor:pointer;padding:4px 6px;border-radius:6px}
+    input[type=radio]{margin-right:8px}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042029;padding:8px 12px;border:0;border-radius:8px;cursor:pointer;font-weight:700}
+    .btn-ghost{background:transparent;border:1px solid rgba(155,219,255,0.12);color:var(--accent);padding:8px 12px;border-radius:8px;cursor:pointer}
+    textarea{width:100%;min-height:90px;background:#071219;color:#dff6ff;border:1px solid rgba(155,219,255,0.06);padding:8px;border-radius:8px;resize:vertical}
+    .answer-key{background:rgba(107,224,184,0.06);border-left:4px solid var(--accent-2);padding:10px;margin-top:8px;border-radius:6px;color:#dff6ff}
+    .hint{color:var(--muted);font-size:13px}
+    .score{font-weight:800;color:var(--accent-2)}
+    details summary{cursor:pointer;font-weight:700}
+    .small{font-size:13px;color:var(--muted)}
+    footer{margin:18px 0;color:var(--muted);font-size:13px;text-align:center}
+    .flex{display:flex;gap:8px;align-items:center}
+    .spacer{height:12px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Chapter 19 — Assessment</h1>
+        <div class="sub">Logic Circuits & Boolean Algebra | Modern English School Cairo — Prepared by Ravi Raju</div>
+      </div>
+      <div class="small">Dark academic theme • Interactive • Self-marking (MCQs)</div>
+    </header>
+
+    <section class="card" id="mcq-section">
+      <h2 class="section-title">Part A — Multiple Choice Questions (30)</h2>
+      <p class="small">Choose the best answer for each question. Press <strong>Submit MCQs</strong> when finished — your score and correct answers will appear.</p>
+
+      <div class="mcq-grid" id="mcq-list">
+        <!-- 30 MCQs inserted here -->
+      </div>
+
+      <div class="flex" style="margin-top:12px">
+        <button class="btn" id="mcq-submit">Submit MCQs</button>
+        <button class="btn-ghost" id="mcq-reset">Reset</button>
+        <div id="mcq-result" class="small" style="margin-left:auto"></div>
+      </div>
+    </section>
+
+    <section class="card" id="short-section">
+      <h2 class="section-title">Part B — Short Answer Questions (15)</h2>
+      <p class="small">Type concise answers in the boxes. When you press <strong>SUBMIT SHORT ANSWERS</strong>, model answers will be displayed below each question.</p>
+
+      <div id="short-list">
+        <!-- 15 short questions -->
+      </div>
+
+      <div class="flex" style="margin-top:8px">
+        <button class="btn" id="short-submit">SUBMIT SHORT ANSWERS</button>
+        <button class="btn-ghost" id="short-reset">Reset</button>
+        <div class="small" style="margin-left:auto">Answers revealed only for this section.</div>
+      </div>
+    </section>
+
+    <section class="card" id="scenario-section">
+      <h2 class="section-title">Part C — Scenario Questions (5)</h2>
+      <p class="small">Longer, scenario-based questions — provide a structured answer in the box. Press <strong>SUBMIT SCENARIOS</strong> to reveal the model answers for teacher marking.</p>
+
+      <div id="scenario-list">
+        <!-- 5 scenario questions -->
+      </div>
+
+      <div class="flex" style="margin-top:8px">
+        <button class="btn" id="scenario-submit">SUBMIT SCENARIOS</button>
+        <button class="btn-ghost" id="scenario-reset">Reset</button>
+        <div class="small" style="margin-left:auto">Model answers will display below each scenario after submission.</div>
+      </div>
+    </section>
+
+    <footer>
+      Modern English School Cairo — Chapter 19 Assessment • Prepared by Ravi Raju
+    </footer>
+  </div>
+
+  <script>
+    // DATA: MCQs, Short, Scenarios + Answers
+    const mcqs = [
+      {q:"Which gate outputs 1 only when both inputs are 1?", choices:["OR","AND","XOR","NAND"], a:1},
+      {q:"Which gate is the logical complement of AND?", choices:["NOR","XNOR","NAND","OR"], a:2},
+      {q:"The Sum output of a half adder is equivalent to which gate?", choices:["AND","OR","XOR","XNOR"], a:2},
+      {q:"Carry output of a half adder is which expression?", choices:["A + B","A · B","Ā · B","A ⊕ B"], a:1},
+      {q:"A full adder takes how many inputs?", choices:["2","3","4","1"], a:1},
+      {q:"When cascading full adders to make a 4-bit adder, what becomes the carry-in of the next stage?", choices:["Sum","Previous stage Cout","Ground","Overflow flag"], a:1},
+      {q:"Which gate is universal (can implement any Boolean function)?", choices:["XOR","NAND","AND","XNOR"], a:1},
+      {q:"De Morgan's law: (A·B)̅ equals", choices:["Ā·B̅","Ā + B̅","A + B","Ā·B"], a:1},
+      {q:"Identity law: 1·A equals", choices:["1","0","A","Ā"], a:2},
+      {q:"Inverse law: A + Ā equals", choices:["A","0","1","Ā"], a:2},
+      {q:"Which expression is the XOR of A and B?", choices:["A·B","A + B","Ā·B + A·B̅","A·B + Ā·B̅"], a:2},
+      {q:"In Boolean algebra, AND corresponds most closely to which arithmetic operation?", choices:["Addition","Multiplication","Exponentiation","Division"], a:1},
+      {q:"Which flip-flop has an invalid state when S=1 and R=1?", choices:["JK","D","SR (NOR)","T"], a:2},
+      {q:"JK flip-flop when J=K=1 on rising edge does what?", choices:["Hold","Set","Reset","Toggle"], a:3},
+      {q:"Which of the following simplifies A + A·B?", choices:["A·B","A","B","A + B"], a:1},
+      {q:"In a K-map grouping must contain how many cells?", choices:["Any number","Prime numbers","Powers of two","Odd numbers"], a:2},
+      {q:"Gray code ensures adjacent cells differ by how many bits?", choices:["All bits","Two bits","One bit","Zero bits"], a:2},
+      {q:"Sum-of-products (SOP) is:", choices:["AND of OR terms","OR of AND terms","XOR of AND terms","NOR of OR terms"], a:1},
+      {q:"What is the carry-out Cout of a full adder in boolean form?", choices:["A·B","(A·B) + (Cin·(A ⊕ B))","A + B","A ⊕ B ⊕ Cin"], a:1},
+      {q:"Which gate outputs 1 when inputs are different?", choices:["XNOR","XOR","AND","NOR"], a:1},
+      {q:"Which representation uses Ā for NOT A?", choices:["Binary arithmetic","Boolean algebra","Denary arithmetic","Hexadecimal"], a:1},
+      {q:"What does the absorption law A + A·B equal?", choices:["A","B","A·B","A + B"], a:0},
+      {q:"Which of these is a valid use of K-maps?", choices:["Generate prime numbers","Simplify boolean expressions","Encrypt data","Plot graphs"], a:1},
+      {q:"A NAND gate output is 0 only when", choices:["Any input is 1","All inputs are 0","All inputs are 1","Exactly one input is 1"], a:2},
+      {q:"Which is true for SR latch built with NOR gates when S=0,R=0?", choices:["Set","Reset","Hold previous state","Toggle"], a:2},
+      {q:"Double complement law Ā̅ equals", choices:["Ā","0","1","A"], a:3},
+      {q:"When converting (A + B)̅ using De Morgan you get", choices:["Ā + B̅","Ā·B̅","A·B","A + B"], a:1},
+      {q:"In SOP method, a minterm corresponds to", choices:["An input variable only","A row where output=0","A product term for a truth table row with output=1","An OR term"], a:2},
+      {q:"Which flip-flop is edge-triggered and toggles when inputs are both 1?", choices:["SR (NOR)","JK","D","SR (NAND)"], a:1},
+      {q:"Which logic reduces propagation of carry (advanced) compared to ripple adder?", choices:["Carry-lookahead adder","Half adder","SR latch","JK flip-flop"], a:0}
+    ];
+
+    const shortQs = [
+      {q:'Write the Boolean expressions for the Sum and Carry of a half adder.', a:'S = Ā·B + A·B̅ (equivalently A ⊕ B) ; C = A·B'},
+      {q:'Explain why NAND and NOR gates are called universal gates.', a:'Any Boolean function can be implemented using only NAND or only NOR gates because they can be combined to produce NOT, AND, OR operations.'},
+      {q:'State De Morgan’s laws (both forms).', a:'(A·B)̅ = Ā + B̅ and (A + B)̅ = Ā·B̅'},
+      {q:'What is the difference between a combinational circuit and a sequential circuit?', a:'Combinational output depends solely on current inputs; sequential depends on current inputs and past states (has memory).'},
+      {q:'Give the boolean expression for Cout of a full adder.', a:'Cout = (A·B) + (Cin·(A ⊕ B))'},
+      {q:'Simplify: A + A·B. State the law used.', a:'Simplified form: A. Law: Absorption (A + A·B = A).'},
+      {q:'What is Gray code and why is it used in K-maps?', a:'Binary ordering where adjacent values differ by one bit; used so adjacent cells in K-map differ by one variable for grouping.'},
+      {q:'Describe the invalid state of an SR NOR latch and why it is problematic.', a:'S=1,R=1 leads to both Q and Q̅ = 0 (contradiction), making outputs not complementary and causing undefined behaviour.'},
+      {q:'Explain how two half adders and one OR gate form a full adder (brief).', a:'HA1 computes S1=A⊕B and C1=A·B; HA2 computes S=S1⊕Cin and C2=S1·Cin; Cout=C1 + C2.'},
+      {q:'What does the consensus theorem state (one form)?', a:'A·B + Ā·C + B·C = A·B + Ā·C (B·C is redundant).'},
+      {q:'State the associative law for OR.', a:'(A + B) + C = A + (B + C)'},
+      {q:'Give the minterm for A=1, B=0, C=1.', a:'A·B̅·C'},
+      {q:'When designing using NAND-only gates, how is NOT implemented?', a:'NOT A = A NAND A (tie inputs together).'},
+      {q:'Why is the JK flip-flop preferred over SR in synchronous counters?', a:'Because JK avoids invalid state and supports toggling when J=K=1, allowing reliable counting.'},
+      {q:'Explain briefly how K-map overlapping groups can lead to simpler expressions.', a:'Overlapping allows covering 1s with larger groups that remove more variables; redundancy can create minimal expressions.'}
+    ];
+
+    const scenarios = [
+      {q:`Scenario 1: You have a 4-bit ripple adder built from 4 full adders. Inputs: A=1011, B=0111. Cin=0.\nExplain the step-by-step additions (show intermediate sums and carries) and provide the final 4-bit sum and final carry.`, a:`Step-by-step:\nBit0 (LSB): A0=1,B0=1,Cin=0 -> S0=0,Cout0=1.\nBit1: A1=1,B1=1,Cin=1 -> S1=1,Cout1=1.\nBit2: A2=0,B2=1,Cin=1 -> S2=0,Cout2=1.\nBit3: A3=1,B3=0,Cin=1 -> S3=0,Cout3=1.\nFinal 4-bit sum (from MSB to LSB): 0 0 1 0 -> 0010? (verify ordering)\nBetter present as (S3 S2 S1 S0) = 0 0 1 0 and final carry = 1.`},
+      {q:`Scenario 2: A student implements XOR using 4 NAND gates and claims it only works for two inputs. Explain why multi-input XOR is different and how you would implement a 3-input XOR (S outputs 1 when odd number of inputs =1).`, a:`3-input XOR = A ⊕ B ⊕ C. Implement by chaining: (A ⊕ B) ⊕ C. Build XOR from NANDs for A⊕B then XOR with C. Logical property: output is 1 when odd number of inputs are 1.`},
+      {q:`Scenario 3: You're given a K-map with 4 variables and find groups that produce expression X = Ā·C̅ + B. Explain which groups (sizes and positions) lead to these terms and how wraparound might be used.`, a:`Group producing B: a quad covering all cells where B=1 (columns where B fixed). Ā·C̅ from a pair where A=0 and C=0 with B and D vary: pick wraparound adjacent cells forming pair; retain A̅ and C̅ as fixed variables.`},
+      {q:`Scenario 4: Design task — Use NAND-only gates to implement a latch that behaves like SR (active-high). Provide the input truth table adjustments and explain how NAND logic inverts signals compared to NOR version.`, a:`NAND SR uses active-low control. Map signals: S_N = NAND(S, Q̅) etc. Truth table: Set when S=0,R=1; Reset when S=1,R=0; Hold when S=1,R=1; Invalid when S=0,R=0. Explain inversion and how to interpret active-low signals.`},
+      {q:`Scenario 5: An exam question asks to simplify F = A·B + A·B̅ + A̅·B + A·C. Provide a clear algebraic simplification to minimal form with steps and the law used at each step.`, a:`Step 1: A·B + A·B̅ = A·(B + B̅) = A·1 = A (distributive + complement)\nSo F = A + A̅·B + A·C\nStep 2: A + A̅·B = A + B (consensus theorem) -> F = A + B + A·C\nStep 3: A + B + A·C = A + B (absorption: A + A·C = A) -> Final F = A + B.`}
+    ];
+
+    // Build MCQ HTML
+    const mcqList = document.getElementById('mcq-list');
+    mcqs.forEach((m, i)=>{
+      const div = document.createElement('div'); div.className='q';
+      div.innerHTML = `<div><strong>Q${i+1}.</strong> ${m.q}</div>`;
+      const ol=document.createElement('div');
+      m.choices.forEach((c,j)=>{
+        const id=`mcq-${i}-${j}`;
+        const label=document.createElement('label');
+        label.innerHTML = `<input type="radio" name="mcq-${i}" value="${j}" id="${id}"> ${String.fromCharCode(65+j)}. ${c}`;
+        ol.appendChild(label);
+      });
+      div.appendChild(ol); mcqList.appendChild(div);
+    });
+
+    // MCQ submit handler
+    document.getElementById('mcq-submit').addEventListener('click',()=>{
+      let score=0; let total=mcqs.length; const missed=[];
+      mcqs.forEach((m,i)=>{
+        const sel = document.querySelector(`input[name=mcq-${i}]:checked`);
+        const chosen = sel ? parseInt(sel.value) : null;
+        if(chosen===m.a) score++; else missed.push(i+1);
+      });
+      const pct = Math.round((score/total)*100);
+      document.getElementById('mcq-result').innerHTML = `<span class=score>Score: ${score}/${total} (${pct}%)</span>`;
+      // show correct answers list below
+      let ansDiv = document.getElementById('mcq-answers');
+      if(!ansDiv){ ansDiv=document.createElement('div'); ansDiv.id='mcq-answers'; ansDiv.className='answer-key'; document.getElementById('mcq-section').appendChild(ansDiv); }
+      ansDiv.innerHTML = '<strong>Correct answers</strong><br>' + mcqs.map((m,i)=>`Q${i+1}: ${String.fromCharCode(65+m.a)}`).join(' • ');
+    });
+    document.getElementById('mcq-reset').addEventListener('click',()=>{ document.querySelectorAll('#mcq-list input[type=radio]').forEach(r=>r.checked=false); document.getElementById('mcq-result').textContent=''; const a=document.getElementById('mcq-answers'); if(a) a.remove(); });
+
+    // Build short answer list
+    const shortList = document.getElementById('short-list');
+    shortQs.forEach((s,i)=>{
+      const div=document.createElement('div');div.className='q';
+      div.innerHTML = `<div><strong>Q${i+1}.</strong> ${s.q}</div><textarea id='short-${i}' placeholder='Type concise answer here...'></textarea><div id='short-ans-${i}' class='answer-key' style='display:none'></div>`;
+      shortList.appendChild(div);
+    });
+
+    document.getElementById('short-submit').addEventListener('click',()=>{
+      shortQs.forEach((s,i)=>{ const ansDiv=document.getElementById(`short-ans-${i}`); ansDiv.style.display='block'; ansDiv.innerHTML = `<strong>Model answer:</strong><div class='small' style='margin-top:6px'>${s.a}</div>`; });
+      // scroll to answers
+      document.getElementById('short-section').scrollIntoView({behavior:'smooth'});
+    });
+    document.getElementById('short-reset').addEventListener('click',()=>{ shortQs.forEach((s,i)=>{ document.getElementById(`short-${i}`).value=''; const ansDiv=document.getElementById(`short-ans-${i}`); ansDiv.style.display='none'; ansDiv.innerHTML=''; }); });
+
+    // Build scenarios
+    const scList = document.getElementById('scenario-list');
+    scenarios.forEach((s,i)=>{
+      const div=document.createElement('div');div.className='q';
+      div.innerHTML = `<div><strong>Scenario ${i+1}.</strong><pre style='white-space:pre-wrap;margin:4px 0'>${s.q}</pre></div><textarea id='sc-${i}' placeholder='Write a structured answer (explain steps / show workings)'></textarea><div id='sc-ans-${i}' class='answer-key' style='display:none'></div>`;
+      scList.appendChild(div);
+    });
+
+    document.getElementById('scenario-submit').addEventListener('click',()=>{
+      scenarios.forEach((s,i)=>{ const ansDiv=document.getElementById(`sc-ans-${i}`); ansDiv.style.display='block'; ansDiv.innerHTML = `<strong>Model answer / Mark scheme:</strong><div class='small' style='margin-top:6px;white-space:pre-wrap'>${s.a}</div>`; });
+      document.getElementById('scenario-section').scrollIntoView({behavior:'smooth'});
+    });
+    document.getElementById('scenario-reset').addEventListener('click',()=>{ scenarios.forEach((s,i)=>{ document.getElementById(`sc-${i}`).value=''; const ansDiv=document.getElementById(`sc-ans-${i}`); ansDiv.style.display='none'; ansDiv.innerHTML=''; }); });
+
+  </script>
+</body>
+</html>

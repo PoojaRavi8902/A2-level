@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Assessment — Data Representation (A Level 9618)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1220;
+    --panel:#071028;
+    --muted:#9aa8bf;
+    --accent:#7dd3fc;
+    --accent-2:#38bdf8;
+    --card:#071a2b;
+    --glass: rgba(255,255,255,0.03);
+    --round:12px;
+    --maxw:1100px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#081224 0%, #071026 60%);color:#e6f0fb;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;line-height:1.5}
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:20px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .brand{display:flex;flex-direction:column}
+  h1{margin:0;font-size:1.25rem;color:var(--accent-2);letter-spacing:0.2px}
+  .subtitle{color:var(--muted);font-size:0.95rem}
+  .name{background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);font-weight:600}
+  main{display:grid;grid-template-columns: 1fr 340px;gap:18px}
+  .panel{background:var(--panel);border-radius:var(--round);padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+  .section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+  h2{margin:0;color:var(--accent);font-size:1.05rem}
+  .info{color:var(--muted);font-size:0.95rem}
+  .mcq-list, .short-list, .bookback-list{margin:0;padding:0;list-style:none}
+  .q{padding:12px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+  .q h3{margin:0;font-size:0.96rem;color:#dff6ff}
+  .options{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+  label.option{display:flex;gap:10px;align-items:flex-start;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px}
+  input[type="radio"]{accent-color:var(--accent-2);margin-top:3px}
+  .btn{display:inline-block;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042033;padding:10px 14px;border-radius:10px;font-weight:700;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(56,189,248,0.12)}
+  .btn:active{transform:translateY(1px)}
+  .answer{margin-top:8px;padding:10px;border-radius:8px;background:linear-gradient(90deg, rgba(56,189,248,0.06), rgba(125,211,252,0.03));color:#e6fbff;border:1px solid rgba(56,189,248,0.06);display:none}
+  .answer.show{display:block}
+  .correct{background:linear-gradient(90deg, rgba(34,197,94,0.08), rgba(34,197,94,0.02));border:1px solid rgba(34,197,94,0.08);color:#eafff2}
+  .sidebar{position:sticky;top:24px;display:flex;flex-direction:column;gap:12px}
+  .card-small{padding:14px;border-radius:10px;background:var(--card);border:1px solid rgba(255,255,255,0.02)}
+  .muted{color:var(--muted);font-size:0.95rem}
+  textarea{width:100%;min-height:100px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:10px;border-radius:8px}
+  .hint{font-size:0.9rem;color:var(--muted);margin-top:6px}
+  footer{margin-top:18px;color:var(--muted);text-align:center;font-size:0.93rem}
+  @media (max-width:980px){main{grid-template-columns:1fr} .sidebar{position:static}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Data Representation — Assessment (A Level 9618)</h1>
+        <div class="subtitle">25 MCQs • 10 Short-Answer • Book-back Q&A — practice & self-marking</div>
+      </div>
+      <div class="name">Prepared by Ravi Raju — for MES Cairo</div>
+    </header>
+
+    <main>
+      <section class="panel" aria-labelledby="assess-title">
+        <div class="section-title">
+          <h2 id="assess-title">Assessment</h2>
+          <div class="info">Answer the questions below. Click each section's <strong>SUBMIT</strong> to reveal answers for that group.</div>
+        </div>
+
+        <!-- MCQ Group -->
+        <div id="mcq-group" class="qblock">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <h3 style="margin:0;color:var(--accent)">Part A — Multiple Choice Questions (25)</h3>
+            <button class="btn" onclick="submitMCQ()">SUBMIT</button>
+          </div>
+
+          <ol class="mcq-list" style="counter-reset:mcq">
+            <!-- MCQ 1 -->
+            <li class="q" id="mcq1">
+              <h3>1. How many distinct values can be stored in an 8-bit unsigned integer?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq1" value="A"> A. 128</label>
+                <label class="option"><input type="radio" name="mcq1" value="B"> B. 256</label>
+                <label class="option"><input type="radio" name="mcq1" value="C"> C. 64</label>
+                <label class="option"><input type="radio" name="mcq1" value="D"> D. 512</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — 256 (values 0 to 255).</div>
+            </li>
+
+            <!-- MCQ 2 -->
+            <li class="q" id="mcq2">
+              <h3>2. Which encoding is variable-length and backward compatible with ASCII?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq2" value="A"> A. UTF-32</label>
+                <label class="option"><input type="radio" name="mcq2" value="B"> B. ASCII</label>
+                <label class="option"><input type="radio" name="mcq2" value="C"> C. UTF-8</label>
+                <label class="option"><input type="radio" name="mcq2" value="D"> D. EBCDIC</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — UTF-8.</div>
+            </li>
+
+            <!-- MCQ 3 -->
+            <li class="q" id="mcq3">
+              <h3>3. Which colour depth most closely corresponds to “true color”?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq3" value="A"> A. 8-bit</label>
+                <label class="option"><input type="radio" name="mcq3" value="B"> B. 16-bit</label>
+                <label class="option"><input type="radio" name="mcq3" value="C"> C. 24-bit</label>
+                <label class="option"><input type="radio" name="mcq3" value="D"> D. 32-bit</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — 24-bit (≈16.7 million colours).</div>
+            </li>
+
+            <!-- MCQ 4 -->
+            <li class="q" id="mcq4">
+              <h3>4. Which of these is a lossless compression method?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq4" value="A"> A. JPEG</label>
+                <label class="option"><input type="radio" name="mcq4" value="B"> B. MP3</label>
+                <label class="option"><input type="radio" name="mcq4" value="C"> C. RLE</label>
+                <label class="option"><input type="radio" name="mcq4" value="D"> D. AAC</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — RLE (Run Length Encoding) is lossless.</div>
+            </li>
+
+            <!-- MCQ 5 -->
+            <li class="q" id="mcq5">
+              <h3>5. What does the term ‘normalisation’ mean in floating-point representation?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq5" value="A"> A. Storing numbers in sign-magnitude form</label>
+                <label class="option"><input type="radio" name="mcq5" value="B"> B. Shifting the mantissa so the most significant fraction bit is 1</label>
+                <label class="option"><input type="radio" name="mcq5" value="C"> C. Converting binary to decimal</label>
+                <label class="option"><input type="radio" name="mcq5" value="D"> D. Rounding floating point to integer</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — shift so mantissa uses full precision (MS fraction bit = 1).</div>
+            </li>
+
+            <!-- MCQ 6 -->
+            <li class="q" id="mcq6">
+              <h3>6. Which file organisation allows direct access using hashing?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq6" value="A"> A. Serial</label>
+                <label class="option"><input type="radio" name="mcq6" value="B"> B. Sequential</label>
+                <label class="option"><input type="radio" name="mcq6" value="C"> C. Direct (random)</label>
+                <label class="option"><input type="radio" name="mcq6" value="D"> D. Sorted text</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — Direct access (random access) can use hashing.</div>
+            </li>
+
+            <!-- MCQ 7 -->
+            <li class="q" id="mcq7">
+              <h3>7. Which is TRUE about binary files vs text files?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq7" value="A"> A. Binary files are always smaller than text files.</label>
+                <label class="option"><input type="radio" name="mcq7" value="B"> B. Text files store data using character codes; binary files store internal value formats.</label>
+                <label class="option"><input type="radio" name="mcq7" value="C"> C. Binary files cannot store strings.</label>
+                <label class="option"><input type="radio" name="mcq7" value="D"> D. Text files are unreadable by humans.</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — text uses character codes; binary stores values in internal formats.</div>
+            </li>
+
+            <!-- MCQ 8 -->
+            <li class="q" id="mcq8">
+              <h3>8. If a hashing function gives the same address for two keys, this is called:</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq8" value="A"> A. Overflow</label>
+                <label class="option"><input type="radio" name="mcq8" value="B"> B. Collision</label>
+                <label class="option"><input type="radio" name="mcq8" value="C"> C. Clustering</label>
+                <label class="option"><input type="radio" name="mcq8" value="D"> D. Hashing loop</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — collision.</div>
+            </li>
+
+            <!-- MCQ 9 -->
+            <li class="q" id="mcq9">
+              <h3>9. Which encoding uses 7 bits per character (originally)?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq9" value="A"> A. UTF-8</label>
+                <label class="option"><input type="radio" name="mcq9" value="B"> B. Extended ASCII</label>
+                <label class="option"><input type="radio" name="mcq9" value="C"> C. ASCII</label>
+                <label class="option"><input type="radio" name="mcq9" value="D"> D. Unicode</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — ASCII (7-bit).</div>
+            </li>
+
+            <!-- MCQ 10 -->
+            <li class="q" id="mcq10">
+              <h3>10. Which statement about floating-point rounding errors is correct?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq10" value="A"> A. They never affect real-world simulations.</label>
+                <label class="option"><input type="radio" name="mcq10" value="B"> B. They can accumulate over repeated calculations.</label>
+                <label class="option"><input type="radio" name="mcq10" value="C"> C. They are eliminated by using integers.</label>
+                <label class="option"><input type="radio" name="mcq10" value="D"> D. They are caused by bad programming only.</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — rounding errors can accumulate.</div>
+            </li>
+
+            <!-- MCQ 11 -->
+            <li class="q" id="mcq11">
+              <h3>11. Which file organisation is best for fast individual record lookup with many users?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq11" value="A"> A. Serial</label>
+                <label class="option"><input type="radio" name="mcq11" value="B"> B. Sequential</label>
+                <label class="option"><input type="radio" name="mcq11" value="C"> C. Direct access (random)</label>
+                <label class="option"><input type="radio" name="mcq11" value="D"> D. Plain text</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — direct access.</div>
+            </li>
+
+            <!-- MCQ 12 -->
+            <li class="q" id="mcq12">
+              <h3>12. Which of the following is NOT a property of a set data type?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq12" value="A"> A. No duplicates</label>
+                <label class="option"><input type="radio" name="mcq12" value="B"> B. No indexing/order</label>
+                <label class="option"><input type="radio" name="mcq12" value="C"> C. Members can be hashed</label>
+                <label class="option"><input type="radio" name="mcq12" value="D"> D. Elements are stored with fixed positions</label>
+              </div>
+              <div class="answer" data-answer="D">Correct answer: D — sets have no indexing or fixed positions.</div>
+            </li>
+
+            <!-- MCQ 13 -->
+            <li class="q" id="mcq13">
+              <h3>13. What does 44.1 kHz refer to in audio?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq13" value="A"> A. Bit depth</label>
+                <label class="option"><input type="radio" name="mcq13" value="B"> B. Number of channels</label>
+                <label class="option"><input type="radio" name="mcq13" value="C"> C. Sampling rate</label>
+                <label class="option"><input type="radio" name="mcq13" value="D"> D. Compression ratio</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — sampling rate (samples per second).</div>
+            </li>
+
+            <!-- MCQ 14 -->
+            <li class="q" id="mcq14">
+              <h3>14. Which is the best description of an enumerated data type?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq14" value="A"> A. A numeric range type</label>
+                <label class="option"><input type="radio" name="mcq14" value="B"> B. A set of named values defined by the programmer</label>
+                <label class="option"><input type="radio" name="mcq14" value="C"> C. A variable-length array</label>
+                <label class="option"><input type="radio" name="mcq14" value="D"> D. A floating-point type</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — enumerated type lists named values.</div>
+            </li>
+
+            <!-- MCQ 15 -->
+            <li class="q" id="mcq15">
+              <h3>15. Which structure would you use to ensure 'no duplicate' student IDs?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq15" value="A"> A. Array</label>
+                <label class="option"><input type="radio" name="mcq15" value="B"> B. Set</label>
+                <label class="option"><input type="radio" name="mcq15" value="C"> C. 1D list with duplicates removed</label>
+                <label class="option"><input type="radio" name="mcq15" value="D"> D. Record</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — a set enforces uniqueness.</div>
+            </li>
+
+            <!-- MCQ 16 -->
+            <li class="q" id="mcq16">
+              <h3>16. In fixed-point with 2 fractional bits, what is the smallest positive step?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq16" value="A"> A. 1/2</label>
+                <label class="option"><input type="radio" name="mcq16" value="B"> B. 1/4</label>
+                <label class="option"><input type="radio" name="mcq16" value="C"> C. 1/8</label>
+                <label class="option"><input type="radio" name="mcq16" value="D"> D. 1/16</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — 1/4 (two fractional bits → 2^-2).</div>
+            </li>
+
+            <!-- MCQ 17 -->
+            <li class="q" id="mcq17">
+              <h3>17. What is the main advantage of converting a list to a set when removing duplicates?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq17" value="A"> A. Sets are ordered</label>
+                <label class="option"><input type="radio" name="mcq17" value="B"> B. Sets automatically eliminate duplicates</label>
+                <label class="option"><input type="radio" name="mcq17" value="C"> C. Sets compress data</label>
+                <label class="option"><input type="radio" name="mcq17" value="D"> D. Sets allow indexing</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — sets eliminate duplicates by definition.</div>
+            </li>
+
+            <!-- MCQ 18 -->
+            <li class="q" id="mcq18">
+              <h3>18. Which of the following is most likely to require a sequential file organisation?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq18" value="A"> A. Login database</label>
+                <label class="option"><input type="radio" name="mcq18" value="B"> B. Audio streaming buffer</label>
+                <label class="option"><input type="radio" name="mcq18" value="C"> C. Historical transaction master file (batched updates)</label>
+                <label class="option"><input type="radio" name="mcq18" value="D"> D. Real-time sensor lookups</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — sequential suits batch processing and master files.</div>
+            </li>
+
+            <!-- MCQ 19 -->
+            <li class="q" id="mcq19">
+              <h3>19. If you want maximum precision for fractional values, you should:</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq19" value="A"> A. Increase exponent bits</label>
+                <label class="option"><input type="radio" name="mcq19" value="B"> B. Increase mantissa bits</label>
+                <label class="option"><input type="radio" name="mcq19" value="C"> C. Use sign-magnitude</label>
+                <label class="option"><input type="radio" name="mcq19" value="D"> D. Use fewer bits</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — more mantissa bits → greater precision.</div>
+            </li>
+
+            <!-- MCQ 20 -->
+            <li class="q" id="mcq20">
+              <h3>20. Which audio format is LOSSY?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq20" value="A"> A. WAV</label>
+                <label class="option"><input type="radio" name="mcq20" value="B"> B. FLAC</label>
+                <label class="option"><input type="radio" name="mcq20" value="C"> C. MP3</label>
+                <label class="option"><input type="radio" name="mcq20" value="D"> D. ALAC</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — MP3 is lossy.</div>
+            </li>
+
+            <!-- MCQ 21 -->
+            <li class="q" id="mcq21">
+              <h3>21. Which is the MAIN reason for using binary files to store program data?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq21" value="A"> A. They are human-readable</label>
+                <label class="option"><input type="radio" name="mcq21" value="B"> B. They store data in the program's internal representation</label>
+                <label class="option"><input type="radio" name="mcq21" value="C"> C. They use separators between fields</label>
+                <label class="option"><input type="radio" name="mcq21" value="D"> D. They always compress data</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — binary files store values in internal representation.</div>
+            </li>
+
+            <!-- MCQ 22 -->
+            <li class="q" id="mcq22">
+              <h3>22. Which is an advantage of indexed-sequential files?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq22" value="A"> A. No index maintenance required</label>
+                <label class="option"><input type="radio" name="mcq22" value="B"> B. Combines fast lookups with ordered storage</label>
+                <label class="option"><input type="radio" name="mcq22" value="C"> C. Eliminates collisions</label>
+                <label class="option"><input type="radio" name="mcq22" value="D"> D. Requires no extra space</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — combines index speed with sequential order.</div>
+            </li>
+
+            <!-- MCQ 23 -->
+            <li class="q" id="mcq23">
+              <h3>23. Which of these is a correct use of an enumerated type?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq23" value="A"> A. Storing arbitrary long text</label>
+                <label class="option"><input type="radio" name="mcq23" value="B"> B. Representing compass directions: North, East, South, West</label>
+                <label class="option"><input type="radio" name="mcq23" value="C"> C. Performing decimal arithmetic</label>
+                <label class="option"><input type="radio" name="mcq23" value="D"> D. Holding floating-point mantissa</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — enumerated values for compass directions.</div>
+            </li>
+
+            <!-- MCQ 24 -->
+            <li class="q" id="mcq24">
+              <h3>24. When converting decimal fractions to binary, which fractional value converts exactly?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq24" value="A"> A. 0.1</label>
+                <label class="option"><input type="radio" name="mcq24" value="B"> B. 0.2</label>
+                <label class="option"><input type="radio" name="mcq24" value="C"> C. 0.5</label>
+                <label class="option"><input type="radio" name="mcq24" value="D"> D. 0.3</label>
+              </div>
+              <div class="answer" data-answer="C">Correct answer: C — 0.5 converts to 0.1₂ exactly.</div>
+            </li>
+
+            <!-- MCQ 25 -->
+            <li class="q" id="mcq25">
+              <h3>25. Which of these is true about pointer variables?</h3>
+              <div class="options">
+                <label class="option"><input type="radio" name="mcq25" value="A"> A. They store actual data values only</label>
+                <label class="option"><input type="radio" name="mcq25" value="B"> B. They store memory addresses</label>
+                <label class="option"><input type="radio" name="mcq25" value="C"> C. They cannot be dereferenced</label>
+                <label class="option"><input type="radio" name="mcq25" value="D"> D. They are always 32-bit</label>
+              </div>
+              <div class="answer" data-answer="B">Correct answer: B — pointer variables store addresses in memory.</div>
+            </li>
+
+          </ol>
+        </div>
+
+        <!-- Short Answer Group -->
+        <div id="short-group" style="margin-top:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <h3 style="margin:0;color:var(--accent)">Part B — Short Answer Questions (10)</h3>
+            <button class="btn" onclick="submitShort()">SUBMIT</button>
+          </div>
+
+          <ol class="short-list">
+            <li class="q">
+              <h3>1. Define a user-defined data type and give one example.</h3>
+              <div class="answer" data-answer="Model: A user-defined data type is a type defined by the programmer in the program (not built-in). Example: an enumerated type such as TYPE TDays = (Monday, Tuesday, ...).">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>2. Explain the difference between a serial file and a sequential file.</h3>
+              <div class="answer" data-answer="Model: Serial files append records in order received (no key ordering). Sequential files are stored in key order and are used when batch processing or ordered access is needed.">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>3. Give two practical reasons to use a set data type in a program.</h3>
+              <div class="answer" data-answer="Model: (1) To enforce uniqueness (no duplicates), (2) to support set operations (intersection/union) which are useful in membership checks and combining groups).">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>4. Describe in words how to convert the fractional part of a denary number to binary.</h3>
+              <div class="answer" data-answer="Model: Repeatedly multiply the fraction by 2; record the integer part at each step (0 or 1) as the next binary digit; continue until fraction is zero or precision limit reached.">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>5. State one advantage and one disadvantage of floating-point representation.</h3>
+              <div class="answer" data-answer="Model: Advantage: large dynamic range using exponent. Disadvantage: rounding/precision errors; not all decimals convert exactly.">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>6. What is a record data type? Give a short example in pseudocode.</h3>
+              <div class="answer" data-answer="Model: A record groups named fields of possibly different types. Example: TYPE StudentRecord; name:STRING; id:INTEGER; grade:REAL; ENDTYPE.">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>7. Explain briefly how hash collisions can be handled (two methods).</h3>
+              <div class="answer" data-answer="Model: (1) Linear probing (sequential search for next free slot), (2) overflow areas or chaining (linked list) from the hashed address).">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>8. Why is UTF-8 commonly used for web text?</h3>
+              <div class="answer" data-answer="Model: UTF-8 is variable-length and backwards compatible with ASCII; it encodes all Unicode characters and is space-efficient for ASCII content.">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>9. Give the formula to compute storage (bytes) for a raw PCM audio clip.</h3>
+              <div class="answer" data-answer="Model: storage (bytes) = sampling_rate × bit_depth × duration_seconds × channels / 8.">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+
+            <li class="q">
+              <h3>10. What is 'underflow' in floating-point arithmetic?</h3>
+              <div class="answer" data-answer="Model: Underflow occurs when a non-zero result is smaller (in magnitude) than the smallest positive value representable, often rounded to zero.">Model answer hidden — click SUBMIT to reveal.</div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Book Back Group -->
+        <div id="bookback-group" style="margin-top:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <h3 style="margin:0;color:var(--accent)">Part C — Book Back Questions (with model answers)</h3>
+            <button class="btn" onclick="submitBookback()">SUBMIT</button>
+          </div>
+
+          <ol class="bookback-list">
+            <!-- Using the Q1..Q5 you pasted — separated into question then answer hidden -->
+            <li class="q">
+              <h3>Q1 (Total: 9 marks) — user-defined & record</h3>
+              <p><strong>1a.</strong> Give an example of a non-composite user-defined data type and explain why its use differs from a built-in type.</p>
+              <p><strong>1b(i).</strong> Explain what a record user-defined data type is.</p>
+              <p><strong>1b(ii).</strong> Explain an advantage of using a record type.</p>
+              <p><strong>1b(iii).</strong> Write pseudocode for a record to store animal name, age, number in zoo and location.</p>
+              <div class="answer" data-answer="
+Answers (summary):
+1a: Example — TYPE TDays = (Monday, Tuesday, ...). Unlike built-in types, user-defined types are defined by the programmer and specify their own set of permitted values.
+1b(i): A record groups named fields (possibly different types) into one composite unit.
+1b(ii): Records bundle related data, improving clarity and reducing mismatches.
+1b(iii): 
+TYPE TAnimalRecord
+  animalName : STRING
+  animalAge  : INTEGER
+  numberInZoo: INTEGER
+  location   : STRING
+ENDTYPE
+">Model answers hidden — revealed on SUBMIT.</div>
+            </li>
+
+            <li class="q">
+              <h3>Q2 (Total: 10 marks) — files & organisations</h3>
+              <p><strong>2a(i).</strong> State the terms used to describe components of a binary file.</p>
+              <p><strong>2a(ii).</strong> Explain the difference between a binary file and a text file.</p>
+              <p><strong>2b(i).</strong> Explain serial, sequential and direct file organisation.</p>
+              <p><strong>2b(ii).</strong> Example for serial organisation and justification.</p>
+              <p><strong>2b(iii).</strong> Example for direct-access and justification.</p>
+              <div class="answer" data-answer="
+Answers (summary):
+2a(i): record and field.
+2a(ii): Text files store character codes and are human-readable; binary files store internal representations (e.g. ints, floats) and need type/length info to parse.
+2b(i): Serial — append order; Sequential — sorted by key; Direct — index or hash to compute address.
+2b(ii): Example — bank transaction log (append-only); justification — chronological audit trail and efficient append.
+2b(iii): Example — user authentication lookup; justification — needs fast single-record access.
+">Model answers hidden — revealed on SUBMIT.</div>
+            </li>
+
+            <li class="q">
+              <h3>Q3 (Total: 12 marks) — floating-point bytes (worked)</h3>
+              <p>The four successive bytes (as given) are:</p>
+              <pre>10010101
+00110011
+11001000
+00010001</pre>
+              <p>Treat these as two numbers: Number A = mantissa 10010101, exponent 00110011; Number B = mantissa 11001000, exponent 00010001. Answer the subparts: name second byte, sign, normalised, implied binary point, effect of more mantissa bits, convert 12.43 to 8+8 format.</p>
+              <div class="answer" data-answer="
+Answers (summary):
+3a(i): second byte = exponent.
+3a(ii): Both mantissas have MSB 1 → both are negative (two's complement).
+3a(iii): Number A mantissa '10010101' has MSBs '1 0' → normalised. Number B '11001000' has '1 1' → not normalised.
+3a(iv): Implied binary point is immediately after sign bit; normalisation maximises precision by using highest magnitude for mantissa.
+3a(v): More mantissa bits → higher precision; fewer exponent bits → smaller range.
+3b: Conversion of +12.43 (worked): final approximate bytes (mantissa, exponent) for 8-bit mantissa & 8-bit exponent (sign+7 frac, exponent two's complement) → mantissa: 01100011, exponent: 00000100 (approximation; check rounding).
+">Model answers hidden — revealed on SUBMIT.</div>
+            </li>
+
+            <li class="q">
+              <h3>Q4 (Total: 8 marks) — ThisDate & LocationRainfall</h3>
+              <p>Subparts: identify types used in ThisDay/ThisMonth; state data type of ThisDate; assign month value to MyMonthOfBirth; define LocationRainfall; give two reasons for serial file organisation choice.</p>
+              <div class="answer" data-answer="
+Answers (summary):
+4a(i): non-composite type — enumerated (enum).
+4a(ii): ThisDate is a user-defined composite / record type.
+4a(iii): MyMonthOfBirth ← DateOfBirth.ThisMonth
+4b: TYPE LocationRainfall
+     locationName    : STRING
+     heightMetres    : INTEGER
+     monthlyRainfall : ARRAY[1..12] OF REAL
+   ENDTYPE
+Reasons for serial: simple append/update for initial 27 locations; suitable for batch processing and easy backups.
+">Model answers hidden — revealed on SUBMIT.</div>
+            </li>
+
+            <li class="q">
+              <h3>Q5 (Total: 12 marks) — floating point conversions (+3.5, −3.5 etc.)</h3>
+              <p>System: 8-bit mantissa, 8-bit exponent, two's complement for both. Work out +3.5 and −3.5 and other parts as per textbook.</p>
+              <div class="answer" data-answer="
+Answers (summary):
+5a (+3.5): E = 2, M = 0.875 = 0.111; mantissa byte = 01110000; exponent byte = 00000010.
+5b (−3.5): mantissa two's complement = 10010000; exponent = 00000010.
+5c–e: (follow standard method: decode mantissa two's complement with implied point after sign, decode exponent, compute value; largest negative two's complement pattern for one byte = 10000000).
+">Model answers hidden — revealed on SUBMIT.</div>
+            </li>
+          </ol>
+        </div>
+
+      </section>
+
+      <aside class="sidebar">
+        <div class="card-small">
+          <strong>How to use</strong>
+          <p class="muted">Answer MCQs and short questions on paper or in your head. Click each SUBMIT to reveal model answers for that group. Use book-back answers for marking and feedback.</p>
+        </div>
+
+        <div class="card-small">
+          <strong>Grading tips</strong>
+          <p class="muted">MCQs = 1 mark each. Short answers: show working for full marks. Book-back Qs include mark allocations — follow them when marking.</p>
+        </div>
+
+        <div class="card-small">
+          <strong>Quick commands</strong>
+          <p class="muted">To reveal MCQ answers only: click the MCQ SUBMIT. To reveal all three groups, click each SUBMIT in turn.</p>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      Prepared by Ravi Raju, Computer Science Department, MES Cairo
+    </footer>
+  </div>
+
+<script>
+  // Reveal MCQ answers and highlight correct options
+  function submitMCQ(){
+    const mcqList = document.querySelectorAll('.mcq-list .q');
+    mcqList.forEach(q => {
+      // reveal the answer block
+      const ans = q.querySelector('.answer');
+      if(ans) ans.classList.add('show');
+      // highlight the correct radio option if present
+      const correct = ans ? ans.getAttribute('data-answer') : null;
+      if(correct){
+        // find option labels and mark correct
+        const labels = q.querySelectorAll('label.option');
+        labels.forEach(l => {
+          const input = l.querySelector('input[type="radio"]');
+          if(input && input.value === correct){
+            l.style.background = 'linear-gradient(90deg, rgba(34,197,94,0.06), rgba(34,197,94,0.02))';
+            l.style.border = '1px solid rgba(34,197,94,0.12)';
+            l.style.color = '#eafff2';
+          } else {
+            l.style.opacity = '0.9';
+          }
+        });
+      }
+    });
+    // disable MCQ radios after submit to avoid confusion
+    document.querySelectorAll('.mcq-list input[type="radio"]').forEach(r => r.disabled = true);
+    // grey out the submit button
+    event.target.disabled = true;
+    event.target.textContent = 'ANSWERS SHOWN';
+  }
+
+  // Reveal Short Answers
+  function submitShort(){
+    document.querySelectorAll('#short-group .answer').forEach(a => a.classList.add('show'));
+    // disable submit button
+    event.target.disabled = true;
+    event.target.textContent = 'ANSWERS SHOWN';
+  }
+
+  // Reveal Book-back answers
+  function submitBookback(){
+    document.querySelectorAll('#bookback-group .answer').forEach(a => a.classList.add('show'));
+    // disable submit button
+    event.target.disabled = true;
+    event.target.textContent = 'ANSWERS SHOWN';
+  }
+
+  // Prevent accidental form submission
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+    }
+  });
+</script>
+</body>
+</html>

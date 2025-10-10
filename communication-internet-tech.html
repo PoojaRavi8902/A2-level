@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chapter 17 — Communication & Internet Technologies | Notes</title>
+  <meta name="author" content="Ravi Raju" />
+  <style>
+    :root{
+      --bg:#f6f5f3; --card:#ffffff; --muted:#555; --accent:#2b6cb0; --accent-2:#1a202c; --glass: rgba(255,255,255,0.7);
+    }
+    [data-theme="dark"]{ --bg:#0f1724; --card:#0b1320; --muted:#b7c1cd; --accent:#67c1ff; --accent-2:#e6eef8; --glass: rgba(255,255,255,0.03); }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial; background:var(--bg); color:var(--accent-2);}
+    .container{max-width:1100px;margin:28px auto;padding:22px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .title{font-size:22px;font-weight:700}
+    .subtitle{font-size:13px;color:var(--muted)}
+    .meta{font-size:13px;color:var(--muted)}
+    nav.toc{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(2,6,23,0.06);margin-bottom:14px}
+
+    .controls{display:flex;gap:8px;align-items:center}
+    button{border:0;background:linear-gradient(180deg,var(--accent),#0b63a8);color:white;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+    button.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,0,0,0.06);}
+
+    .section h2{margin-top:0}
+    .work-example{background:var(--glass);padding:12px;border-radius:8px;border-left:4px solid var(--accent);margin-top:10px}
+    .exam-tip{background:linear-gradient(90deg, rgba(255,247,205,0.9), rgba(255,240,200,0.8));padding:10px;border-radius:8px;border-left:4px solid #b58900;color:#1f2937}
+
+    .diagram{display:block;margin:14px 0;padding:12px;border-radius:10px;background:linear-gradient(135deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));}
+    pre.code{background:#0b1220;color:#dff2ff;padding:10px;border-radius:6px;overflow:auto}
+    details{margin:10px 0;padding:8px;border-radius:8px}
+    summary{font-weight:700}
+
+    footer{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;margin-top:20px;border-radius:10px;background:var(--card)}
+    @media (max-width:720px){.container{padding:12px}.title{font-size:18px}}
+
+    /* Print-friendly */
+    @media print{
+      body{background:white;color:black}
+      header .controls, nav.toc, .controls{display:none}
+      .card{box-shadow:none;border:none}
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <div class="container">
+    <header>
+      <div>
+        <div class="title">Chapter 17 — Communication &amp; Internet Technologies</div>
+        <div class="subtitle">Prepared by Ravi Raju</div>
+        <div class="meta">Class notes · Chapter 17 · Modern Academic</div>
+      </div>
+      <div class="controls">
+        <button id="toggleTheme" class="ghost">Toggle Dark/Light</button>
+        <button id="expandAll">Expand All</button>
+        <button id="collapseAll">Collapse All</button>
+        <button id="printBtn">Print</button>
+      </div>
+    </header>
+
+    <nav class="card toc" aria-label="Table of contents">
+      <strong>Contents</strong>
+      <ul>
+        <li><a href="#17-01">17.01 Transmission Modes</a></li>
+        <li><a href="#17-02">17.02 Protocols</a></li>
+        <li><a href="#17-03">17.03 A Protocol Stack</a></li>
+        <li><a href="#17-04">17.04 The TCP/IP Protocol Suite</a></li>
+        <li><a href="#17-05">17.05 The Ethernet Protocol Stack</a></li>
+        <li><a href="#17-06">17.06 Application-Layer Protocols</a></li>
+        <li><a href="#17-07">17.07 Peer-to-Peer (P2P) File Sharing</a></li>
+      </ul>
+    </nav>
+
+    <!-- Section 17.01 -->
+    <article id="17-01" class="card section">
+      <h2>17.01 Transmission Modes</h2>
+      <p>In computer networking, <strong>data transmission</strong> is the process of sending and receiving data between two or more digital devices. Two broad approaches are commonly used: <strong>circuit switching</strong> and <strong>packet switching</strong>. Each approach suits different kinds of communication.</p>
+
+      <details open>
+        <summary>Circuit Switching</summary>
+        <p>Circuit switching establishes a dedicated communication path between sender and receiver before any data is sent. The path is reserved for the duration of the session which guarantees constant bandwidth and predictable latency.</p>
+        <p><strong>Steps in circuit-switched transmission:</strong></p>
+        <ol>
+          <li>The sender identifies the receiver’s address or identity.</li>
+          <li>The system checks whether the receiver is available to receive data.</li>
+          <li>A dedicated communication path is established through network switches and exchanges.</li>
+          <li>Data is transmitted through this path.</li>
+          <li>Once communication ends, the path is released for other users.</li>
+        </ol>
+        <p>Circuit switching is ideal for continuous real-time traffic (historically voice). It is inefficient for intermittent data because the reserved channel stays idle during pauses.</p>
+        <div class="work-example">
+          <strong>Worked example:</strong>
+          <p>Consider a video conference between two offices using a leased line. When the call begins a dedicated circuit is established, guaranteeing high-quality, uninterrupted audio and video. If participants stay silent for minutes, the line remains reserved — reliable performance at the cost of wasted bandwidth during idle time.</p>
+        </div>
+
+        <div class="diagram" role="img" aria-label="Diagram showing a dedicated circuit between two endpoints">
+          <!-- Simple SVG diagram -->
+          <svg width="100%" height="80" viewBox="0 0 600 80" preserveAspectRatio="xMidYMid meet">
+            <rect x="12" y="18" width="140" height="44" rx="8" fill="#e6f2ff" stroke="#4b8fd6" />
+            <text x="82" y="45" text-anchor="middle" font-size="12" fill="#0b2b45">Office A</text>
+            <rect x="448" y="18" width="140" height="44" rx="8" fill="#e6f2ff" stroke="#4b8fd6" />
+            <text x="518" y="45" text-anchor="middle" font-size="12" fill="#0b2b45">Office B</text>
+            <line x1="152" y1="40" x2="448" y2="40" stroke="#2b6cb0" stroke-width="6" stroke-linecap="round"/>
+            <text x="300" y="22" text-anchor="middle" font-size="11" fill="#0b2b0b">Dedicated circuit (leased line)</text>
+          </svg>
+        </div>
+      </details>
+
+      <details>
+        <summary>Packet Switching</summary>
+        <p>Packet switching divides data into packets. Each packet is sent independently, may take different routes, and is reassembled at the destination. No dedicated path is reserved — this enables efficient sharing of network resources and is the basis of the Internet.</p>
+        <p>There are two modes in packet-switched communication:</p>
+        <ul>
+          <li><strong>Connectionless</strong> (e.g., UDP): packets are sent without establishing a prior connection and without guaranteed delivery.</li>
+          <li><strong>Connection-oriented</strong> (e.g., TCP): a logical connection is used, packets are acknowledged and lost packets retransmitted to ensure reliability.</li>
+        </ul>
+        <div class="work-example">
+          <strong>Worked example:</strong>
+          <p>Sending an email: the message is split into packets. Each packet may take different routes depending on current network traffic. Routers inspect headers to find the best next hop. At the destination the packets are reassembled to reconstruct the full message.</p>
+        </div>
+
+        <div class="diagram" role="img" aria-label="Diagram showing packets taking multiple routes">
+          <svg width="100%" height="110" viewBox="0 0 700 110" preserveAspectRatio="xMidYMid meet">
+            <!-- Sender -->
+            <rect x="10" y="40" width="80" height="30" rx="6" fill="#fff3e6" stroke="#ff9f1c"/>
+            <text x="50" y="60" text-anchor="middle" font-size="11">Sender</text>
+            <!-- Receiver -->
+            <rect x="610" y="40" width="80" height="30" rx="6" fill="#e6fff5" stroke="#2bbf9b"/>
+            <text x="650" y="60" text-anchor="middle" font-size="11">Receiver</text>
+            <!-- Routers and packet paths -->
+            <circle cx="200" cy="25" r="14" fill="#eef6ff" stroke="#4b8fd6" />
+            <circle cx="330" cy="35" r="14" fill="#eef6ff" stroke="#4b8fd6" />
+            <circle cx="480" cy="70" r="14" fill="#eef6ff" stroke="#4b8fd6" />
+            <line x1="90" y1="55" x2="186" y2="33" stroke="#7aa7d8" stroke-dasharray="6 4"/>
+            <line x1="90" y1="55" x2="320" y2="43" stroke="#7aa7d8" stroke-dasharray="4 6"/>
+            <line x1="90" y1="55" x2="480" y2="70" stroke="#7aa7d8" stroke-dasharray="2 6"/>
+            <line x1="214" y1="25" x2="330" y2="35" stroke="#7aa7d8"/>
+            <line x1="340" y1="35" x2="480" y2="70" stroke="#7aa7d8"/>
+            <line x1="498" y1="70" x2="610" y2="55" stroke="#7aa7d8"/> 
+            <text x="120" y="20" font-size="11">Packet A</text>
+            <text x="150" y="60" font-size="11">Packet B</text>
+            <text x="260" y="90" font-size="11">Packet C</text>
+          </svg>
+        </div>
+      </details>
+    </article>
+
+    <!-- Section 17.02 -->
+    <article id="17-02" class="card section">
+      <h2>17.02 Protocols</h2>
+      <p>A <strong>protocol</strong> is a standardized set of rules governing data transmission between devices on a network. Protocols specify message formats, addressing, timing, error checking and recovery methods. They allow devices with different hardware and software to communicate reliably.</p>
+      <p><strong>Key term:</strong> <em>Protocol — a set of rules for data transmission agreed upon by both sender and receiver.</em></p>
+
+      <div class="work-example">
+        <strong>Worked example:</strong>
+        <p>When a web browser requests a webpage it uses the <strong>HTTP</strong> protocol. The browser formats a request message, the server interprets it and returns a response following HTTP rules so the requested page is correctly delivered.</p>
+      </div>
+
+      <details>
+        <summary>Why protocols matter</summary>
+        <ul>
+          <li>Interoperability: allow devices from different vendors to work together.</li>
+          <li>Reliability: define how errors are detected and corrected.</li>
+          <li>Scalability: define addressing and routing so networks can grow.</li>
+        </ul>
+      </details>
+    </article>
+
+    <!-- Section 17.03 -->
+    <article id="17-03" class="card section">
+      <h2>17.03 A Protocol Stack</h2>
+      <p>A <strong>protocol stack</strong> organizes network functions into layers. Each layer handles a particular responsibility and provides services to the layer above while depending on the layer below. This modular design simplifies implementation and troubleshooting.</p>
+
+      <div class="diagram" aria-hidden="false">
+        <svg width="100%" height="180" viewBox="0 0 600 180">
+          <rect x="120" y="18" width="360" height="34" rx="6" fill="#f8fafc" stroke="#2b6cb0"/>
+          <text x="300" y="40" text-anchor="middle" font-size="13">Application Layer — user-level protocols (HTTP, FTP, SMTP)</text>
+          <rect x="120" y="62" width="360" height="34" rx="6" fill="#f1f5f9" stroke="#2b6cb0"/>
+          <text x="300" y="84" text-anchor="middle" font-size="13">Transport Layer — TCP/UDP (reliability, ports)</text>
+          <rect x="120" y="106" width="360" height="34" rx="6" fill="#eef2ff" stroke="#2b6cb0"/>
+          <text x="300" y="128" text-anchor="middle" font-size="13">Network/Internet Layer — IP (routing &amp; addressing)</text>
+          <rect x="120" y="150" width="360" height="18" rx="6" fill="#ffffff" stroke="#2b6cb0"/>
+          <text x="300" y="163" text-anchor="middle" font-size="12">Data Link &amp; Physical Layers — Ethernet, frames, cables</text>
+        </svg>
+      </div>
+
+      <p><strong>Key concept:</strong> each layer provides services to the layer above and relies on services from the layer below.</p>
+    </article>
+
+    <!-- Section 17.04 -->
+    <article id="17-04" class="card section">
+      <h2>17.04 The TCP/IP Protocol Suite</h2>
+      <p>The <strong>TCP/IP</strong> suite is the basis for Internet communications. Typical layerings show Application, Transport, Internet (Network) and Link (Data Link + Physical) layers. Important protocols include <strong>TCP</strong> and <strong>IP</strong>.</p>
+
+      <details>
+        <summary>Transmission Control Protocol (TCP)</summary>
+        <p>TCP guarantees reliable, ordered delivery of data. It:</p>
+        <ul>
+          <li>Splits data into segments and assigns sequence numbers.</li>
+          <li>Uses acknowledgements to confirm receipt.</li>
+          <li>Retransmits lost segments and performs flow control (sliding windows).</li>
+        </ul>
+        <div class="work-example">
+          <strong>Worked example:</strong>
+          <p>When downloading a file, TCP numbers packets. If packet 5 is lost, the receiver asks for retransmission so the file is complete and in order.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Internet Protocol (IP)</summary>
+        <p>IP is responsible for addressing and routing packets through networks. Each device is assigned an IP address. IP is connectionless — packets are forwarded based on header information and routing tables without guarantees of delivery.</p>
+        <div class="exam-tip">
+          <strong>Exam tip:</strong> TCP focuses on <em>reliability</em> (ordering, retransmission); IP focuses on <em>routing</em> (finding paths between networks). Remember: together they are the core of Internet communication.</div>
+      </details>
+    </article>
+
+    <!-- Section 17.05 -->
+    <article id="17-05" class="card section">
+      <h2>17.05 The Ethernet Protocol Stack</h2>
+      <p><strong>Ethernet</strong> is a family of protocols used in Local Area Networks (LANs). It implements the lower layers (Data Link and Physical) in the TCP/IP model and specifies how frames are formatted and how devices share the medium.</p>
+      <p>Ethernet sublayers include Logical Link Control (LLC), Media Access Control (MAC), Physical Coding Sublayer (PCS), and Physical Medium Attachment (PMA). The MAC layer uses addresses (MAC addresses) to deliver frames to the correct hardware device.</p>
+
+      <div class="work-example">
+        <strong>Worked example:</strong>
+        <p>In a school LAN, when a teacher sends a file to a network printer, Ethernet packages the data into frames addressed to the printer's MAC address and transmits them over the cable until the printer receives and processes the frames.</p>
+      </div>
+    </article>
+
+    <!-- Section 17.06 -->
+    <article id="17-06" class="card section">
+      <h2>17.06 Application-Layer Protocols</h2>
+      <p>Application-layer protocols define how user applications talk across the network. Common examples include HTTP, FTP, SMTP, POP3 and IMAP.</p>
+
+      <details>
+        <summary>HTTP (HyperText Transfer Protocol)</summary>
+        <p>HTTP is the protocol of the World Wide Web. It follows a client–server model: a browser sends requests (GET, POST, PUT, etc.) and the web server responds with content or an error. HTTP messages are plain-text ASCII formatted requests and responses.</p>
+      </details>
+
+      <details>
+        <summary>FTP (File Transfer Protocol)</summary>
+        <p>FTP is designed to transfer files between computers. It uses separate control and data channels and supports commands for directory navigation, upload and download. Commonly used to upload website files to hosting servers.</p>
+      </details>
+
+      <details>
+        <summary>Email protocols — SMTP, POP3, IMAP</summary>
+        <p><strong>SMTP</strong> (Simple Mail Transfer Protocol) sends email between mail servers and from clients to servers for outgoing mail. <strong>POP3</strong> downloads messages from the mail server to a single device (often removing them from the server). <strong>IMAP</strong> keeps messages on the server and allows access from multiple devices, syncing state (read/unread folders) between clients.</p>
+      </details>
+    </article>
+
+    <!-- Section 17.07 -->
+    <article id="17-07" class="card section">
+      <h2>17.07 Peer-to-Peer (P2P) File Sharing</h2>
+      <p><strong>Peer-to-peer</strong> networks let users share files directly without a central server. Each peer acts as both client and server. BitTorrent is a widely used protocol that breaks files into small pieces (chunks) and downloads/uploads simultaneously with many peers — improving speed and resilience.</p>
+
+      <div class="work-example">
+        <strong>Worked example:</strong>
+        <p>Downloading a large file via BitTorrent: your client connects to many peers and obtains different chunks from each. As you receive chunks you also upload them to others. This distributed approach speeds up downloads and reduces load on any single source.</p>
+      </div>
+    </article>
+
+    <footer>
+      <div>Prepared by Ravi Raju</div>
+      <div>Modern Academic — Chapter 17</div>
+    </footer>
+  </div>
+
+  <script>
+    // Small interactivity: theme toggle, expand/collapse, print
+    const body = document.body;
+    const toggle = document.getElementById('toggleTheme');
+    toggle.addEventListener('click', ()=>{
+      const el = document.documentElement;
+      const current = document.body.getAttribute('data-theme');
+      document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+
+    document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+
+    const expandAllBtn = document.getElementById('expandAll');
+    const collapseAllBtn = document.getElementById('collapseAll');
+    expandAllBtn.addEventListener('click', ()=>{
+      document.querySelectorAll('details').forEach(d=> d.open = true);
+    });
+    collapseAllBtn.addEventListener('click', ()=>{
+      document.querySelectorAll('details').forEach(d=> d.open = false);
+    });
+
+    // set default theme based on user preference
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.body.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+  </script>
+</body>
+</html>

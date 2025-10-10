@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapter 23 - Algorithms</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(135deg, #5563DE, #74ABE2);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 4px solid #444;
+    }
+    header h1 {
+      margin: 10px 0 5px 0;
+      font-size: 2.5em;
+    }
+    header p {
+      margin: 0;
+      font-size: 1.1em;
+    }
+    section {
+      padding: 20px 40px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h2 {
+      margin-top: 30px;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+      color: #2c3e50;
+    }
+    code, pre {
+      background: #eee;
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: block;
+      margin: 10px 0;
+      font-family: Consolas, monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #333;
+      color: #fff;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p><strong>Author: R. Ravi</strong></p>
+    <h1>Chapter 23: Algorithms</h1>
+    <p>Cambridge International A Level Computer Science (9618)</p>
+  </header>
+
+  <section>
+    <h2>1. Linear and Binary Searching Methods</h2>
+    <p>Searching is the process of finding whether a particular data item exists in a collection, and if it does, identifying its location. Two fundamental searching techniques are <strong>linear search</strong> and <strong>binary search</strong>.</p>
+    <ul>
+      <li><strong>Linear search</strong> examines each item in sequence until the required item is found or the collection ends.</li>
+      <li><strong>Binary search</strong> requires sorted data and repeatedly halves the list until the item is found or not present.</li>
+    </ul>
+
+    <h2>2. Linear Search Algorithm</h2>
+    <pre>
+FOR index ← 0 TO length(List) - 1
+    IF List[index] = Target THEN
+        OUTPUT "Found at position", index
+        STOP
+    ENDIF
+NEXT index
+OUTPUT "Item not found"
+    </pre>
+
+    <h2>3. Binary Search Algorithm</h2>
+    <p>Binary search works by repeatedly halving the list:</p>
+    <pre>
+SET low ← 0
+SET high ← length(List) - 1
+WHILE low ≤ high DO
+    mid ← (low + high) DIV 2
+    IF List[mid] = Target THEN
+        OUTPUT "Found at position", mid
+        STOP
+    ELSE IF List[mid] &gt; Target THEN
+        high ← mid - 1
+    ELSE
+        low ← mid + 1
+    ENDIF
+ENDWHILE
+OUTPUT "Item not found"
+    </pre>
+
+    <h2>4. Conditions for Binary Search</h2>
+    <p>Binary search requires:</p>
+    <ul>
+      <li>The data must be sorted.</li>
+      <li>Random access to data items (indexing).</li>
+      <li>A relatively static dataset, otherwise re-sorting is needed.</li>
+    </ul>
+
+    <h2>5. Performance of Binary Search</h2>
+    <p>Binary search takes <em>log₂(n)</em> comparisons in the worst case. For example:</p>
+    <ul>
+      <li>16 items → at most 4 comparisons.</li>
+      <li>1,000,000 items → at most 20 comparisons.</li>
+    </ul>
+
+    <h2>6. Insertion Sort and Bubble Sort</h2>
+    <p><strong>Bubble sort:</strong> Repeatedly compares and swaps adjacent items. Inefficient for large lists (O(n²)).</p>
+    <p><strong>Insertion sort:</strong> Builds a sorted list by inserting one element at a time in its correct position. Better than bubble sort for nearly sorted data but still O(n²) in worst case.</p>
+
+    <h2>7. Sorting Performance</h2>
+    <p>Performance depends on:</p>
+    <ul>
+      <li><strong>Initial order of data:</strong> Insertion sort is efficient if the list is nearly sorted.</li>
+      <li><strong>Number of items:</strong> Larger datasets highlight inefficiency of O(n²) algorithms.</li>
+    </ul>
+
+    <h2>8. Abstract Data Types (ADTs)</h2>
+    <p>An Abstract Data Type defines how data is organized and what operations can be performed, independent of implementation. Examples: stack, queue, linked list, dictionary, binary tree, graph.</p>
+
+    <h2>9. Implementing ADTs from Other ADTs</h2>
+    <p>ADTs can be built from simpler ADTs. For example:</p>
+    <ul>
+      <li>A queue can be built using two stacks.</li>
+      <li>A dictionary can be built using arrays of linked lists (hashing).</li>
+    </ul>
+
+    <h2>10. Key ADTs</h2>
+    <ul>
+      <li><strong>Stack:</strong> LIFO structure. Supports push, pop, peek.</li>
+      <li><strong>Queue:</strong> FIFO structure. Supports enqueue, dequeue.</li>
+      <li><strong>Linked List:</strong> Nodes connected with pointers. Good for insertions/deletions.</li>
+      <li><strong>Dictionary:</strong> Key-value storage. Implemented with hashing or trees.</li>
+      <li><strong>Binary Tree:</strong> Hierarchical structure where nodes have at most two children.</li>
+    </ul>
+
+    <h2>11. Algorithms for ADTs</h2>
+    <p>You should be able to write algorithms for:</p>
+    <ul>
+      <li>Insertion sort and Bubble sort.</li>
+      <li>Searching in linked list or binary tree.</li>
+      <li>Insertion into stack, queue, linked list, binary tree.</li>
+      <li>Deletion from stack, queue, linked list.</li>
+    </ul>
+
+    <h2>12. Graph as an ADT</h2>
+    <p>A graph consists of vertices and edges. It may be directed or undirected, weighted or unweighted. Graphs are useful in modeling networks, maps, and relationships.</p>
+
+    <h2>13. Comparing Algorithms</h2>
+    <p>Algorithms are compared by:</p>
+    <ul>
+      <li>Time taken to complete the task.</li>
+      <li>Memory usage.</li>
+      <li>Ease of implementation and maintenance.</li>
+    </ul>
+
+    <h2>14. Big O Notation</h2>
+    <p>Big O describes how performance scales with input size:</p>
+    <ul>
+      <li><strong>O(1):</strong> Constant time.</li>
+      <li><strong>O(log n):</strong> Logarithmic (e.g., binary search).</li>
+      <li><strong>O(n):</strong> Linear (e.g., linear search).</li>
+      <li><strong>O(n²):</strong> Quadratic (e.g., bubble sort).</li>
+    </ul>
+  </section>
+<!-- ================== Chapter 23 Sections ================== -->
+<section>
+  <h2>23.01 Linear Search</h2>
+  <p>
+    A <strong>linear search</strong> is the most straightforward search algorithm. It checks
+    each element of the list one by one until the required item is found or the
+    entire list has been checked. This method works for both ordered and unordered
+    lists, but it is inefficient for very large datasets since, on average, half the
+    items must be checked before finding a match.
+  </p>
+
+  <div class="discussion">
+    <h3>💡 Discussion Point</h3>
+    <p>What were the essential features of a linear search?</p>
+  </div>
+
+  <pre><code class="language-java">
+// Linear Search in Java
+public static int linearSearch(int[] list, int searchItem) {
+    for (int i = 0; i < list.length; i++) {
+        if (list[i] == searchItem) {
+            return i; // position found
+        }
+    }
+    return -1; // not found
+}
+  </code></pre>
+</section>
+
+<section>
+  <h2>23.02 Bubble Sort</h2>
+  <p>
+    The <strong>bubble sort</strong> repeatedly steps through the list, compares adjacent
+    elements, and swaps them if they are in the wrong order. Each pass “bubbles”
+    the largest unsorted element to its correct position at the end. Although easy
+    to implement, bubble sort is inefficient for large datasets because of its high
+    time complexity.
+  </p>
+
+  <div class="discussion">
+    <h3>💡 Discussion Point</h3>
+    <p>What were the essential features of a bubble sort?</p>
+  </div>
+
+  <pre><code class="language-java">
+// Bubble Sort in Java
+public static void bubbleSort(int[] list) {
+    int n = list.length;
+    boolean swapped;
+    do {
+        swapped = false;
+        for (int i = 0; i < n - 1; i++) {
+            if (list[i] > list[i + 1]) {
+                int temp = list[i];
+                list[i] = list[i + 1];
+                list[i + 1] = temp;
+                swapped = true;
+            }
+        }
+        n--;
+    } while (swapped);
+}
+  </code></pre>
+</section>
+
+<section>
+  <h2>23.03 Insertion Sort</h2>
+  <p>
+    The <strong>insertion sort</strong> works like sorting a hand of playing cards. The list
+    is divided into a “sorted” portion and an “unsorted” portion. One by one,
+    elements from the unsorted part are picked up and inserted into the correct
+    position within the sorted part. This method is more efficient than bubble sort
+    for small lists and nearly-sorted data.
+  </p>
+
+  <figure>
+    <img src="images/insertion-sort-cards.png" alt="Insertion Sort card analogy"
+         style="max-width: 500px; border-radius: 10px;">
+    <figcaption>Figure 23.01 Sorting cards using insertion sort.</figcaption>
+  </figure>
+
+  <pre><code class="language-java">
+// Insertion Sort in Java
+public static void insertionSort(int[] list) {
+    for (int i = 1; i < list.length; i++) {
+        int itemToInsert = list[i];
+        int j = i - 1;
+        while (j >= 0 && list[j] > itemToInsert) {
+            list[j + 1] = list[j];
+            j--;
+        }
+        list[j + 1] = itemToInsert;
+    }
+}
+  </code></pre>
+
+  <div class="extension">
+    <h3>📝 Extension Question 23.01</h3>
+    <p>
+      Investigate the performance of insertion sort and bubble sort by:
+      <ul>
+        <li>Varying the initial order of the items (e.g., sorted, reverse-sorted, random)</li>
+        <li>Increasing the number of items to be sorted</li>
+      </ul>
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>23.04 Binary Search</h2>
+  <p>
+    The <strong>binary search</strong> is used when the list is already ordered. Instead of
+    checking elements one by one, the algorithm checks the <em>middle</em> item. If the
+    target is smaller, the search continues in the first half; if larger, in the
+    second half. This process repeats, halving the search area each time, until the
+    item is found or the search space becomes empty.
+  </p>
+
+  <p>
+    A real-world analogy: when searching for a word in a dictionary, you do not
+    start from the first page—you open near the middle and keep halving the
+    section until you find the word.
+  </p>
+
+  <pre><code class="language-java">
+// Binary Search in Java (iterative)
+public static int binarySearch(int[] list, int searchItem) {
+    int first = 0, last = list.length - 1;
+    while (first <= last) {
+        int middle = (first + last) / 2;
+        if (list[middle] == searchItem) {
+            return middle; // item found
+        } else if (list[middle] > searchItem) {
+            last = middle - 1;
+        } else {
+            first = middle + 1;
+        }
+    }
+    return -1; // item not found
+}
+  </code></pre>
+
+  <div class="discussion">
+    <h3>💡 Discussion Point</h3>
+    <p>
+      Compare binary search with linear search:
+      <ul>
+        <li>How many comparisons are needed on average for <code>n</code> items?</li>
+        <li>How does the search time grow as <code>n</code> increases?</li>
+      </ul>
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>23.05 Abstract Data Types (ADTs)</h2>
+  <p>
+    An <strong>Abstract Data Type (ADT)</strong> defines the logical behavior of a
+    collection of data, independent of how it is implemented. Examples include
+    stacks, queues, linked lists, and trees. They specify <em>what</em> operations can
+    be performed, not <em>how</em> they are carried out.
+  </p>
+  <p>
+    In earlier chapters, ADTs were introduced using arrays. In this chapter, we
+    explore them in more detail and examine how they can be implemented using
+    either built-in types or by composing other ADTs.
+  </p>
+</section>
+<!-- ================== End of Chunk ================== -->
+<!-- ================== 23.06 Linked Lists ================== -->
+<section>
+  <h2>23.06 Linked Lists</h2>
+  <p>
+    A <strong>linked list</strong> is a dynamic data structure consisting of <em>nodes</em>,
+    where each node contains two parts:
+  </p>
+  <ul>
+    <li><strong>Data</strong> – the actual value stored.</li>
+    <li><strong>Pointer</strong> – a reference to the next node in the list.</li>
+  </ul>
+  <p>
+    Unlike arrays, linked lists do not require contiguous memory. This makes them
+    flexible for situations where the number of elements is not known in advance or
+    changes frequently.
+  </p>
+
+  <figure>
+    <img src="images/linked-list-example.png" alt="Linked list diagram"
+         style="max-width:500px;border-radius:10px;">
+    <figcaption>Figure 23.02 Example of a linked list with nodes and free list.</figcaption>
+  </figure>
+
+  <h3>Creating a New Linked List</h3>
+  <p>
+    When a linked list is first created, it is empty. The <code>StartPointer</code> points
+    to <code>NullPointer</code> (indicating no data). A <em>free list</em> is maintained,
+    linking all available nodes that can be used later.
+  </p>
+
+  <pre><code class="language-java">
+// Node structure for a linked list
+class ListNode {
+    String data;
+    int pointer; // index of next node (-1 = null)
+}
+
+// Example list setup
+final int NullPointer = -1;
+ListNode[] list = new ListNode[7];
+int startPointer;
+int freeListPtr;
+
+void initialiseList() {
+    startPointer = NullPointer;
+    freeListPtr = 0;
+    for (int i = 0; i < list.length; i++) {
+        list[i] = new ListNode();
+        list[i].pointer = (i == list.length - 1) ? NullPointer : i + 1;
+    }
+}
+  </code></pre>
+
+  <h3>Inserting a New Node</h3>
+  <p>
+    To insert data into an ordered linked list:
+  </p>
+  <ol>
+    <li>Take the first free node from the free list.</li>
+    <li>Store the new data in this node.</li>
+    <li>Find the correct position in the list for insertion.</li>
+    <li>Update pointers so that the new node is linked in the correct place.</li>
+  </ol>
+
+  <pre><code class="language-java">
+// Insert into an ordered linked list
+void insertNode(String newItem) {
+    if (freeListPtr != NullPointer) {
+        int newNodePtr = freeListPtr;
+        list[newNodePtr].data = newItem;
+        freeListPtr = list[freeListPtr].pointer;
+
+        int thisNodePtr = startPointer;
+        int previousNodePtr = NullPointer;
+
+        // Find insertion point
+        while (thisNodePtr != NullPointer &&
+               list[thisNodePtr].data.compareTo(newItem) < 0) {
+            previousNodePtr = thisNodePtr;
+            thisNodePtr = list[thisNodePtr].pointer;
+        }
+
+        // Insert at start
+        if (previousNodePtr == NullPointer) {
+            list[newNodePtr].pointer = startPointer;
+            startPointer = newNodePtr;
+        } else {
+            list[newNodePtr].pointer = list[previousNodePtr].pointer;
+            list[previousNodePtr].pointer = newNodePtr;
+        }
+    }
+}
+  </code></pre>
+
+  <h3>Finding an Element</h3>
+  <p>
+    Searching in a linked list requires following pointers from the start until the
+    desired item is found or the list ends.
+  </p>
+
+  <pre><code class="language-java">
+// Find an item in a linked list
+int findNode(String dataItem) {
+    int currentNodePtr = startPointer;
+    while (currentNodePtr != NullPointer &&
+           !list[currentNodePtr].data.equals(dataItem)) {
+        currentNodePtr = list[currentNodePtr].pointer;
+    }
+    return currentNodePtr; // -1 if not found
+}
+  </code></pre>
+
+  <h3>Deleting a Node</h3>
+  <p>
+    Deletion involves three steps:
+  </p>
+  <ol>
+    <li>Find the node containing the item.</li>
+    <li>Adjust the pointer of the previous node to skip the deleted node.</li>
+    <li>Return the deleted node to the free list.</li>
+  </ol>
+
+  <pre><code class="language-java">
+// Delete an item from the linked list
+void deleteNode(String dataItem) {
+    int thisNodePtr = startPointer;
+    int previousNodePtr = NullPointer;
+
+    while (thisNodePtr != NullPointer &&
+           !list[thisNodePtr].data.equals(dataItem)) {
+        previousNodePtr = thisNodePtr;
+        thisNodePtr = list[thisNodePtr].pointer;
+    }
+
+    if (thisNodePtr != NullPointer) {
+        if (thisNodePtr == startPointer) {
+            startPointer = list[startPointer].pointer;
+        } else {
+            list[previousNodePtr].pointer = list[thisNodePtr].pointer;
+        }
+        // Add deleted node back to free list
+        list[thisNodePtr].pointer = freeListPtr;
+        freeListPtr = thisNodePtr;
+    }
+}
+  </code></pre>
+
+  <h3>Accessing All Nodes</h3>
+  <p>
+    To output all elements, follow pointers from the start until the end is reached.
+  </p>
+
+  <pre><code class="language-java">
+// Traverse and print all nodes
+void outputAllNodes() {
+    int currentNodePtr = startPointer;
+    while (currentNodePtr != NullPointer) {
+        System.out.println(list[currentNodePtr].data);
+        currentNodePtr = list[currentNodePtr].pointer;
+    }
+}
+  </code></pre>
+
+  <div class="note">
+    <p>
+      📌 <strong>Important:</strong> A <em>stack</em> and a <em>queue</em> are special cases
+      of linked lists:
+    </p>
+    <ul>
+      <li><strong>Stack</strong>: Add and remove nodes only from the front.</li>
+      <li><strong>Queue</strong>: Add nodes at the end, remove from the front.</li>
+    </ul>
+    <p>
+      These will be covered in Sections 23.08 and 23.09.
+    </p>
+  </div>
+</section>
+<!-- ================== End of Linked Lists ================== -->
+<!-- ============================= -->
+<!-- Section 23.07 - Binary Trees -->
+<!-- ============================= -->
+<section id="binary-trees">
+  <h2>23.07 Binary Trees</h2>
+  <p>
+    In computer science, a <strong>binary tree</strong> is a hierarchical structure 
+    where each node can have at most two children: a left child and a right child. 
+    Unlike a family tree, binary trees follow strict rules that make them suitable 
+    for searching and data organisation.
+  </p>
+
+  <h3>Concept of an Ordered Binary Tree</h3>
+  <p>
+    In an <strong>ordered binary tree</strong>, also called a 
+    <em>binary search tree</em>, data values are stored in such a way that:
+  </p>
+  <ul>
+    <li>If a new value is smaller than the current node, it is placed in the left subtree.</li>
+    <li>If a new value is larger, it is placed in the right subtree.</li>
+  </ul>
+  <p>
+    This makes searching faster than linear searches, as large portions of data can be skipped.
+  </p>
+
+  <h3>Example Insertion</h3>
+  <ol>
+    <li>Start at the root node (e.g., F).</li>
+    <li>Compare with new item (D). Since D &lt; F, move left.</li>
+    <li>Compare with C. Since D &gt; C, move right.</li>
+    <li>Compare with E. Since D &lt; E, move left.</li>
+    <li>No node exists there, so insert D as left child of E.</li>
+  </ol>
+
+  <h3>Pseudocode Examples</h3>
+  <h4>Create a New Binary Tree</h4>
+  <pre><code>
+// NullPointer should be set to -1 if using array element with index 0
+CONSTANT NullPointer = -1
+
+TYPE TreeNode
+  DECLARE Data : STRING
+  DECLARE LeftPointer : INTEGER
+  DECLARE RightPointer : INTEGER
+ENDTYPE
+
+DECLARE RootPointer : INTEGER
+DECLARE FreePtr : INTEGER
+DECLARE Tree : ARRAY[0 : 6] OF TreeNode
+
+PROCEDURE InitialiseTree
+  RootPointer ← NullPointer
+  FreePtr ← 0
+  FOR Index ← 0 TO 5
+    Tree[Index].LeftPointer ← Index + 1
+  NEXT Index
+  Tree[6].LeftPointer ← NullPointer
+ENDPROCEDURE
+  </code></pre>
+
+  <h4>Insert a New Node</h4>
+  <pre><code>
+PROCEDURE InsertNode(NewItem)
+  IF FreePtr <> NullPointer THEN
+    NewNodePtr ← FreePtr
+    FreePtr ← Tree[FreePtr].LeftPointer
+    Tree[NewNodePtr].Data ← NewItem
+    Tree[NewNodePtr].LeftPointer ← NullPointer
+    Tree[NewNodePtr].RightPointer ← NullPointer
+    
+    IF RootPointer = NullPointer THEN
+      RootPointer ← NewNodePtr
+    ELSE
+      ThisNodePtr ← RootPointer
+      WHILE ThisNodePtr <> NullPointer DO
+        PreviousNodePtr ← ThisNodePtr
+        IF Tree[ThisNodePtr].Data > NewItem THEN
+          TurnedLeft ← TRUE
+          ThisNodePtr ← Tree[ThisNodePtr].LeftPointer
+        ELSE
+          TurnedLeft ← FALSE
+          ThisNodePtr ← Tree[ThisNodePtr].RightPointer
+        ENDIF
+      ENDWHILE
+      
+      IF TurnedLeft = TRUE THEN
+        Tree[PreviousNodePtr].LeftPointer ← NewNodePtr
+      ELSE
+        Tree[PreviousNodePtr].RightPointer ← NewNodePtr
+      ENDIF
+    ENDIF
+  ENDIF
+ENDPROCEDURE
+  </code></pre>
+
+  <h4>Find a Node</h4>
+  <pre><code>
+FUNCTION FindNode(SearchItem) RETURNS INTEGER
+  ThisNodePtr ← RootPointer
+  WHILE ThisNodePtr <> NullPointer AND 
+        Tree[ThisNodePtr].Data <> SearchItem DO
+    IF Tree[ThisNodePtr].Data > SearchItem THEN
+      ThisNodePtr ← Tree[ThisNodePtr].LeftPointer
+    ELSE
+      ThisNodePtr ← Tree[ThisNodePtr].RightPointer
+    ENDIF
+  ENDWHILE
+  RETURN ThisNodePtr
+ENDFUNCTION
+  </code></pre>
+</section>
+
+
+<!-- ============================= -->
+<!-- Section 23.08 - Stacks -->
+<!-- ============================= -->
+<section id="stacks">
+  <h2>23.08 Stacks</h2>
+  <p>
+    A <strong>stack</strong> is an Abstract Data Type (ADT) that follows the 
+    <em>LIFO</em> (Last In, First Out) principle. Items are pushed onto the top 
+    of the stack and popped off from the top.
+  </p>
+  <p>
+    In array implementation:
+  </p>
+  <ul>
+    <li><code>BaseOfStackPointer</code> always points to element 0.</li>
+    <li><code>TopOfStackPointer</code> changes as items are pushed and popped.</li>
+    <li>When stack is empty, <code>TopOfStackPointer = -1</code>.</li>
+  </ul>
+
+  <h3>Pseudocode Examples</h3>
+  <h4>Create a New Stack</h4>
+  <pre><code>
+CONSTANT EMPTYSTRING = ""
+CONSTANT NullPointer = -1
+CONSTANT MaxStackSize = 8
+
+DECLARE BaseOfStackPointer : INTEGER
+DECLARE TopOfStackPointer : INTEGER
+DECLARE Stack : ARRAY[1 : MaxStackSize - 1] OF STRING
+
+PROCEDURE InitialiseStack
+  BaseOfStackPointer ← 0
+  TopOfStackPointer ← NullPointer
+ENDPROCEDURE
+  </code></pre>
+
+  <h4>Push an Item</h4>
+  <pre><code>
+PROCEDURE Push(NewItem)
+  IF TopOfStackPointer < MaxStackSize - 1 THEN
+    TopOfStackPointer ← TopOfStackPointer + 1
+    Stack[TopOfStackPointer] ← NewItem
+  ENDIF
+ENDPROCEDURE
+  </code></pre>
+
+  <h4>Pop an Item</h4>
+  <pre><code>
+FUNCTION Pop() RETURNS STRING
+  DECLARE Item : STRING
+  Item ← EMPTYSTRING
+  IF TopOfStackPointer > NullPointer THEN
+    Item ← Stack[TopOfStackPointer]
+    TopOfStackPointer ← TopOfStackPointer - 1
+  ENDIF
+  RETURN Item
+ENDFUNCTION
+  </code></pre>
+</section>
+
+
+<!-- ============================= -->
+<!-- Section 23.09 - Queues -->
+<!-- ============================= -->
+<section id="queues">
+  <h2>23.09 Queues</h2>
+  <p>
+    A <strong>queue</strong> is an ADT that follows the <em>FIFO</em> 
+    (First In, First Out) principle. Elements are added at the rear (end) 
+    and removed from the front.
+  </p>
+  <p>
+    Key points:
+  </p>
+  <ul>
+    <li><code>FrontOfQueuePointer</code> points to the first element.</li>
+    <li><code>EndOfQueuePointer</code> points to the last element.</li>
+    <li>A counter variable is often used to keep track of how many items are in the queue.</li>
+    <li>Wrap-round (circular queue) is used to reuse freed array slots.</li>
+  </ul>
+
+  <h3>Pseudocode Examples</h3>
+  <h4>Create a New Queue</h4>
+  <pre><code>
+CONSTANT EMPTYSTRING = ""
+CONSTANT NullPointer = -1
+CONSTANT MaxQueueSize = 8
+
+DECLARE FrontOfQueuePointer : INTEGER
+DECLARE EndOfQueuePointer : INTEGER
+DECLARE NumberInQueue : INTEGER
+DECLARE Queue : ARRAY[0 : MaxQueueSize - 1] OF STRING
+
+PROCEDURE InitialiseQueue
+  FrontOfQueuePointer ← NullPointer
+  EndOfQueuePointer ← NullPointer
+  NumberInQueue ← 0
+ENDPROCEDURE
+  </code></pre>
+
+  <h4>Add to Queue</h4>
+  <pre><code>
+PROCEDURE AddToQueue(NewItem)
+  IF NumberInQueue < MaxQueueSize THEN
+    EndOfQueuePointer ← EndOfQueuePointer + 1
+    IF EndOfQueuePointer > MaxQueueSize - 1 THEN
+      EndOfQueuePointer ← 0  // wrap-round
+    ENDIF
+    Queue[EndOfQueuePointer] ← NewItem
+    NumberInQueue ← NumberInQueue + 1
+  ENDIF
+ENDPROCEDURE
+  </code></pre>
+
+  <h4>Remove from Queue</h4>
+  <pre><code>
+FUNCTION RemoveFromQueue() RETURNS STRING
+  DECLARE Item : STRING
+  Item ← EMPTYSTRING
+  IF NumberInQueue > 0 THEN
+    Item ← Queue[FrontOfQueuePointer]
+    NumberInQueue ← NumberInQueue - 1
+    
+    IF NumberInQueue = 0 THEN
+      CALL InitialiseQueue
+    ELSE
+      FrontOfQueuePointer ← FrontOfQueuePointer + 1
+      IF FrontOfQueuePointer > MaxQueueSize - 1 THEN
+        FrontOfQueuePointer ← 0
+      ENDIF
+    ENDIF
+  ENDIF
+  RETURN Item
+ENDFUNCTION
+  </code></pre>
+</section>
+<!-- 23.10 Graphs -->
+<section id="graphs">
+  <h2>23.10 Graphs</h2>
+  <p>
+    In Computer Science, a graph is an <strong>Abstract Data Type (ADT)</strong> consisting of 
+    vertices (nodes) and edges. Graphs are used to record relationships between things. 
+    For example, transport networks, social networks, and web page linking structures can all be represented using graphs.
+  </p>
+
+  <p>A simple graph is shown in <em>Figure 23.09</em>, representing part of the London Underground map.  
+  Vertices A to F are underground stations and edges represent direct train lines. Two vertices connected by an edge are called <strong>neighbours</strong>.</p>
+
+  <p>
+    A <strong>labelled (weighted) graph</strong> has values on its edges (e.g., travel times).  
+    Graphs may also be <strong>directed</strong> (edges have one-way connections) or <strong>undirected</strong>.
+  </p>
+
+  <h3>Adjacency Matrix</h3>
+  <p>
+    An adjacency matrix stores relationships between all vertices.  
+    – For unweighted graphs: <code>1</code> = edge exists, <code>0</code> = no edge.  
+    – For weighted graphs: replace <code>1</code> with weight, use <code>∞</code> for no edge.
+  </p>
+
+  <h3>Adjacency List</h3>
+  <p>
+    An adjacency list stores only existing connections. Each vertex has a list of its neighbours, optionally with weights.
+  </p>
+</section>
+
+<!-- 23.11 Hash Tables -->
+<section id="hash-tables">
+  <h2>23.11 Hash Tables</h2>
+  <p>
+    A <strong>hash table</strong> is a data structure that provides direct access to records using a <strong>hash function</strong>.  
+    The hash function computes an address (array index) from the record’s key.  
+    However, two different keys may hash to the same address, causing a <strong>collision</strong>.
+  </p>
+
+  <h3>Collision Handling Methods</h3>
+  <ul>
+    <li><strong>Chaining:</strong> Store collided items in a linked list at the hashed address.</li>
+    <li><strong>Overflow areas (Closed hashing):</strong> Collisions stored in a separate area.</li>
+    <li><strong>Neighbouring slots (Open hashing):</strong> Search sequentially for next free slot.</li>
+  </ul>
+
+  <h3>Example Hash Function</h3>
+  <pre>
+FUNCTION Hash(Key) RETURNS INTEGER
+  Address ← Key MOD (n + 1)
+  RETURN Address
+ENDFUNCTION
+  </pre>
+
+  <h3>Pseudocode for Insertion</h3>
+  <pre>
+PROCEDURE Insert(NewRecord)
+  Index ← Hash(NewRecord.Key)
+  WHILE HashTable[Index] NOT empty DO
+    Index ← Index + 1
+    IF Index > Max THEN
+      Index ← 0 // wrap around
+    ENDIF
+  ENDWHILE
+  HashTable[Index] ← NewRecord
+ENDPROCEDURE
+  </pre>
+
+  <h3>Pseudocode for Searching</h3>
+  <pre>
+FUNCTION FindRecord(SearchKey) RETURNS Record
+  Index ← Hash(SearchKey)
+  WHILE (HashTable[Index].Key <> SearchKey) AND 
+        (HashTable[Index] NOT empty) DO
+    Index ← Index + 1
+    IF Index > Max THEN
+      Index ← 0 // wrap around
+    ENDIF
+  ENDWHILE
+  IF HashTable[Index] NOT empty THEN
+    RETURN HashTable[Index]
+  ENDIF
+ENDFUNCTION
+  </pre>
+</section>
+
+<!-- 23.12 Dictionaries -->
+<section id="dictionaries">
+  <h2>23.12 Dictionaries</h2>
+  <p>
+    A dictionary is an ADT that stores <strong>key–value pairs</strong>. The key is used to retrieve its value quickly.  
+    In computer science, dictionaries are commonly implemented using hash tables.
+  </p>
+
+  <h3>Python Example</h3>
+  <pre>
+EnglishFrench = {}
+EnglishFrench["book"] = "livre"
+EnglishFrench["pen"] = "stylo"
+print(EnglishFrench["book"])  # outputs: livre
+  </pre>
+
+  <h3>VB.NET Example</h3>
+  <pre>
+Dim EnglishFrench As New Dictionary(Of String, String)
+EnglishFrench.Add("book", "livre")
+EnglishFrench.Add("pen", "stylo")
+Console.WriteLine(EnglishFrench.Item("book"))
+  </pre>
+
+  <h3>Java Example (HashMap)</h3>
+  <pre>
+import java.util.Map;
+import java.util.HashMap;
+
+Map&lt;String, String&gt; englishFrench = new HashMap&lt;&gt;();
+englishFrench.put("book", "livre");
+englishFrench.put("pen", "stylo");
+System.out.println(englishFrench.get("book"));
+  </pre>
+</section>
+
+<!-- 23.13 Big O Notation -->
+<section id="big-o">
+  <h2>23.13 Big O Notation</h2>
+  <p>
+    Big O notation is used to describe the efficiency of algorithms in terms of 
+    <strong>time complexity</strong> and <strong>space complexity</strong>.  
+    It expresses how performance scales with input size <code>n</code>, usually considering the worst-case scenario.
+  </p>
+
+  <h3>Examples</h3>
+  <ul>
+    <li><strong>O(1):</strong> Constant time, e.g., accessing the first item in a list.</li>
+    <li><strong>O(n):</strong> Linear growth, e.g., linear search.</li>
+    <li><strong>O(log n):</strong> Binary search – each step halves the data set.</li>
+    <li><strong>O(n²):</strong> Bubble sort or insertion sort (worst case).</li>
+    <li><strong>O(2ⁿ):</strong> Exponential growth, e.g., recursive Fibonacci.</li>
+  </ul>
+
+  <p>
+    <b>Space Complexity</b>: Bubble sort and insertion sort have O(1) space complexity (no extra memory needed),  
+    while ADTs such as lists and graphs use O(n).
+  </p>
+
+  <div class="reflection">
+    <h3>Reflection Point</h3>
+    <p>
+    List the standard algorithms you have studied in this chapter.  
+    Can you summarize the essential features and complexities of each?
+    </p>
+  </div>
+</section>
+<section id="exam-style-questions">
+  <h2>Exam-Style Questions</h2>
+  
+  <!-- Question 1 -->
+  <div class="question-block">
+    <h3>Question 1a</h3>
+    <p>
+      Complete the algorithm for a binary search function <code>FindName</code>.  
+      The data being searched is stored in the array <code>Names[0 : 50]</code>.  
+      The name to be searched for is passed as a parameter.  
+    </p>
+    <pre>
+FUNCTION FindName(s : STRING) RETURNS INTEGER
+  Index ← -1
+  First ← 0
+  Last ← 50
+  WHILE (Last >= First) AND ................ DO
+    Middle ← (First + Last) DIV 2
+    IF Names[Middle] = s THEN
+      Index ← Middle
+    ELSE
+      IF ..................................................
+      THEN
+        Last ← Middle + 1
+      ELSE
+        ..................................................
+      ENDIF
+    ENDIF
+  ENDWHILE
+ENDFUNCTION
+    </pre>
+    <textarea placeholder="Write your answer here..."></textarea><br>
+    <button onclick="toggleAnswer('ans1a')">Submit</button>
+    <div id="ans1a" class="answer" style="display:none;">
+      <strong>Answer [3 marks]:</strong><br>
+      WHILE (Last &gt;= First) AND (Index = -1)<br>
+      IF Names[Middle] &gt; s THEN Last ← Middle - 1<br>
+      ELSE First ← Middle + 1
+    </div>
+  </div>
+
+  <div class="question-block">
+    <h3>Question 1b</h3>
+    <p>The binary search does not work if the data in the array being searched is ………………</p>
+    <textarea placeholder="Write your answer here..."></textarea><br>
+    <button onclick="toggleAnswer('ans1b')">Submit</button>
+    <div id="ans1b" class="answer" style="display:none;">
+      <strong>Answer [1 mark]:</strong> Not in sorted order.
+    </div>
+  </div>
+
+  <div class="question-block">
+    <h3>Question 1c</h3>
+    <p>State the return value of the function <code>FindName</code> when:</p>
+    <ol type="i">
+      <li>The name searched for exists in the array.</li>
+      <li>The name searched for does not exist in the array.</li>
+    </ol>
+    <textarea placeholder="Write your answer here..."></textarea><br>
+    <button onclick="toggleAnswer('ans1c')">Submit</button>
+    <div id="ans1c" class="answer" style="display:none;">
+      <strong>Answer [2 marks]:</strong><br>
+      i. Index of the item (0–50)<br>
+      ii. –1
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleAnswer(id) {
+  const ans = document.getElementById(id);
+  ans.style.display = (ans.style.display === "none") ? "block" : "none";
+}
+</script>
+
+
+  <footer>
+    <p>Chapter 23 - Algorithms | Cambridge A Level Computer Science (9618)</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chapter 15 — Software Development (Intro & Objectives)</title>
+  <style>
+    :root{--accent:#0b6efd;--muted:#6b7280;--bg:#f7fafc}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.5;margin:0;background:var(--bg);color:#0f172a}
+    header{background:linear-gradient(90deg, #ffffff, #eef2ff);padding:28px 24px;box-shadow:0 2px 6px rgba(15,23,42,0.06);display:flex;align-items:center;gap:18px}
+    .brand{display:flex;flex-direction:column}
+    h1{margin:0;font-size:20px}
+    .by{font-size:13px;color:var(--muted);margin-top:6px}
+    main{max-width:980px;margin:28px auto;padding:18px;background:white;border-radius:12px;box-shadow:0 6px 24px rgba(2,6,23,0.06)}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
+    h2{font-size:18px;margin-top:0}
+    .card{padding:14px;border-radius:10px;background:#fff;border:1px solid #eef2ff}
+    ul.clean{padding-left:18px}
+    .section{margin-bottom:14px}
+    .pill{display:inline-block;background:#eef2ff;border-radius:999px;padding:6px 10px;font-size:13px;color:var(--accent);margin-right:8px}
+    .toggle{cursor:pointer;border:1px solid #e6eefc;padding:8px;border-radius:8px;background:#fbfdff}
+    details summary{cursor:pointer;list-style:none}
+    pre{background:#0f172a;color:#f8fafc;padding:10px;border-radius:8px;overflow:auto}
+    label.small{font-size:13px;color:var(--muted)}
+    input[type=text], textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eefc}
+    button{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .quiz .q{border-left:4px solid #eef2ff;padding:10px;margin-bottom:8px;border-radius:6px}
+    .chip{display:inline-block;padding:6px 8px;border-radius:999px;background:#f1f5f9;margin:6px 6px 0 0;font-size:13px}
+    .smallmuted{color:var(--muted);font-size:13px}
+    footer.note{font-size:13px;color:var(--muted);margin-top:12px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}header{flex-direction:column;align-items:flex-start}main{margin:12px}}
+  </style>
+</head>
+<body>
+  <header>
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <rect x="1" y="1" width="22" height="22" rx="5" fill="#eef2ff"/>
+      <path d="M7 9h10M7 13h6" stroke="#0b6efd" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <div class="brand">
+      <h1>Chapter 15 — Software Development</h1>
+      <div class="by">Prepared for: <strong>Ravi Raju</strong></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="card" aria-labelledby="intro-title">
+        <h2 id="intro-title">Introduction & Learning Objectives</h2>
+        <p class="smallmuted">A compact, exam-focused introduction followed by interactive tools and quick activities to help you remember key concepts.</p>
+
+        <div class="section">
+          <span class="pill">Purpose</span>
+          <p><strong>Software is rarely written in one step;</strong> it requires planning, design, testing and maintenance. A Software Development Life Cycle (SDLC) gives developers a structured approach so the final system meets user requirements, is delivered on time and within budget, and is easier to maintain and enhance.</p>
+        </div>
+
+        <div class="section">
+          <span class="pill">Different Life Cycles</span>
+          <details>
+            <summary><strong>Waterfall Model — key points</strong></summary>
+            <ul class="clean">
+              <li>Principle: linear stages→ Requirements → Design → Implementation → Testing → Deployment → Maintenance.</li>
+              <li>Benefits: easy to manage; clear documentation.</li>
+              <li>Drawbacks: hard to go back; costly to change; poor for unclear requirements.</li>
+            </ul>
+          </details>
+
+          <details>
+            <summary><strong>Iterative Development — key points</strong></summary>
+            <ul class="clean">
+              <li>Principle: develop in small cycles (versions), test & refine each one.</li>
+              <li>Benefits: early user feedback; reduced project risk; easier feature addition.</li>
+              <li>Drawbacks: needs more user communication; can lengthen if too many iterations.</li>
+            </ul>
+          </details>
+
+          <details>
+            <summary><strong>RAD (Rapid Application Development) — key points</strong></summary>
+            <ul class="clean">
+              <li>Principle: build a prototype quickly and refine it with user feedback.</li>
+              <li>Benefits: fast; user involvement; flexible requirements.</li>
+              <li>Drawbacks: may be under-documented; not ideal for large safety-critical systems.</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="section">
+          <span class="pill">Program Development Cycle (stages)</span>
+          <ol>
+            <li><strong>Analysis</strong> — gather requirements; identify inputs, processes, outputs.</li>
+            <li><strong>Design</strong> — plan solution using structure charts, pseudocode, flowcharts.</li>
+            <li><strong>Coding</strong> — write the program in the chosen language.</li>
+            <li><strong>Testing</strong> — verify behaviour with varied test data.</li>
+            <li><strong>Maintenance</strong> — fix, adapt or enhance after release.</li>
+          </ol>
+        </div>
+
+        <div class="section">
+          <span class="pill">Key Diagrams & Concepts</span>
+          <ul class="clean">
+            <li><strong>Structure charts</strong> — show program decomposition and parameters passed between modules (top-down).</li>
+            <li><strong>State-transition diagrams</strong> — document states and how events change them.</li>
+            <li><strong>Errors</strong> — syntax, logic, run-time; avoid with design, peer review, testing.</li>
+            <li><strong>Testing methods</strong> — dry-run, walkthrough, white-box, black-box, integration, alpha, beta, acceptance, stub.</li>
+            <li><strong>Test plan</strong> — what to test, test data, expected results, resources and schedule.</li>
+            <li><strong>Maintenance</strong> — corrective, adaptive, perfective.</li>
+          </ul>
+        </div>
+
+      </section>
+
+      <aside class="card" aria-labelledby="tools-title">
+        <h2 id="tools-title">Interactive tools</h2>
+
+        <div class="section">
+          <label class="small">Quick quiz — check basic understanding</label>
+          <div id="quiz" class="quiz">
+            <!-- question templates inserted by JS -->
+          </div>
+          <div style="margin-top:8px"><button onclick="gradeQuiz()">Check answers</button></div>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid #eef2ff"/>
+
+        <div class="section">
+          <label class="small">Structure-chart → pseudocode (quick generator)</label>
+          <div style="margin-top:8px">
+            <label class="smallmuted">Enter modules as indented lines (use 2 spaces to indent):</label>
+            <textarea id="scInput" rows="6" placeholder="Main\n  ReadData\n  ProcessData\n    CalcAverage\n  SaveResults"></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px"><button onclick="generatePseudocode()">Generate pseudocode</button><button onclick="copyPseudocode()">Copy</button></div>
+            <pre id="pseudoOut" aria-live="polite"></pre>
+          </div>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid #eef2ff"/>
+
+        <div class="section">
+          <label class="small">Test plan skeleton generator</label>
+          <input id="tpName" type="text" placeholder="Module or Feature name (e.g. Login)" />
+          <div style="display:flex;gap:8px;margin-top:8px"><button onclick="makeTestPlan()">Create plan</button><button onclick="copyPlan()">Copy</button></div>
+          <pre id="tpOut"></pre>
+        </div>
+
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top:18px">
+      <h2>Study tips — exam-focused</h2>
+      <ul>
+        <li>Learn the definitions (SDLC, structure chart, state-transition diagram) and be able to sketch and label them quickly.</li>
+        <li>Practice converting structure charts into short pseudocode blocks and vice-versa.</li>
+        <li>Memorise the differences between testing types and choose appropriate test data (normal/abnormal/boundary).</li>
+        <li>Prepare short answers on advantages/disadvantages of each development life cycle — 3-4 bullet points each.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <script>
+    // --- Quiz data ---
+    const quizData = [
+      {q: 'Which life cycle is strictly linear and hard to revisit earlier stages?', opts:['RAD','Iterative','Waterfall','Spiral'], a:2},
+      {q: 'Which testing type checks only inputs and outputs without looking at internal code?', opts:['White-box','Black-box','Integration','Walkthrough'], a:1},
+      {q: 'A runtime error occurs when:', opts:['Code has a syntax mistake','The program produces wrong result logically','An error happens during execution e.g. divide by zero','Tests are not written'], a:2},
+      {q: 'Which maintenance type is used to adapt the program for a new operating system?', opts:['Corrective','Adaptive','Perfective','Preventive'], a:1},
+      {q: 'RAD (Rapid Application Development) favours:', opts:['Slow, document-heavy process','Quick prototyping and user feedback','No user involvement','Only theoretical design'], a:1}
+    ];
+
+    const quizEl = document.getElementById('quiz');
+    quizData.forEach((item, idx)=>{
+      const div = document.createElement('div'); div.className='q';
+      div.innerHTML = `<div><strong>Q${idx+1}.</strong> ${item.q}</div>`;
+      item.opts.forEach((opt,i)=>{
+        const id = `q${idx}_o${i}`;
+        const r = document.createElement('div');
+        r.innerHTML = `<label><input type='radio' name='q${idx}' value='${i}' id='${id}'> ${opt}</label>`;
+        div.appendChild(r);
+      });
+      quizEl.appendChild(div);
+    });
+
+    function gradeQuiz(){
+      let score=0; quizData.forEach((item,idx)=>{
+        const sel = document.querySelector(`input[name='q${idx}']:checked`);
+        const parent = document.getElementsByName('q'+idx)[0] ? document.getElementsByName('q'+idx)[0].closest('.q') : document.querySelectorAll('.q')[idx];
+        parent.style.borderLeft='4px solid #eef2ff';
+        if(sel && parseInt(sel.value)===item.a){ score++; parent.style.background='#f0fdf4'; parent.style.borderLeft='4px solid #10b981'; }
+        else{ parent.style.background='#fff5f5'; parent.style.borderLeft='4px solid #fca5a5'; }
+      });
+      alert(`You scored ${score} out of ${quizData.length}`);
+    }
+
+    // --- Structure chart to pseudocode ---
+    function generatePseudocode(){
+      const input = document.getElementById('scInput').value.split('\n').map(l=>l.replace(/\t/g,'  '));
+      const out=[]; const stack=[]; let prevIndent=0;
+      input.forEach(line=>{
+        if(!line.trim()) return;
+        const indent = line.match(/^\s*/)[0].length;
+        const name = line.trim();
+        while(stack.length && indent<=stack[stack.length-1].indent){ stack.pop(); out.push('END '+(stack.length?stack[stack.length-1].name.toUpperCase():'MODULE')) }
+        out.push((stack.length?''.padStart(stack.length*2):'') + 'MODULE ' + name.replace(/\s+/g,'_'));
+        stack.push({name,indent});
+      });
+      while(stack.length){ stack.pop(); out.push('END MODULE'); }
+      document.getElementById('pseudoOut').textContent = out.join('\n');
+    }
+    function copyPseudocode(){ navigator.clipboard && navigator.clipboard.writeText(document.getElementById('pseudoOut').textContent).then(()=>alert('Copied pseudocode to clipboard')); }
+
+    // --- Test plan generator ---
+    function makeTestPlan(){
+      const name = document.getElementById('tpName').value || 'FeatureName';
+      const plan = `Test Plan for: ${name}\n\nObjective:\n - Verify that ${name} meets functional requirements.\n\nScope:\n - Modules: ${name}\n\nTest data examples:\n - Normal data: typical valid inputs expected in use.\n - Abnormal data: invalid types, missing fields, malformed entries.\n - Boundary data: min/max length, 0, -1, maximum allowed numeric value.\n\nTests to perform:\n - Unit tests for each module\n - Integration tests between modules\n - System acceptance test\n - Regression test after changes\n\nExpected results:\n - Behaviour matches specification for each test case.\n\nResources & Schedule:\n - Testers: 1-2 developers + 1 user tester\n - Environment: staging server, test database\n - Estimated time: 2-5 days (adjust based on complexity)\n\nNotes:\n - Record all defects with reproduction steps and expected vs actual results.`;
+      document.getElementById('tpOut').textContent = plan;
+    }
+    function copyPlan(){ navigator.clipboard && navigator.clipboard.writeText(document.getElementById('tpOut').textContent).then(()=>alert('Copied plan to clipboard')); }
+
+  </script>
+
+<!-- ==================== 15.02 PROGRAM DESIGN USING STRUCTURE CHARTS ==================== -->
+<section id="structure-charts" class="chapter-section">
+  <h2>15.02 Program Design using Structure Charts</h2>
+  <p>
+    A <strong>structure chart</strong> is a diagram that shows how a program is divided into 
+    <em>modules</em> and how data (<em>parameters</em>) flows between them.  
+    Each box represents a module or sub-task. Arrows show values passed up or down.
+  </p>
+
+  <div class="key-terms">
+    <h4>Key Terms</h4>
+    <ul>
+      <li><strong>Structure chart</strong>: a graphical representation of the modular structure of a solution.</li>
+      <li><strong>Parameter</strong>: a value passed between modules.</li>
+      <li><strong>Interface</strong>: the communication between modules (using parameters).</li>
+    </ul>
+  </div>
+
+  <!-- Example 1 -->
+  <h3>Example 1: Average of Two Numbers</h3>
+  <p>
+    Problem: Write a program that takes two numbers, calculates their average, and outputs the result.
+  </p>
+  <pre class="diagram">
+   ┌───────────────┐
+   │   Averages    │  (Main Module)
+   └──────┬────────┘
+          │
+   ┌──────┴────────┐
+   │   INPUT        │  (Read Number1, Number2)
+   └──────┬────────┘
+          │  Number1, Number2
+   ┌──────┴────────┐
+   │ Calculate Avg │  (Average = (N1 + N2) / 2)
+   └──────┬────────┘
+          │  Average
+   ┌──────┴────────┐
+   │   OUTPUT      │  (Display Average)
+   └───────────────┘
+  </pre>
+  <p>
+    <strong>Explanation:</strong>  
+    - Input module collects two numbers.  
+    - Calculation module computes the average.  
+    - Output module displays the result.  
+    This chart demonstrates the flow of parameters from input to calculation, then back to output.
+  </p>
+  <div class="exam-tip">
+    <strong>Exam Tip:</strong> Structure charts often test your ability to show <em>data flow</em> using arrows.
+  </div>
+
+  <!-- Example 2 -->
+  <h3>Example 2: Number Guessing Game (Single Guess)</h3>
+  <p>
+    Problem: User makes a single guess of a secret number. The program outputs either 
+    "Congratulations" or "Try again".
+  </p>
+  <pre class="diagram">
+   ┌────────────────────┐
+   │  Number Guessing   │
+   └─────────┬──────────┘
+             │
+   ┌─────────┴──────────┐
+   │ Generate SecretNum │
+   └─────────┬──────────┘
+             │ SecretNum
+   ┌─────────┴──────────┐
+   │     INPUT Guess    │
+   └─────────┬──────────┘
+             │ Guess
+   ┌─────────┴──────────┐
+   │ Compare Guess = ?  │──True──► OUTPUT "Congratulations!"
+   └─────────┬──────────┘
+             │ False
+             ▼
+        OUTPUT "Try Again"
+  </pre>
+  <p>
+    <strong>Explanation:</strong>  
+    - Secret number generated first.  
+    - User input guess compared to secret number.  
+    - Depending on True/False branch, output differs.  
+  </p>
+  <div class="exam-tip">
+    <strong>Exam Tip:</strong> Diamonds (◊) in structure charts represent <em>decisions</em> (True/False).
+  </div>
+
+  <!-- Example 3 -->
+  <h3>Example 3: Pyramid Drawing</h3>
+  <p>
+    Problem: Print a pyramid of symbols with increasing rows until the maximum is reached.
+  </p>
+  <pre class="diagram">
+   ┌───────────────┐
+   │    Pyramid    │
+   └──────┬────────┘
+          │
+   ┌──────┴────────┐
+   │ Input MaxRows │
+   └──────┬────────┘
+          │ MaxRows
+   ┌──────┴────────┐
+   │ Initialise    │ (Row=1)
+   └──────┬────────┘
+          │
+   ┌──────┴────────┐
+   │ Loop UNTIL    │──► Repeats until Row=MaxRows
+   └──────┬────────┘
+          │
+   ┌──────┴────────┐
+   │ Output Spaces │
+   └──────┬────────┘
+          │
+   ┌──────┴────────┐
+   │ Output Symbols│
+   └──────┬────────┘
+          │
+   ┌──────┴────────┐
+   │ Adjust Row    │ (Row++)
+   └───────────────┘
+  </pre>
+  <p>
+    <strong>Explanation:</strong>  
+    - User inputs maximum number of rows.  
+    - Each iteration outputs spaces then symbols.  
+    - Repeats until pyramid is complete.  
+  </p>
+  <div class="exam-tip">
+    <strong>Exam Tip:</strong> Semi-circular arrows in structure charts indicate <em>loops/repetition</em>.
+  </div>
+
+  <!-- Example 4 -->
+  <h3>Example 4: Connect 4 Game</h3>
+  <p>
+    Problem: Create a program for the Connect 4 game. Players take turns placing counters into columns until a winner is found.
+  </p>
+  <pre class="diagram small-text">
+   ┌────────────────────┐
+   │     Connect 4      │
+   └─────────┬──────────┘
+             │
+   ┌─────────┴──────────┐
+   │ Initialise Board   │
+   └─────────┬──────────┘
+             │
+   ┌─────────┴──────────┐
+   │   Setup Game       │
+   └─────────┬──────────┘
+             │
+   ┌─────────┴──────────┐
+   │ WHILE Not Finished │
+   └─────────┬──────────┘
+             │
+   ┌─────────┴──────────┐
+   │ Player Move        │ (Choose Column)
+   └───────┬────────────┘
+           │
+   ┌───────┴────────────┐
+   │ Validate Column    │ (Check if valid)
+   └───────┬────────────┘
+           │
+   ┌───────┴────────────┐
+   │ Find Free Row      │
+   └───────┬────────────┘
+           │
+   ┌───────┴────────────┐
+   │ Update Board       │
+   └───────┬────────────┘
+           │
+   ┌───────┴────────────┐
+   │ Check Winner?      │──► Yes → OUTPUT "Winner Found"
+   └────────────────────┘
+  </pre>
+  <p>
+    <strong>Explanation:</strong>  
+    - The board is initialised and game setup occurs.  
+    - Each turn: player chooses column → program checks validity → finds free row → places counter.  
+    - Loop continues until game is finished (winner or draw).  
+  </p>
+  <div class="exam-tip">
+    <strong>Exam Tip:</strong> For larger programs (like games), structure charts are essential for 
+    <em>visualising module interaction</em> and <em>parameter passing</em>.
+  </div>
+
+  <!-- Practice Tasks -->
+  <h3>Practice Tasks</h3>
+  <ol class="tasks">
+    <li><strong>Task 15.01:</strong> Draw a structure chart for a module that converts km to miles.</li>
+    <li><strong>Task 15.02:</strong> Modify the number-guessing chart to allow repeated guesses until correct. Output number of guesses.</li>
+    <li><strong>Task 15.03:</strong> Draw a structure chart for a login system with 3 password attempts.</li>
+  </ol>
+</section>
+
+</body>
+</html>

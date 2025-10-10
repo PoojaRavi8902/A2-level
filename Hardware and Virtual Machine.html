@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 18: Hardware and Virtual Machines</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #1b1b1b;
+      color: #e0e0e0;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      background-color: #111;
+      color: #f5f5f5;
+      text-align: center;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    footer { position: static; margin-top: 2rem; }
+    main { padding: 2rem 3rem; max-width: 1200px; margin: auto; }
+    h1, h2, h3, h4 { color: #ffd700; margin-top: 1.5rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.7rem; }
+    h3 { font-size: 1.3rem; }
+    ul, ol { margin-left: 2rem; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    table, th, td { border: 1px solid #e0e0e0; }
+    th, td { padding: 0.6rem 1rem; text-align: left; }
+    th { background-color: #333; }
+    tr:nth-child(even) { background-color: #2a2a2a; }
+    code { background-color: #222; color: #00ffcc; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    .section { margin-bottom: 2rem; padding: 1rem; background-color: #252525; border-radius: 8px; box-shadow: 0 0 10px #000; }
+    .tip { background-color: #333; padding: 0.5rem 1rem; border-left: 5px solid #ffd700; margin: 1rem 0; }
+    
+    /* Pipeline diagram */
+    .pipeline {
+      display: flex;
+      gap: 10px;
+      margin: 1rem 0;
+    }
+    .stage {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem;
+      background-color: #333;
+      border-radius: 5px;
+      border: 1px solid #ffd700;
+    }
+
+    /* Architecture diagrams */
+    .architecture {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .arch-box {
+      background-color: #333;
+      border: 1px solid #ffd700;
+      padding: 1rem;
+      flex: 1;
+      min-width: 250px;
+      border-radius: 5px;
+    }
+    .pu {
+      background-color: #444;
+      padding: 0.5rem;
+      margin: 0.3rem 0;
+      border: 1px solid #ffd700;
+      border-radius: 3px;
+      text-align: center;
+    }
+    .arrow { text-align: center; font-size: 1.5rem; margin: 0.3rem 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Prepared by Ravi Raju</h1>
+</header>
+
+<main>
+  <h1>Chapter 18: Hardware and Virtual Machines</h1>
+
+  <div class="section">
+    <h2>Learning Objectives</h2>
+    <ul>
+      <li>Understand <strong>RISC</strong> and <strong>CISC</strong> processors.</li>
+      <li>Explain <strong>pipelining</strong> and <strong>registers</strong> in RISC processors.</li>
+      <li>Know four basic computer architectures: <strong>SISD, SIMD, MISD, MIMD</strong>.</li>
+      <li>Understand characteristics of massively parallel computers.</li>
+      <li>Understand the concept of a <strong>virtual machine</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>18.02 Pipelining Example (RISC)</h2>
+    <p>Pipelining allows multiple instructions to overlap in execution:</p>
+    <div class="pipeline">
+      <div class="stage">IF<br>Instruction Fetch</div>
+      <div class="stage">ID<br>Instruction Decode</div>
+      <div class="stage">OF<br>Operand Fetch</div>
+      <div class="stage">IE<br>Instruction Execute</div>
+      <div class="stage">WB<br>Write Back</div>
+    </div>
+    <p>Each stage operates simultaneously on different instructions, increasing throughput.</p>
+  </div>
+
+  <div class="section">
+    <h2>18.03 Computer Architectures</h2>
+
+    <h3>SISD (Sequential)</h3>
+    <div class="architecture">
+      <div class="arch-box">
+        <p><strong>Single CPU</strong></p>
+        <div class="pu">Instruction</div>
+        <div class="pu">Data</div>
+      </div>
+    </div>
+    <p>Sequential execution with no parallelism.</p>
+
+    <h3>SIMD (Single Instruction, Multiple Data)</h3>
+    <div class="architecture">
+      <div class="arch-box">
+        <p><strong>Control Unit</strong></p>
+        <div class="arrow">↓</div>
+        <div class="pu">PU1</div>
+        <div class="pu">PU2</div>
+        <div class="pu">PU3</div>
+        <div class="pu">PU4</div>
+      </div>
+    </div>
+    <p>Same instruction executed on multiple data streams in parallel.</p>
+
+    <h3>MIMD (Multiple Instruction, Multiple Data)</h3>
+    <div class="architecture">
+      <div class="arch-box">
+        <p><strong>CPU1</strong></p>
+        <div class="pu">Instruction + Data</div>
+      </div>
+      <div class="arch-box">
+        <p><strong>CPU2</strong></p>
+        <div class="pu">Instruction + Data</div>
+      </div>
+      <div class="arch-box">
+        <p><strong>CPU3</strong></p>
+        <div class="pu">Instruction + Data</div>
+      </div>
+      <div class="arch-box">
+        <p><strong>CPU4</strong></p>
+        <div class="pu">Instruction + Data</div>
+      </div>
+    </div>
+    <p>Each processor executes its own instruction stream on different data streams. Basis for massively parallel supercomputers.</p>
+  </div>
+
+  <div class="section">
+    <h2>18.04 Virtual Machines</h2>
+    <pre style="background-color:#222; padding:1rem; border-radius:5px;">
+Application Programs VM1      Application Programs VM2
+Guest OS VM1                  Guest OS VM2
+Virtual Machine VM1           Virtual Machine VM2
+VM Implementation Software
+Host OS
+Host Hardware
+    </pre>
+    <p>System VMs emulate complete hardware, allowing multiple OS to run on the same computer. Process VMs (e.g., Java VM) provide platform-independent execution for a specific program.</p>
+  </div>
+
+</main>
+
+<footer>
+  MES Cairo
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chapter 16 — Data Representation (A Level 9618)</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfcfe;
+    --panel:#ffffff;
+    --muted:#555f6b;
+    --accent:#0b6efd;
+    --accent-2:#0ea5e9;
+    --card-shadow: 0 6px 24px rgba(11,110,253,0.08);
+    --max-width:1100px;
+  }
+  html,body{height:100%;margin:0;font-family:"Merriweather", Georgia, "Times New Roman", Times, serif;background:var(--bg);color:#102030}
+  .wrap{max-width:var(--max-width);margin:28px auto;padding:24px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .title{font-size:1.2rem;font-weight:700;color:var(--accent)}
+  .sub{font-size:0.95rem;color:var(--muted)}
+  .namebar{font-size:0.95rem;color:#0b1220;background:linear-gradient(90deg,#e6f2ff,transparent);padding:10px 14px;border-radius:10px;box-shadow:var(--card-shadow)}
+  nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .toc-btn{background:transparent;border:1px solid #e6eefc;color:var(--accent);padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
+  .hero{background:var(--panel);padding:18px;border-radius:12px;box-shadow:var(--card-shadow);margin-bottom:18px}
+  h1{margin:0;font-size:1.4rem}
+  .lead{color:var(--muted);margin-top:8px}
+  section.card{background:var(--panel);padding:18px;border-radius:12px;box-shadow:var(--card-shadow);margin-bottom:16px}
+  h2{margin-top:0;color:#09304f}
+  p{line-height:1.5;color:#133046}
+  pre{background:#0f1724;color:#dff3ff;padding:12px;border-radius:8px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  code{background:#f3f7fb;padding:2px 6px;border-radius:6px;font-family:ui-monospace,monospace}
+  .grid{display:grid;grid-template-columns:1fr 340px;gap:16px}
+  .sidebar{position:sticky;top:24px;height:max-content}
+  table{width:100%;border-collapse:collapse;margin:12px 0}
+  th,td{border:1px solid #e6eefc;padding:8px;text-align:left}
+  th{background:#f3f8ff;color:#08306b}
+  .svg-diagram{width:100%;height:auto;margin:12px 0;border-radius:8px}
+  .btn{display:inline-block;background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
+  .example{background:linear-gradient(90deg,#f7fbff,#ffffff);border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin:12px 0}
+  .try, .scenario{background:linear-gradient(90deg,#fff8f0,#fffdfb);border-left:4px solid #ff8a2b;padding:10px 14px;border-radius:6px;margin:12px 0}
+  footer{margin-top:18px;color:var(--muted);font-size:0.9rem;text-align:center}
+  @media (max-width:980px){
+    .grid{grid-template-columns:1fr}
+    .sidebar{position:static}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <div class="title">A Level Computer Science — Chapter 16</div>
+      <div class="sub">Data Representation (expanded notes & worked examples)</div>
+    </div>
+    <div class="namebar">Ravi Raju — for MES Cairo</div>
+  </header>
+
+  <nav aria-label="Quick links">
+    <a class="toc-btn" href="#overview">Overview</a>
+    <a class="toc-btn" href="#numeric">Numeric</a>
+    <a class="toc-btn" href="#text">Text</a>
+    <a class="toc-btn" href="#images">Images</a>
+    <a class="toc-btn" href="#sound">Sound</a>
+    <a class="toc-btn" href="#compression">Compression</a>
+    <a class="toc-btn" href="#fileorg">File Organisation</a>
+    <a class="toc-btn" href="#realnums">Real Numbers</a>
+  </nav>
+
+  <div class="hero">
+    <h1 id="overview">Data Representation — expanded (A Level 9618)</h1>
+    <p class="lead">Complete, exam-oriented notes that expand the textbook extract: definitions, step-by-step conversions, Java & pseudocode, color SVG diagrams (inline) and practice tasks designed for MES Cairo students.</p>
+  </div>
+
+  <div class="grid">
+    <main>
+
+      <!-- NUMERIC -->
+      <section id="numeric" class="card" aria-labelledby="numeric-heading">
+        <h2 id="numeric-heading">16.1 Numeric Representation — integers & reals</h2>
+
+        <h3>Integers (binary & storage)</h3>
+        <p>Computers represent integers in binary. Each bit represents a power of two. For signed values the common encodings are <strong>two's complement</strong>, <strong>sign & magnitude</strong>, and <strong>one's complement</strong>. Two's complement is the standard for modern systems.</p>
+
+        <div class="example">
+          <strong>Worked example — 25 in 8-bit binary</strong><br>
+          25₁₀ = 16 + 8 + 1 → bits for 16,8,1 set → 00011001 (8-bit). In Java: <code>Integer.toBinaryString(25)</code> prints "11001" (no leading zeros).
+        </div>
+
+        <h3>Signed integers — two's complement</h3>
+        <p>To represent negatives in two's complement (n bits): if X ≥ 0 store X normally. If X < 0 store 2ⁿ + X (so −1 is all ones, −2 is all ones ending 10, etc.). The MSB (most significant bit) now indicates sign: 0 positive, 1 negative.</p>
+
+        <pre>// Java example: interpret a byte as signed
+byte b = (byte)0b11101010;
+int signed = b; // promotes using two's complement rules
+System.out.println(signed);</pre>
+
+        <h3>Floating-point (overview)</h3>
+        <p>Floating-point numbers are stored as <strong>sign × mantissa × base^exponent</strong>. IEEE-754 is the common standard. This chapter uses a simplified model: mantissa (sign+fraction) and exponent (signed integer), base=2.</p>
+
+        <figure aria-hidden="true" class="svg-diagram">
+          <!-- Simple floating point SVG -->
+          <svg viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:120px">
+            <rect x="6" y="6" width="888" height="108" rx="12" fill="#f8fbff" stroke="#dbeeff"/>
+            <text x="22" y="36" font-size="16" fill="#08306b" font-weight="700">Floating-point (binary) — example 1 byte mantissa + 1 byte exponent</text>
+            <!-- Mantissa box -->
+            <g transform="translate(22,44)">
+              <rect width="420" height="46" rx="8" fill="#ffffff" stroke="#cfe8ff"/>
+              <text x="8" y="26" font-size="14" fill="#0b6efd">Mantissa (sign + fraction)</text>
+              <rect x="0" y="0" width="60" height="46" rx="6" fill="#0b6efd" opacity="0.08"/>
+              <text x="10" y="30" font-size="12" fill="#0b6efd">sign</text>
+            </g>
+            <!-- Exponent box -->
+            <g transform="translate(460,44)">
+              <rect width="360" height="46" rx="8" fill="#ffffff" stroke="#cfe8ff"/>
+              <text x="8" y="26" font-size="14" fill="#0b6efd">Exponent (signed integer)</text>
+            </g>
+          </svg>
+        </figure>
+
+        <p><strong>Key point:</strong> increasing mantissa bits → better precision. Increasing exponent bits → larger range.</p>
+
+        <div class="try">
+          <strong>Try it yourself</strong><br>
+          Convert 45.375 into binary: show integer part and fractional part conversion step-by-step.
+        </div>
+      </section>
+
+      <!-- TEXT -->
+      <section id="text" class="card" aria-labelledby="text-heading">
+        <h2 id="text-heading">16.2 Text representation — ASCII & Unicode</h2>
+        <p>Text is stored by assigning binary codes to characters. Early standard: ASCII (7 bits, 128 characters). Modern systems use Unicode (UTF-8, UTF-16) so that characters from many languages share a standard encoding.</p>
+
+        <table>
+          <thead><tr><th>Encoding</th><th>Bits per code (typical)</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>ASCII</td><td>7 bits (128)</td><td>English letters, digits, punctuation</td></tr>
+            <tr><td>Extended ASCII</td><td>8 bits (256)</td><td>Locale-specific extra symbols</td></tr>
+            <tr><td>Unicode (UTF-8)</td><td>1–4 bytes</td><td>Variable-length; backwards compatible with ASCII</td></tr>
+          </tbody>
+        </table>
+
+        <div class="example">
+          <strong>Java example</strong><br>
+          <pre>char letter = 'A';
+int code = (int) letter;
+System.out.println(code); // prints 65</pre>
+        </div>
+
+        <div class="scenario">
+          <strong>Scenario</strong><br>
+          A global firm must handle Arabic, Chinese and emoji in user profiles. Explain why <strong>Unicode (UTF-8)</strong> is a better choice than ASCII.
+        </div>
+      </section>
+
+      <!-- IMAGES -->
+      <section id="images" class="card" aria-labelledby="images-heading">
+        <h2 id="images-heading">16.3 Image representation — pixels & color depth</h2>
+        <p>Images are grids of pixels. Each pixel stores a color: how that color is encoded depends on the <strong>color depth</strong> (bits per pixel).</p>
+
+        <table>
+          <thead><tr><th>Color depth</th><th>Colors</th><th>Use-cases</th></tr></thead>
+          <tbody>
+            <tr><td>8-bit</td><td>256</td><td>icons, simple graphics</td></tr>
+            <tr><td>16-bit</td><td>65,536</td><td>high-quality mobile graphics</td></tr>
+            <tr><td>24-bit (true color)</td><td>~16.7 million</td><td>photographs</td></tr>
+          </tbody>
+        </table>
+
+        <figure class="svg-diagram" aria-hidden="true">
+          <!-- pixel grid -->
+          <svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:120px">
+            <rect x="6" y="6" width="508" height="108" rx="10" fill="#fff" stroke="#e6f2ff"/>
+            <g transform="translate(18,18)">
+              <!-- draw 8x3 pixels -->
+              <g>
+                <rect x="0" y="0" width="20" height="20" fill="#ff7b7b" stroke="#fff"/>
+                <rect x="22" y="0" width="20" height="20" fill="#ffd86b" stroke="#fff"/>
+                <rect x="44" y="0" width="20" height="20" fill="#5ad07a" stroke="#fff"/>
+                <rect x="66" y="0" width="20" height="20" fill="#6ec7ff" stroke="#fff"/>
+                <rect x="88" y="0" width="20" height="20" fill="#c38bff" stroke="#fff"/>
+                <rect x="110" y="0" width="20" height="20" fill="#ffaaee" stroke="#fff"/>
+              </g>
+              <text x="0" y="56" font-size="12" fill="#08306b">Each square = one pixel. Color depth decides the palette size.</text>
+            </g>
+          </svg>
+        </figure>
+
+        <p><strong>Compression & images:</strong> image formats (PNG = lossless, JPEG = lossy). Lossy formats discard small color details to reduce size.</p>
+      </section>
+
+      <!-- SOUND -->
+      <section id="sound" class="card" aria-labelledby="sound-heading">
+        <h2 id="sound-heading">16.4 Sound representation — sampling & bit-depth</h2>
+        <p>Sound is represented by sampling an analog waveform at a fixed <em>sampling rate</em> (samples per second) and quantising each sample to a finite number of bits (bit depth).</p>
+
+        <p>Storage size (bytes) = sampling rate × bit depth × duration × channels / 8</p>
+
+        <div class="example">
+          <strong>Try it — storage calculation</strong><br>
+          5 seconds, 44.1 kHz sampling, 16-bit, 2 channels:<br>
+          Samples = 44,100 × 5 = 220,500 samples per channel. Total bits = 220,500 × 16 × 2 = 7,056,000 bits → 882,000 bytes ≈ 861.33 KB
+        </div>
+
+        <p>Higher sampling rate and bit depth → more accurate reproduction but larger files.</p>
+      </section>
+
+      <!-- COMPRESSION -->
+      <section id="compression" class="card" aria-labelledby="compression-heading">
+        <h2 id="compression-heading">16.5 Data Compression — lossless vs lossy</h2>
+        <p><strong>Lossless</strong> retains every bit of original information (RLE, Huffman, LZW). <strong>Lossy</strong> removes detail not perceptible to humans (JPEG, MP3).</p>
+
+        <div class="example">
+          <strong>Run-Length Encoding (RLE)</strong><br>
+          Input: AAAABBBCC → RLE: 4A3B2C (good for long runs of same symbol)
+        </div>
+
+        <div class="scenario">
+          <strong>Scenario</strong><br>
+          For scanned legal documents — recommend <strong>lossless compression</strong> (e.g., TIFF with lossless compression or PDF with lossless image settings) because legal texts cannot tolerate removed information.
+        </div>
+      </section>
+
+      <!-- FILE ORG -->
+      <section id="fileorg" class="card" aria-labelledby="fileorg-heading">
+        <h2 id="fileorg-heading">16.6 File organisation & access</h2>
+        <p>Files that hold program data are either text files or binary files. Binary files are structured as <strong>records</strong> (collection of fields). File organisation affects access performance and update patterns.</p>
+
+        <h4>Common organisations</h4>
+        <ul>
+          <li><strong>Serial (append-only)</strong>: records in time order (transaction logs).</li>
+          <li><strong>Sequential</strong>: records stored in key order (batch updates efficient).</li>
+          <li><strong>Direct / random access</strong>: use index or hashing to compute record location.</li>
+          <li><strong>Indexed sequential</strong>: combines an index with ordered storage.</li>
+        </ul>
+
+        <figure class="svg-diagram" aria-hidden="true">
+          <!-- small hashing illustration -->
+          <svg viewBox="0 0 680 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:90px">
+            <rect x="6" y="6" width="668" height="78" rx="10" fill="#fff" stroke="#e6f3ff"/>
+            <text x="18" y="32" font-size="13" fill="#08306b">Simple modular hashing (key mod N) — collisions handled by linear probing</text>
+            <g transform="translate(18,40)">
+              <!-- hashtable boxes -->
+              <g>
+                <rect x="0" y="0" width="40" height="28" fill="#f0f8ff" stroke="#cfe8ff"/>
+                <rect x="44" y="0" width="40" height="28" fill="#f0f8ff" stroke="#cfe8ff"/>
+                <rect x="88" y="0" width="40" height="28" fill="#f0f8ff" stroke="#cfe8ff"/>
+                <rect x="132" y="0" width="40" height="28" fill="#f0f8ff" stroke="#cfe8ff"/>
+                <rect x="176" y="0" width="40" height="28" fill="#f0f8ff" stroke="#cfe8ff"/>
+              </g>
+              <text x="0" y="48" font-size="12" fill="#0b6efd">If key % 5 = 2 → place at index 2. If occupied → probe next.</text>
+            </g>
+          </svg>
+        </figure>
+
+        <div class="try">
+          <strong>Try it</strong><br>
+          Design pseudocode to search for a student record in a sequential file using student ID as key (read & stop at match).
+        </div>
+      </section>
+
+      <!-- REAL NUMS -->
+      <section id="realnums" class="card" aria-labelledby="realnums-heading">
+        <h2 id="realnums-heading">16.03 — Real numbers, floating-point & normalisation (detailed)</h2>
+
+        <h3>Scientific (exponential) notation</h3>
+        <p>Exponential notation is compact for very large/small numbers: 25.3 = 2.53 × 10¹. In binary floating point the base is 2.</p>
+
+        <h3>Fixed-point vs Floating-point (expanded)</h3>
+        <p><strong>Fixed-point</strong>: fixed number of bits for integer and fraction (simple, predictable precision). <strong>Floating-point</strong>: stores mantissa & exponent so the point effectively 'floats' and a greater dynamic range is available.</p>
+
+        <table>
+          <thead><tr><th>Format</th><th>Bits (example)</th><th>Range/Precision</th></tr></thead>
+          <tbody>
+            <tr><td>Fixed-point (8-bit example)</td><td>1 sign, 5 integer, 2 fraction</td><td>range ≈ −31.75 … +31.75, fraction step 0.25</td></tr>
+            <tr><td>Floating-point (8-bit mantissa + 8-bit exponent example)</td><td>8 mantissa, 8 exponent</td><td>larger range; precision depends on mantissa bits</td></tr>
+          </tbody>
+        </table>
+
+        <h4>Worked example — why floating point gives larger range</h4>
+        <p>With the tiny 8-bit examples in the textbook, floating-point can represent values up to powers of two amplified by exponent (e.g., mantissa 0.875 × 2⁷ → large values) while fixed-point top value limited by integer field.</p>
+
+        <h3>Precision & Normalisation — exact method</h3>
+        <p>Normalisation: shift the mantissa so the most significant fraction bit after sign is 1 (for positive numbers). Each left shift reduces exponent by 1. This ensures mantissa uses maximum significant bits.</p>
+
+        <figure class="svg-diagram" aria-hidden="true">
+          <!-- normalization graphic -->
+          <svg viewBox="0 0 760 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:120px">
+            <rect x="6" y="6" width="748" height="108" rx="12" fill="#fff" stroke="#e6f4ff"/>
+            <text x="18" y="36" font-size="13" fill="#07345a">Normalisation example (binary)</text>
+            <text x="18" y="60" font-size="12" fill="#103049">Unnormalised: 0.001101 × 2⁵</text>
+            <text x="18" y="82" font-size="12" fill="#103049">Normalised:   1.101 × 2²  (shift left 3 → exponent −3)</text>
+          </svg>
+        </figure>
+
+        <h3>Conversion — step-by-step (worked)</h3>
+        <p><strong>Method to convert a positive denary real to binary floating-point (summary):</strong></p>
+        <ol>
+          <li>Convert integer part to binary.</li>
+          <li>Convert fractional part by repeated ×2 and recording the whole part.</li>
+          <li>Combine to get binary fixed-point (e.g., 1100.0110...).</li>
+          <li>Choose exponent E so that M = value / 2^E ∈ [0.5, 1).</li>
+          <li>Encode mantissa bits (sign + fraction) to required length and encode exponent (two's complement or biased depending on system).</li>
+        </ol>
+
+        <div class="example">
+          <strong>Worked Example — convert 8.75:</strong><br>
+          8.75 → integer 8 = 1000₂, fraction .75 = .11₂ → combined 1000.11₂. Choose E such that mantissa in [0.5,1): dividing by 2³ gives 1.00011 (too large), dividing by 2⁴ gives 0.100011 × 2⁴ (so E=4). If mantissa bits=10 and exponent=4 bits, mantissa bits: 0 1000110000, exponent 0100 (textbook example).
+        </div>
+
+        <h3>Problems: rounding, overflow & underflow</h3>
+        <p>Because many decimal fractions cannot be represented exactly in binary (e.g., 0.1), conversions introduce approximation and repeated computations accumulate rounding error. Overflow occurs when a result exceeds the maximum representable magnitude; underflow occurs when a result is closer to zero than the smallest positive representable value.</p>
+
+        <div class="example">
+          <strong>Java precision demo</strong>
+          <pre>class TestPrecision {
+  public static void main(String[] args) {
+    double a = 0.1 + 0.2;
+    System.out.println(a); // 0.30000000000000004
+  }
+}</pre>
+        </div>
+
+        <div class="scenario">
+          <strong>Scenario</strong><br>
+          A weather model uses floating point and after repeated iterations the forecast drifts. Explain how higher mantissa precision (double/quadruple) and algorithmic changes (compensated summation) can reduce accumulated rounding errors.
+        </div>
+
+        <div class="try">
+          <strong>Try it</strong><br>
+          Convert +12.43 to an 8-bit mantissa & 8-bit exponent floating-point format (mantissa stored sign + 7 fraction bits, exponent as signed 8-bit two's complement). Show rounding steps and final bytes.
+        </div>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="card" aria-labelledby="quick-links">
+        <h3 id="quick-links">Quick reference</h3>
+        <ul style="color:var(--muted);line-height:1.6">
+          <li><strong>Binary fractions:</strong> multiply fractional part by 2 repeatedly to get bits.</li>
+          <li><strong>Normalisation:</strong> mantissa MSBs must be 0 1 (positive) or 1 0 (negative) per textbook convention.</li>
+          <li><strong>File types:</strong> text vs binary — binary stores internal representation, text stores character codes.</li>
+          <li><strong>Hashing:</strong> key mod N; collisions → linear probing/overflow area/linked lists.</li>
+        </ul>
+        <a class="btn" href="#realnums">Go to Real numbers</a>
+      </section>
+
+      <section class="card" aria-labelledby="resources">
+        <h3 id="resources">Exam practice (this chapter)</h3>
+        <ol style="margin:0 0 8px 0;padding-left:18px;color:var(--muted)">
+          <li>Convert 5.25 to binary fixed & floating (worked)</li>
+          <li>Explain file organisation choice for a bank transaction log</li>
+          <li>Show float representation for ±3.5 (8+8 bit example)</li>
+        </ol>
+        <a class="btn" href="#fileorg" style="background:var(--accent-2)">Open file organisation</a>
+      </section>
+    </aside>
+  </div>
+
+  <footer>
+    These notes expand the Cambridge chapter text for classroom use. Use the Try-it tasks in class and assess students on conversion steps (show working). 
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 17 — Communication & Internet Technologies | Exam Questions</title>
+<style>
+body{font-family:Arial, sans-serif;background:#f6f5f3;color:#1a202c;margin:0;padding:20px}
+header, footer{background:#e6f2ff;padding:10px;border-radius:8px;margin-bottom:20px;text-align:center}
+h2{color:#2b6cb0}
+.question{background:#fff;padding:15px;border-radius:8px;margin-bottom:15px;box-shadow:0 4px 10px rgba(0,0,0,0.05)}
+textarea{width:100%;min-height:60px;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #ccc}
+button{margin-top:8px;padding:8px 12px;background:#2b6cb0;color:white;border:none;border-radius:6px;cursor:pointer}
+.answer{margin-top:10px;padding:10px;background:#e6f2ff;border-left:4px solid #2b6cb0;display:none;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<header>
+<div>Chapter 17 — Communication & Internet Technologies</div>
+<div>Prepared by Ravi Raju</div>
+</header>
+
+<div class="container">
+
+<!-- Question 1 -->
+<div class="question">
+<h2>1. IP Datagram</h2>
+<p>The following represents the structure of an IP datagram:</p>
+<pre>IP Header
+TCP Header
+TCP Content</pre>
+<p>Using the codes IP for IP Header, TCP for TCP Header and Content for TCP Content, identify where the following data will be found:</p>
+<textarea placeholder="Your answer..."></textarea>
+<button onclick="this.nextElementSibling.style.display='block'">SUBMIT</button>
+<div class="answer">a Destination address: IP Header
+b Sender address: IP Header
+c Destination port: TCP Header
+d Sender port: TCP Header
+e Packet sequence number: TCP Header
+f Acknowledgement: TCP Header</div>
+</div>
+
+<!-- Question 2 -->
+<div class="question">
+<h2>2. Ethernet and TCP/IP</h2>
+<p>a Draw a diagram to illustrate how the combination of Ethernet and TCP/IP supports data communication.</p>
+<textarea placeholder="Draw or describe the diagram here..."></textarea>
+<p>b Explain the meaning of the term ‘MAC address’.</p>
+<textarea placeholder="Your answer..."></textarea>
+<button onclick="Array.from(this.parentElement.querySelectorAll('.answer')).forEach(a=>a.style.display='block')">SUBMIT</button>
+<div class="answer">a Diagram: Ethernet at Data Link & Physical layers, TCP/IP at higher layers ensuring reliable routing and delivery.
+b MAC address: Unique hardware address assigned to a network interface card, used to identify devices on a LAN.</div>
+</div>
+
+<!-- Question 3 -->
+<div class="question">
+<h2>3. File Sharing Across Internet</h2>
+<p>a Identify three possible methods to obtain a copy of a file from another end-system and briefly explain each.</p>
+<textarea placeholder="Your answer..."></textarea>
+<p>b Identify the application-layer protocols that each method uses with brief explanation.</p>
+<textarea placeholder="Your answer..."></textarea>
+<button onclick="Array.from(this.parentElement.querySelectorAll('.answer')).forEach(a=>a.style.display='block')">SUBMIT</button>
+<div class="answer">a Methods:
+1. HTTP download: via web browser
+2. FTP transfer: via FTP client/server
+3. P2P: via BitTorrent client
+
+b Protocols:
+1. HTTP: for web downloads
+2. FTP: for file transfer
+3. BitTorrent: custom P2P protocol using tracker, seeds, and swarms</div>
+</div>
+
+<!-- Question 4 -->
+<div class="question">
+<h2>4. Email Application Protocols</h2>
+<p>For sending and receiving emails, explain how each protocol might be used:</p>
+<textarea placeholder="Your answer..."></textarea>
+<button onclick="this.nextElementSibling.style.display='block'">SUBMIT</button>
+<div class="answer">SMTP: sends emails from client to server or between servers
+POP3: retrieves emails from server, typically deleting them after download
+IMAP: retrieves emails while keeping them on the server, syncing folders
+HTTP: webmail access to email via browser</div>
+</div>
+
+<!-- Question 5 -->
+<div class="question">
+<h2>5. Matching Descriptions to Protocols</h2>
+<p>a Draw a line to connect each description to the appropriate protocol:</p>
+<textarea placeholder="Connect descriptions to protocols..."></textarea>
+<p>b Downloading a file can use client-server model or BitTorrent. Name the model used.</p>
+<textarea placeholder="Your answer..."></textarea>
+<p>c Explain the function of the following in BitTorrent:</p>
+<textarea placeholder="i. Tracker
+ii. Seed
+iii. Swarm"></textarea>
+<button onclick="Array.from(this.parentElement.querySelectorAll('.answer')).forEach(a=>a.style.display='block')">SUBMIT</button>
+<div class="answer">a Connections:
+- email client downloads email: POP3
+- email sent from client to server: SMTP
+- email server to server transfer: SMTP
+- browser requests webpage: HTTP
+
+b Model: P2P
+c Tracker: coordinates peers
+Seed: client with complete file
+Swarm: all peers sharing chunks of file</div>
+</div>
+
+<!-- Question 6 -->
+<div class="question">
+<h2>6. Email using Packet Switching</h2>
+<p>a State two items contained in an email packet apart from the data.</p>
+<textarea placeholder="Your answer..."></textarea>
+<p>b Explain the role of routers in sending an email.</p>
+<textarea placeholder="Your answer..."></textarea>
+<p>c Explain why sending an email is appropriate for packet switching.</p>
+<textarea placeholder="Your answer..."></textarea>
+<p>d Packet switching is not always suitable. Name an alternative communication method.</p>
+<textarea placeholder="Your answer..."></textarea>
+<p>e Name an application suitable for the method in (d) and justify.</p>
+<textarea placeholder="Your answer..."></textarea>
+<button onclick="Array.from(this.parentElement.querySelectorAll('.answer')).forEach(a=>a.style.display='block')">SUBMIT</button>
+<div class="answer">a Packet header info (source/destination), sequence number
+b Routers direct packets along optimal paths to destination
+c Emails are intermittent; packet switching efficiently uses network
+ d Circuit switching
+ e Video call; requires dedicated, constant bandwidth for real-time data</div>
+</div>
+
+</div>
+<footer>Modern English School Cairo</footer>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 18 Assessment: Hardware & Virtual Machines</title>
+<style>
+  body {
+    font-family: 'Georgia', serif;
+    background-color: #1b1b1b;
+    color: #e0e0e0;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+  }
+  header, footer {
+    background-color: #111;
+    color: #f5f5f5;
+    text-align: center;
+    padding: 1rem;
+  }
+  main { padding: 2rem 3rem; max-width: 1200px; margin: auto; }
+  h1, h2, h3 { color: #ffd700; }
+  .section { margin-bottom: 2rem; padding: 1rem; background-color: #252525; border-radius: 8px; }
+  button {
+    background-color: #ffd700; border: none; padding: 0.5rem 1rem; margin-top: 0.5rem; cursor: pointer; font-weight: bold;
+  }
+  .answers { display: none; margin-top: 1rem; background-color: #333; padding: 1rem; border-radius: 5px; }
+  input[type="text"] { width: 100%; padding: 0.3rem; margin: 0.2rem 0; background-color: #222; color: #0ff; border: 1px solid #555; border-radius: 3px; }
+  label { display: block; margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Prepared by Ravi Raju</h1>
+</header>
+
+<main>
+<h1>Chapter 18: Hardware and Virtual Machines – Assessment</h1>
+
+<!-- MCQs Section -->
+<div class="section">
+  <h2>MCQs (25 Questions)</h2>
+  <form id="mcqForm">
+    <label>1. Which processor type is designed for simpler, faster instructions?</label>
+    <input type="radio" name="q1" value="CISC"> CISC<br>
+    <input type="radio" name="q1" value="RISC"> RISC<br>
+    <input type="radio" name="q1" value="SIMD"> SIMD<br>
+
+    <label>2. Which control unit uses microcode stored in ROM?</label>
+    <input type="radio" name="q2" value="Hard-wired"> Hard-wired<br>
+    <input type="radio" name="q2" value="Microprogrammed"> Microprogrammed<br>
+
+    <label>3. Which pipeline stage is responsible for fetching instructions?</label>
+    <input type="radio" name="q3" value="IF"> IF<br>
+    <input type="radio" name="q3" value="ID"> ID<br>
+    <input type="radio" name="q3" value="IE"> IE<br>
+
+    <label>4. What does CISC stand for?</label>
+    <input type="radio" name="q4" value="Complex Instruction Set Computer"> Complex Instruction Set Computer<br>
+    <input type="radio" name="q4" value="Computer Instruction Set Code"> Computer Instruction Set Code<br>
+    <input type="radio" name="q4" value="Control Instruction Set Circuit"> Control Instruction Set Circuit<br>
+
+    <label>5. What is a key advantage of RISC?</label>
+    <input type="radio" name="q5" value="Easier pipelining"> Easier pipelining<br>
+    <input type="radio" name="q5" value="More registers"> More registers<br>
+    <input type="radio" name="q5" value="Slower memory access"> Slower memory access<br>
+
+    <label>6. Which architecture executes multiple instructions on multiple data streams?</label>
+    <input type="radio" name="q6" value="SISD"> SISD<br>
+    <input type="radio" name="q6" value="MIMD"> MIMD<br>
+    <input type="radio" name="q6" value="SIMD"> SIMD<br>
+
+    <label>7. Which is NOT a feature of CISC?</label>
+    <input type="radio" name="q7" value="Microprogrammed CU"> Microprogrammed CU<br>
+    <input type="radio" name="q7" value="Single-cycle instruction"> Single-cycle instruction<br>
+    <input type="radio" name="q7" value="Variable-length instruction"> Variable-length instruction<br>
+
+    <label>8. What does SISD stand for?</label>
+    <input type="radio" name="q8" value="Single Instruction Stream, Single Data Stream"> Single Instruction Stream, Single Data Stream<br>
+    <input type="radio" name="q8" value="Single Instruction Stream, Multiple Data Stream"> Single Instruction Stream, Multiple Data Stream<br>
+    <input type="radio" name="q8" value="Multiple Instruction Stream, Single Data Stream"> Multiple Instruction Stream, Single Data Stream<br>
+
+    <label>9. Which VM type emulates complete hardware?</label>
+    <input type="radio" name="q9" value="System VM"> System VM<br>
+    <input type="radio" name="q9" value="Process VM"> Process VM<br>
+    <input type="radio" name="q9" value="Hardware VM"> Hardware VM<br>
+
+    <label>10. Which stage in RISC pipeline writes back the result?</label>
+    <input type="radio" name="q10" value="IF"> IF<br>
+    <input type="radio" name="q10" value="WB"> WB<br>
+    <input type="radio" name="q10" value="IE"> IE<br>
+
+    <label>11. Which architecture allows parallel execution of one instruction on multiple data streams?</label>
+    <input type="radio" name="q11" value="SIMD"> SIMD<br>
+    <input type="radio" name="q11" value="MIMD"> MIMD<br>
+    <input type="radio" name="q11" value="MISD"> MISD<br>
+
+    <label>12. Which CU type is easier to implement with RISC?</label>
+    <input type="radio" name="q12" value="Hard-wired"> Hard-wired<br>
+    <input type="radio" name="q12" value="Microprogrammed"> Microprogrammed<br>
+
+    <label>13. Which of the following is true about pipelining?</label>
+    <input type="radio" name="q13" value="Improves throughput"> Improves throughput<br>
+    <input type="radio" name="q13" value="Slows execution"> Slows execution<br>
+    <input type="radio" name="q13" value="Reduces registers"> Reduces registers<br>
+
+    <label>14. MISD architecture is mainly used for?</label>
+    <input type="radio" name="q14" value="Fault tolerance"> Fault tolerance<br>
+    <input type="radio" name="q14" value="Scientific computation"> Scientific computation<br>
+    <input type="radio" name="q14" value="Gaming"> Gaming<br>
+
+    <label>15. Multi-core processors are an example of which architecture?</label>
+    <input type="radio" name="q15" value="SIMD"> SIMD<br>
+    <input type="radio" name="q15" value="MIMD"> MIMD<br>
+    <input type="radio" name="q15" value="SISD"> SISD<br>
+
+    <label>16. Which instruction type accesses memory in RISC?</label>
+    <input type="radio" name="q16" value="Load/Store only"> Load/Store only<br>
+    <input type="radio" name="q16" value="Arithmetic"> Arithmetic<br>
+    <input type="radio" name="q16" value="All instructions"> All instructions<br>
+
+    <label>17. Which CU type is commonly used in CISC?</label>
+    <input type="radio" name="q17" value="Hard-wired"> Hard-wired<br>
+    <input type="radio" name="q17" value="Microprogrammed"> Microprogrammed<br>
+
+    <label>18. Which of these is a process VM?</label>
+    <input type="radio" name="q18" value="Java VM"> Java VM<br>
+    <input type="radio" name="q18" value="Windows VM"> Windows VM<br>
+    <input type="radio" name="q18" value="Linux VM"> Linux VM<br>
+
+    <label>19. Fixed-length instructions are characteristic of?</label>
+    <input type="radio" name="q19" value="RISC"> RISC<br>
+    <input type="radio" name="q19" value="CISC"> CISC<br>
+
+    <label>20. Which architecture type can be implemented in massively parallel computers?</label>
+    <input type="radio" name="q20" value="MIMD"> MIMD<br>
+    <input type="radio" name="q20" value="SISD"> SISD<br>
+    <input type="radio" name="q20" value="SIMD"> SIMD<br>
+
+    <label>21. Multiple registers are more associated with?</label>
+    <input type="radio" name="q21" value="RISC"> RISC<br>
+    <input type="radio" name="q21" value="CISC"> CISC<br>
+
+    <label>22. System VMs are particularly useful for?</label>
+    <input type="radio" name="q22" value="Running multiple OS"> Running multiple OS<br>
+    <input type="radio" name="q22" value="Running Java apps only"> Running Java apps only<br>
+    <input type="radio" name="q22" value="Single OS"> Single OS<br>
+
+    <label>23. Which stage of pipeline decodes instruction?</label>
+    <input type="radio" name="q23" value="ID"> ID<br>
+    <input type="radio" name="q23" value="IF"> IF<br>
+    <input type="radio" name="q23" value="WB"> WB<br>
+
+    <label>24. Which architecture is sequential and early computers used it?</label>
+    <input type="radio" name="q24" value="SISD"> SISD<br>
+    <input type="radio" name="q24" value="SIMD"> SIMD<br>
+    <input type="radio" name="q24" value="MIMD"> MIMD<br>
+
+    <label>25. Which feature reduces memory access in RISC?</label>
+    <input type="radio" name="q25" value="Maximizing register usage"> Maximizing register usage<br>
+    <input type="radio" name="q25" value="Complex instruction set"> Complex instruction set<br>
+    
+    <button type="button" onclick="revealAnswers('mcq')">Submit MCQs</button>
+  </form>
+  <div id="mcqAnswers" class="answers">
+    <h3>MCQ Answers:</h3>
+    <p>1. RISC</p>
+    <p>2. Microprogrammed</p>
+    <p>3. IF</p>
+    <p>4. Complex Instruction Set Computer</p>
+    <p>5. Easier pipelining</p>
+    <p>6. MIMD</p>
+    <p>7. Single-cycle instruction</p>
+    <p>8. Single Instruction Stream, Single Data Stream</p>
+    <p>9. System VM</p>
+    <p>10. WB</p>
+    <p>11. SIMD</p>
+    <p>12. Hard-wired</p>
+    <p>13. Improves throughput</p>
+    <p>14. Fault tolerance</p>
+    <p>15. MIMD</p>
+    <p>16. Load/Store only</p>
+    <p>17. Microprogrammed</p>
+    <p>18. Java VM</p>
+    <p>19. RISC</p>
+    <p>20. MIMD</p>
+    <p>21. RISC</p>
+    <p>22. Running multiple OS</p>
+    <p>23. ID</p>
+    <p>24. SISD</p>
+    <p>25. Maximizing register usage</p>
+  </div>
+</div>
+
+<!-- Short Answer Section -->
+<div class="section">
+  <h2>Short Answer Questions (15 Questions)</h2>
+  <form id="shortForm">
+    <label>1. Define pipelining in instruction execution.</label><input type="text" name="sa1">
+    <label>2. List two advantages of RISC over CISC.</label><input type="text" name="sa2">
+    <label>3. Explain the function of the control unit.</label><input type="text" name="sa3">
+    <label>4. Differentiate between Hard-wired and Microprogrammed CU.</label><input type="text" name="sa4">
+    <label>5. What is SIMD architecture?</label><input type="text" name="sa5">
+    <label>6. What does MIMD architecture achieve?</label><input type="text" name="sa6">
+    <label>7. Define System Virtual Machine.</label><input type="text" name="sa7">
+    <label>8. Define Process Virtual Machine.</label><input type="text" name="sa8">
+    <label>9. State one drawback of VMs.</label><input type="text" name="sa9">
+    <label>10. What is the difference between SISD and SIMD?</label><input type="text" name="sa10">
+    <label>11. Name two massively parallel computer examples.</label><input type="text" name="sa11">
+    <label>12. Which instruction formats are typical for RISC?</label><input type="text" name="sa12">
+    <label>13. What is the role of registers in pipelining?</label><input type="text" name="sa13">
+    <label>14. Explain why CISC is harder to pipeline.</label><input type="text" name="sa14">
+    <label>15. What is the importance of VM software running on host OS?</label><input type="text" name="sa15">
+    <button type="button" onclick="revealAnswers('short')">Submit Short Answers</button>
+  </form>
+  <div id="shortAnswers" class="answers">
+    <h3>Short Answer Solutions:</h3>
+    <p>1. Pipelining is instruction-level parallelism where different stages of fetch–decode–execute happen simultaneously for multiple instructions.</p>
+    <p>2. Advantages: simpler instructions for faster execution; easier pipelining; more registers.</p>
+    <p>3. The control unit directs CPU operations ensuring each instruction executes correctly.</p>
+    <p>4. Hard-wired CU uses logic circuits; Microprogrammed CU uses ROM-stored microcode.</p>
+    <p>5. SIMD executes the same instruction on multiple data streams simultaneously.</p>
+    <p>6. MIMD executes different instructions on multiple data streams in parallel.</p>
+    <p>7. Software emulating complete hardware to run multiple OS/applications.</p>
+    <p>8. Software providing an environment for a specific program (e.g., Java VM).</p>
+    <p>9. Performance is lower than native execution.</p>
+    <p>10. SISD is sequential; SIMD executes the same instruction on multiple data streams.</p>
+    <p>11. IBM Sequoia, Beowulf clusters</p>
+    <p>12. Small, fixed-length instruction formats.</p>
+    <p>13. Registers store intermediate results to allow simultaneous instruction stages.</p>
+    <p>14. CISC has complex multi-cycle instructions and variable-length formats.</p>
+    <p>15. Allows applications to run as if on real hardware while host OS manages resources.</p>
+  </div>
+</div>
+
+<!-- Scenario-Based Section -->
+<div class="section">
+  <h2>Scenario-Based Questions (5 Questions)</h2>
+  <form id="scenarioForm">
+    <label>1. A CPU executes ADD R1,R2,R3 followed by ADD R5,R1,R4 in a pipelined RISC. Identify the potential hazard and how to resolve it.</label><input type="text" name="sc1">
+    <label>2. Explain how SIMD architecture can speed up array processing.</label><input type="text" name="sc2">
+    <label>3. A VM runs Windows 7 on a Linux host. What type of VM is this and why is it used?</label><input type="text" name="sc3">
+    <label>4. Describe how MIMD differs from SIMD in massively parallel computing.</label><input type="text" name="sc4">
+    <label>5. During pipelining, an interrupt occurs. Explain how it is handled.</label><input type="text" name="sc5">
+    <button type="button" onclick="revealAnswers('scenario')">Submit Scenario Questions</button>
+  </form>
+  <div id="scenarioAnswers" class="answers">
+    <h3>Scenario Answers:</h3>
+    <p>1. Data hazard: second instruction reads R1 before first writes. Resolved via stalling, forwarding, or register renaming.</p>
+    <p>2. SIMD executes same instruction across multiple data elements simultaneously, e.g., multiplying all array elements at once.</p>
+    <p>3. System VM; it emulates hardware to run a different OS on the host for legacy software or multi-OS usage.</p>
+    <p>4. MIMD executes different instructions on different data streams; SIMD executes same instruction on multiple data streams.</p>
+    <p>5. Flush partially executed instructions and preserve pipeline states with individual program counters.</p>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  MES Cairo
+</footer>
+
+<script>
+function revealAnswers(section) {
+  if(section === 'mcq') {
+    document.getElementById('mcqAnswers').style.display = 'block';
+  } else if(section === 'short') {
+    document.getElementById('shortAnswers').style.display = 'block';
+  } else if(section === 'scenario') {
+    document.getElementById('scenarioAnswers').style.display = 'block';
+  }
+}
+</script>
+
+</body>
+</html>
