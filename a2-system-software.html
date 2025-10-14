@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2 Computer Science (9618) — Chapter 20: System Software</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #f7fafc;
+    color: #333;
+    line-height: 1.7;
+  }
+  header {
+    background: #0066cc;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 1.5em;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header small {
+    display: block;
+    font-size: 0.8em;
+    color: #d9f0ff;
+  }
+  nav {
+    background: #e3f2fd;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: sticky;
+    top: 70px;
+    z-index: 5;
+  }
+  nav a {
+    text-decoration: none;
+    color: #004b87;
+    background: white;
+    border-radius: 20px;
+    padding: 6px 15px;
+    border: 1px solid #bcd9f6;
+    transition: 0.3s;
+  }
+  nav a:hover {
+    background: #004b87;
+    color: white;
+  }
+  section {
+    max-width: 950px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  h2, h3 {
+    color: #004b87;
+  }
+  h2 {
+    border-bottom: 3px solid #a4c8f0;
+    padding-bottom: 5px;
+  }
+  .collapsible {
+    background: #f0f8ff;
+    border: 1px solid #bcd9f6;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .content {
+    display: none;
+    margin-top: 10px;
+  }
+  .highlight {
+    background: #e8f5e9;
+    border-left: 4px solid #43a047;
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  th, td {
+    border: 1px solid #d0d0d0;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background: #f0f0f0;
+  }
+  footer {
+    background: #004b87;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 40px;
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const collapsibles = document.querySelectorAll(".collapsible");
+    collapsibles.forEach(item => {
+      item.addEventListener("click", function() {
+        this.classList.toggle("active");
+        let content = this.nextElementSibling;
+        content.style.display = (content.style.display === "block") ? "none" : "block";
+      });
+    });
+  });
+</script>
+</head>
+<body>
+
+<header>
+  🌐 A2 Computer Science (9618): Chapter 20 — System Software
+  <small>Modern English School Cairo | Compiled by Ravi Raju</small>
+</header>
+
+<nav>
+  <a href="#section1">20.01 OS Purpose</a>
+  <a href="#section2">20.02 I/O System</a>
+  <a href="#section3">20.03 Process Scheduling</a>
+  <a href="#section4">Memory Mgmt</a>
+  <a href="#section5">Translators</a>
+  <a href="#section6">System Utilities</a>
+  <a href="#section7">Device Drivers</a>
+</nav>
+
+<section id="section1">
+  <h2>🧭 Section 20.01 — The Purpose of an Operating System</h2>
+  <p><strong>Operating System (OS):</strong> Core system software managing hardware and software resources — acts as the bridge between user and hardware.</p>
+  <div class="collapsible">⚙️ 1. Booting Process</div>
+  <div class="content">
+    <ol>
+      <li><b>POST:</b> BIOS checks hardware components.</li>
+      <li><b>Bootstrap Loader:</b> Locates and loads OS from disk.</li>
+      <li><b>Loading OS:</b> OS is loaded into RAM and gains control.</li>
+      <li><b>System Ready:</b> Initializes drivers, files, and interfaces.</li>
+    </ol>
+    <div class="highlight">💡 Example: When a PC starts, BIOS loads the Windows bootloader, which brings Windows into memory.</div>
+  </div>
+
+  <div class="collapsible">🧩 2. Multi-Programming and Time-Sharing</div>
+  <div class="content">
+    <table>
+      <tr><th>Feature</th><th>Description</th><th>Example</th></tr>
+      <tr><td>Multiprogramming</td><td>Multiple programs in memory; CPU switches between them.</td><td>Word processor + browser</td></tr>
+      <tr><td>Time-Sharing</td><td>Many users share CPU through time slices.</td><td>Cloud servers</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="section2">
+  <h2>⚙️ Section 20.02 — The Input/Output (I/O) System</h2>
+  <p>The I/O system handles all data movement between CPU, memory, and I/O devices through <b>drivers</b>, <b>buffers</b>, and <b>controllers</b>.</p>
+  <div class="highlight">💡 Direct Memory Access (DMA) improves efficiency by bypassing the CPU for large data transfers.</div>
+</section>
+
+<section id="section3">
+  <h2>🔄 Section 20.03 — Process Scheduling</h2>
+  <p>Scheduling ensures fair and efficient CPU time distribution among multiple processes in memory.</p>
+  <div class="collapsible">⚡ Interrupts and Scheduling Algorithms</div>
+  <div class="content">
+    <table>
+      <tr><th>Algorithm</th><th>Type</th><th>Advantage</th><th>Drawback</th></tr>
+      <tr><td>FCFS</td><td>Non-preemptive</td><td>Simple</td><td>Long waits</td></tr>
+      <tr><td>Round Robin</td><td>Preemptive</td><td>Fair</td><td>High context switching</td></tr>
+      <tr><td>Priority</td><td>Preemptive</td><td>Handles urgency</td><td>Starvation risk</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="section4">
+  <h2>🧠 Memory Management, Paging, and Virtual Memory</h2>
+  <p>The OS allocates, tracks, and protects memory use for efficient multiprogramming.</p>
+  <ul>
+    <li><b>Segmentation:</b> Divides program into variable-size parts.</li>
+    <li><b>Paging:</b> Divides both program and memory into equal-sized blocks.</li>
+    <li><b>Virtual Memory:</b> Uses disk space to extend available memory.</li>
+  </ul>
+  <div class="highlight">📘 Disk Thrashing occurs when paging activity dominates CPU time, degrading performance.</div>
+</section>
+
+<section id="section5">
+  <h2>🧩 Translators: Assemblers, Compilers & Interpreters</h2>
+  <p>Translators convert source code to machine code.</p>
+  <ul>
+    <li><b>Assembler:</b> Assembly → Machine code</li>
+    <li><b>Compiler:</b> Whole program → Executable file</li>
+    <li><b>Interpreter:</b> Line-by-line execution</li>
+  </ul>
+  <div class="highlight">✅ <b>Exam Tip:</b> Compilers are faster but harder to debug; interpreters are slower but easier to test.</div>
+</section>
+
+<section id="section6">
+  <h2>💻 System Utilities</h2>
+  <p>Utility software supports maintenance and optimization of system performance.</p>
+  <ul>
+    <li><b>File Management:</b> Copy, move, delete, organize files</li>
+    <li><b>Backup Utilities:</b> Create full, incremental, or differential backups</li>
+    <li><b>Anti-Virus:</b> Detects and removes malware</li>
+    <li><b>Disk Management:</b> Partitioning, defragmentation, error-checking</li>
+  </ul>
+</section>
+
+<section id="section7">
+  <h2>🧰 Device Drivers and OS-Hardware Communication</h2>
+  <p>Device Drivers are specialized software that act as intermediaries between the <b>operating system</b> and <b>hardware devices</b>.</p>
+
+  <h3>🔹 What Are Device Drivers?</h3>
+  <p>They are software modules that translate general OS instructions into specific commands that hardware can understand.</p>
+
+  <h3>⚙️ Role in OS-Hardware Communication</h3>
+  <ul>
+    <li>Enable the OS to use peripherals (printer, mouse, display).</li>
+    <li>Handle hardware-level interrupts and responses.</li>
+    <li>Abstract hardware complexity — OS doesn’t need to know hardware details.</li>
+  </ul>
+
+  <div class="highlight">
+    💡 Example:<br>
+    A printer driver converts OS print commands into device-specific language like PCL or PostScript.
+  </div>
+
+  <h3>📘 Key Points</h3>
+  <ul>
+    <li>Each hardware device needs a specific driver.</li>
+    <li>Drivers are loaded during boot or when the device is connected.</li>
+    <li>Modern OSs use <b>plug-and-play</b> for automatic driver installation.</li>
+  </ul>
+
+  <div class="highlight">
+    🧠 <b>Exam Tip:</b> Drivers ensure modularity — OS doesn’t need rewriting for every new hardware model.
+  </div>
+</section>
+
+<footer>
+  © 2025 Modern English School Cairo — Prepared by Ravi Raju
+</footer>
+
+</body>
+</html>
