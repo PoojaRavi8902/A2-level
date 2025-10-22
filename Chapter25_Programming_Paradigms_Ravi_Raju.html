@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Modern English School Cairo — Chapter 25: Programming Paradigms</title>
+  <style>
+    :root{
+      --bg: #f6f8fb; --card:#ffffff; --accent:#1f6feb; --muted:#5b6770; --success:#16a34a; --danger:#ef4444;
+      --glass: rgba(255,255,255,0.7);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    html,body{height:100%; background:linear-gradient(180deg,#eef2ff 0%, #f6fbff 100%); margin:0}
+    .wrap{max-width:1100px;margin:24px auto;padding:18px}
+    header{display:flex;align-items:center;gap:16px}
+    header h1{margin:0;font-size:20px;color:var(--muted)}
+    header .school{font-weight:700;color:#0f1724;font-size:18px}
+    header .subtitle{color:var(--muted);font-size:13px}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 20px rgba(20,30,70,0.06);margin-top:14px}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(31,111,235,0.12)}
+    .small{padding:6px 8px;font-size:13px}
+    .meta{color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:16px;margin-top:16px}
+    .section-title{display:flex;justify-content:space-between;align-items:center}
+    .collapsible{border-radius:10px;padding:12px;margin-top:10px;background:linear-gradient(180deg,#ffffff,#fbfdff);border:1px solid rgba(20,30,70,0.04)}
+    .collapsible .head{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+    .collapsible .content{margin-top:10px;display:none}
+    pre{background:#0f1724;color:#e6eef8;padding:12px;border-radius:8px;overflow:auto}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace}
+    .quiz{margin-top:10px}
+    .question{margin-bottom:12px;padding:10px;border-radius:8px;border:1px dashed rgba(31,111,235,0.08)}
+    .progress-wrap{height:12px;background:rgba(31,111,235,0.08);border-radius:999px;overflow:hidden}
+    .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#60a5fa)}
+    .d-area{display:flex;gap:12px;align-items:flex-start}
+    .d-left{flex:1}
+    .draggables{display:flex;flex-direction:column;gap:8px}
+    .drag-item{padding:8px 10px;border-radius:8px;border:1px solid rgba(15,23,36,0.06);background:#fff;cursor:grab}
+    .targets{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+    .target{min-height:42px;padding:8px;border-radius:8px;border:2px dashed rgba(99,102,241,0.12);background:linear-gradient(180deg,#fff,#fbfdff)}
+    footer{margin-top:20px;color:var(--muted);font-size:13px}
+    .highlight{background:linear-gradient(90deg,#f0f9ff,#ffffff);padding:8px;border-radius:8px}
+    .teacher-key{display:none;margin-top:12px;background:#fff3; padding:12px;border-radius:8px;border:1px solid rgba(20,30,70,0.04)}
+    .teacher-toggle{background:#0b5ed7;color:#fff;padding:8px;border-radius:8px;border:0;cursor:pointer;margin-left:8px}
+    .ans {background:#f6ffef;padding:8px;border-radius:6px;border:1px solid rgba(16,185,129,0.12);margin-top:6px}
+    .monosmall{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;font-size:0.95em}\n
+    @media (max-width:900px){.grid{grid-template-columns:1fr} .card{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#fff,#e6f0ff);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(31,111,235,0.06)">
+        <strong style="color:var(--accent);font-size:20px">25</strong>
+      </div>
+      <div>
+        <div class="school">Modern English School Cairo</div>
+        <h1>Chapter 25: Programming Paradigms — <span style="font-weight:700">Prepared by Ravi Raju</span></h1>
+        <div class="meta">Cambridge International A2 Computer Science • Interactive lesson</div>
+      </div>
+      <div style="margin-left:auto" class="controls">
+        <button id="startBtn" class="btn">Start Lesson</button>
+        <button id="printBtn" class="btn ghost small">Print / Save PDF</button>
+        <button id="downloadHtml" class="btn small">Download HTML</button>
+        <button id="teacherBtn" class="teacher-toggle">👩‍🏫 Show Teacher Answers</button>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="section-title">
+        <strong>Progress</strong>
+        <div class="meta">Complete sections & activities to update the progress bar</div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:12px;align-items:center">
+        <div style="flex:1">
+          <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
+        </div>
+        <div class="meta" id="progressText">0% complete</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <main>
+        <!-- Learning objectives -->
+        <section id="objectives" class="card collapsible">
+          <div class="head"><strong>Learning objectives</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <ul>
+              <li>Define what a programming paradigm is.</li>
+              <li>Describe Low-level, Imperative, Object-Oriented, Declarative paradigms.</li>
+              <li>Compare paradigms and apply short code examples.</li>
+              <li>Attempt exam-style questions.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- What is paradigm -->
+        <section id="what" class="card collapsible">
+          <div class="head"><strong>What is a Programming Paradigm?</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <p>A programming paradigm is a <strong>fundamental style of programming</strong> — a particular approach to designing and writing programs. Languages may be single-paradigm or multi-paradigm.</p>
+            <p><strong>Key Term:</strong> <em>Programming Paradigm</em> — A fundamental style of programming supported by a language, representing a particular way to think about and solve problems.</p>
+
+            <div class="highlight" style="margin-top:8px"> 
+              <strong>Example</strong>
+              <table style="width:100%;margin-top:8px;border-collapse:collapse">
+                <tr><th style="text-align:left;padding:6px">Task</th><th style="text-align:left;padding:6px">Imperative</th><th style="text-align:left;padding:6px">Declarative</th></tr>
+                <tr><td style="padding:6px">Find students with grade &gt; 80</td><td style="padding:6px">Loop through records</td><td style="padding:6px">Write a query stating the condition</td></tr>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Paradigms list -->
+        <section id="list" class="card collapsible">
+          <div class="head"><strong>Common Programming Paradigms</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <table style="width:100%;border-collapse:collapse">
+              <tr><th style="text-align:left;padding:6px">Paradigm</th><th style="text-align:left;padding:6px">Description</th><th style="text-align:left;padding:6px">Example Languages</th></tr>
+              <tr><td style="padding:6px">Low-level</td><td style="padding:6px">Close to hardware</td><td style="padding:6px">Assembly, Machine Code</td></tr>
+              <tr><td style="padding:6px">Imperative</td><td style="padding:6px">Ordered steps</td><td style="padding:6px">C, Pascal, Python</td></tr>
+              <tr><td style="padding:6px">Object-Oriented</td><td style="padding:6px">Objects with data & methods</td><td style="padding:6px">Java, C++, Python</td></tr>
+              <tr><td style="padding:6px">Declarative</td><td style="padding:6px">Describe the result</td><td style="padding:6px">SQL, Prolog</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <!-- Low-level -->
+        <section id="lowlevel" class="card collapsible">
+          <div class="head"><strong>Low-level programming paradigm</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <p><strong>Overview</strong></p>
+            <ul>
+              <li>Works close to hardware and manipulates registers and addresses.</li>
+              <li>Processor-specific instruction sets (x86, ARM).</li>
+            </ul>
+            <p><strong>Example</strong></p>
+            <pre class="monosmall"><code>MOV AX, 5     ; Load value 5 into register AX
+ADD AX, 3     ; Add 3 to AX</code></pre>
+            <p>Used in embedded systems, drivers and OS kernels.</p>
+            <div style="margin-top:8px;background:rgba(99,102,241,0.04);padding:10px;border-radius:8px">Reflection: Why are low-level programs rarely used for modern application development? (Think readability, portability, development time)</div>
+          </div>
+        </section>
+
+        <!-- Imperative -->
+        <section id="imperative" class="card collapsible">
+          <div class="head"><strong>Imperative programming paradigm</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <p><strong>Overview</strong></p>
+            <ul>
+              <li>Step-by-step instructions that change program state.</li>
+              <li>The programmer explicitly tells the computer how to achieve a result.</li>
+            </ul>
+            <p><strong>Example (Python)</strong></p>
+            <pre class="monosmall"><code>total = 0
+for i in range(1, 6):
+    total += i
+print(total)</code></pre>
+            <p>Languages include C, Pascal, BASIC, Python and portions of Java.</p>
+          </div>
+        </section>
+
+        <!-- OOP -->
+        <section id="oop" class="card collapsible">
+          <div class="head"><strong>Object-Oriented programming paradigm</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <p>Key features: encapsulation, inheritance, polymorphism, abstraction.</p>
+            <p><strong>Example (Java)</strong></p>
+            <pre class="monosmall"><code>class Student {
+    private String name;
+    private int marks;
+
+    public Student(String name, int marks) {
+        this.name = name;
+        this.marks = marks;
+    }
+
+    public void display() {
+        System.out.println(name + " scored " + marks);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student("Amina", 90);
+        s1.display();
+    }
+}</code></pre>
+            <div style="margin-top:8px;background:rgba(16,185,129,0.06);padding:10px;border-radius:8px">Reflection: How does encapsulation improve program reliability?</div>
+          </div>
+        </section>
+
+        <!-- Declarative -->
+        <section id="declarative" class="card collapsible">
+          <div class="head"><strong>Declarative programming paradigm</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <p>Focuses on <em>what</em> the result should be. Based on logic and rules.</p>
+            <p><strong>Example (SQL)</strong></p>
+            <pre class="monosmall"><code>SELECT name FROM students WHERE marks &gt; 80;</code></pre>
+            <p><strong>Example (Prolog)</strong></p>
+            <pre class="monosmall"><code>likes(john, pizza).
+likes(susan, pasta).
+
+food_lover(X) :- likes(X, pizza); likes(X, pasta).</code></pre>
+          </div>
+        </section>
+
+        <!-- Tasks -->
+        <section id="tasks" class="card">
+          <div class="section-title"><strong>Tasks & Activities</strong><div class="meta">Complete these activities to build your understanding</div></div>
+
+          <div style="margin-top:12px">
+            <h4>Task 25.01 — Drag & Match</h4>
+            <div class="d-area">
+              <div class="d-left">
+                <div class="draggables" id="draggables">
+                  <div class="drag-item" draggable="true" data-key="low">Commands depend on the processor</div>
+                  <div class="drag-item" draggable="true" data-key="imp">Statements operate on data</div>
+                  <div class="drag-item" draggable="true" data-key="oop">Information hiding protects data</div>
+                  <div class="drag-item" draggable="true" data-key="dec">Answer a question via search</div>
+                </div>
+              </div>
+              <div style="width:320px">
+                <div class="targets" id="targets">
+                  <div class="target" data-accept="low">Low-level</div>
+                  <div class="target" data-accept="imp">Imperative</div>
+                  <div class="target" data-accept="oop">Object-Oriented</div>
+                  <div class="target" data-accept="dec">Declarative</div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:8px">
+                  <button id="checkDrag" class="btn small">Check</button>
+                  <button id="resetDrag" class="btn small ghost">Reset</button>
+                </div>
+                <div id="dragResult" style="margin-top:8px" class="meta"></div>
+              </div>
+            </div>
+          </div>
+
+          <hr style="margin:14px 0">
+
+          <div>
+            <h4>Task 25.02 — Example statements</h4>
+            <table style="width:100%">
+              <tr><th style="text-align:left;padding:6px">Paradigm</th><th style="text-align:left;padding:6px">Statement</th><th style="text-align:left;padding:6px">Language</th></tr>
+              <tr><td style="padding:6px">Low-level</td><td style="padding:6px"><code>MOV AX, BX</code></td><td style="padding:6px">Assembly</td></tr>
+              <tr><td style="padding:6px">Imperative</td><td style="padding:6px"><code>total = total + 1</code></td><td style="padding:6px">Python</td></tr>
+              <tr><td style="padding:6px">Object-Oriented</td><td style="padding:6px"><code>object.display()</code></td><td style="padding:6px">Java</td></tr>
+              <tr><td style="padding:6px">Declarative</td><td style="padding:6px"><code>SELECT * FROM table</code></td><td style="padding:6px">SQL</td></tr>
+            </table>
+          </div>
+
+        </section>
+
+        <!-- Exam questions -->
+        <section id="exam" class="card collapsible">
+          <div class="head"><strong>Exam-style Questions</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <ol>
+              <li>Explain the difference between imperative and declarative paradigms with examples.</li>
+              <li>Describe one advantage and one disadvantage of object-oriented programming.</li>
+              <li>Explain why low-level languages are processor-dependent.</li>
+              <li>Compare how Python (imperative) and Prolog (declarative) solve the same problem.</li>
+              <li>Discuss why modern languages often support multiple paradigms.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- Challenge -->
+        <section id="challenge" class="card collapsible">
+          <div class="head"><strong>Challenge activity</strong><button class="btn small ghost" data-toggle>Expand</button></div>
+          <div class="content">
+            <p>Rewrite the imperative task in a declarative style.</p>
+            <p><strong>Imperative (Python)</strong></p>
+            <pre class="monosmall"><code>for s in students:
+    if s.marks &gt; 80:
+        print(s.name)</code></pre>
+            <p><strong>Declarative (SQL)</strong></p>
+            <pre class="monosmall"><code>SELECT name FROM students WHERE marks &gt; 80;</code></pre>
+          </div>
+        </section>
+
+      </main>
+
+      <aside>
+        <div class="card">
+          <strong>Quick reference</strong>
+          <div style="margin-top:8px;color:var(--muted);font-size:14px">
+            <div><strong>Low-level</strong> — Assembly, registers, fast, platform-specific.</div>
+            <div style="margin-top:6px"><strong>Imperative</strong> — Steps, loops, variables.</div>
+            <div style="margin-top:6px"><strong>Object-Oriented</strong> — Classes, objects, encapsulation.</div>
+            <div style="margin-top:6px"><strong>Declarative</strong> — SQL, logic, what-not-how.</div>
+          </div>
+
+          <hr style="margin:12px 0">
+
+          <div class="quiz">
+            <strong>Practice MCQs</strong>
+            <form id="mcqForm">
+              <div class="question">
+                <div><strong>Q1.</strong> Which paradigm focuses on "what to do" rather than "how to do it"?</div>
+                <label><input type="radio" name="q1" value="dec"> Declarative</label><br>
+                <label><input type="radio" name="q1" value="imp"> Imperative</label><br>
+                <label><input type="radio" name="q1" value="low"> Low-level</label><br>
+                <label><input type="radio" name="q1" value="oop"> Object-oriented</label>
+              </div>
+
+              <div class="question">
+                <div><strong>Q2.</strong> In which paradigm do we directly access CPU registers?</div>
+                <label><input type="radio" name="q2" value="low"> Low-level</label><br>
+                <label><input type="radio" name="q2" value="oop"> Object-oriented</label><br>
+                <label><input type="radio" name="q2" value="dec"> Declarative</label><br>
+                <label><input type="radio" name="q2" value="imp"> Imperative</label>
+              </div>
+
+              <div class="question">
+                <div><strong>Q3.</strong> Which paradigm uses encapsulation and inheritance?</div>
+                <label><input type="radio" name="q3" value="oop"> Object-Oriented</label><br>
+              </div>
+
+              <div class="question">
+                <div><strong>Q4.</strong> In which paradigm are instructions executed step-by-step in sequence?</div>
+                <label><input type="radio" name="q4" value="imp"> Imperative</label><br>
+              </div>
+
+              <div class="question">
+                <div><strong>Q5.</strong> Which language is NOT primarily declarative?</div>
+                <label><input type="radio" name="q5" value="c"> C</label><br>
+                <label><input type="radio" name="q5" value="prolog"> Prolog</label><br>
+                <label><input type="radio" name="q5" value="sql"> SQL</label>
+              </div>
+
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <button id="mcqSubmit" type="button" class="btn small">Submit Answers</button>
+                <button id="mcqReset" type="button" class="btn small ghost">Reset</button>
+              </div>
+              <div id="mcqResult" style="margin-top:8px" class="meta"></div>
+            </form>
+          </div>
+
+          <hr style="margin:12px 0">
+
+          <div>
+            <strong>Exam-style questions</strong>
+            <ol style="margin-top:8px;color:var(--muted);font-size:14px">
+              <li>Explain the difference between imperative and declarative paradigms with examples.</li>
+              <li>Describe one advantage and one disadvantage of OOP.</li>
+              <li>Explain why low-level languages are processor-dependent.</li>
+            </ol>
+          </div>
+
+        </div>
+      </aside>
+    </div>
+
+    <div id="teacherKey" class="teacher-key card">
+      <strong>Teacher Key — Answers & Model Responses</strong>
+
+      <div style="margin-top:8px">
+        <h4>MCQ Answers</h4>
+        <div class="ans">Q1: Declarative (dec)</div>
+        <div class="ans">Q2: Low-level (low)</div>
+        <div class="ans">Q3: Object-Oriented (oop)</div>
+        <div class="ans">Q4: Imperative (imp)</div>
+        <div class="ans">Q5: C (c)</div>
+      </div>
+
+      <div style="margin-top:8px">
+        <h4>Drag & Match — Correct mapping</h4>
+        <div class="ans">Commands depend on the processor — <strong>Low-level</strong></div>
+        <div class="ans">Statements operate on data — <strong>Imperative</strong></div>
+        <div class="ans">Information hiding protects data — <strong>Object-Oriented</strong></div>
+        <div class="ans">Answer a question via search — <strong>Declarative</strong></div>
+      </div>
+
+      <div style="margin-top:8px">
+        <h4>Model answers — Exam-style questions (short)</h4>
+        <div class="ans"><strong>1.</strong> Imperative vs Declarative: Imperative specifies the steps (e.g., Python loop). Declarative specifies the result (e.g., SQL query). Explain in 3–4 lines and give examples.</div>
+        <div class="ans"><strong>2.</strong> OOP advantage: Encapsulation improves modularity and reuse; Disadvantage: can introduce complexity and overhead.</div>
+        <div class="ans"><strong>3.</strong> Low-level languages are processor-dependent because they use machine instructions and register layouts specific to CPU architecture (e.g., x86 vs ARM).</div>
+        <div class="ans"><strong>4.</strong> Python solves by executing explicit steps; Prolog solves by expressing relations and letting the engine search — explain with a simple example.</div>
+        <div class="ans"><strong>5.</strong> Modern languages support multiple paradigms to allow flexibility: choose the best approach per problem, improve developer productivity, and reuse libraries.</div>
+      </div>
+
+      <div style="margin-top:8px">
+        <h4>Challenge (model)</h4>
+        <div class="ans monosmall">Imperative (Python):<br>for s in students:<br>&nbsp;&nbsp;if s.marks &gt; 80:<br>&nbsp;&nbsp;&nbsp;&nbsp;print(s.name)<br><br>Declarative (SQL):<br>SELECT name FROM students WHERE marks &gt; 80;</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="meta">This interactive lesson was auto-generated. Use the Start Lesson button to expand sections and track progress. Click Print / Save PDF to save the page layout as PDF.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Collapsible toggles
+    document.querySelectorAll('[data-toggle]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const card = btn.closest('.collapsible');
+        const content = card.querySelector('.content');
+        const open = content.style.display === 'block';
+        // toggle this one only
+        content.style.display = open ? 'none' : 'block';
+        updateProgress();
+      });
+    });
+
+    // Start Lesson expands first few sections
+    document.getElementById('startBtn').addEventListener('click', ()=>{
+      ['objectives','what','list','imperative'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.querySelector('.content').style.display='block';
+      });
+      window.scrollTo({top:0,behavior:'smooth'});
+      updateProgress();
+    });
+
+    // Print
+    document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+
+    // Download HTML (link to local file created by generator)
+    document.getElementById('downloadHtml').addEventListener('click', ()=>{
+      const filename = 'Chapter25_Programming_Paradigms_Ravi_Raju.html';
+      // Create a blob from the current document's HTML and trigger download
+      const blob = new Blob([document.documentElement.outerHTML], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 1500);
+    });
+
+    // Teacher key toggle (separate collapsible)
+    const teacherBtn = document.getElementById('teacherBtn');
+    const teacherKey = document.getElementById('teacherKey');
+    teacherBtn.addEventListener('click', ()=>{
+      const visible = teacherKey.style.display === 'block';
+      teacherKey.style.display = visible ? 'none' : 'block';
+      teacherBtn.textContent = visible ? '👩‍🏫 Show Teacher Answers' : '👩‍🏫 Hide Teacher Answers';
+      // when teacher answers revealed, give them progress credit
+      if(!visible) { localStorage.setItem('teacher_shown','1'); } else { localStorage.removeItem('teacher_shown'); }
+      updateProgress();
+    });
+
+    // Progress tracking: percentage of sections expanded + activities completed
+    function updateProgress(){
+      const sections = document.querySelectorAll('.collapsible');
+      let open=0;
+      sections.forEach(s=>{ if(s.querySelector('.content').style.display==='block') open++; });
+      const total = sections.length + 3; // +2 for MCQ & Drag completion, +1 for teacher key (optional)
+      let score = open;
+      if(localStorage.getItem('mcq_done')==='1') score++;
+      if(localStorage.getItem('drag_done')==='1') score++;
+      if(localStorage.getItem('teacher_shown')==='1') score++;
+      const pct = Math.round((score/total)*100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = pct + '% complete';
+    }
+
+    // MCQ auto-marking
+    const answers = {q1:'dec', q2:'low', q3:'oop', q4:'imp', q5:'c'};
+    document.getElementById('mcqSubmit').addEventListener('click', ()=>{
+      const form = document.getElementById('mcqForm');
+      const formData = new FormData(form);
+      // ensure all q1..q5 answered
+      for(let i=1;i<=5;i++){ if(!formData.get('q'+i)){ alert('Please answer all questions before submitting.'); return; } }
+      let correct=0; let details='';
+      for(let i=1;i<=5;i++){
+        const given = formData.get('q'+i);
+        const ok = (given === answers['q'+i]);
+        if(ok) correct++;
+        details += `Q${i}: ` + (ok? '✔ Correct':'✖ Incorrect') + '\\n';
+      }
+      const pct = Math.round((correct/5)*100);
+      const resultText = `Score: ${correct}/5 (${pct}%)\\n\\n${details}`;
+      document.getElementById('mcqResult').textContent = resultText;
+      localStorage.setItem('mcq_done','1');
+      updateProgress();
+    });
+    document.getElementById('mcqReset').addEventListener('click', ()=>{
+      document.getElementById('mcqForm').reset();
+      document.getElementById('mcqResult').textContent = '';
+      localStorage.removeItem('mcq_done');
+      updateProgress();
+    });
+
+    // Drag & Drop logic
+    let dragged=null;
+    document.querySelectorAll('.drag-item').forEach(d=>{
+      d.addEventListener('dragstart', e=>{ dragged = e.target; e.dataTransfer.setData('text/plain','ok'); setTimeout(()=>e.target.style.visibility='hidden',0); });
+      d.addEventListener('dragend', e=>{ e.target.style.visibility='visible'; dragged=null; });
+    });
+    document.querySelectorAll('.target').forEach(t=>{
+      t.addEventListener('dragover', e=>e.preventDefault());
+      t.addEventListener('drop', e=>{
+        e.preventDefault();
+        if(!dragged) return;
+        if(t.querySelector('.drag-item')){
+          document.getElementById('draggables').appendChild(t.querySelector('.drag-item'));
+        }
+        t.appendChild(dragged);
+      });
+    });
+    document.getElementById('checkDrag').addEventListener('click', ()=>{
+      const targets = document.querySelectorAll('.target');
+      let ok=true; let msg='';
+      targets.forEach(t=>{
+        const child = t.querySelector('.drag-item');
+        const expect = t.getAttribute('data-accept');
+        if(!child){ ok=false; msg += 'One or more targets are empty.\\n'; return; }
+        if(child.getAttribute('data-key') !== expect){ ok=false; msg += `Incorrect for target \"${t.textContent.trim()}\"\\n`; }
+      });
+      if(ok){ msg = 'All matched correctly! Well done.'; localStorage.setItem('drag_done','1'); }
+      else { msg = 'Some matches are incorrect. Try again.\\n' + msg; }
+      document.getElementById('dragResult').textContent = msg;
+      updateProgress();
+    });
+    document.getElementById('resetDrag').addEventListener('click', ()=>{
+      document.querySelectorAll('.target .drag-item').forEach(el=> document.getElementById('draggables').appendChild(el));
+      document.getElementById('dragResult').textContent='';
+      localStorage.removeItem('drag_done');
+      updateProgress();
+    });
+
+    // initial update
+    updateProgress();
+
+    // make code copyable via double-click
+    document.querySelectorAll('pre').forEach(p=>{
+      p.addEventListener('dblclick', ()=>{
+        const text = p.innerText;
+        navigator.clipboard?.writeText(text).then(()=>{
+          p.style.outline='3px solid rgba(16,185,129,0.12)';
+          setTimeout(()=>p.style.outline='none',900);
+        }).catch(()=>{});
+      });
+    });
+
+    // Ensure MCQ submit only enabled when all answered (UX improvement)
+    document.getElementById('mcqForm').addEventListener('change', ()=>{
+      const f = new FormData(document.getElementById('mcqForm'));
+      let all=true; for(let i=1;i<=5;i++){ if(!f.get('q'+i)) all=false; }
+      document.getElementById('mcqSubmit').disabled = !all;
+    });
+    // initially disabled until selected
+    document.getElementById('mcqSubmit').disabled = true;
+  </script>
+</body>
+</html>
