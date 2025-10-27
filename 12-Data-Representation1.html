@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>A-Level CS 9618 — Chapter 13: Data Representation</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --accent-2:#7c3aed;
+      --success:#16a34a;
+      --danger:#dc2626;
+      --radius:12px;
+      --glass: rgba(255,255,255,0.8);
+      --shadow: 0 6px 18px rgba(15,23,42,0.06);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:20px;
+    }
+    .container{max-width:1100px;margin:0 auto;}
+    header{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+    h1{margin:0;font-size:1.6rem}
+    .meta{color:var(--muted);font-size:0.95rem}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-top:14px}
+    .progress-wrap{display:flex;align-items:center;gap:12px}
+    .progress-bar{flex:1;height:12px;background:#eef2ff;border-radius:999px;overflow:hidden}
+    .progress-bar > .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:white;cursor:pointer;font-weight:600}
+    .btn.secondary{background:#e6e9f8;color:#0f172a;border:1px solid #e0e7ff}
+    .btn.ghost{background:transparent;border:1px solid #e6e7f2;color:var(--muted)}
+    nav{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .section-toggle{width:100%;text-align:left;padding:14px;border-radius:10px;border:1px solid #eef2f8;background:linear-gradient(180deg,#fff,#fbfdff);cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .section-body{padding:14px;border-left:4px solid rgba(37,99,235,0.08);background:#fbfdff;margin-top:6px;border-radius:0 0 10px 10px}
+    details{margin-top:10px}
+    .examples{margin-top:10px}
+    .example-card{background:#fff;padding:10px;border-radius:8px;border:1px solid #f1f5f9;margin-bottom:8px}
+    .exercises ol{padding-left:18px;margin:8px 0}
+    .quiz-block{margin-top:12px;padding:12px;border-radius:10px;background:#fff;border:1px solid #f1f5f9}
+    .mcq-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:8px}
+    label.option{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;border:1px solid #eef2f8;background:#fbfdff;cursor:pointer}
+    input[type="radio"], input[type="checkbox"]{transform:scale(1.05)}
+    .score-badge{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#12b76a,#16a34a);color:white;font-weight:700}
+    .hint{background:#fff7ed;border-left:4px solid #f59e0b;padding:10px;border-radius:8px;margin-top:8px;color:#92400e}
+    .small-muted{font-size:0.85rem;color:var(--muted)}
+    footer{margin-top:36px;text-align:center;color:var(--muted);font-size:0.85rem;padding-bottom:40px}
+    pre.code, code.inline{background:#0f172a;color:#f8fafc;padding:2px 6px;border-radius:6px;font-size:0.9rem}
+    .exam-list ol{padding-left:18px}
+    .grid-2{display:grid;grid-template-columns:1fr 380px;gap:16px}
+    @media (max-width:980px){.grid-2{grid-template-columns:1fr}}
+    .sticky-aside{position:sticky;top:18px}
+    .stats{display:flex;gap:8px;flex-wrap:wrap}
+    .stat-card{background:#fff;padding:10px;border-radius:8px;border:1px solid #eef2f8}
+    .answer-key{display:none;margin-top:8px;padding:10px;border-radius:8px;background:#fff;border:1px dashed #e6eefc}
+    .reveal{display:block}
+    .teacher-note{background:#fffdf7;border-left:4px solid #fde68a;padding:10px;border-radius:8px;margin-top:10px}
+    .toggle-icon{font-weight:700;color:var(--muted)}
+    textarea.short{width:100%;min-height:80px;border:1px solid #eef2f8;padding:8px;border-radius:8px;background:#fbfdff}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div style="flex:1">
+        <h1>A-Level Computer Science (9618) — Chapter 13: Data Representation</h1>
+        <div class="meta">Interactive lesson • Teaching + Revision • Exam preparation</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">Lesson progress</div>
+        <div class="progress-wrap" style="margin-top:8px;">
+          <div style="width:240px;text-align:right"><span class="small-muted" id="progressPercent">0%</span></div>
+          <div class="progress-bar" aria-hidden="true">
+            <div class="fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main style="margin-top:18px" class="grid-2">
+      <div>
+        <!-- Start / Overview Card -->
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div>
+              <div class="small-muted">Start Lesson</div>
+              <h2 style="margin:6px 0 0">Data Representation — Overview & Objectives</h2>
+            </div>
+            <div class="stats">
+              <div class="stat-card small-muted">Est. time: <strong style="color:#0f172a">60–90 min</strong></div>
+              <div class="stat-card small-muted">Exam questions: <strong style="color:#0f172a">15</strong></div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="small-muted">
+            <strong>Learning objectives</strong>
+            <ul>
+              <li>Convert between binary, decimal, hexadecimal and octal (including fractions).</li>
+              <li>Understand two's complement for signed values and represent negatives.</li>
+              <li>Explain character encodings (ASCII, Unicode/UTF-8).</li>
+              <li>Calculate storage for images, sound and text; sampling, quantisation and compression basics.</li>
+              <li>Describe basic error-detection methods (parity, checksum, CRC).</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:12px">
+            <button class="btn" onclick="startLesson()">Start Lesson</button>
+            <button class="btn secondary" onclick="openAll(false)">Collapse all</button>
+            <button class="btn ghost" onclick="openAll(true)">Open all</button>
+          </div>
+        </section>
+
+        <!-- Sections -->
+        <section id="sections" style="margin-top:14px">
+          <!-- Section templates are produced by JS for easier progress tracking -->
+        </section>
+
+        <!-- Mixed Quiz -->
+        <section class="card" style="margin-top:14px">
+          <h3>Mixed Quiz — Self-check (MCQ, True/False, Short Answer)</h3>
+          <div class="small-muted" style="margin-top:6px">Complete the quiz then press <strong>Submit</strong>. MCQs and TF are auto-marked. Short answers can be compared with model answers — self-mark.</div>
+
+          <!-- MCQs -->
+          <div id="mcqArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>MCQs</strong></div>
+            <div id="mcqs"></div>
+          </div>
+
+          <!-- True/False -->
+          <div id="tfArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>True / False</strong></div>
+            <div id="tfs"></div>
+          </div>
+
+          <!-- Short answers -->
+          <div id="shortArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>Short answer questions</strong></div>
+            <div style="margin-top:8px" class="small-muted">Write your answer and later compare with the model answer. Mark yourself honestly.</div>
+            <div style="margin-top:8px">
+              <ol id="shorts"></ol>
+            </div>
+            <div style="margin-top:8px">
+              <button class="btn" onclick="revealShortAnswers()">Reveal model answers / hints</button>
+            </div>
+            <div id="shortAnswersKey" class="answer-key">
+              <!-- populated by JS -->
+            </div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="submitMixedQuiz()">Submit</button>
+            <button class="btn secondary" onclick="resetMixedQuiz()">Reset</button>
+            <div id="mixedScore" style="margin-left:auto" class="small-muted"></div>
+          </div>
+
+          <div id="mcqFeedback" style="margin-top:10px;display:none">
+            <details>
+              <summary style="cursor:pointer">Show MCQ & TF explanations</summary>
+              <div id="mcqExplanations" style="margin-top:8px" class="small-muted"></div>
+            </details>
+          </div>
+        </section>
+
+        <!-- Exam-style Questions -->
+        <section class="card" style="margin-top:14px">
+          <h3>Exam-style Questions (Scenario-based)</h3>
+          <p class="small-muted">Attempt under timed conditions (60–90 mins for the set). Use the mark scheme to self-assess when finished.</p>
+
+          <div class="exam-list" style="margin-top:10px">
+            <ol id="examQs"></ol>
+          </div>
+
+          <div style="margin-top:10px">
+            <button class="btn" onclick="toggleMarkScheme()">Show / Hide Mark scheme & Hints</button>
+            <div id="markScheme" class="answer-key" style="margin-top:8px">
+              <!-- mark scheme populated by JS -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right column: sticky summary / teacher tips -->
+      <aside class="sticky-aside">
+        <div class="card">
+          <h4 style="margin:0">Teacher / Revision Tools</h4>
+          <div style="margin-top:8px" class="small-muted">
+            <strong>Quick checklist</strong>
+            <ul>
+              <li>Ask students to show conversion steps (powers of two).</li>
+              <li>Require units and bit-lengths in calculations.</li>
+              <li>Insist clarity on sign representation for two's complement.</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="small-muted">Class activity</div>
+            <div class="teacher-note">
+              Use the <strong>sampling / bit-depth exercise</strong> as a paired activity: one student calculates, the other verifies and suggests compression strategies.
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <div class="small-muted">Quick stats</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+              <div class="stat-card small-muted">Sections: <strong id="numSections">0</strong></div>
+              <div class="stat-card small-muted">MCQs: <strong id="numMcqs">0</strong></div>
+              <div class="stat-card small-muted">Exam Qs: <strong id="numExam">0</strong></div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;flex-direction:column">
+            <button class="btn secondary" onclick="printPage()">Print / Save PDF</button>
+            <button class="btn ghost" onclick="downloadHTML()">Download HTML</button>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer>
+      <div>Created for Modern English School Cairo — A-Level Computer Science (9618)</div>
+      <div style="margin-top:6px">Teacher: Ravi Raju • Use in class & revision</div>
+    </footer>
+  </div>
+
+  <script>
+    /***********************
+     * Content data objects
+     ***********************/
+    // Sections content (HTML snippets kept simple — you may edit any text below)
+    const SECTION_DATA = [
+      {
+        id:'binary-basics',
+        title:'1. Number systems: Binary, Octal, Hexadecimal & conversions',
+        brief:'Binary representation, conversions and two\'s complement for signed values.',
+        html:`
+          <p>Computers use <strong>binary (base 2)</strong>. Each bit represents a power of two.
+          Convert between bases by repeated division (decimal→binary) or by grouping (binary↔hex).</p>
+          <p>Two's complement is the usual method to represent signed integers: for negative numbers invert bits then add 1.</p>
+          <p class="small-muted"><strong>Tips:</strong> For fractions use negative powers (2^-1 = 0.5 etc.). For hex, group binary into 4-bit nibbles.</p>
+        `,
+        examples:[
+          {title:'Example — Convert 173 (decimal) to binary', html:'Divide by 2 and record remainders → <code>10101101₂</code>.'},
+          {title:'Example — Binary fraction', html:'<code>1101.101₂</code> = 8+4+0+1 + 0.5 + 0 + 0.125 = <strong>13.625</strong>.'}
+        ],
+        exercises:[
+          'Convert decimal 254 to binary and to hexadecimal.',
+          'Represent −18 in 8-bit two\'s complement form.',
+          'Convert hex <code>3F.A</code> to binary and to decimal.'
+        ]
+      },
+
+      {
+        id:'data-units',
+        title:'2. Data units & character encoding (ASCII, Unicode / UTF-8)',
+        brief:'Bytes, kilobytes; ASCII vs Unicode and why UTF-8 is common.',
+        html:`
+          <p>Data is measured in bits and bytes. 1 byte = 8 bits. Use consistent units and label answers (bytes, KB, MB).</p>
+          <p>ASCII is limited to basic Latin characters. Unicode supports many scripts; UTF-8 is variable-length and widely used.</p>
+        `,
+        examples:[
+          {title:'Example', html:'How many bytes to store "Computer" in ASCII? Answer: 8 bytes.'},
+          {title:'Example — Unicode', html:'Many Arabic letters and emoji require >1 byte in UTF-8; UTF-8 is backwards-compatible with ASCII.'}
+        ],
+        exercises:[
+          'Calculate the file size (in bytes) of a 640×480 24-bit bitmap image (no compression).',
+          'Show how Unicode codepoint U+0633 might be encoded in UTF-8 (outline).'
+        ]
+      },
+
+      {
+        id:'audio-image',
+        title:'3. Representation of sound & images; sampling, quantisation, compression',
+        brief:'Sampling theorem, bit-depth, color depth and lossy vs lossless compression.',
+        html:`
+          <p>Sound: sampling rate × bit depth × channels × time = total bits. Nyquist: sampling rate ≥ 2 × highest frequency.</p>
+          <p>Images: pixels × colour depth (e.g., 24-bit RGB). Compression: lossless (PNG) vs lossy (JPEG).</p>
+        `,
+        examples:[
+          {title:'Example — Audio size', html:'10s stereo at 44.1kHz, 16-bit → 44100 × 16 × 2 × 10 = 14,112,000 bits ≈ 1.664 MB.'},
+          {title:'Example — Image size', html:'1920×1080 at 24-bit → about 5.96 MB uncompressed.'}
+        ],
+        exercises:[
+          'Calculate minimum sampling rate for a 7 kHz signal (Nyquist).',
+          'Explain why JPEG is lossy and give one scenario where lossless is preferred.'
+        ]
+      },
+
+      {
+        id:'error-detection',
+        title:'4. Error detection & correction (parity, checksums, CRC)',
+        brief:'Parity, checksums and CRC basics; strengths and limitations.',
+        html:`
+          <p>Parity detects single-bit flips (simple). Checksums and CRCs detect more complex errors. Hamming codes can detect and correct certain single-bit errors.</p>
+        `,
+        examples:[
+          {title:'Example — Parity', html:'Compute even parity for <code>1011001</code> → count ones (4) → parity bit = 0 (already even).'},
+          {title:'Example — Checksum', html:'Sum bytes modulo a fixed number; used in file headers and protocols.'}
+        ],
+        exercises:[
+          'Given 7-bit data <code>1001101</code>, compute even parity bit.',
+          'Describe one advantage and one disadvantage of CRC over parity.'
+        ]
+      },
+
+      {
+        id:'summary',
+        title:'5. Summary and exam technique',
+        brief:'How to approach conversion and calculation questions in exams.',
+        html:`
+          <p>Always show steps. Label units. For two's complement show inversion + add 1 steps. For sampling/bitrate, state formula used explicitly.</p>
+        `,
+        examples:[
+          {title:'Exam tip', html:'Write powers of two under each binary digit to avoid mistakes.'}
+        ],
+        exercises:[
+          'Write a quick checklist you will follow when answering a data representation question in a timed exam.'
+        ]
+      }
+    ];
+
+    // Mixed quiz content
+    const MCQS = [
+      {id:'m1', q:"What is the 8-bit two's complement representation of −45?", options:['11010011','00101101','10101101','10010011'], correct:'11010011', explanation:"+45 = 00101101 → invert = 11010010 → add 1 = 11010011."},
+      {id:'m2', q:"Which encoding is variable-length and backward-compatible with ASCII?", options:['UTF-16','UTF-8','ASCII-Extended','EBCDIC'], correct:'UTF-8', explanation:'UTF-8 uses 1–4 bytes and preserves ASCII for first 128 codepoints.'},
+      {id:'m3', q:"Which sampling rate satisfies Nyquist for a max signal of 15 kHz?", options:['15 kHz','30 kHz','7.5 kHz','20 kHz'], correct:'30 kHz', explanation:'Nyquist: ≥ 2 × highest frequency → 30 kHz.'}
+    ];
+
+    const TFS = [
+      {id:'t1', q:'Hexadecimal groups binary digits into 4-bit nibbles (True/False)?', correct:true, explanation:'True — 1 hex digit = 4 binary bits.'},
+      {id:'t2', q:'UTF-8 always uses 2 bytes per character (True/False)?', correct:false, explanation:'False — UTF-8 is variable-length (1–4 bytes).'}
+    ];
+
+    const SHORTS = [
+      {id:'s1', q:'Explain in two sentences why two\'s complement is preferred over sign-and-magnitude.' , answer:'Two\'s complement simplifies arithmetic because the same binary addition circuitry works for positive and negative numbers; sign-and-magnitude requires special handling for sign when adding/subtracting.'},
+      {id:'s2', q:'Briefly describe how you would calculate storage for a 24-bit 800×600 image and include units.' , answer:'Storage = width × height × colour depth = 800×600×24 bits = 11,520,000 bits = 1,440,000 bytes ≈ 1.373 MB.'}
+    ];
+
+    // Exam questions + mark scheme
+    const EXAM_QS = [
+      {
+        q:`A digital camera records images at 1024×768 with 24-bit colour. A student needs to store 120 such images on a flash card.
+        <ol type="a">
+          <li>Calculate the uncompressed storage required in megabytes (show your working).</li>
+          <li>The student saves them as JPEG; final size is 60% of uncompressed. State new storage requirement and explain one reason JPEG achieves compression.</li>
+        </ol>`,
+        mark:`(a) Uncompressed size per image = 1024×768×24 bits = 18,874,368 bits = 2,359,296 bytes ≈ 2.25 MB. For 120 images: ≈ 270 MB.
+        (b) JPEG at 60% → 0.6×270 ≈ 162 MB. JPEG compresses using DCT and quantisation, discarding some high-frequency detail.`
+      },
+      {
+        q:`A waveform has highest frequency 9 kHz and will be recorded for 20 s in mono using 16-bit samples.
+        <ol type="a">
+          <li>Calculate minimum sampling rate (Nyquist) and the uncompressed file size in megabytes.</li>
+          <li>Suggest one improvement to reduce storage while keeping reasonable quality.</li>
+        </ol>`,
+        mark:`(a) Min sampling = 2×9k = 18 kHz. Size = 18000×16×1×20 = 5,760,000 bits = 720,000 bytes ≈ 0.6875 MB ≈ 0.70 MB.
+        (b) Use a lossy codec (MP3/AAC) at a moderate bitrate or reduce sample rate slightly with a suitable low-pass filter.`
+      },
+      {
+        q:`Convert hexadecimal <code>AF2</code> to binary and decimal. Show working.`,
+        mark:`AF2 hex = A F 2 → 1010 1111 0010₂. Decimal = (10×16²) + (15×16) + 2 = 2818.`
+      },
+      {
+        q:`Define two's complement. Convert 8-bit two's complement number <code>11101100</code> to decimal.`,
+        mark:`Two's complement represents negatives by inverting bits and adding one. 11101100 invert→00010011 add1→00010100 (20) → value is −20.`
+      },
+      {
+        q:`Explain difference between lossy and lossless compression. Give one format example for each and one scenario where each is used.`,
+        mark:`Lossy removes some information to reduce size (e.g., JPEG, MP3): used for streaming or photos where small loss is acceptable. Lossless preserves exact data (e.g., PNG, FLAC): used for archives, medical images, or source data.`
+      },
+      {
+        q:`Given binary fraction 0.1011₂, convert to decimal and show each step.`,
+        mark:`0.1011₂ = 1×2^-1 + 0×2^-2 + 1×2^-3 + 1×2^-4 = 0.5 + 0 + 0.125 + 0.0625 = 0.6875.`
+      },
+      {
+        q:`A file header contains a 16-bit checksum computed as sum of bytes modulo 65536. Explain how this checksum helps detect errors and one limitation.`,
+        mark:`Checksum detects many random errors by comparing sums; limitation: some different byte sequences may produce same checksum (collisions), and it may not detect reordering or some multi-byte compensating errors.`
+      },
+      {
+        q:`A system uses 12-bit ADC for an analog sensor (0–4095). (a) Explain quantisation error briefly. (b) Describe one method to reduce quantisation error.`,
+        mark:`(a) Quantisation error is rounding / discretisation error from mapping continuous values to discrete steps. (b) Increase ADC bit depth or use oversampling + averaging/dither.`
+      },
+      {
+        q:`Explain why grouping binary digits into hex is useful for programmers. Give one historical use of octal.`,
+        mark:`Hex groups 4 bits so it's compact and human-readable; octal was historically used on PDP machines and for UNIX permission notation.`
+      },
+      {
+        q:`Explain how parity bits could fail to detect some errors and give an example.`,
+        mark:`Parity fails when an even number of bit flips occurs (e.g., two bits flip), leaving parity unchanged. Example: 0101 → two flips → 0001 may still keep parity same.`
+      }
+    ];
+
+    /***********************
+     * Render functions
+     ***********************/
+    function renderSections(){
+      const container = document.getElementById('sections');
+      container.innerHTML = '';
+      SECTION_DATA.forEach((s, idx) => {
+        const sec = document.createElement('div');
+        sec.style.marginTop = '12px';
+
+        const toggle = document.createElement('button');
+        toggle.className = 'section-toggle';
+        toggle.setAttribute('data-id', s.id);
+        toggle.innerHTML = `<div>
+                              <div style="font-weight:700">${idx+1}. ${s.title}</div>
+                              <div class="small-muted" style="margin-top:6px">${s.brief}</div>
+                            </div>
+                            <div class="toggle-icon">▸</div>`;
+        toggle.addEventListener('click', ()=> toggleSection(s.id));
+        sec.appendChild(toggle);
+
+        const body = document.createElement('div');
+        body.className = 'section-body';
+        body.style.display = 'none';
+        body.id = `body-${s.id}`;
+        body.innerHTML = s.html;
+
+        // examples
+        if(s.examples && s.examples.length){
+          const exWrap = document.createElement('div');
+          exWrap.className = 'examples';
+          exWrap.innerHTML = '<h4 style="margin:8px 0 6px">Worked examples</h4>';
+          s.examples.forEach(e=>{
+            const ex = document.createElement('div');
+            ex.className = 'example-card';
+            ex.innerHTML = `<div style="font-weight:600">${e.title}</div><div style="margin-top:6px" class="small-muted">${e.html}</div>`;
+            exWrap.appendChild(ex);
+          });
+          body.appendChild(exWrap);
+        }
+
+        // exercises
+        if(s.exercises && s.exercises.length){
+          const exWrap = document.createElement('div');
+          exWrap.className = 'exercises';
+          exWrap.innerHTML = '<h4 style="margin:8px 0 6px">Exercises</h4>';
+          const ol = document.createElement('ol');
+          s.exercises.forEach(e=>{
+            const li = document.createElement('li');
+            li.innerHTML = `<div class="small-muted">${e}</div>`;
+            ol.appendChild(li);
+          });
+          exWrap.appendChild(ol);
+          body.appendChild(exWrap);
+        }
+
+        sec.appendChild(body);
+        container.appendChild(sec);
+      });
+
+      document.getElementById('numSections').textContent = SECTION_DATA.length;
+      updateProgress(); // initial
+    }
+
+    function toggleSection(id){
+      const body = document.getElementById('body-'+id);
+      const toggle = document.querySelector(`[data-id="${id}"]`);
+      const icon = toggle.querySelector('.toggle-icon');
+      if(body.style.display === 'none'){
+        body.style.display = 'block';
+        icon.textContent = '▾';
+        openedSections.add(id);
+      } else {
+        body.style.display = 'none';
+        icon.textContent = '▸';
+        openedSections.delete(id);
+      }
+      updateProgress();
+    }
+
+    function openAll(open=true){
+      SECTION_DATA.forEach(s=>{
+        const body = document.getElementById('body-'+s.id);
+        const toggle = document.querySelector(`[data-id="${s.id}"]`);
+        const icon = toggle.querySelector('.toggle-icon');
+        if(open){
+          body.style.display='block'; icon.textContent='▾'; openedSections.add(s.id);
+        } else {
+          body.style.display='none'; icon.textContent='▸'; openedSections.delete(s.id);
+        }
+      });
+      updateProgress();
+    }
+
+    /***********************
+     * Progress tracking
+     ***********************/
+    const openedSections = new Set();
+    let quizCompleted = false;
+    function updateProgress(){
+      const total = SECTION_DATA.length + 1; // +1 for quiz
+      const opened = openedSections.size + (quizCompleted?1:0);
+      const pct = Math.round((opened/total)*100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressPercent').textContent = pct + '%';
+    }
+
+    /***********************
+     * Quiz rendering & logic
+     ***********************/
+    function renderMCQs(){
+      const wrap = document.getElementById('mcqs');
+      wrap.innerHTML = '';
+      MCQS.forEach((mq, i) => {
+        const block = document.createElement('div');
+        block.className = 'mcq-block';
+        block.innerHTML = `<div style="font-weight:700">Q${i+1}. ${mq.q}</div>`;
+        const opts = document.createElement('div');
+        opts.className = 'mcq-options';
+        mq.options.forEach(opt => {
+          const lbl = document.createElement('label');
+          lbl.className = 'option';
+          lbl.innerHTML = `<input type="radio" name="${mq.id}" value="${opt}"> <span>${opt}</span>`;
+          opts.appendChild(lbl);
+        });
+        block.appendChild(opts);
+        wrap.appendChild(block);
+      });
+      document.getElementById('numMcqs').textContent = MCQS.length;
+    }
+
+    function renderTFs(){
+      const wrap = document.getElementById('tfs');
+      wrap.innerHTML = '';
+      TFS.forEach((t, i) => {
+        const div = document.createElement('div');
+        div.style.marginTop = '8px';
+        div.innerHTML = `<div style="font-weight:700">Q${i+1}. ${t.q}</div>
+                         <div style="margin-top:6px;display:flex;gap:8px">
+                          <label class="option"><input type="radio" name="${t.id}" value="true"> True</label>
+                          <label class="option"><input type="radio" name="${t.id}" value="false"> False</label>
+                         </div>`;
+        wrap.appendChild(div);
+      });
+    }
+
+    function renderShorts(){
+      const ol = document.getElementById('shorts');
+      ol.innerHTML = '';
+      SHORTS.forEach((s, i) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<div style="font-weight:700">${s.q}</div>
+                        <div style="margin-top:6px"><textarea id="short-${s.id}" class="short" placeholder="Write your answer here..."></textarea></div>`;
+        ol.appendChild(li);
+      });
+
+      // populate answer key container
+      const key = document.getElementById('shortAnswersKey');
+      key.innerHTML = '<h4>Model answers & hints</h4>';
+      SHORTS.forEach(s=>{
+        const d = document.createElement('div');
+        d.style.marginTop='8px';
+        d.innerHTML = `<div style="font-weight:600">${s.q}</div><div class="small-muted" style="margin-top:6px">${s.answer}</div>`;
+        key.appendChild(d);
+      });
+    }
+
+    function revealShortAnswers(){
+      const key = document.getElementById('shortAnswersKey');
+      key.classList.toggle('reveal');
+    }
+
+    function submitMixedQuiz(){
+      // MCQ grading
+      let mcqScore = 0;
+      const mcqTotal = MCQS.length;
+      const mcqExplanations = [];
+      MCQS.forEach((mq,i)=>{
+        const chosen = document.querySelector(`input[name="${mq.id}"]:checked`);
+        const chosenVal = chosen ? chosen.value : null;
+        if(chosenVal === mq.correct) mcqScore++;
+        mcqExplanations.push(`<div style="margin-top:6px"><strong>Q${i+1}:</strong> Correct: <code>${mq.correct}</code> — Explanation: ${mq.explanation}</div>`);
+      });
+
+      // TF grading
+      let tfScore = 0;
+      const tfTotal = TFS.length;
+      const tfExplanations = [];
+      TFS.forEach((t,i)=>{
+        const chosen = document.querySelector(`input[name="${t.id}"]:checked`);
+        const chosenVal = chosen ? (chosen.value === 'true') : null;
+        if(chosenVal === t.correct) tfScore++;
+        tfExplanations.push(`<div style="margin-top:6px"><strong>TF Q${i+1}:</strong> Correct: <strong>${t.correct ? 'True' : 'False'}</strong> — ${t.explanation}</div>`);
+      });
+
+      // Short answers: user self-mark; show how many answered (not auto-marked)
+      const shortCount = SHORTS.length;
+      let shortAnswered = 0;
+      SHORTS.forEach(s=>{
+        const txt = document.getElementById('short-'+s.id).value.trim();
+        if(txt.length) shortAnswered++;
+      });
+
+      // Aggregate small summary
+      const totalAuto = mcqTotal + tfTotal;
+      const gotAuto = mcqScore + tfScore;
+      const percentAuto = Math.round((gotAuto / totalAuto) * 100);
+
+      // show results
+      document.getElementById('mixedScore').innerHTML = `Auto-graded: <span class="score-badge">${gotAuto}/${totalAuto}</span> (${percentAuto}%) • Short answers filled: ${shortAnswered}/${shortCount}`;
+      document.getElementById('mcqExplanations').innerHTML = mcqExplanations.join('') + tfExplanations.join('');
+      document.getElementById('mcqFeedback').style.display = 'block';
+      quizCompleted = true;
+      updateProgress();
+    }
+
+    function resetMixedQuiz(){
+      // clear all inputs
+      MCQS.forEach(mq=>{
+        const chosen = document.querySelectorAll(`input[name="${mq.id}"]`);
+        chosen.forEach(c=>c.checked = false);
+      });
+      TFS.forEach(t=>{
+        const chosen = document.querySelectorAll(`input[name="${t.id}"]`);
+        chosen.forEach(c=>c.checked = false);
+      });
+      SHORTS.forEach(s=>{
+        document.getElementById('short-'+s.id).value = '';
+      });
+      document.getElementById('mixedScore').textContent = '';
+      document.getElementById('mcqFeedback').style.display = 'none';
+      quizCompleted = false;
+      updateProgress();
+    }
+
+    /***********************
+     * Exam rendering & mark scheme
+     ***********************/
+    function renderExamQs(){
+      const ol = document.getElementById('examQs');
+      ol.innerHTML = '';
+      EXAM_QS.forEach((eQ, i)=>{
+        const li = document.createElement('li');
+        li.style.marginTop = '10px';
+        li.innerHTML = `<div class="small-muted">${eQ.q}</div>`;
+        ol.appendChild(li);
+      });
+
+      // populate hidden mark scheme area
+      const ms = document.getElementById('markScheme');
+      ms.innerHTML = '<h4>Mark scheme & hints</h4>';
+      EXAM_QS.forEach((eQ, i)=>{
+        const d = document.createElement('div');
+        d.style.marginTop='10px';
+        d.innerHTML = `<div style="font-weight:700">Q${i+1} — Hints</div><div class="small-muted" style="margin-top:6px">${eQ.mark}</div>`;
+        ms.appendChild(d);
+      });
+
+      document.getElementById('numExam').textContent = EXAM_QS.length;
+    }
+
+    function toggleMarkScheme(){
+      const ms = document.getElementById('markScheme');
+      ms.classList.toggle('reveal');
+    }
+
+    /***********************
+     * Utilities: print & download
+     ***********************/
+    function printPage(){
+      window.print();
+    }
+
+    function downloadHTML(){
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob([html], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'A-Level-CS-Chapter13-Data-Representation.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    /***********************
+     * Starter / init
+     ***********************/
+    function startLesson(){
+      openAll(true);
+      // scroll to first section
+      const first = document.querySelector('[data-id]');
+      if(first) first.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // initial render
+    renderSections();
+    renderMCQs();
+    renderTFs();
+    renderShorts();
+    renderExamQs();
+
+    // update initial counts (already done elsewhere but safe)
+    document.getElementById('numSections').textContent = SECTION_DATA.length;
+    document.getElementById('numMcqs').textContent = MCQS.length;
+
+    /***********************
+     * Accessibility: keyboard helpers
+     ***********************/
+    document.addEventListener('keydown', (e)=>{
+      // press "L" to toggle all sections
+      if(e.key.toLowerCase() === 'l') openAll(true);
+    });
+
+  </script>
+</body>
+</html>

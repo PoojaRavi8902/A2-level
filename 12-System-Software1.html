@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chapter 16 — System Software | Interactive Revision</title>
+  <style>
+    :root{--teal:#20b2aa;--blue:#4a90e2;--yellow:#fff7b2;--green:#b8f5b1;--coral:#ffb6b3;--muted:#f5f7fb;--card:#ffffff;--shadow:0 6px 18px rgba(30,40,60,0.08);--max-width:1100px;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    body{background:linear-gradient(180deg,#f7fbff 0%, #ffffff 100%);color:#0b2545;margin:0;padding:24px;display:flex;justify-content:center}
+    .wrap{width:100%;max-width:var(--max-width)}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{background:var(--blue);color:white;padding:10px 14px;border-radius:8px;font-weight:700}
+    h1{margin:0;font-size:20px}
+    .meta{margin-left:auto;text-align:right}
+    .name-input{display:flex;gap:8px;align-items:center}
+    input[type=text]{padding:8px;border-radius:8px;border:1px solid #d7e3f5}
+    .score{font-weight:700;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg,var(--green),#e7ffef)}
+    .controls{display:flex;gap:12px;margin:12px 0}
+    .btn{background:var(--blue);color:white;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;box-shadow:var(--shadow)}
+    .btn.secondary{background:#f0f6ff;color:var(--blue);border:1px solid #d7eafc}
+    .panel{background:var(--card);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+    .prog-wrap{background:#e6f3f1;border-radius:12px;padding:8px;display:flex;align-items:center;gap:12px}
+    .progress{height:12px;background:#fff;border-radius:8px;flex:1;overflow:hidden;border:1px solid #e6f3f1}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));width:0%}
+    .progress-label{min-width:120px;text-align:right;font-size:13px;color:#25546a}
+    .sections{display:grid;grid-template-columns:1fr;gap:12px}
+    .explain{background:linear-gradient(90deg,rgba(32,178,170,0.06),rgba(32,178,170,0.02));border-left:6px solid var(--teal);padding:10px;border-radius:8px;margin:10px 0}
+    .example{background:linear-gradient(90deg,rgba(212,228,255,0.4),rgba(212,228,255,0.15));border-left:6px solid #d9e8ff;padding:10px;border-radius:8px;margin:10px 0}
+    .teacher{background:linear-gradient(90deg,rgba(74,144,226,0.06),rgba(74,144,226,0.02));border-left:6px solid var(--blue);padding:10px;border-radius:8px;margin:10px 0}
+    .tip{background:var(--yellow);padding:10px;border-radius:8px;margin:10px 0}
+    .exercise{background:var(--green);padding:10px;border-radius:8px;margin:10px 0}
+    details{border-radius:8px;padding:8px}
+    summary{font-weight:700;font-size:16px}
+    .quiz-grid{display:grid;grid-template-columns:1fr;gap:8px}
+    .qcard{border-radius:10px;padding:12px;background:#fff;border:1px solid #eef6fb}
+    .qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .options{display:flex;flex-direction:column;gap:6px}
+    .opt{display:flex;gap:8px;align-items:center}
+    input[type=radio]{accent-color:var(--blue)}
+    .results{display:flex;gap:12px;align-items:center;margin-top:10px}
+    .answers{margin-top:12px}
+    .correct{color:green;font-weight:700}
+    .wrong{color:#d9534f;font-weight:700}
+    .reveal{background:#fff7f6;border-left:6px solid var(--coral);padding:10px;border-radius:8px;margin-top:10px}
+    footer{margin-top:18px;text-align:center;color:#4b6b85;font-size:13px}
+    @media(min-width:900px){.sections{grid-template-columns:1fr 420px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">CS — Ch16</div>
+      <div>
+        <h1>Chapter 16 — System Software (Interactive)</h1>
+        <div style="color:#23527c;font-size:13px">Cambridge AS/A Level (9618) — Syllabus-aligned notes + quiz</div>
+      </div>
+      <div class="meta">
+        <div class="name-input">
+          <label for="studentName">Name:</label>
+          <input id="studentName" type="text" placeholder="Student name" />
+          <div id="topScore" class="score">Score: —</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="prog-wrap panel" style="flex:1">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--teal)"></div>
+        <div style="font-weight:700">Progress</div>
+        <div class="progress" aria-hidden><i id="progbar"></i></div>
+        <div class="progress-label" id="progLabel">0 / 50 answered</div>
+      </div>
+      <button id="resetBtn" class="btn secondary">Reset Answers</button>
+      <button id="submitBtn" class="btn" disabled>Submit — Reveal Answers</button>
+    </div>
+
+    <div class="sections">
+      <div>
+        <div class="panel">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="font-weight:800">Chapter 16 — Detailed Notes</div>
+            <div style="margin-left:auto;font-size:13px;color:#25546a">Colour-coded: Explain / Example / Teacher / Tip / Exercise</div>
+          </div>
+          <div class="explain">These notes strictly follow the Cambridge 9618 syllabus bullet points for Chapter 16. Use the collapsible subsections to review each topic in detail; exercises are embedded for quick practice.</div>
+        </div>
+
+        <!-- Section 16.1 -->
+        <details class="panel" open>
+          <summary>16.1 Types of System Software</summary>
+          <div class="explain"><strong>System software</strong> controls hardware and provides a platform for application software. Main categories: Operating Systems, Utility Programs, Library Programs, Translators, Linkers/Loaders and Virtual Machines.</div>
+          <div class="example">Examples of operating systems: Windows 11, macOS, Linux distributions, Android, iOS.</div>
+          <div class="teacher">Teacher Note: Clarify to students that system software runs in the background and is essential — applications cannot run without it.</div>
+          <div class="exercise">Mini Exercise: Give one example of a system software and one application software; explain the difference in one sentence.</div>
+        </details>
+
+        <!-- Section 16.2 -->
+        <details class="panel">
+          <summary>16.2 Utility Software — Deep Dive</summary>
+          <div class="explain">Utility software provides maintenance and optimisation functions which support the operating system. They include file managers, disk utilities, security tools, backup and recovery, compression utilities, and system monitors.</div>
+          <div class="example">Disk utilities: CHKDSK (checks disk errors), Disk Cleanup (removes temporary files), Defragmenter (HDD optimisation). Security utilities include Antivirus and Firewalls. Backup utilities: full, incremental, differential backups.</div>
+          <div class="tip">Tip: SSDs use wear-leveling; defragmentation is unnecessary and harmful for SSDs.</div>
+          <div class="teacher">Teacher Note: Ask students to compare incremental vs differential backups — prepare a 3-mark explanation exercise.</div>
+          <div class="exercise">Mini Exercise: Explain in one sentence why incremental backups save time compared to full backups.</div>
+        </details>
+
+        <!-- Section 16.3 -->
+        <details class="panel">
+          <summary>16.3 Library Programs — Deep Dive</summary>
+          <div class="explain">Library programs are collections of pre-written routines (functions, classes) that programs can call. They improve productivity and reliability by enabling code reuse.</div>
+          <div class="example">Static libraries (.lib, .a) are linked at compile time. Dynamic/shared libraries (.dll, .so, .dylib) are linked at runtime and can be shared among programs.</div>
+          <div class="teacher">Teacher Note: Demonstrate creating a small user-defined library (e.g., math helper) and importing it into two programs.</div>
+          <div class="exercise">Mini Exercise: State one advantage and one disadvantage of dynamic libraries.</div>
+        </details>
+
+        <!-- Section 16.4 -->
+        <details class="panel">
+          <summary>16.4 Translators — Comprehensive</summary>
+          <div class="explain">Translators convert source code into machine code. Main types: Assemblers (assembly → machine), Compilers (high-level → machine for whole program), Interpreters (high-level → execute line-by-line).</div>
+          <div class="example">C++ typically uses a compiler (produces an executable). Python commonly uses an interpreter (executes line-by-line), often with a bytecode stage.</div>
+          <div class="teacher">Teacher Note: Run a live demo — compile a small C program and run it; then run an equivalent Python script to show differences in workflow and error reporting.</div>
+          <div class="exercise">Mini Exercise: Provide one advantage and one disadvantage of using an interpreter.</div>
+        </details>
+
+        <!-- Section 16.5 -->
+        <details class="panel">
+          <summary>16.5 Linkers, Loaders & Virtual Machines — Comprehensive</summary>
+          <div class="explain">A <strong>linker</strong> combines object files and library code into a single executable. A <strong>loader</strong> places the executable into RAM and prepares it for execution. A <strong>virtual machine</strong> emulates a computer system (process VM like JVM, or system VM like VirtualBox).</div>
+          <div class="example">Static linking embeds library code into the executable; dynamic linking uses shared libraries loaded at runtime. JVM runs Java bytecode, enabling platform independence.</div>
+          <div class="teacher">Teacher Note: Illustrate the full build chain: source → compiler/assembler → object files → linker → executable → loader → process (or bytecode → VM).</div>
+          <div class="exercise">Mini Exercise: Explain the difference between static and dynamic linking in two sentences.</div>
+        </details>
+
+        <!-- Section 16.6 -->
+        <details class="panel">
+          <summary>16.6 Role of an Operating System in Program Execution — Final</summary>
+          <div class="explain">The OS manages process creation, CPU scheduling, memory allocation (paging/segmentation/virtual memory), file access, device drivers, interrupts, and security while programs execute.</div>
+          <div class="example">When a user runs a program: loader brings the executable to memory, OS sets up a PCB, scheduler allocates CPU time, I/O requests are processed by device drivers, and the OS reclaims resources on termination.</div>
+          <div class="teacher">Teacher Note: Use a layered diagram (User → Application → OS → Hardware) and perform a Task Manager demo to visualise processes and resource usage.</div>
+          <div class="exercise">Mini Exercise: List three items stored in a Process Control Block (PCB).</div>
+        </details>
+
+      </div>
+
+      <!-- Right column: Quiz -->
+      <div>
+        <div class="panel" id="quizPanel">
+          <div style="font-weight:800;margin-bottom:8px">Quick Quiz — 50 Questions (Self-marking)</div>
+          <div style="font-size:13px;color:#2b4f66;margin-bottom:8px">Complete all questions; Submit reveals your score and the correct answers.</div>
+          <div class="quiz-grid" id="quizGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="font-weight:800">Teacher controls</div>
+      <div style="margin-top:8px;font-size:13px;color:#32526a">Reset clears answers.</div>
+    </div>
+
+    <footer>Made for Hassan and Kenzy of Year 12 </footer>
+  </div>
+
+  <script>
+    // Quiz data (50 MCQs)
+    const quizData = [
+      {q:"Define system software.",a:["Software that manages hardware so applications can run","Software used to create documents","A type of application software","Programming language"],ans:0},
+      {q:"Which of the following is NOT system software?",a:["Device driver","Antivirus utility","Word processor","Operating system"],ans:2},
+      {q:"Which is a function of an OS?",a:["Word processing","Memory management","Photo editing","Video playback"],ans:1},
+      {q:"Example of system software:",a:["Microsoft Word","Linux","Chrome","Photoshop"],ans:1},
+      {q:"Which is a utility program?",a:["Disk defragmenter","Compiler","Assembler","Interpreter"],ans:0},
+      {q:"Purpose of disk defragmentation:",a:["Encrypt files","Rearrange fragments to speed access","Back up files","Scan for viruses"],ans:1},
+      {q:"Which utility compresses files?",a:["CHKDSK","7-Zip","Task Manager","Device Manager"],ans:1},
+      {q:"An incremental backup copies:",a:["Everything every time","Only files changed since last backup","Only system files","Only program files"],ans:1},
+      {q:"Which is lossy compression?",a:["ZIP","PNG","JPEG","FLAC"],ans:2},
+      {q:"Which utility checks disk errors?",a:["Disk Cleanup","CHKDSK","Antivirus","Compression tool"],ans:1},
+      {q:"What is a library program?",a:["An app store","Prewritten routines for reuse","A disk utility","An OS component"],ans:1},
+      {q:"Static vs dynamic libraries: which links at runtime?",a:["Static","Dynamic","Neither","Both"],ans:1},
+      {q:"Example of dynamic library extension on Linux:",a:[".dll",".so",".lib",".exe"],ans:1},
+      {q:"Advantage of libraries:",a:["Increase code size","Reinvent code","Save development time","Remove dependencies"],ans:2},
+      {q:"If a required dynamic library is missing, program will:",a:["Run faster","Fail to start","Auto-download it","Turn into source code"],ans:1},
+      {q:"Which is a translator?",a:["Firewall","Compiler","File manager","Defragmenter"],ans:1},
+      {q:"Assembler converts:",a:["High-level code to bytecode","Assembly to machine code","Machine code to assembly","Text to image"],ans:1},
+      {q:"Interpreter characteristic:",a:["Translates whole program first","Translates line-by-line","Always produces an exe","Never shows errors"],ans:1},
+      {q:"One advantage of a compiler:",a:["Easier debugging","Faster execution","No need to compile","Reports errors immediately"],ans:1},
+      {q:"Why are interpreters useful?",a:["For final distribution","For quick testing and debugging","To protect source code","To speed up execution"],ans:1},
+      {q:"What is machine code?",a:["Human-readable instructions","Binary instructions for CPU","A markup language","A database format"],ans:1},
+      {q:"Source code vs object code: object code is:",a:["Human-readable","Binary output from translator","Comments in code","Pseudo-code"],ans:1},
+      {q:"A syntax error is detected by:",a:["User","Compiler/Interpreter","Printer","Mouse"],ans:1},
+      {q:"Cross-compiler purpose:",a:["Compile on one platform for another","Compile only on same platform","Interpret code","Compress files"],ans:0},
+      {q:"Bytecode is typically run by:",a:["Linker","Virtual machine","Loader","Assembler"],ans:1},
+      {q:"Purpose of a linker:",a:["Edit source code","Combine object files into executable","Load program to memory","Execute CPU instructions"],ans:1},
+      {q:"Loader responsibility is to:",a:["Combine modules","Move executable into RAM and start it","Translate assembly","Defragment disk"],ans:1},
+      {q:"Static linking copies library code into:",a:["The executable","The source file","The disk boot sector","The interpreter"],ans:0},
+      {q:"Dynamic linking uses shared libraries which are:",a:["Embedded in exe","Opened at runtime","Converted to source","Deleted after use"],ans:1},
+      {q:"A VM simulates:",a:["An IDE","An actual physical computer","A text editor","A compiler"],ans:1},
+      {q:"JVM is an example of:",a:["System virtual machine","Process virtual machine","Hypervisor","Linker"],ans:1},
+      {q:"Host OS is:",a:["The virtual OS running inside VM","The real OS on hardware","A library","An assembler"],ans:1},
+      {q:"Guest OS runs on:",a:["Physical hardware directly","A virtual machine","A compiler","A task manager"],ans:1},
+      {q:"Advantage of VMs for testing:",a:["Faster than native","Isolated environment","No resource use","Always free"],ans:1},
+      {q:"Cloud servers often use:",a:["Physical single OS only","Virtualisation to host many VMs","Only interpreted languages","Only static linking"],ans:1},
+      {q:"First action by OS when running a program:",a:["Delete it","Loader brings it into memory","Compile source","Encrypt files"],ans:1},
+      {q:"Process scheduling decides:",a:["Which process uses CPU next","Which files to delete","How to compress data","Which devices to unplug"],ans:0},
+      {q:"Context switch involves:",a:["Saving/restoring process state","Recompiling program","Moving files","Formatting disk"],ans:0},
+      {q:"Virtual memory uses:",a:["Extra RAM from GPU","Disk space as extension of RAM","More CPUs","Cloud only"],ans:1},
+      {q:"An OS PCB stores:",a:["Register state, program counter, memory limits","Only the file list","Only open windows","Only user passwords"],ans:0},
+      {q:"Device drivers are managed by the:",a:["Compiler","Operating System","Interpreter","Linker"],ans:1},
+      {q:"Which is NOT an OS responsibility?",a:["Memory management","Process scheduling","Photo editing","Device management"],ans:2},
+      {q:"Why isolate processes?",a:["To improve UI look","To prevent one process from corrupting another","To make code shorter","To avoid backups"],ans:1},
+      {q:"What does paging help to avoid?",a:["Running out of disk space","Programs overwriting each other's memory","Slow network","Missing DLLs"],ans:1},
+      {q:"When program terminates, OS must:",a:["Allocate more memory","Deallocate resources and close files","Compile it","Encrypt it"],ans:1}
+    ];
+
+    const quizGrid = document.getElementById('quizGrid');
+    const progbar = document.getElementById('progbar');
+    const progLabel = document.getElementById('progLabel');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const topScore = document.getElementById('topScore');
+    const nameInput = document.getElementById('studentName');
+
+    function renderQuiz(){
+      quizData.forEach((item,i)=>{
+        const div = document.createElement('div'); div.className='qcard';
+        div.id = 'q'+i;
+        const qmeta = document.createElement('div'); qmeta.className='qmeta';
+        qmeta.innerHTML = `<div style="font-weight:700">Q${i+1}</div><div style="font-size:13px;color:#2b4f66">Section: ${sectionFromIndex(i)}</div>`;
+        div.appendChild(qmeta);
+        const qtxt = document.createElement('div'); qtxt.style.marginBottom='8px'; qtxt.innerText = item.q; div.appendChild(qtxt);
+        const opts = document.createElement('div'); opts.className='options';
+        item.a.forEach((opt,j)=>{
+          const label = document.createElement('label'); label.className='opt';
+          const radio = document.createElement('input'); radio.type='radio'; radio.name = 'q'+i; radio.value = j; radio.dataset.q=i;
+          radio.addEventListener('change', updateProgress);
+          const span = document.createElement('span'); span.innerText = opt;
+          label.appendChild(radio); label.appendChild(span); opts.appendChild(label);
+        });
+        div.appendChild(opts);
+        quizGrid.appendChild(div);
+      });
+    }
+
+    function sectionFromIndex(idx){
+      if(idx<5) return '16.1';
+      if(idx<10) return '16.2';
+      if(idx<15) return '16.3';
+      if(idx<25) return '16.4';
+      if(idx<35) return '16.5';
+      return '16.6';
+    }
+
+    function updateProgress(){
+      const total = quizData.length;
+      let answered=0;
+      for(let i=0;i<total;i++){
+        if(document.querySelector('input[name="q'+i+'"]:checked')) answered++;
+      }
+      progbar.style.width = Math.round((answered/total)*100)+'%';
+      progLabel.innerText = `${answered} / ${total} answered`;
+      submitBtn.disabled = (answered!==total);
+    }
+
+    function gradeQuiz(){
+      let score=0;
+      quizData.forEach((item,i)=>{
+        const selected = document.querySelector('input[name="q'+i+'"]:checked');
+        const qdiv = document.getElementById('q'+i);
+        const existing = qdiv.querySelector('.reveal'); if(existing) existing.remove();
+        const reveal = document.createElement('div'); reveal.className='reveal';
+        const correctIndex = item.ans;
+        if(selected && parseInt(selected.value,10) === correctIndex){
+          score++;
+          reveal.innerHTML = `<div class="correct">Correct</div><div style="margin-top:6px;font-size:13px">Answer: ${item.a[correctIndex]}</div>`;
+        } else {
+          reveal.innerHTML = `<div class="wrong">Incorrect</div><div style="margin-top:6px;font-size:13px">Correct answer: <strong>${item.a[correctIndex]}</strong></div>`;
+        }
+        qdiv.appendChild(reveal);
+      });
+      const name = nameInput.value.trim() || 'Student';
+      topScore.innerText = `Score: ${score} / ${quizData.length}`;
+      try{ localStorage.setItem('ch16_last', JSON.stringify({name,score,total:quizData.length,when:new Date().toISOString()})); }catch(e){}
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function resetAnswers(){
+      if(!confirm('Reset all answers?')) return;
+      for(let i=0;i<quizData.length;i++){
+        const checked = document.querySelector('input[name="q'+i+'"]:checked');
+        if(checked) checked.checked=false;
+        const qdiv = document.getElementById('q'+i);
+        const existing = qdiv.querySelector('.reveal'); if(existing) existing.remove();
+      }
+      updateProgress();
+      topScore.innerText = 'Score: —';
+    }
+
+    // initial render
+    renderQuiz(); updateProgress();
+
+    submitBtn.addEventListener('click', ()=>{ gradeQuiz(); });
+    resetBtn.addEventListener('click', resetAnswers);
+
+    nameInput.addEventListener('input', ()=>{
+      const stored = localStorage.getItem('ch16_last');
+      if(stored){ try{ const obj=JSON.parse(stored); if(obj.name===nameInput.value.trim()){ topScore.innerText = `Score: ${obj.score} / ${obj.total}`; } }catch(e){} }
+    });
+  </script>
+</body>
+</html>

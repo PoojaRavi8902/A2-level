@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>A-Level CS 9618 — Chapter 14: Communication & Internet Technologies</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#1e40af;
+      --accent-2:#7c3aed;
+      --success:#16a34a;
+      --danger:#dc2626;
+      --radius:12px;
+      --shadow:0 8px 24px rgba(12,18,33,0.06);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#fbfdff 0%,var(--bg)100%);color:#0f172a;-webkit-font-smoothing:antialiased;padding:20px;}
+    .container{max-width:1150px;margin:0 auto;}
+    header{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    h1{margin:0;font-size:1.55rem}
+    .meta{color:var(--muted);font-size:0.95rem}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-top:14px}
+    .progress-wrap{display:flex;align-items:center;gap:12px}
+    .progress-bar{flex:1;height:12px;background:#eef2ff;border-radius:999px;overflow:hidden}
+    .progress-bar > .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:white;cursor:pointer;font-weight:700}
+    .btn.secondary{background:#eef2ff;color:var(--accent);border:1px solid #e6edff}
+    .btn.ghost{background:transparent;border:1px solid #e7ecff;color:var(--muted)}
+    nav{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .section-toggle{width:100%;text-align:left;padding:14px;border-radius:10px;border:1px solid #eef2f8;background:linear-gradient(180deg,#fff,#fbfdff);cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .section-body{padding:14px;border-left:4px solid rgba(30,64,175,0.08);background:#fbfdff;margin-top:6px;border-radius:0 0 10px 10px}
+    .examples{margin-top:10px}
+    .example-card{background:#fff;padding:10px;border-radius:8px;border:1px solid #f1f5f9;margin-bottom:8px}
+    .exercises ol{padding-left:18px;margin:8px 0}
+    .quiz-block{margin-top:12px;padding:12px;border-radius:10px;background:#fff;border:1px solid #f1f5f9}
+    .mcq-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:8px}
+    label.option{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;border:1px solid #eef2f8;background:#fbfdff;cursor:pointer}
+    input[type="radio"], input[type="checkbox"]{transform:scale(1.05)}
+    .score-badge{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#12b76a,#16a34a);color:white;font-weight:700}
+    .hint{background:#fff7ed;border-left:4px solid #f59e0b;padding:10px;border-radius:8px;margin-top:8px;color:#92400e}
+    .small-muted{font-size:0.9rem;color:var(--muted)}
+    footer{margin-top:36px;text-align:center;color:var(--muted);font-size:0.85rem;padding-bottom:40px}
+    pre.code, code.inline{background:#0f172a;color:#f8fafc;padding:2px 6px;border-radius:6px;font-size:0.9rem}
+    .grid-2{display:grid;grid-template-columns:1fr 380px;gap:16px}
+    @media (max-width:980px){.grid-2{grid-template-columns:1fr}}
+    .sticky-aside{position:sticky;top:18px}
+    .stat-card{background:#fff;padding:8px;border-radius:8px;border:1px solid #eef2f8}
+    .answer-key{display:none;margin-top:8px;padding:10px;border-radius:8px;background:#fff;border:1px dashed #e6eefc}
+    .reveal{display:block}
+    textarea.short{width:100%;min-height:90px;border:1px solid #eef2f8;padding:8px;border-radius:8px;background:#fbfdff}
+    .tier{display:grid;grid-template-columns:1fr;gap:8px}
+    .tier .tier-card{padding:10px;border-radius:8px;border:1px solid #eef2f8;background:#fff}
+    .tag{font-size:0.8rem;padding:4px 8px;border-radius:999px;border:1px solid #eef2f8;background:#fbfdff;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div style="flex:1">
+        <h1>A-Level Computer Science (9618) — Chapter 14</h1>
+        <div class="meta">Communication & Internet Technologies — interactive lesson (teaching + revision + exam prep)</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small-muted">Lesson progress</div>
+        <div class="progress-wrap" style="margin-top:8px;">
+          <div style="width:220px;text-align:right"><span class="small-muted" id="progressPercent">0%</span></div>
+          <div class="progress-bar" aria-hidden="true">
+            <div class="fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main style="margin-top:18px" class="grid-2">
+      <div>
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div>
+              <div class="small-muted">Start Lesson</div>
+              <h2 style="margin:6px 0 0">Communication & Internet Technologies — Overview & Objectives</h2>
+            </div>
+            <div>
+              <div class="stat-card small-muted" style="padding:8px">Est. time: <strong style="color:#0f172a">75–110 min</strong></div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="small-muted">
+            <strong>Learning objectives</strong>
+            <ul>
+              <li>Explain methods of data transmission and key terms (bandwidth, latency, throughput)</li>
+              <li>Compare serial vs parallel, synchronous vs asynchronous, simplex/half/full duplex</li>
+              <li>Describe error control, encryption basics and common protocols (TCP/IP, HTTP, DNS)</li>
+              <li>Understand IP addressing, subnetting basics and DNS role</li>
+              <li>Recognise network security basics relevant to communication</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:12px">
+            <button class="btn" onclick="startLesson()">Start Lesson</button>
+            <button class="btn secondary" onclick="openAll(false)">Collapse all</button>
+            <button class="btn ghost" onclick="openAll(true)">Open all</button>
+          </div>
+        </section>
+
+        <!-- Sections container -->
+        <section id="sections" style="margin-top:14px"></section>
+
+        <!-- Exercises: three tiers -->
+        <section class="card" style="margin-top:14px">
+          <h3>Exercises — Practice → Apply → Exam-Style</h3>
+          <div class="tier">
+            <div class="tier-card">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><strong>Practice (short)</strong> <span class="tag">Basic</span></div>
+                <div class="small-muted">10–15 minutes</div>
+              </div>
+              <ol style="margin-top:8px" class="small-muted">
+                <li>Define bandwidth and latency in your own words and give a real-world example for each.</li>
+                <li>Give one advantage and one disadvantage of serial transmission.</li>
+                <li>State the Nyquist criterion (brief) and why it matters for communication channels.</li>
+              </ol>
+            </div>
+
+            <div class="tier-card">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><strong>Apply (longer)</strong> <span class="tag">Applied</span></div>
+                <div class="small-muted">20–30 minutes</div>
+              </div>
+              <ol style="margin-top:8px" class="small-muted">
+                <li>Calculate required bit-rate: A sensor sends 12-bit samples at 10 kHz. What is the channel throughput (bps)?</li>
+                <li>Given IP 192.168.10.0/24 and host 192.168.10.77 — state network address, broadcast address and explain /24.</li>
+                <li>Describe how TCP ensures reliable delivery compared to UDP, and suggest one application for each.</li>
+              </ol>
+            </div>
+
+            <div class="tier-card">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><strong>Exam-Style (scenario)</strong> <span class="tag">Timed</span></div>
+                <div class="small-muted">40–60 minutes</div>
+              </div>
+              <ol style="margin-top:8px" class="small-muted">
+                <li>A company needs to transfer 500 MB of backup data nightly between two offices. Propose and justify a transfer method (consider bandwidth, encryption and error control).</li>
+                <li>Explain DNS resolution for www.example.com and where caching helps performance. Include what happens when DNS fails.</li>
+                <li>Compare symmetric vs asymmetric encryption and recommend which to use for secure file transfer and why.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mixed Quiz -->
+        <section class="card" style="margin-top:14px">
+          <h3>Mixed Quiz — Self-check (MCQ, True/False, Short Answer) — (22 items)</h3>
+          <div class="small-muted" style="margin-top:6px">Auto-marked: MCQs & TF. Short answers are for self-marking; model answers available.</div>
+
+          <div id="mcqArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>MCQs (12)</strong></div>
+            <div id="mcqs"></div>
+          </div>
+
+          <div id="tfArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>True / False (6)</strong></div>
+            <div id="tfs"></div>
+          </div>
+
+          <div id="shortArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>Short answer (4)</strong></div>
+            <div style="margin-top:8px" class="small-muted">Write answers then compare with model answers.</div>
+            <ol id="shorts"></ol>
+            <div style="margin-top:8px">
+              <button class="btn" onclick="revealShortAnswers()">Reveal model answers / hints</button>
+            </div>
+            <div id="shortAnswersKey" class="answer-key"></div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="submitMixedQuiz()">Submit</button>
+            <button class="btn secondary" onclick="resetMixedQuiz()">Reset</button>
+            <div id="mixedScore" style="margin-left:auto" class="small-muted"></div>
+          </div>
+
+          <div id="mcqFeedback" style="margin-top:10px;display:none">
+            <details>
+              <summary style="cursor:pointer">Show MCQ & TF explanations</summary>
+              <div id="mcqExplanations" style="margin-top:8px" class="small-muted"></div>
+            </details>
+          </div>
+        </section>
+
+        <!-- Exam Questions -->
+        <section class="card" style="margin-top:14px">
+          <h3>Exam-style Questions (Scenario-based)</h3>
+          <p class="small-muted">Attempt under timed conditions (60–90 mins). Use hints/mark scheme after attempting.</p>
+          <ol id="examQs" class="small-muted" style="margin-top:8px"></ol>
+
+          <div style="margin-top:10px">
+            <button class="btn" onclick="toggleMarkScheme()">Show / Hide Mark scheme & Hints</button>
+            <div id="markScheme" class="answer-key"></div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right column -->
+      <aside class="sticky-aside">
+        <div class="card">
+          <h4 style="margin:0">Teacher / Revision Tools</h4>
+          <div style="margin-top:8px" class="small-muted">
+            <strong>Quick checklist</strong>
+            <ul>
+              <li>Require students to always state units (bps, ms, bytes)</li>
+              <li>Ask for reasons (why choose TCP vs UDP)</li>
+              <li>Ensure they practice IP/subnet examples</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:12px">
+            <div class="small-muted">Class activity</div>
+            <div style="margin-top:8px" class="teacher-note">
+              Split class: half design a reliable protocol with acknowledgements; other half design a low-latency streaming approach. Debrief on trade-offs.
+            </div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;flex-direction:column">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <div class="stat-card small-muted">Sections: <strong id="numSections">0</strong></div>
+              <div class="stat-card small-muted">MCQs: <strong id="numMcqs">0</strong></div>
+              <div class="stat-card small-muted">Exam Qs: <strong id="numExam">0</strong></div>
+            </div>
+            <button class="btn secondary" style="margin-top:10px" onclick="printPage()">Print / Save PDF</button>
+            <button class="btn ghost" onclick="downloadHTML()">Download HTML</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>Created for Modern English School Cairo — A-Level Computer Science (9618)</div>
+      <div style="margin-top:6px">Teacher: Ravi Raju • Use for classroom & revision</div>
+    </footer>
+  </div>
+
+  <script>
+    /************************
+     * Chapter content data
+     ************************/
+    const SECTION_DATA = [
+      {
+        id:'trans-principles',
+        title:'1. Data transmission principles — bandwidth, latency, throughput, jitter',
+        brief:'Key terms and why they matter to network performance.',
+        html:`<p><strong>Bandwidth</strong> is the maximum data rate (bps) a channel can carry. <strong>Latency</strong> is the delay experienced (ms). <strong>Throughput</strong> is real-world achieved data rate (often less than bandwidth). <strong>Jitter</strong> is variation in packet delay — critical for real-time audio/video.</p>
+              <p class="small-muted"><strong>Example:</strong> A link with 100 Mbps bandwidth might only deliver 70 Mbps throughput if there is congestion, inefficient protocols, or overhead.</p>
+              <p class="small-muted"><strong>Tip:</strong> Distinguish units: bandwidth/throughput → bps; file sizes → bytes/MB.</p>`
+      },
+      {
+        id:'methods-types',
+        title:'2. Transmission methods: serial vs parallel, synchronous vs asynchronous, simplex/half/full duplex',
+        brief:'Differences, typical uses and limitations.',
+        html:`<p><strong>Serial</strong> sends bits sequentially on a single wire pair — used for long-distance links (USB, RS-232 replacement). <strong>Parallel</strong> sends multiple bits simultaneously — used historically for printers & internal buses (now less common due to timing/skew).</p>
+              <p><strong>Synchronous</strong> transmission uses a shared clock or framing (faster, used in SPI, I2C in certain modes), while <strong>asynchronous</strong> uses start/stop bits (e.g., classic UART). <strong>Simplex</strong> = one-way, <strong>half-duplex</strong> = both ways but not simultaneously (walkie-talkie), <strong>full-duplex</strong> = simultaneous two-way (telephone).</p>`
+      },
+      {
+        id:'error-controls',
+        title:'3. Error control & flow control: ARQ, parity, checksums, CRC',
+        brief:'How reliability is achieved and trade-offs.',
+        html:`<p><strong>ARQ (Automatic Repeat reQuest)</strong> is used by TCP: receiver detects error and requests retransmission. Parity detects simple errors; checksums and CRCs detect many more error patterns.</p>
+              <p class="small-muted"><strong>Trade-off:</strong> Retransmission increases reliability but increases latency and uses bandwidth; forward error correction can prevent retransmission but costs extra bits.</p>`
+      },
+      {
+        id:'encryption',
+        title:'4. Encryption basics: symmetric vs asymmetric, hashing, TLS',
+        brief:'High-level intro to how encryption protects communication.',
+        html:`<p><strong>Symmetric</strong> encryption (AES) uses same key to encrypt/decrypt — fast, used for bulk data. <strong>Asymmetric</strong> (RSA, ECC) uses key pairs — used for key exchange and digital signatures. <strong>Hashing</strong> (SHA family) creates fixed-length digests used for integrity checks. <strong>TLS</strong> uses asymmetric cryptography to exchange keys then symmetric for data transfer to get both security and performance.</p>`
+      },
+      {
+        id:'protocols',
+        title:'5. Internet principles & protocols: TCP/IP stack, HTTP, DNS, DHCP',
+        brief:'Roles of common protocols and packet vs circuit switching.',
+        html:`<p><strong>TCP</strong> ensures reliable, ordered delivery (connection-oriented); <strong>UDP</strong> is connectionless and low-latency. <strong>HTTP</strong> is an application protocol over TCP. <strong>DNS</strong> resolves domain names to IP addresses. <strong>DHCP</strong> allocates IP addresses automatically.</p>
+              <p class="small-muted"><strong>Packet switching</strong> breaks data into packets routed independently — efficient & robust. <strong>Circuit switching</strong> reserves a dedicated path (older telecoms).</p>`
+      },
+      {
+        id:'ip-dns',
+        title:'6. IP addressing & DNS: IPv4, subnetting basics, role of DNS',
+        brief:'How devices are addressed and how names map to addresses.',
+        html:`<p>IPv4 addresses are 32-bit (e.g., 192.168.1.1). CIDR notation (/24) indicates prefix length. Subnetting divides networks into smaller networks. DNS maps user-friendly names (www.example.com) to IP addresses via hierarchical servers and caching.</p>
+              <p class="small-muted">Example: With 192.168.10.0/24, network=192.168.10.0, broadcast=192.168.10.255, hosts from .1 to .254.</p>`
+      },
+      {
+        id:'network-security',
+        title:'7. Network security basics relevant to communication',
+        brief:'Firewalls, VPNs, proxies, SSL/TLS and basic best practice.',
+        html:`<p><strong>Firewalls</strong> filter traffic by rules. <strong>VPN</strong> tunnels encrypt traffic over insecure networks. <strong>Proxies</strong> act as intermediaries. Use TLS for confidentiality, strong passwords, keep firmware updated, and apply least privilege.</p>`
+      }
+    ];
+
+    /************************
+     * Quiz & exam data
+     ************************/
+    const MCQS = [
+      {id:'m1', q:'Which layer of the TCP/IP model is responsible for routing packets between networks?', options:['Application','Transport','Internet','Data Link'], correct:'Internet', explanation:'Internet layer (IP) handles addressing and routing.'},
+      {id:'m2', q:'Which protocol provides guaranteed, ordered delivery of a byte stream?', options:['UDP','TCP','ICMP','ARP'], correct:'TCP', explanation:'TCP is connection-oriented and provides reliability via ACKs and retransmissions.'},
+      {id:'m3', q:'Which of the following is asymmetric encryption?', options:['AES','3DES','RSA','Blowfish'], correct:'RSA', explanation:'RSA is a public-key asymmetric algorithm.'},
+      {id:'m4', q:'DNS primarily translates:', options:['IP → MAC','Domain name → IP address','IP → Domain name','Port → Service'], correct:'Domain name → IP address', explanation:'DNS maps names to IP addresses.'},
+      {id:'m5', q:'Which is NOT a function of DHCP?', options:['Assign IP addresses','Assign MAC addresses','Provide DNS settings','Assign default gateway'], correct:'Assign MAC addresses', explanation:'MAC addresses are hardware; DHCP assigns IP and network settings.'},
+      {id:'m6', q:'Which is a characteristic of packet switching?', options:['Dedicated path','Inefficient for bursty traffic','Packets routed independently','Always lower latency than circuit switching'], correct:'Packets routed independently', explanation:'Packet switching routes each packet independently.'},
+      {id:'m7', q:'Which method reduces the need to retransmit corrupted packets by adding redundant information?', options:['ARQ','Parity bit','Forward Error Correction','Checksum only'], correct:'Forward Error Correction', explanation:'FEC adds redundancy so receiver can correct some errors without retransmission.'},
+      {id:'m8', q:'What is the main role of TLS in communication?', options:['Routing','Encryption and integrity of application data','IP address assignment','MAC address mapping'], correct:'Encryption and integrity of application data', explanation:'TLS secures application-level data (e.g., HTTPS).' },
+      {id:'m9', q:'Which port is the default for HTTP (not secure)?', options:['80','443','22','53'], correct:'80', explanation:'HTTP uses TCP port 80; HTTPS uses 443.'},
+      {id:'m10', q:'What does NAT do in a router?', options:['Assigns DNS','Translates private IPs to public IPs','Encrypts traffic','Routes based on MAC'], correct:'Translates private IPs to public IPs', explanation:'NAT maps internal private addresses to external public addresses.'},
+      {id:'m11', q:'In serial communication, which of these is often used to mark start and end of a character?', options:['Clock pulse','Parity bit','Start/Stop bits','Checksum'], correct:'Start/Stop bits', explanation:'Asynchronous serial uses start/stop bits to frame characters.'},
+      {id:'m12', q:'Which protocol would you choose for low-latency video streaming where occasional packet loss is acceptable?', options:['TCP','UDP','FTP','SMTP'], correct:'UDP', explanation:'UDP avoids retransmission delays and is used for streaming.'}
+    ];
+
+    const TFS = [
+      {id:'t1', q:'IPv4 addresses are 128 bits long (True/False)?', correct:false, explanation:'IPv4 is 32 bits; IPv6 is 128 bits.'},
+      {id:'t2', q:'A firewall can block specific ports and IP addresses (True/False)?', correct:true, explanation:'True — firewalls filter by rules including ports and IPs.'},
+      {id:'t3', q:'DNS caching decreases lookup time and reduces traffic (True/False)?', correct:true, explanation:'Caching reduces repeated queries and speeds up resolution.'},
+      {id:'t4', q:'UDP guarantees packet order (True/False)?', correct:false, explanation:'UDP does not guarantee order — applications must handle it if required.'},
+      {id:'t5', q:'TLS uses symmetric encryption only (True/False)?', correct:false, explanation:'TLS uses asymmetric methods for key exchange and symmetric for bulk encryption.'},
+      {id:'t6', q:'Subnet mask /24 allows up to 254 hosts (True/False)?', correct:true, explanation:'/24 gives 256 addresses; 254 usable hosts (excluding network & broadcast).'}
+    ];
+
+    const SHORTS = [
+      {id:'s1', q:'Briefly explain the difference between throughput and bandwidth.', answer:'Bandwidth is the maximum possible data rate of the channel; throughput is the actual achieved data rate, which may be lower due to overhead and congestion.'},
+      {id:'s2', q:'Give one reason why UDP is preferred for live-streaming over TCP.', answer:'UDP avoids retransmission delays and has lower latency; occasional packet loss is acceptable for live-streaming.'},
+      {id:'s3', q:'Define NAT and one reason why it is used.', answer:'NAT (Network Address Translation) maps private IP addresses to a public IP, conserving IPv4 addresses and providing a basic layer of obfuscation for internal hosts.'},
+      {id:'s4', q:'What is the role of DHCP in a LAN?', answer:'DHCP automatically assigns IP configuration (IP address, subnet mask, gateway, DNS) to hosts, reducing manual configuration.'}
+    ];
+
+    const EXAM_QS = [
+      {
+        q:`A university campus network serves many students and devices. The IT team needs to ensure reliable lecture-streaming and also handle many small web requests.
+        <ol type="a">
+          <li>Explain how they might use QoS (Quality of Service) to prioritise traffic for streaming lectures.</li>
+          <li>Discuss whether TCP or UDP should be used for lecture video distribution and justify.</li>
+        </ol>`,
+        mark:`(a) QoS tags streaming packets (e.g., DSCP) to give priority in queues, reducing jitter and packet loss for streaming. (b) UDP or RTP over UDP often used for live streams to minimize latency; TCP is for reliability but may cause buffering due to retransmissions. For multicast large distribution, use protocols like multicast over UDP.`
+      },
+      {
+        q:`Explain step-by-step how DNS resolves the domain name www.example.com starting from a client that has no cached entry.`,
+        mark:`Client queries local resolver → if cache miss, resolver queries root servers → root returns TLD server → resolver queries .com TLD → TLD returns authoritative for example.com → resolver queries authoritative server → gets IP and returns to client. Caching at each step reduces future lookups.`
+      },
+      {
+        q:`A sensor sends 16-bit samples at 8 kHz. (a) Calculate required throughput in kbps. (b) If using UDP, suggest one mechanism to detect packet loss at application level.`,
+        mark:`(a) 16 bits × 8000 samples/s = 128,000 bps = 128 kbps. (b) Application-level sequence numbers and simple ACK/NAK scheme or periodic heartbeats; forward error concealment can hide small loss.`
+      },
+      {
+        q:`Describe how TLS secures HTTP traffic. Explain the role of asymmetric and symmetric cryptography in the process.`,
+        mark:`TLS handshake uses asymmetric crypto to authenticate server and exchange a session key (or use key exchange like ECDHE); after handshake a symmetric key is used for fast bulk encryption and MACs ensure integrity.`
+      },
+      {
+        q:`Given network 10.0.2.0/26: (a) state the number of usable hosts, (b) give the range of host addresses for the subnet.`,
+        mark:`/26 → 6 bits for hosts → 2^6 = 64 addresses; usable hosts = 62. Example: 10.0.2.0 network, usable 10.0.2.1–10.0.2.62, broadcast 10.0.2.63.`
+      },
+      {
+        q:`A developer must transfer a confidential file between offices over an insecure internet link. Recommend a secure method and explain chosen protocol and authentication.`,
+        mark:`Use VPN or SFTP/SSH with strong cipher suites; authenticate with certificates (TLS) or SSH keys. VPN (IPsec/OpenVPN) provides encrypted tunnel; SFTP over SSH encrypts file transfer and authenticates server/client.`
+      },
+      {
+        q:`Explain the trade-offs between using ARQ with retransmissions and forward error correction for a satellite link with high latency.`,
+        mark:`ARQ requires retransmissions which are costly in high-latency links (long RTT), causing delays. FEC adds redundancy allowing correction without retransmission but increases bandwidth overhead; for satellite FEC often preferred to minimise retransmission delay.`
+      },
+      {
+        q:`A small office uses dynamic IP addresses via DHCP. A device needs a stable address for hosting an internal service. Propose a solution and explain.`,
+        mark:`Use DHCP reservation (bind MAC to IP) or assign a static IP outside DHCP pool. DHCP reservation keeps centralized control but gives consistent IP for the device.`
+      },
+      {
+        q:`Describe how a proxy server can improve both performance and security for web requests in a school network.`,
+        mark:`Proxy caches frequently requested resources reducing external bandwidth; it can filter requests (content policies), log requests for audits, and hide internal structure from outside.`
+      },
+      {
+        q:`Explain why IPv6 was introduced and give two benefits over IPv4.`,
+        mark:`IPv6 addresses much larger address space (128-bit) solving IPv4 exhaustion; benefits include simplified header, built-in autoconfiguration (stateless), and better support for extension headers and neighbor discovery.`
+      },
+      {
+        q:`A router receives packets faster than it can forward them to the next hop. Explain two queuing or congestion management techniques to handle this.`,
+        mark:`Use buffering (queues) with QoS prioritisation (weighted fair queuing), drop-tail with TCP congestion control reacts; active queue management like RED (Random Early Detection) can preemptively drop packets to signal congestion.`
+      },
+      {
+        q:`Explain DNS spoofing and one mitigation technique.`,
+        mark:`DNS spoofing (cache poisoning) injects false DNS entries causing redirect to malicious IPs. Mitigation: DNSSEC signs DNS records to provide authenticity; use secure resolvers and short TTLs, validation (DNS over HTTPS/TLS).`
+      }
+    ];
+
+    /************************
+     * Rendering functions
+     ************************/
+    function renderSections(){
+      const container = document.getElementById('sections');
+      container.innerHTML = '';
+      SECTION_DATA.forEach((s, idx) => {
+        const div = document.createElement('div');
+        div.style.marginTop = '12px';
+        const toggle = document.createElement('button');
+        toggle.className = 'section-toggle';
+        toggle.setAttribute('data-id', s.id);
+        toggle.innerHTML = `<div><div style="font-weight:700">${idx+1}. ${s.title}</div><div class="small-muted" style="margin-top:6px">${s.brief}</div></div><div class="toggle-icon">▸</div>`;
+        toggle.addEventListener('click', ()=> toggleSection(s.id));
+        div.appendChild(toggle);
+
+        const body = document.createElement('div');
+        body.className = 'section-body';
+        body.style.display = 'none';
+        body.id = `body-${s.id}`;
+        body.innerHTML = s.html;
+
+        // add small "Explain > Example > Mini-exercise" block for each (enhanced explanations)
+        const ep = document.createElement('div');
+        ep.style.marginTop = '12px';
+        ep.innerHTML = `<div style="font-weight:700">Explain</div><div class="small-muted" style="margin-top:6px">Read the paragraph above carefully — rewrite the key points in your own words. This helps retention.</div>
+                        <div style="font-weight:700;margin-top:8px">Example</div><div class="small-muted" style="margin-top:6px">Try the example given and show steps.</div>
+                        <div style="font-weight:700;margin-top:8px">Mini-exercise</div><div class="small-muted" style="margin-top:6px">Answer the short exercise under this topic and discuss with a peer.</div>`;
+        body.appendChild(ep);
+
+        div.appendChild(body);
+        container.appendChild(div);
+      });
+
+      document.getElementById('numSections').textContent = SECTION_DATA.length;
+      updateProgress();
+    }
+
+    function toggleSection(id){
+      const body = document.getElementById('body-'+id);
+      const toggle = document.querySelector(`[data-id="${id}"]`);
+      const icon = toggle.querySelector('.toggle-icon');
+      if(body.style.display === 'none'){
+        body.style.display = 'block'; icon.textContent='▾'; openedSections.add(id);
+      } else {
+        body.style.display = 'none'; icon.textContent='▸'; openedSections.delete(id);
+      }
+      updateProgress();
+    }
+
+    function openAll(open=true){
+      SECTION_DATA.forEach(s=>{
+        const body = document.getElementById('body-'+s.id);
+        const toggle = document.querySelector(`[data-id="${s.id}"]`);
+        const icon = toggle.querySelector('.toggle-icon');
+        if(open){ body.style.display='block'; icon.textContent='▾'; openedSections.add(s.id); }
+        else { body.style.display='none'; icon.textContent='▸'; openedSections.delete(s.id); }
+      });
+      updateProgress();
+    }
+
+    /************************
+     * Progress tracking
+     ************************/
+    const openedSections = new Set();
+    let quizCompleted = false;
+    function updateProgress(){
+      const total = SECTION_DATA.length + 1; // +1 for quiz
+      const opened = openedSections.size + (quizCompleted?1:0);
+      const pct = Math.round((opened/total)*100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressPercent').textContent = pct + '%';
+    }
+
+    /************************
+     * Quiz rendering & logic
+     ************************/
+    function renderMCQs(){
+      const wrap = document.getElementById('mcqs');
+      wrap.innerHTML = '';
+      MCQS.forEach((mq, i) => {
+        const block = document.createElement('div');
+        block.className = 'mcq-block';
+        block.style.marginTop = '10px';
+        block.innerHTML = `<div style="font-weight:700">Q${i+1}. ${mq.q}</div>`;
+        const opts = document.createElement('div');
+        opts.className = 'mcq-options';
+        mq.options.forEach(opt => {
+          const lbl = document.createElement('label');
+          lbl.className = 'option';
+          lbl.innerHTML = `<input type="radio" name="${mq.id}" value="${opt}"> <span>${opt}</span>`;
+          opts.appendChild(lbl);
+        });
+        block.appendChild(opts);
+        wrap.appendChild(block);
+      });
+      document.getElementById('numMcqs').textContent = MCQS.length;
+    }
+
+    function renderTFs(){
+      const wrap = document.getElementById('tfs');
+      wrap.innerHTML = '';
+      TFS.forEach((t, i) => {
+        const div = document.createElement('div');
+        div.style.marginTop = '8px';
+        div.innerHTML = `<div style="font-weight:700">Q${i+1}. ${t.q}</div>
+                         <div style="margin-top:6px;display:flex;gap:8px">
+                          <label class="option"><input type="radio" name="${t.id}" value="true"> True</label>
+                          <label class="option"><input type="radio" name="${t.id}" value="false"> False</label>
+                         </div>`;
+        wrap.appendChild(div);
+      });
+    }
+
+    function renderShorts(){
+      const ol = document.getElementById('shorts');
+      ol.innerHTML = '';
+      SHORTS.forEach((s, i) => {
+        const li = document.createElement('li');
+        li.style.marginTop = '8px';
+        li.innerHTML = `<div style="font-weight:700">${s.q}</div>
+                        <div style="margin-top:6px"><textarea id="short-${s.id}" class="short" placeholder="Write your answer here..."></textarea></div>`;
+        ol.appendChild(li);
+      });
+
+      const key = document.getElementById('shortAnswersKey');
+      key.innerHTML = '<h4>Model answers & hints</h4>';
+      SHORTS.forEach(s=>{
+        const d = document.createElement('div');
+        d.style.marginTop='8px';
+        d.innerHTML = `<div style="font-weight:600">${s.q}</div><div class="small-muted" style="margin-top:6px">${s.answer}</div>`;
+        key.appendChild(d);
+      });
+    }
+
+    function revealShortAnswers(){
+      const key = document.getElementById('shortAnswersKey');
+      key.classList.toggle('reveal');
+    }
+
+    function submitMixedQuiz(){
+      // MCQ grading
+      let mcqScore = 0;
+      const mcqTotal = MCQS.length;
+      const mcqExplanations = [];
+      MCQS.forEach((mq,i)=>{
+        const chosen = document.querySelector(`input[name="${mq.id}"]:checked`);
+        const chosenVal = chosen ? chosen.value : null;
+        if(chosenVal === mq.correct) mcqScore++;
+        mcqExplanations.push(`<div style="margin-top:6px"><strong>Q${i+1}:</strong> Correct: <code>${mq.correct}</code> — Explanation: ${mq.explanation}</div>`);
+      });
+
+      // TF grading
+      let tfScore = 0;
+      const tfTotal = TFS.length;
+      const tfExplanations = [];
+      TFS.forEach((t,i)=>{
+        const chosen = document.querySelector(`input[name="${t.id}"]:checked`);
+        const chosenVal = chosen ? (chosen.value === 'true') : null;
+        if(chosenVal === t.correct) tfScore++;
+        tfExplanations.push(`<div style="margin-top:6px"><strong>TF Q${i+1}:</strong> Correct: <strong>${t.correct ? 'True' : 'False'}</strong> — ${t.explanation}</div>`);
+      });
+
+      // Short answers: count filled
+      const shortCount = SHORTS.length;
+      let shortAnswered = 0;
+      SHORTS.forEach(s=>{
+        const txt = document.getElementById('short-'+s.id).value.trim();
+        if(txt.length) shortAnswered++;
+      });
+
+      const totalAuto = mcqTotal + tfTotal;
+      const gotAuto = mcqScore + tfScore;
+      const percentAuto = Math.round((gotAuto / totalAuto) * 100);
+
+      document.getElementById('mixedScore').innerHTML = `Auto-graded: <span class="score-badge">${gotAuto}/${totalAuto}</span> (${percentAuto}%) • Short answers filled: ${shortAnswered}/${shortCount}`;
+      document.getElementById('mcqExplanations').innerHTML = mcqExplanations.join('') + tfExplanations.join('');
+      document.getElementById('mcqFeedback').style.display = 'block';
+      quizCompleted = true;
+      updateProgress();
+    }
+
+    function resetMixedQuiz(){
+      MCQS.forEach(mq=>{
+        const chosen = document.querySelectorAll(`input[name="${mq.id}"]`);
+        chosen.forEach(c=>c.checked = false);
+      });
+      TFS.forEach(t=>{
+        const chosen = document.querySelectorAll(`input[name="${t.id}"]`);
+        chosen.forEach(c=>c.checked = false);
+      });
+      SHORTS.forEach(s=>{
+        document.getElementById('short-'+s.id).value = '';
+      });
+      document.getElementById('mixedScore').textContent = '';
+      document.getElementById('mcqFeedback').style.display = 'none';
+      quizCompleted = false;
+      updateProgress();
+    }
+
+    /************************
+     * Exam rendering
+     ************************/
+    function renderExamQs(){
+      const ol = document.getElementById('examQs');
+      ol.innerHTML = '';
+      EXAM_QS.forEach((eQ, i)=>{
+        const li = document.createElement('li');
+        li.style.marginTop = '10px';
+        li.innerHTML = `<div style="font-weight:700">Q${i+1}.</div><div style="margin-top:6px" class="small-muted">${eQ.q}</div>`;
+        ol.appendChild(li);
+      });
+
+      // populate mark scheme
+      const ms = document.getElementById('markScheme');
+      ms.innerHTML = '<h4>Mark scheme & hints</h4>';
+      EXAM_QS.forEach((eQ, i)=>{
+        const d = document.createElement('div');
+        d.style.marginTop='10px';
+        d.innerHTML = `<div style="font-weight:700">Q${i+1} — Hints</div><div class="small-muted" style="margin-top:6px">${eQ.mark}</div>`;
+        ms.appendChild(d);
+      });
+
+      document.getElementById('numExam').textContent = EXAM_QS.length;
+    }
+
+    function toggleMarkScheme(){
+      const ms = document.getElementById('markScheme');
+      ms.classList.toggle('reveal');
+    }
+
+    /************************
+     * Utilities
+     ************************/
+    function startLesson(){ openAll(true); const first = document.querySelector('[data-id]'); if(first) first.scrollIntoView({behavior:'smooth', block:'start'}); }
+    function printPage(){ window.print(); }
+    function downloadHTML(){
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob([html], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'A-Level-CS-Ch14-Communication-Internet.html';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    /************************
+     * Init
+     ************************/
+    renderSections();
+    renderMCQs();
+    renderTFs();
+    renderShorts();
+    renderExamQs();
+
+    document.getElementById('numSections').textContent = SECTION_DATA.length;
+    document.getElementById('numMcqs').textContent = MCQS.length;
+
+    // keyboard helpers
+    document.addEventListener('keydown', (e)=> { if(e.key.toLowerCase()==='l') openAll(true); });
+
+  </script>
+</body>
+</html>

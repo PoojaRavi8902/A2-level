@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>A-Level CS 9618 — Chapter 15: Hardware & Virtual Machines</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#0f172a;
+      --accent-2:#2563eb;
+      --teacher-border:#4a90e2; /* softer blue for teacher notes */
+      --teacher-bg:#f3f8ff;
+      --success:#16a34a;
+      --danger:#dc2626;
+      --radius:12px;
+      --shadow:0 8px 24px rgba(12,18,33,0.06);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#fbfdff 0%,var(--bg)100%);color:#0f172a;-webkit-font-smoothing:antialiased;padding:18px;}
+    .container{max-width:1150px;margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    h1{margin:0;font-size:1.5rem}
+    .meta{color:var(--muted);font-size:0.95rem}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-top:14px}
+    .progress-wrap{display:flex;align-items:center;gap:12px}
+    .progress-bar{flex:1;height:12px;background:#eef2ff;border-radius:999px;overflow:hidden}
+    .progress-bar > .fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--teacher-border));width:0%}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:0;background:var(--accent-2);color:white;cursor:pointer;font-weight:700}
+    .btn.secondary{background:#eef2ff;color:var(--accent-2);border:1px solid #e6edff}
+    .btn.ghost{background:transparent;border:1px solid #e7ecff;color:var(--muted)}
+    .section-toggle{width:100%;text-align:left;padding:14px;border-radius:10px;border:1px solid #eef2f8;background:linear-gradient(180deg,#fff,#fbfdff);cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .section-body{padding:14px;border-left:4px solid rgba(37,99,235,0.08);background:#fbfdff;margin-top:6px;border-radius:0 0 10px 10px}
+    .examples{margin-top:10px}
+    .example-card{background:#fff;padding:10px;border-radius:8px;border:1px solid #f1f5f9;margin-bottom:8px}
+    .exercises ol{padding-left:18px;margin:8px 0}
+    .quiz-block{margin-top:12px;padding:12px;border-radius:10px;background:#fff;border:1px solid #f1f5f9}
+    .mcq-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:8px}
+    label.option{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;border:1px solid #eef2f8;background:#fbfdff;cursor:pointer}
+    input[type="radio"], input[type="checkbox"]{transform:scale(1.05)}
+    .score-badge{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#12b76a,#16a34a);color:white;font-weight:700}
+    .small-muted{font-size:0.9rem;color:var(--muted)}
+    footer{margin-top:36px;text-align:center;color:var(--muted);font-size:0.85rem;padding-bottom:40px}
+    pre.code, code.inline{background:#0f172a;color:#f8fafc;padding:2px 6px;border-radius:6px;font-size:0.9rem}
+    .grid-2{display:grid;grid-template-columns:1fr 380px;gap:16px}
+    @media (max-width:980px){.grid-2{grid-template-columns:1fr}}
+    .sticky-aside{position:sticky;top:18px}
+    .stat-card{background:#fff;padding:8px;border-radius:8px;border:1px solid #eef2f8}
+    .answer-key{display:none;margin-top:8px;padding:10px;border-radius:8px;background:#fff;border:1px dashed #e6eefc}
+    .reveal{display:block}
+    textarea.short{width:100%;min-height:90px;border:1px solid #eef2f8;padding:8px;border-radius:8px;background:#fbfdff}
+    /* teacher-note styling using softer blue */
+    .teacher-note{background:var(--teacher-bg);border-left:4px solid var(--teacher-border);padding:10px;border-radius:8px;margin-top:10px}
+    /* reveal button visible by default (individual toggles) */
+    .reveal-btn{margin-top:8px;padding:6px 10px;border-radius:8px;border:0;background:var(--teacher-border);color:white;cursor:pointer;font-weight:600;display:inline-block}
+    .reveal-content{display:none;margin-top:8px;padding:10px;border-radius:8px;background:#fff;border:1px solid #eef2f8}
+    .reveal-content.reveal{display:block}
+    .tag{font-size:0.8rem;padding:4px 8px;border-radius:999px;border:1px solid #eef2f8;background:#fbfdff;color:var(--muted)}
+    .exam-card{background:#fff;border-radius:8px;border:1px solid #e6eefc;padding:12px;margin-bottom:10px}
+    .exam-card .q-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .exam-card .reveal-mark{margin-top:8px;padding:6px 10px;border-radius:8px;border:0;background:#2563eb;color:white;cursor:pointer}
+    .exam-mark{display:none;margin-top:8px;padding:10px;border-radius:8px;background:var(--teacher-bg);border-left:4px solid var(--teacher-border)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>A-Level Computer Science (9618) — Chapter 15</h1>
+        <div class="meta">Hardware & Virtual Machines — interactive lesson</div>
+      </div>
+
+      <div style="text-align:right">
+        <div class="progress-wrap" style="margin-top:8px;">
+          <div style="width:220px;text-align:right"><span class="small-muted" id="progressPercent">0%</span></div>
+          <div class="progress-bar" aria-hidden="true">
+            <div class="fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main style="margin-top:18px" class="grid-2">
+      <div>
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="small-muted">Start Lesson</div>
+              <h2 style="margin:6px 0 0">Hardware & Virtual Machines — Overview & Objectives</h2>
+            </div>
+            <div style="text-align:right">
+              <div class="stat-card small-muted">Est. time: <strong style="color:#0f172a">80–120 min</strong></div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="small-muted">
+            <strong>Learning objectives</strong>
+            <ul>
+              <li>Identify and describe hardware components (CPU, memory types, storage, I/O).</li>
+              <li>Explain virtual machines, hypervisors, emulation and hardware abstraction.</li>
+              <li>Compare real hardware vs virtual hardware — advantages and limitations.</li>
+              <li>Apply knowledge to exam-style scenarios and justify design choices.</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:12px">
+            <button class="btn" onclick="startLesson()">Start Lesson</button>
+            <button class="btn secondary" onclick="openAll(false)">Collapse all</button>
+            <button class="btn ghost" onclick="openAll(true)">Open all</button>
+          </div>
+        </section>
+
+        <!-- Sections will be injected here -->
+        <section id="sections" style="margin-top:14px"></section>
+
+        <!-- Exercises -->
+        <section class="card" style="margin-top:14px">
+          <h3>Exercises — Practice → Apply → Exam-Style</h3>
+          <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px">
+            <div class="small-muted">
+              <strong>Practice</strong>
+              <ol>
+                <li>List 3 differences between RAM and ROM.</li>
+                <li>State the functions of: ALU, CU, and registers in a CPU.</li>
+                <li>Give two advantages of SSD over HDD.</li>
+              </ol>
+            </div>
+
+            <div class="small-muted">
+              <strong>Apply</strong>
+              <ol>
+                <li>Calculate the effective memory bandwidth if a RAM module transfers 8 bytes per cycle at 1600 MHz (single channel).</li>
+                <li>Describe how virtualization can help consolidate servers in a data centre (3 reasons).</li>
+                <li>Explain why device drivers are necessary when using new hardware.</li>
+              </ol>
+            </div>
+
+            <div class="small-muted">
+              <strong>Exam-Style</strong>
+              <ol>
+                <li>A company wishes to migrate legacy applications to virtual machines. Outline a migration plan, including testing and rollback strategies.</li>
+                <li>Discuss the performance trade-offs when running CPU-intensive tasks in a VM vs on bare metal.</li>
+                <li>Explain how hardware virtualization assists in providing isolated environments for students in a computer lab.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mixed Quiz -->
+        <section class="card" style="margin-top:14px">
+          <h3>Mixed Quiz — Self-check</h3>
+          <div class="small-muted" style="margin-top:6px">Auto-marked: MCQs & True/False. Short answer model answers provided for self-marking.</div>
+
+          <div id="mcqArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>MCQs (12)</strong></div>
+            <div id="mcqs"></div>
+          </div>
+
+          <div id="tfArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>True / False (6)</strong></div>
+            <div id="tfs"></div>
+          </div>
+
+          <div id="shortArea" class="quiz-block" style="margin-top:10px">
+            <div><strong>Short answer (4)</strong></div>
+            <div style="margin-top:8px" class="small-muted">Write answers then use the Reveal buttons to compare with model answers.</div>
+            <ol id="shorts"></ol>
+            <div id="shortAnswersKey" class="answer-key"></div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="submitMixedQuiz()">Submit</button>
+            <button class="btn secondary" onclick="resetMixedQuiz()">Reset</button>
+            <div id="mixedScore" style="margin-left:auto" class="small-muted"></div>
+          </div>
+
+          <div id="mcqFeedback" style="margin-top:10px;display:none">
+            <details>
+              <summary style="cursor:pointer">Show MCQ & TF explanations</summary>
+              <div id="mcqExplanations" style="margin-top:8px" class="small-muted"></div>
+            </details>
+          </div>
+        </section>
+
+        <!-- Exam Questions (30) -->
+        <section class="card" style="margin-top:14px">
+          <h3>Exam-style Questions — 30 scenario-based</h3>
+          <p class="small-muted">Attempt under timed conditions (90–120 minutes). Each question has its own Mark Scheme reveal — no global teacher toggle.</p>
+          <div class="exam-list" style="margin-top:10px">
+            <div id="examQs"></div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right column: teacher tools -->
+      <aside class="sticky-aside">
+        <div class="card">
+          <h4 style="margin:0">Teacher / Revision Tools</h4>
+          <div style="margin-top:8px" class="small-muted">
+            <strong>Quick checklist</strong>
+            <ul>
+              <li>Ask students to always show units and cycles where relevant.</li>
+              <li>Insist clarity on distinguishing virtualization types (type 1 vs type 2 hypervisors).</li>
+              <li>Practice performance calculations for memory & storage systems.</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;flex-direction:column">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <div class="stat-card small-muted">Sections: <strong id="numSections">0</strong></div>
+              <div class="stat-card small-muted">MCQs: <strong id="numMcqs">0</strong></div>
+              <div class="stat-card small-muted">Exam Qs: <strong id="numExam">0</strong></div>
+            </div>
+            <button class="btn secondary" style="margin-top:10px" onclick="printPage()">Print / Save PDF</button>
+            <button class="btn ghost" onclick="downloadHTML()">Download HTML</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>Created for Modern English School Cairo — A-Level Computer Science (9618)</div>
+      <div style="margin-top:6px">Teacher: Ravi Raju • Chapter 15 — Hardware & Virtual Machines</div>
+    </footer>
+  </div>
+
+  <script>
+    /************************
+     * Data for sections
+     ************************/
+    const SECTION_DATA = [
+      {
+        id:'cpu-memory-storage',
+        title:'1. Hardware components — CPU, memory types, storage, I/O',
+        brief:'Overview of CPU parts, RAM vs ROM, secondary storage and I/O devices.',
+        html:`<p><strong>CPU:</strong> control unit (CU), arithmetic logic unit (ALU), registers, cache levels (L1/L2/L3). Clock speed and IPC affect performance.</p>
+              <p><strong>Memory:</strong> RAM (volatile, faster), ROM (non-volatile, firmware). Cache is small & fast for repeated data.</p>
+              <p><strong>Storage:</strong> HDD (mechanical), SSD (flash) — trade-offs in latency, throughput and reliability. <strong>I/O:</strong> devices and controllers.</p>`,
+        explain:`Teacher notes: Emphasise how cache reduces average memory access time; explain registers' role in instruction execution and pipelining basics.`,
+        example:`Worked example: Show how a simple add instruction moves operands into registers, ALU performs add, result stored back. Step through fetch-decode-execute briefly.`,
+        tip:`Tip for class: Use analogies: CPU as kitchen, registers as chef's hands, RAM as pantry, HDD as storeroom.`,
+        mini:`Mini-answer: Steps for ADD R1, R2 → R3: fetch instruction, decode, read R1/R2, ALU add, write result to R3.`
+      },
+
+      {
+        id:'logic-circuits',
+        title:'2. Logic gates & circuits review',
+        brief:'Basic gates (AND, OR, NOT, NAND, NOR, XOR) and simple combinational circuits.',
+        html:`<p>Logic gates form combinational circuits (no memory) and sequential circuits (with storage). NAND and NOR are functionally complete.</p>`,
+        explain:`Teacher notes: Show truth tables for each gate and how XOR is used for parity. Emphasise gate delays in timing analysis.`,
+        example:`Example: Build a 1-bit full adder using basic gates; show sum and carry boolean expressions.`,
+        tip:`Tip: Use gate symbols and truth tables; require students to show working with gates labelled.`,
+        mini:`Mini-answer: Full adder outputs: Sum = A ⊕ B ⊕ Cin; Carry = (A·B) + (Cin·(A⊕B)).`
+      },
+
+      {
+        id:'virtual-machines',
+        title:'3. Virtual machines — concept and types',
+        brief:'What is a VM, type 1 vs type 2 hypervisors, containers vs VMs.',
+        html:`<p>A virtual machine emulates hardware to run guest OS instances. Type 1 hypervisors run on bare metal (e.g., ESXi), Type 2 run on host OS (e.g., VirtualBox).</p>
+              <p>Containers (Docker) share host kernel and are lighter-weight than full VMs.</p>`,
+        explain:`Teacher notes: Emphasise isolation, resource sharing, and use-cases (server consolidation, testing, sandboxing).`,
+        example:`Example: Show a diagram conceptually (host hardware → hypervisor → multiple guests). Describe CPU & memory allocation to guests.`,
+        tip:`Tip: Ask students to compare startup times and resource overhead between VM and container.`,
+        mini:`Mini-answer: VM isolation provides better OS-level separation; containers are faster to start and use less RAM.`
+      },
+
+      {
+        id:'hardware-abstraction',
+        title:'4. Hardware abstraction & drivers',
+        brief:'How OS abstracts hardware and the role of device drivers.',
+        html:`<p>Hardware abstraction layers provide standardised APIs so software need not handle low-level hardware details. Device drivers map generic OS calls to specific hardware actions.</p>`,
+        explain:`Teacher notes: Explain examples — file I/O vs block device driver, how interrupts and DMA allow efficient I/O.`,
+        example:`Example: Describe sequence when reading a block from disk: system call → driver → controller → DMA → interrupt → buffer filled.`,
+        tip:`Tip: Demonstrate difference between polling vs interrupt-driven I/O in class activity.`,
+        mini:`Mini-answer: Interrupts save CPU cycles vs busy-wait polling; DMA offloads data transfer from CPU.`
+      },
+
+      {
+        id:'emulation-simulation',
+        title:'5. Emulation & simulation',
+        brief:'Difference between emulation and simulation and typical uses.',
+        html:`<p>Emulation replicates hardware behavior exactly so software for old hardware can run; simulation models behaviour for study and analysis (not always cycle-accurate).</p>`,
+        explain:`Teacher notes: Use example of running legacy console games via an emulator vs simulating CPU for academic study.`,
+        example:`Example: Emulation requires accurate instruction set implementation and timing considerations; simulation can be higher-level for performance analysis.`,
+        tip:`Tip: Ask students to name an emulator they've used and discuss limitations (licensing, timing).`,
+        mini:`Mini-answer: Emulation runs legacy binaries; simulation helps test designs and predict performance.`
+      },
+
+      {
+        id:'virtualisation-uses',
+        title:'6. Virtualisation in modern computing',
+        brief:'Cloud computing, server consolidation, snapshots, live migration and security implications.',
+        html:`<p>Virtualisation enables cloud providers to host many virtual servers on a few physical machines, supports snapshots/checkpoints and live migration (move VM between hosts with little downtime).</p>`,
+        explain:`Teacher notes: Discuss how live migration copies RAM pages and uses network techniques to update changed pages, with a final switchover minimizing downtime.`,
+        example:`Example: Illustrate snapshot workflow: capture disk & memory state → resume later for testing/rollback.`,
+        tip:`Tip: Use cloud provider docs (AWS EC2, Azure) examples to show real-world use-cases in class.`,
+        mini:`Mini-answer: Snapshots help quick rollback for testing; live migration reduces planned-downtime for maintenance.`
+      },
+
+      {
+        id:'advantages-limitations',
+        title:'7. Advantages & limitations of VMs',
+        brief:'Performance, security, licensing, resource overhead and complexity.',
+        html:`<p>Advantages: isolation, consolidation, ease of testing, portability. Limitations: performance overhead, licensing issues, complexity of orchestration.</p>`,
+        explain:`Teacher notes: Ask students to weigh TCO (total cost of ownership) when choosing virtualisation vs bare metal.`,
+        example:`Example: Benchmark a CPU-bound app on VM vs bare metal and note overhead percentages (discuss hypothetically in class).`,
+        tip:`Tip: Encourage practical lab experiments comparing response times under load on VM vs host.`,
+        mini:`Mini-answer: VMs trade some performance for flexibility and manageability; modern hypervisors reduce overhead significantly.`
+      }
+    ];
+
+    /************************
+     * Quiz & Exam data
+     ************************/
+    const MCQS = [
+      {id:'m1', q:'Which CPU component decodes instructions and generates control signals?', options:['ALU','Cache','Control Unit','Register File'], correct:'Control Unit', explanation:'The Control Unit decodes instructions and orchestrates operations.'},
+      {id:'m2', q:'Which memory type is non-volatile?', options:['RAM','Cache','ROM','Register'], correct:'ROM', explanation:'ROM retains contents without power.'},
+      {id:'m3', q:'Which storage has no moving parts and lower latency?', options:['HDD','SSD','Optical CD','Magnetic tape'], correct:'SSD', explanation:'SSDs use flash memory (no moving parts) → lower latency.'},
+      {id:'m4', q:'Which logic gate is functionally complete by itself?', options:['XOR','AND','NAND','BUFFER'], correct:'NAND', explanation:'NAND alone can be combined to form any boolean function.'},
+      {id:'m5', q:'A type 1 hypervisor runs:', options:['On top of a host OS','Directly on hardware','Inside a container','On a guest OS'], correct:'Directly on hardware', explanation:'Type 1 (bare-metal) hypervisors run on host hardware.'},
+      {id:'m6', q:'Which of these best describes DMA?', options:['CPU polls device constantly','Device transfers data directly to memory','Encryption method','Virtualisation technique'], correct:'Device transfers data directly to memory', explanation:'DMA moves data between device and memory without CPU involvement.'},
+      {id:'m7', q:'Which register typically holds the next instruction address?', options:['Accumulator','Program Counter','Stack Pointer','Instruction Register'], correct:'Program Counter', explanation:'PC holds address of next instruction.'},
+      {id:'m8', q:'Which statement about containers is true?', options:['They include a full guest OS','They share the host kernel','They cannot be networked','They require a hypervisor'], correct:'They share the host kernel', explanation:'Containers share the host OS kernel and are lighter-weight.'},
+      {id:'m9', q:'What does virtualisation primarily provide?', options:['Better CPU frequency','Isolation and resource partitioning','Faster disk I/O','Longer battery life'], correct:'Isolation and resource partitioning', explanation:'Virtualisation isolates guests and partitions resources.'},
+      {id:'m10', q:'Which is a volatile memory?', options:['SSD','ROM','RAM','Flash'], correct:'RAM', explanation:'RAM requires power to retain data.'},
+      {id:'m11', q:'Which is typically the fastest memory in a CPU hierarchy?', options:['L3 cache','Main memory','Registers','L1 cache'], correct:'L1 cache', explanation:'L1 cache is closest to the CPU core and fastest.'},
+      {id:'m12', q:'Which is an advantage of using snapshots?', options:['Guarantee performance','Quick rollback to a previous state','Increase CPU speed','Reduce memory usage'], correct:'Quick rollback to a previous state', explanation:'Snapshots capture state for quick rollback/testing.'}
+    ];
+
+    const TFS = [
+      {id:'t1', q:'Registers are slower than RAM (True/False)?', correct:false, explanation:'Registers are faster than RAM.'},
+      {id:'t2', q:'Emulation always needs the same clock speed as the original hardware (True/False)?', correct:false, explanation:'Not necessarily—emulators can compensate; exact timing is a complex issue.'},
+      {id:'t3', q:'Type 2 hypervisors are generally easier to install for desktop testing (True/False)?', correct:true, explanation:'Type 2 run on host OS so easier for desktops.'},
+      {id:'t4', q:'DMA reduces CPU overhead for I/O transfers (True/False)?', correct:true, explanation:'True — DMA handles transfers without CPU involvement.'},
+      {id:'t5', q:'Containers require a full guest OS per container (True/False)?', correct:false, explanation:'False — containers share host kernel and do not need a full guest OS each.'},
+      {id:'t6', q:'Live migration can move running VMs to another host with minimal downtime (True/False)?', correct:true, explanation:'True — live migration techniques replicate memory then finalise switch.'}
+    ];
+
+    const SHORTS = [
+      {id:'s1', q:'Briefly explain the role of cache memory in improving CPU performance.', answer:'Cache stores copies of frequently used data close to the CPU to reduce average memory access time, improving overall performance.'},
+      {id:'s2', q:'What is a hypervisor and what is its primary function?', answer:'A hypervisor manages virtual machines and allocates hardware resources to guest OS instances.'},
+      {id:'s3', q:'Give two reasons why virtualization is used in data centres.', answer:'Server consolidation to reduce hardware costs; isolation for multi-tenancy and easier management.'},
+      {id:'s4', q:'Explain briefly what DMA is and why it helps system performance.', answer:'DMA allows devices to transfer data directly to/from memory without CPU cycles, freeing CPU to perform other work.'}
+    ];
+
+    // 30 exam questions (scenario-based) with mark hints (teacher-only)
+    const EXAM_QS = [
+      {q:`Explain the role of the control unit (CU) and ALU within the CPU. Give one example of a control signal the CU generates.`, mark:`CU: decodes instructions and sequences execution; generates control signals (e.g., MEM_READ). ALU: performs arithmetic/logic operations. Example control signal: MEM_READ or ALU_OP.`},
+      {q:`A program is suffering from slow memory accesses. Suggest three strategies to reduce effective memory latency and briefly explain each.`, mark:`1) Use cache (increase hit rate). 2) Increase memory bandwidth (wider bus/frequency). 3) Prefetching/optimised data layout to improve locality.`},
+      {q:`Describe differences between HDD and SSD affecting access time and throughput. Provide one scenario where HDD is still preferable.`, mark:`HDD: mechanical (higher latency), good sequential throughput for cheap large storage. SSD: flash (low latency, high random IOPS). HDD preferable for cheap archival bulk storage.`},
+      {q:`A full adder is needed in a ripple-carry adder chain. Explain how carry propagation affects performance and one method to mitigate delay.`, mark:`Carry must propagate through each bit increasing delay; mitigation: use carry-lookahead adders or carry-select adders to reduce propagation delay.`},
+      {q:`Explain what is meant by 'virtual memory' and how page tables are used to map virtual to physical addresses.`, mark:`Virtual memory allows processes to use address spaces larger than RAM. Page tables map virtual pages to physical frames; TLB caches recent translations.`},
+      {q:`Compare Type 1 and Type 2 hypervisors: installation location, performance and typical use case.`, mark:`Type1: bare-metal (higher performance, used in data centres). Type2: runs on host OS (convenient for desktops/testing).`},
+      {q:`Explain how snapshots are used in VM management and one limitation of relying on snapshots for backups.`, mark:`Snapshots capture disk/memory state for quick rollback/test. Limitation: snapshots can grow and affect performance; not a substitute for full backups.`},
+      {q:`Describe how live migration of a VM works at a high level and one challenge it must overcome.`, mark:`Copy memory pages while VM runs, track dirty pages, final switchover. Challenge: synchronising remaining dirty pages & ensuring storage/network consistency.`},
+      {q:`An embedded system has tight real-time requirements. Would you recommend running it inside a VM? Explain.`, mark:`Generally no—VM overhead & scheduling unpredictability harm hard real-time guarantees. Prefer bare-metal or RTOS unless real-time virtualization features exist.`},
+      {q:`Explain why emulators may struggle with timing-sensitive software and one approach emulators use to improve timing accuracy.`, mark:`Emulators must replicate hardware timing; approach: cycle-accurate simulation or timing compensation, at cost of performance.`},
+      {q:`Calculate: A RAM module transfers 8 bytes per cycle at 1600 MHz. What is theoretical peak bandwidth in GB/s?`, mark:`8 bytes * 1600e6 = 12.8e9 bytes/s = 12.8 GB/s.`},
+      {q:`Explain the role of device drivers and why OS vendors provide APIs for drivers.`, mark:`Drivers translate generic OS calls to hardware-specific operations; OS APIs ensure safety and consistent interfaces.`},
+      {q:`A VM host runs 10 guests each given 4 GB RAM while the host has only 32 GB RAM. Discuss memory overcommit and one risk associated with it.`, mark:`Overcommit assumes not all guests use full RAM simultaneously; risk: swapping/ballooning causing severe performance hits.`},
+      {q:`Explain how CPU caches are organised (levels) and why multi-level caches improve hit rate.`, mark:`L1 (small, fastest), L2 (larger), L3(shared). Multi-level gives fast access for hot data and capacity for less-frequent data.`},
+      {q:`Describe one security advantage VMs provide and one security risk introduced by virtualization.`, mark:`Advantage: isolation reduces attack surface spread. Risk: hypervisor escape could let guest affect host/other guests.`},
+      {q:`A system uses page swapping. Explain effect on performance and under what condition 'thrashing' occurs.`, mark:`Swapping increases latency; thrashing occurs when system spends most time swapping due to insufficient RAM.`},
+      {q:`Define emulation and distinguish it from virtualization with an example for each.`, mark:`Emulation mimics hardware (run legacy console via emulator). Virtualization shares host hardware with isolation (run multiple server VMs).`},
+      {q:`A student wants to benchmark disk I/O. Suggest two tests to run and what they measure.`, mark:`Sequential throughput measures sustained read/write; random IOPS measures small random access performance (database-like).`},
+      {q:`Explain why register file access is faster than main memory access (mention physical reasons).`, mark:`Registers are on-die, close to ALU with short interconnects; DRAM is off-chip with higher access latency and bus arbitration.`},
+      {q:`Discuss the trade-offs of running database servers in VMs vs containers.`, mark:`VMs: stronger isolation, full OS, slightly higher overhead. Containers: lightweight, faster startup, less isolation—good for microservices.`},
+      {q:`Explain parity vs ECC memory: what each detects/corrects and typical use-case for ECC.`, mark:`Parity detects single-bit errors only. ECC can detect/correct single-bit errors; used in servers where data integrity matters.`},
+      {q:`Describe how hypervisors schedule CPU time for multiple VMs and one fairness concern.`, mark:`Hypervisors allocate vCPU timeslices to pCPUs; fairness concern: 'noisy neighbour' where one VM consumes many cycles harming others.`},
+      {q:`Explain how I/O virtualization (virtio, paravirtual drivers) improves VM performance compared to emulated devices.`, mark:`Paravirtual drivers provide efficient interfaces between guest & hypervisor, reducing emulation overhead and improving throughput/latency.`},
+      {q:`Given a multi-core CPU, explain Amdahl’s Law briefly and how it affects expected speed-up for parallelised code.`, mark:`Speedup limited by serial fraction s: max speedup = 1 / (s + (1-s)/N). Diminishing returns as N increases.`},
+      {q:`Outline steps to investigate a VM that is intermittently high CPU usage: tools and checks you would perform.`, mark:`Check host CPU/steal, guest processes, hypervisor logs, I/O waits, recent changes, scheduled tasks.`},
+      {q:`Explain how thin provisioning for storage works and one risk to monitor.`, mark:`Allocates storage on-demand; risk: physical storage exhaustion if overcommitted.`},
+      {q:`Describe the concept of paravirtualization and one scenario where it is chosen over full virtualization.`, mark:`Paravirtualization modifies guest OS for hypervisor-aware I/O—chosen when guest can be modified to gain performance (e.g., cloud images).`},
+      {q:`Explain how CPU pipelining increases throughput and one hazard that can cause pipeline stalls.`, mark:`Pipelining overlaps instruction stages; hazards such as data dependencies or branch mispredictions cause stalls.`},
+      {q:`A VM host needs high availability. Suggest design elements to ensure minimal downtime (3 items).`, mark:`Redundant hosts, shared storage, automated failover/load balancing, network redundancy, live migration support.`}
+    ];
+
+    /************************
+     * Rendering & interactivity
+     ************************/
+    let openedSections = new Set();
+    let quizCompleted = false;
+
+    function renderSections(){
+      const container = document.getElementById('sections');
+      container.innerHTML = '';
+      SECTION_DATA.forEach((s, idx) => {
+        const block = document.createElement('div');
+        block.style.marginTop = '12px';
+
+        const toggle = document.createElement('button');
+        toggle.className = 'section-toggle';
+        toggle.setAttribute('data-id', s.id);
+        toggle.innerHTML = `<div><div style="font-weight:700">${idx+1}. ${s.title}</div><div class="small-muted" style="margin-top:6px">${s.brief}</div></div><div class="toggle-icon">▸</div>`;
+        toggle.addEventListener('click', ()=> toggleSection(s.id));
+        block.appendChild(toggle);
+
+        const body = document.createElement('div');
+        body.className = 'section-body';
+        body.id = `body-${s.id}`;
+        body.style.display = 'none';
+
+        // main html
+        const mainHtml = document.createElement('div');
+        mainHtml.innerHTML = s.html;
+        body.appendChild(mainHtml);
+
+        // Explain / Example / Tip / Mini-exercise blocks with teacher reveal
+        const parts = ['Explain','Example','Tip','Mini-exercise'];
+        parts.forEach(p=>{
+          const label = document.createElement('div');
+          label.style.marginTop='10px';
+          label.innerHTML = `<div style="font-weight:700">${p}</div><div class="small-muted" style="margin-top:6px">${s[p.toLowerCase()] || ''}</div>`;
+          body.appendChild(label);
+
+          // reveal button (individual)
+          const btn = document.createElement('button');
+          btn.className = 'reveal-btn';
+          btn.textContent = 'Show Teacher Notes';
+          btn.setAttribute('data-target', `${s.id}-${p.toLowerCase()}`);
+          btn.addEventListener('click', ()=> {
+            const id = btn.getAttribute('data-target');
+            const el = document.getElementById(id);
+            if(el) el.classList.toggle('reveal');
+            // scroll reveal into view lightly
+            if(el && el.classList.contains('reveal')) el.scrollIntoView({behavior:'smooth', block:'center'});
+          });
+          body.appendChild(btn);
+
+          // reveal content
+          const reveal = document.createElement('div');
+          reveal.className = 'reveal-content';
+          reveal.id = `${s.id}-${p.toLowerCase()}`;
+          reveal.innerHTML = `<div class="teacher-note"><div style="font-weight:700">Teacher guidance — ${p}</div><div class="small-muted" style="margin-top:6px">${s[p.toLowerCase()] || ''} <br/><em style="display:block;margin-top:6px">Model / expanded answer provided here for teacher use.</em></div></div>`;
+          body.appendChild(reveal);
+        });
+
+        block.appendChild(body);
+        container.appendChild(block);
+      });
+
+      document.getElementById('numSections').textContent = SECTION_DATA.length;
+      updateProgress();
+    }
+
+    function toggleSection(id){
+      const body = document.getElementById('body-'+id);
+      const toggle = document.querySelector(`[data-id="${id}"]`);
+      const icon = toggle.querySelector('.toggle-icon');
+      if(body.style.display === 'none'){
+        body.style.display = 'block'; icon.textContent='▾'; openedSections.add(id);
+      } else {
+        body.style.display = 'none'; icon.textContent='▸'; openedSections.delete(id);
+      }
+      updateProgress();
+    }
+
+    function openAll(open=true){
+      SECTION_DATA.forEach(s=>{
+        const body = document.getElementById('body-'+s.id);
+        const toggle = document.querySelector(`[data-id="${s.id}"]`);
+        const icon = toggle.querySelector('.toggle-icon');
+        if(open){ body.style.display='block'; icon.textContent='▾'; openedSections.add(s.id); }
+        else { body.style.display='none'; icon.textContent='▸'; openedSections.delete(s.id); }
+      });
+      updateProgress();
+    }
+
+    function updateProgress(){
+      const total = SECTION_DATA.length + 1; // +1 for quiz
+      const opened = openedSections.size + (quizCompleted?1:0);
+      const pct = Math.round((opened/total)*100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressPercent').textContent = pct + '%';
+    }
+
+    /************************
+     * Quiz rendering & logic
+     ************************/
+    function renderMCQs(){
+      const wrap = document.getElementById('mcqs');
+      wrap.innerHTML = '';
+      MCQS.forEach((mq, i) => {
+        const block = document.createElement('div');
+        block.className = 'mcq-block';
+        block.style.marginTop = '10px';
+        block.innerHTML = `<div style="font-weight:700">Q${i+1}. ${mq.q}</div>`;
+        const opts = document.createElement('div');
+        opts.className = 'mcq-options';
+        mq.options.forEach(opt => {
+          const lbl = document.createElement('label');
+          lbl.className = 'option';
+          lbl.innerHTML = `<input type="radio" name="${mq.id}" value="${opt}"> <span>${opt}</span>`;
+          opts.appendChild(lbl);
+        });
+        block.appendChild(opts);
+        wrap.appendChild(block);
+      });
+      document.getElementById('numMcqs').textContent = MCQS.length;
+    }
+
+    function renderTFs(){
+      const wrap = document.getElementById('tfs');
+      wrap.innerHTML = '';
+      TFS.forEach((t, i) => {
+        const div = document.createElement('div');
+        div.style.marginTop = '8px';
+        div.innerHTML = `<div style="font-weight:700">Q${i+1}. ${t.q}</div>
+                         <div style="margin-top:6px;display:flex;gap:8px">
+                          <label class="option"><input type="radio" name="${t.id}" value="true"> True</label>
+                          <label class="option"><input type="radio" name="${t.id}" value="false"> False</label>
+                         </div>`;
+        wrap.appendChild(div);
+      });
+    }
+
+    function renderShorts(){
+      const ol = document.getElementById('shorts');
+      ol.innerHTML = '';
+      SHORTS.forEach((s, i) => {
+        const li = document.createElement('li');
+        li.style.marginTop = '8px';
+        li.innerHTML = `<div style="font-weight:700">${s.q}</div>
+                        <div style="margin-top:6px"><textarea id="short-${s.id}" class="short" placeholder="Write your answer here..."></textarea></div>`;
+        ol.appendChild(li);
+      });
+
+      const key = document.getElementById('shortAnswersKey');
+      key.innerHTML = '<h4>Model answers & hints</h4>';
+      SHORTS.forEach(s=>{
+        const d = document.createElement('div');
+        d.style.marginTop='8px';
+        d.innerHTML = `<div style="font-weight:600">${s.q}</div><div class="small-muted" style="margin-top:6px">${s.answer}</div>`;
+        key.appendChild(d);
+      });
+    }
+
+    function submitMixedQuiz(){
+      // MCQ grading
+      let mcqScore = 0;
+      const mcqTotal = MCQS.length;
+      const mcqExplanations = [];
+      MCQS.forEach((mq,i)=>{
+        const chosen = document.querySelector(`input[name="${mq.id}"]:checked`);
+        const chosenVal = chosen ? chosen.value : null;
+        if(chosenVal === mq.correct) mcqScore++;
+        mcqExplanations.push(`<div style="margin-top:6px"><strong>Q${i+1}:</strong> Correct: <code>${mq.correct}</code> — ${mq.explanation}</div>`);
+      });
+
+      // TF grading
+      let tfScore = 0;
+      const tfTotal = TFS.length;
+      const tfExplanations = [];
+      TFS.forEach((t,i)=>{
+        const chosen = document.querySelector(`input[name="${t.id}"]:checked`);
+        const chosenVal = chosen ? (chosen.value === 'true') : null;
+        if(chosenVal === t.correct) tfScore++;
+        tfExplanations.push(`<div style="margin-top:6px"><strong>TF Q${i+1}:</strong> Correct: <strong>${t.correct ? 'True' : 'False'}</strong> — ${t.explanation}</div>`);
+      });
+
+      // Short answers: count filled
+      const shortCount = SHORTS.length;
+      let shortAnswered = 0;
+      SHORTS.forEach(s=>{
+        const txt = document.getElementById('short-'+s.id).value.trim();
+        if(txt.length) shortAnswered++;
+      });
+
+      const totalAuto = mcqTotal + tfTotal;
+      const gotAuto = mcqScore + tfScore;
+      const percentAuto = Math.round((gotAuto / totalAuto) * 100);
+
+      document.getElementById('mixedScore').innerHTML = `Auto-graded: <span class="score-badge">${gotAuto}/${totalAuto}</span> (${percentAuto}%) • Short answers filled: ${shortAnswered}/${shortCount}`;
+      document.getElementById('mcqExplanations').innerHTML = mcqExplanations.join('') + tfExplanations.join('');
+      document.getElementById('mcqFeedback').style.display = 'block';
+      quizCompleted = true;
+      updateProgress();
+    }
+
+    function resetMixedQuiz(){
+      MCQS.forEach(mq=>{
+        const chosen = document.querySelectorAll(`input[name="${mq.id}"]`);
+        chosen.forEach(c=>c.checked = false);
+      });
+      TFS.forEach(t=>{
+        const chosen = document.querySelectorAll(`input[name="${t.id}"]`);
+        chosen.forEach(c=>c.checked = false);
+      });
+      SHORTS.forEach(s=>{
+        document.getElementById('short-'+s.id).value = '';
+      });
+      document.getElementById('mixedScore').textContent = '';
+      document.getElementById('mcqFeedback').style.display = 'none';
+      quizCompleted = false;
+      updateProgress();
+    }
+
+    /************************
+     * Exam rendering & per-question mark reveal
+     ************************/
+    function shuffleArray(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+
+    function renderExamQs(){
+      const container = document.getElementById('examQs');
+      container.innerHTML = '';
+
+      // randomize order each load
+      const shuffled = shuffleArray(EXAM_QS);
+
+      shuffled.forEach((eQ, i) => {
+        const card = document.createElement('div');
+        card.className = 'exam-card';
+        // question header
+        const qh = document.createElement('div');
+        qh.className = 'q-header';
+        qh.innerHTML = `<div style="font-weight:700">Q${i+1}.</div>`;
+        card.appendChild(qh);
+
+        const qbody = document.createElement('div');
+        qbody.className = 'small-muted';
+        qbody.style.marginTop = '8px';
+        qbody.innerHTML = eQ.q;
+        card.appendChild(qbody);
+
+        // reveal mark button
+        const revealBtn = document.createElement('button');
+        revealBtn.className = 'exam-card-btn reveal-mark';
+        revealBtn.textContent = 'Reveal Mark Scheme';
+        // unique id for mark block
+        const markId = `mark-${i}`;
+        revealBtn.addEventListener('click', ()=>{
+          const el = document.getElementById(markId);
+          if(el) el.classList.toggle('reveal');
+          if(el && el.classList.contains('reveal')) el.scrollIntoView({behavior:'smooth', block:'center'});
+        });
+        card.appendChild(revealBtn);
+
+        const markDiv = document.createElement('div');
+        markDiv.className = 'exam-mark';
+        markDiv.id = markId;
+        markDiv.innerHTML = `<div style="font-weight:700">Model / Mark hints</div><div class="small-muted" style="margin-top:6px">${eQ.mark}</div>`;
+        card.appendChild(markDiv);
+
+        container.appendChild(card);
+      });
+
+      document.getElementById('numExam').textContent = EXAM_QS.length;
+    }
+
+    /************************
+     * Utilities
+     ************************/
+    function startLesson(){ openAll(true); const first = document.querySelector('[data-id]'); if(first) first.scrollIntoView({behavior:'smooth', block:'start'}); }
+    function printPage(){ window.print(); }
+    function downloadHTML(){
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob([html], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'A-Level-CS-Ch15-Hardware-VMs.html';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    /************************
+     * Init
+     ************************/
+    renderSections();
+    renderMCQs();
+    renderTFs();
+    renderShorts();
+    renderExamQs();
+
+    document.getElementById('numSections').textContent = SECTION_DATA.length;
+    document.getElementById('numMcqs').textContent = MCQS.length;
+    document.getElementById('numExam').textContent = EXAM_QS.length;
+
+    // keyboard helper
+    document.addEventListener('keydown', (e)=> { if(e.key.toLowerCase()==='l') openAll(true); });
+
+  </script>
+<script>
+const questions = [
+  {
+    q: "A data center technician must migrate several legacy servers into a virtualized environment without downtime. Explain which type of hypervisor would be most suitable and why.",
+    mark: "3 marks",
+    scheme: "Type 1 hypervisor (bare-metal) allows direct hardware access and better performance; ideal for production migration with minimal latency."
+  },
+  {
+    q: "A university computer lab runs VirtualBox on student laptops to simulate Linux servers. Identify the hypervisor type and describe one advantage and one limitation.",
+    mark: "4 marks",
+    scheme: "Type 2 hypervisor; advantage — easy to install on host OS; limitation — higher overhead and lower performance than Type 1."
+  },
+  {
+    q: "An enterprise compares Docker containers with traditional virtual machines. Explain two technical differences in how they use system resources.",
+    mark: "4 marks",
+    scheme: "Containers share the host OS kernel and are lighter; VMs emulate full hardware and require separate guest OS instances."
+  },
+  {
+    q: "A developer uses VMs for testing malware safely. Explain how VM isolation enhances security.",
+    mark: "3 marks",
+    scheme: "Each VM runs in a sandbox isolated from host; malware affects only the guest environment, protecting the host OS."
+  },
+  {
+    q: "Explain how resource allocation works when multiple VMs share one physical CPU.",
+    mark: "3 marks",
+    scheme: "Hypervisor schedules CPU time slices; allocates virtual CPUs (vCPUs) to guests; manages context switching efficiently."
+  },
+  {
+    q: "Compare startup time and memory use between a typical virtual machine and a container.",
+    mark: "3 marks",
+    scheme: "Containers start almost instantly using shared kernel; VMs require full OS boot, consuming more RAM and startup time."
+  },
+  {
+    q: "A systems engineer configures nested virtualization. Describe what this means and give one use case.",
+    mark: "3 marks",
+    scheme: "Running a hypervisor inside another VM; used for testing virtualization platforms or sandboxed development."
+  },
+  {
+    q: "Why do cloud providers like AWS or Azure use Type 1 hypervisors instead of Type 2?",
+    mark: "2 marks",
+    scheme: "Type 1 offers better performance, scalability, and direct hardware access suitable for multi-tenant cloud infrastructure."
+  },
+  {
+    q: "Define virtual machine snapshot and state two uses for it.",
+    mark: "3 marks",
+    scheme: "Snapshot = saved system state (RAM + disk). Used for backups or restoring test environments to known configurations."
+  },
+  {
+    q: "Explain the role of a hypervisor scheduler when multiple VMs compete for CPU.",
+    mark: "3 marks",
+    scheme: "It allocates CPU time slices fairly among VMs based on policies or priorities to optimize resource utilization."
+  },
+  {
+    q: "A developer deploys 50 microservices using Docker. Explain why containers are preferred over full VMs in this context.",
+    mark: "3 marks",
+    scheme: "Containers share the host OS and start faster, using fewer resources—ideal for lightweight, scalable microservices."
+  },
+  {
+    q: "Describe how virtualization contributes to server consolidation and energy efficiency.",
+    mark: "3 marks",
+    scheme: "Multiple VMs run on one physical server, reducing idle hardware and power use, improving overall utilization."
+  },
+  {
+    q: "Explain what virtual CPU (vCPU) and virtual memory mean in a VM configuration.",
+    mark: "2 marks",
+    scheme: "They are portions of host resources allocated to the VM—each vCPU maps to host cores; virtual memory maps to physical RAM."
+  },
+  {
+    q: "What happens when physical RAM is overcommitted across many running VMs?",
+    mark: "3 marks",
+    scheme: "Hypervisor uses techniques like ballooning or swapping; may reduce performance if swapping to disk occurs."
+  },
+  {
+    q: "Explain how paravirtualization differs from full virtualization.",
+    mark: "3 marks",
+    scheme: "Guest OS in paravirtualization is aware of the hypervisor and uses APIs for better performance; full virtualization requires no OS modification."
+  },
+  {
+    q: "A company uses virtualization for disaster recovery. Explain how snapshots and replication aid this strategy.",
+    mark: "4 marks",
+    scheme: "Snapshots capture VM states; replication copies them to another site, enabling quick restoration after system failure."
+  },
+  {
+    q: "Differentiate between emulation and virtualization.",
+    mark: "3 marks",
+    scheme: "Emulation mimics different hardware architectures (e.g., ARM on x86); virtualization runs multiple OSs on same hardware architecture."
+  },
+  {
+    q: "Why might a developer prefer running multiple containers on one host instead of multiple VMs?",
+    mark: "3 marks",
+    scheme: "Containers use less memory, start faster, and allow high-density deployment without full OS overhead."
+  },
+  {
+    q: "How can a hypervisor enforce isolation among guest VMs?",
+    mark: "3 marks",
+    scheme: "By virtualizing hardware and managing memory protection, ensuring guests can’t access each other’s data directly."
+  },
+  {
+    q: "Explain why containers are said to have 'process-level isolation'.",
+    mark: "2 marks",
+    scheme: "They isolate applications via namespaces and cgroups while sharing the host OS kernel."
+  },
+  {
+    q: "Give one reason why virtualization simplifies software testing across multiple OS versions.",
+    mark: "2 marks",
+    scheme: "Testers can clone VMs running different OSs without needing separate hardware."
+  },
+  {
+    q: "Explain the concept of virtual networking in a hypervisor.",
+    mark: "3 marks",
+    scheme: "Hypervisor provides virtual NICs and switches, enabling inter-VM and external network connectivity."
+  },
+  {
+    q: "A developer wants to simulate hardware failure in a VM. Explain how virtualization enables this safely.",
+    mark: "3 marks",
+    scheme: "Hypervisor can pause or modify virtual hardware states without affecting physical host hardware."
+  },
+  {
+    q: "What is the role of virtual machine tools (e.g., VMware Tools)?",
+    mark: "3 marks",
+    scheme: "They improve integration—drivers, clipboard sharing, and performance optimizations between guest and host."
+  },
+  {
+    q: "Explain the concept of 'hardware pass-through' in virtualization.",
+    mark: "3 marks",
+    scheme: "Allows direct assignment of host devices (e.g., GPU) to specific VMs for better performance."
+  },
+  {
+    q: "How does virtualization improve deployment time compared to physical provisioning?",
+    mark: "2 marks",
+    scheme: "VM templates can be cloned quickly; no need for hardware setup."
+  },
+  {
+    q: "Explain the relationship between virtualization, scalability, and cloud computing.",
+    mark: "3 marks",
+    scheme: "Virtualization enables elastic scaling of virtual instances—core of IaaS cloud models."
+  },
+  {
+    q: "Discuss one challenge in managing a high number of VMs on a single host.",
+    mark: "3 marks",
+    scheme: "Performance overhead and resource contention; requires monitoring and balancing."
+  },
+  {
+    q: "A student installs an Android emulator to test apps. Identify the virtualization type and explain its purpose.",
+    mark: "3 marks",
+    scheme: "Software-based emulation of ARM architecture on x86 host; used for app testing without physical devices."
+  },
+  {
+    q: "Explain how hardware-assisted virtualization improves performance.",
+    mark: "3 marks",
+    scheme: "CPU extensions (Intel VT-x, AMD-V) reduce hypervisor overhead by handling VM instructions directly in hardware."
+  }
+];
+
+// shuffle
+const shuffled = questions.sort(() => Math.random() - 0.5);
+
+const examList = document.getElementById("examQs");
+shuffled.forEach((item, i) => {
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <div class="question-block">
+      <p><strong>Q${i + 1}.</strong> ${item.q}</p>
+      <p class="marks">(${item.mark})</p>
+      <button class="toggleMarkScheme">Reveal Mark Scheme</button>
+      <div class="mark-scheme" style="display:none; border-left:3px solid #4a90e2; margin:8px 0; padding:8px 12px; background:#f7faff;">
+        ${item.scheme}
+      </div>
+    </div>
+  `;
+  examList.appendChild(li);
+});
+
+// mark scheme toggle
+document.querySelectorAll(".toggleMarkScheme").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const scheme = btn.nextElementSibling;
+    scheme.style.display = scheme.style.display === "none" ? "block" : "none";
+    btn.textContent = scheme.style.display === "none" ? "Reveal Mark Scheme" : "Hide Mark Scheme";
+  });
+});
+</script>
+
+</body>
+</html>
