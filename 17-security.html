@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chapter 17 — Security | 60-minute Lesson (Teacher-Friendly)</title>
+  <style>
+    :root{--bg:#f6fbff;--card:#ffffff;--accent:#0f6cff;--muted:#6b7280;--success:#16a34a}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.5;background:var(--bg);color:#0b1220;margin:0;padding:24px}
+    .container{max-width:1100px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px}
+    h1{margin:0;font-size:1.6rem}
+    .meta{color:var(--muted);font-size:0.95rem}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-top:18px}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 20px rgba(12,23,64,0.06)}
+    .phase{border-left:4px solid var(--accent);padding-left:12px;margin-bottom:14px}
+    .teacher-notes{background:#f1f5f9;padding:10px;border-radius:8px;margin-top:8px;color:#0b1220}
+    .collapsible{cursor:pointer;padding:8px;border-radius:8px;background:#f8fbff;border:1px solid #e6f0ff}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    .btn-ghost{background:transparent;border:1px solid #dbeafe;color:var(--accent)}
+    .quiz-item{margin-bottom:10px}
+    input[type=text],textarea,select{width:100%;padding:8px;border-radius:6px;border:1px solid #d1d5db}
+    pre{background:#0b1220;color:#e6f1ff;padding:12px;border-radius:8px;overflow:auto}
+    .timer{font-weight:600;color:var(--accent)}
+    .footer-note{font-size:0.85rem;color:var(--muted);margin-top:12px}
+    .score{font-weight:700;color:var(--success)}
+    /* responsive */
+    @media(max-width:900px){.grid{grid-template-columns:1fr;}.container{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Chapter 17 — Security (60‑minute lesson)</h1>
+        <div class="meta">Ravi Raju's - Starter → Lecture → Activity → Lecture → Plenary</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="small">Estimated class time</div>
+        <div class="timer">60 minutes (12–15 | 10 | 15 | 12 | 6)</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <!-- Phase 1: Starter -->
+        <section class="card">
+          <h2>Phase 1 — Starter (12–15 minutes)</h2>
+          <div class="phase">
+            <div class="small">Purpose: activate prior knowledge (Data representation / Networking). Quick formative check.</div>
+            <ol>
+              <li><strong>Warm-up quiz (10 mins)</strong> — 6 quick MCQs about previous chapters (number systems, basic networking, basic crypto vocabulary). Students do individually on paper or use the self-marking quiz below.</li>
+              <li><strong>Peer check (2–3 mins)</strong> — students swap answers with a neighbour and discuss any differences.</li>
+              <li><strong>Teacher quick review (2 mins)</strong> — call 3 answers and note misconceptions on the board.</li>
+            </ol>
+
+            <div class="teacher-notes">
+              <strong>Teacher notes:</strong>
+              <ul>
+                <li>Use the quick quiz to identify who needs help with binary/hex conversions and basic networking terms (IP, TCP/UDP).</li>
+                <li>If many students miss a question, plan to briefly revise that point in the first lecture burst.</li>
+              </ul>
+            </div>
+
+            <div style="margin-top:10px">
+              <button class="btn" onclick="startStarterQuiz()">Launch Starter Quiz (self-marking)</button>
+            </div>
+
+            <div id="starter-quiz" style="margin-top:12px;display:none">
+              <div class="small">Answer the following and click <em>Check</em> (auto-feedback)</div>
+              <div class="quiz-item">
+                <label>1) Convert decimal 13 to binary:</label>
+                <input type="text" id="q1" placeholder="e.g. 1101" />
+              </div>
+              <div class="quiz-item">
+                <label>2) Which layer handles routing between networks?</label>
+                <select id="q2"><option value="">--choose--</option><option value="network">Network</option><option value="transport">Transport</option><option value="application">Application</option></select>
+              </div>
+              <div class="quiz-item">
+                <label>3) Which of these is symmetric encryption algorithm?</label>
+                <select id="q3"><option value="">--choose--</option><option value="aes">AES</option><option value="rsa">RSA</option><option value="sha">SHA</option></select>
+              </div>
+              <div class="quiz-item">
+                <label>4) True / False: HTTPS uses TLS to secure traffic.</label>
+                <select id="q4"><option value="">--</option><option value="true">True</option><option value="false">False</option></select>
+              </div>
+              <div class="quiz-item">
+                <label>5) What is the primary goal of data encryption?</label>
+                <select id="q5"><option value="">--choose--</option><option value="confidentiality">Confidentiality</option><option value="speed">Speed</option><option value="redundancy">Redundancy</option></select>
+              </div>
+
+              <div style="margin-top:8px">
+                <button class="btn" onclick="gradeStarter()">Check</button>
+                <button class="btn btn-ghost" onclick="document.getElementById('starter-quiz').style.display='none'">Close</button>
+              </div>
+
+              <div id="starter-result" style="margin-top:10px"></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Phase 2: 1st Lecture (10 mins) -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 2 — Teacher Lecture 1 (10 minutes)</h2>
+          <div class="phase">
+            <h3>Focus:</h3>
+            <p>Clear explanation of core security concepts students must know for the exam:</p>
+            <ul>
+              <li><strong>Symmetric vs Asymmetric encryption</strong> — definitions, when each is used, advantages/disadvantages.</li>
+              <li><strong>Public Key Infrastructure (PKI)</strong> — simple certificate idea and the role of Certificate Authorities (CA).</li>
+              <li><strong>SSL/TLS handshake (high-level)</strong> — purpose and the steps (client hello, server hello, cert, key exchange, secure session).</li>
+            </ul>
+
+            <div class="teacher-notes">
+              <strong>What to say (scripted)</strong>
+              <ol>
+                <li>"Encryption transforms readable data into ciphertext so that only authorised parties can read it."</li>
+                <li>"Symmetric encryption uses one shared key — it's fast, suitable for encrypting large streams (e.g. AES). But sharing the key securely is hard."</li>
+                <li>"Asymmetric uses a public-private key pair. The public key encrypts, private key decrypts — it solves the key distribution problem at the cost of speed (e.g. RSA)."</li>
+                <li>"Certificates are like digital ID cards issued by trusted authorities — they prove a website is who it claims to be."</li>
+                <li>"TLS handshake: client and server agree protocols and keys, server presents certificate, session keys are derived and used for encryption."</li>
+              </ol>
+            </div>
+
+            <h4>Visual aids (draw on board or project):</h4>
+            <ol>
+              <li>Diagram: Symmetric vs Asymmetric flows (label keys clearly).</li>
+              <li>Simple TLS sequence diagram: ClientHello → ServerHello, Certificate → Key exchange → Encrypted messages.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- Phase 3: Student Activity (15 minutes) -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 3 — Student Activity (15 minutes)</h2>
+          <div class="phase">
+            <h3>Task A: Practical encryption exercise (paired work)</h3>
+            <p>Students work in pairs. Give each pair a short plaintext message and a Caesar shift (teacher chooses). They must encrypt and then show the class the ciphertext and the shift used.</p>
+            <ol>
+              <li>Teacher prints or displays 6 different short phrases (10–12 characters).</li>
+              <li>Each pair gets one phrase and a shift between 1–10.</li>
+              <li>Pairs exchange ciphertexts with another pair and attempt to decrypt (testing symmetric understanding).</li>
+            </ol>
+
+            <h3>Task B: PKI Roleplay (optional extension - if time allows)</h3>
+            <p>Choose 6 volunteers: CA, Website, Client, Attacker, Browser, Auditor. Roleplay the issuance and verification of a certificate and demonstrate what happens if the certificate is invalid.</p>
+
+            <div class="teacher-notes">
+              <strong>Marking guidance (informal)</strong>
+              <ul>
+                <li>Correct ciphertext & decryption (3 marks)</li>
+                <li>Clear explanation of which key used (2 marks)</li>
+                <li>Participation & peer feedback (1 mark)</li>
+              </ul>
+            </div>
+
+            <div style="margin-top:10px">
+              <button class="btn" onclick="openActivity1()">Open Activity Worksheet (print / project)</button>
+            </div>
+
+            <div id="activity1" style="display:none;margin-top:10px">
+              <div class="small">Worksheet — Encryption Practice</div>
+              <ol>
+                <li>Plaintext: <em>SECURE</em> — Shift: 4 → Ciphertext: <strong>WIGYVI</strong></li>
+                <li>Plaintext: <em>ALERT</em> — Shift: 2 → Ciphertext: <strong>CNGVT</strong></li>
+                <li>(Teacher: replace with your own phrases when printing)</li>
+                <li>Reflection: Which method (symmetric/asymmetric) would you choose to send the key for a large file? Why?</li>
+              </ol>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Phase 4: Lecture 2 (12 minutes) -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 4 — Teacher Lecture 2 (12 minutes)</h2>
+          <div class="phase">
+            <h3>Focus:</h3>
+            <ul>
+              <li>Digital signatures — how they work, simple diagram (hash + private key = signature)</li>
+              <li>SSL/TLS in practice — how browsers show trust (chains of trust, revoked certs)</li>
+              <li>Intro to quantum cryptography — basic idea only and its implications for key distribution</li>
+            </ul>
+
+            <div class="teacher-notes">
+              <strong>Scripted explanation (what to say)</strong>
+              <ol>
+                <li>"A digital signature signs a digest (hash) of the message with a private key — anyone with the public key can verify the signature matches the message."</li>
+                <li>"Chain of trust: Root CA → Intermediate CA → End-entity cert. Browsers trust root CAs built into them."</li>
+                <li>"Quantum key distribution uses quantum states; eavesdropping changes the state and is detectable — promising but costly."</li>
+              </ol>
+            </div>
+
+            <h4>Instructor demo (2–3 mins):</h4>
+            <p>Open a browser to any HTTPS site, click the padlock and show certificate details. Point out issuer, validity period and subject.</p>
+
+            <h4>Worked example (on board):</h4>
+            <pre>// Digital signature (conceptual)
+message = "Pay 200 to A"
+hash = H(message)
+signature = encrypt_with_private_key(hash)
+// Receiver: hash2 = H(message)
+// verify = decrypt_with_public_key(signature)
+// if hash2 == verify -> authentic</pre>
+          </div>
+        </section>
+
+        <!-- Phase 5: Plenary (5–6 minutes) -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 5 — Plenary (5–6 minutes)</h2>
+          <div class="phase">
+            <ol>
+              <li>Quick 3-question exit quiz (self-marking) — 3 minutes</li>
+              <li>One-minute reflection: Each student writes one thing they learned and one question left.</li>
+              <li>Homework: Short written task — explain in 150 words how TLS protects online banking.</li>
+            </ol>
+
+            <div style="margin-top:8px">
+              <button class="btn" onclick="startExitQuiz()">Start Exit Quiz</button>
+            </div>
+
+            <div id="exit-quiz" style="display:none;margin-top:8px">
+              <div class="small">Answer 3 quick questions and submit.</div>
+              <div class="quiz-item">
+                <label>1) Which key decrypts a message encrypted with your public key?</label>
+                <select id="e1"><option value="">--</option><option value="private">Private key</option><option value="public">Public key</option></select>
+              </div>
+              <div class="quiz-item">
+                <label>2) True/False: A digital signature ensures confidentiality.</label>
+                <select id="e2"><option value="">--</option><option value="true">True</option><option value="false">False</option></select>
+              </div>
+              <div class="quiz-item">
+                <label>3) One-word answer: What does TLS stand for?</label>
+                <input type="text" id="e3" placeholder="e.g. Transport Layer Security" />
+              </div>
+              <div style="margin-top:8px">
+                <button class="btn" onclick="gradeExit()">Submit</button>
+              </div>
+              <div id="exit-result" style="margin-top:8px"></div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Sidebar: resources, extended exercises, printable, pacing -->
+      <aside>
+        <div class="card">
+          <h3>Teacher Resources & Timing</h3>
+          <p class="small">Use this box to keep the lesson on time and provide extras.</p>
+          <ul>
+            <li><strong>Starter</strong> 12–15 mins: Quiz + swap + quick review</li>
+            <li><strong>Lecture 1</strong> 10 mins: Core concepts + diagrams</li>
+            <li><strong>Activity</strong> 15 mins: Caesar & PKI roleplay</li>
+            <li><strong>Lecture 2</strong> 12 mins: Signatures, TLS demo</li>
+            <li><strong>Plenary</strong> 6 mins: Exit quiz + reflection</li>
+          </ul>
+
+          <div style="margin-top:10px">
+            <button class="btn" onclick="downloadWorksheet()">Download printable worksheet (PDF)</button>
+          </div>
+
+          <div class="footer-note">Extras: full mark scheme for all activities, extension tasks and answers are included below the lesson (expand to view).</div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h3>Extension — Extra Exercises</h3>
+          <ol class="small">
+            <li>Create a short Python script that performs Caesar cipher encryption and decryption.</li>
+            <li>Compare AES (symmetric) vs RSA (asymmetric) in a short table (3 rows).</li>
+            <li>Find and screenshot a website with an invalid certificate — explain why browser warns you.</li>
+          </ol>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h3>Mark Schemes (Quick)</h3>
+          <div class="small">
+            <strong>Starter quiz:</strong> q1=1101, q2=Network, q3=AES, q4=True, q5=Confidentiality
+            <br><strong>Activity:</strong> ciphertext correct (3), explanation (2), participation (1)
+            <br><strong>Exit quiz:</strong> e1=Private key, e2=False, e3=Transport Layer Security
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- Hidden full answers and teacher extras -->
+    <section class="card" style="margin-top:18px">
+      <h3>Teacher Extras — Full Answers, Worksheets & Notes</h3>
+      <div class="small">
+        <p><strong>Full worked answers</strong> and downloadable worksheets are provided so you can print them for class.</p>
+        <details>
+          <summary class="collapsible">Starter - Answer key & printable</summary>
+          <div style="padding:10px">
+            <ol>
+              <li>q1: 1101</li>
+              <li>q2: Network layer</li>
+              <li>q3: AES (symmetric)</li>
+              <li>q4: True — HTTPS uses TLS</li>
+              <li>q5: Confidentiality</li>
+            </ol>
+          </div>
+        </details>
+
+        <details style="margin-top:8px">
+          <summary class="collapsible">Activity worksheets (full)</summary>
+          <div style="padding:10px">
+            <p>Encryption Practice — teacher copy (edit phrases before printing)</p>
+            <ol>
+              <li>Plaintext: SECURE — shift 4 → WIGYVI</li>
+              <li>Plaintext: ALERT — shift 2 → CNGVT</li>
+              <li>Reflection question & marking guidance included earlier.</li>
+            </ol>
+          </div>
+        </details>
+
+        <details style="margin-top:8px">
+          <summary class="collapsible">Full mark-scheme & extension answers</summary>
+          <div style="padding:10px">
+            <p>Complete mark schemes for all tasks, worked TLS handshake explanation and suggested formative assessment questions.</p>
+            <ul>
+              <li>TLS handshake (annotated) — 6-step explanation</li>
+              <li>Digital signature worked example with hashing steps</li>
+              <li>AES vs RSA comparison table (short)</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <footer style="margin-top:18px;color:var(--muted);font-size:0.9rem">Made for classroom use- Made by Ravi Raju</footer>
+  </div>
+
+  <script>
+    function startStarterQuiz(){document.getElementById('starter-quiz').style.display='block';window.scrollTo({top:document.getElementById('starter-quiz').offsetTop-80,behavior:'smooth'})}
+    function gradeStarter(){
+      let score=0;let total=5;let res='';
+      const a1=(document.getElementById('q1').value||'').trim(); if(a1==='1101') score++;
+      const a2=document.getElementById('q2').value; if(a2==='network') score++;
+      const a3=document.getElementById('q3').value; if(a3==='aes') score++;
+      const a4=document.getElementById('q4').value; if(a4==='true') score++;
+      const a5=document.getElementById('q5').value; if(a5==='confidentiality') score++;
+      res = `<div class=\"score\">Starter score: ${score}/${total}</div>`;
+      if(score<4) res += '<div class=\"small\">Teacher note: consider a 3‑minute recap on binary/AES basics.</div>';
+      document.getElementById('starter-result').innerHTML = res;
+    }
+
+    function openActivity1(){const el=document.getElementById('activity1');el.style.display=(el.style.display==='none')?'block':'none';}
+
+    function startExitQuiz(){document.getElementById('exit-quiz').style.display='block';window.scrollTo({top:document.getElementById('exit-quiz').offsetTop-80,behavior:'smooth'})}
+    function gradeExit(){
+      let s=0;let out='';
+      if(document.getElementById('e1').value==='private') s++;
+      if(document.getElementById('e2').value==='false') s++;
+      if((document.getElementById('e3').value||'').toLowerCase().includes('transport')) s++;
+      out = `<div class=\"score\">Exit quiz score: ${s}/3</div>`;
+      document.getElementById('exit-result').innerHTML=out;
+    }
+
+    function downloadWorksheet(){
+      alert('Use the browser print -> Save as PDF to create printable worksheets. If you want a ready-made PDF, tell me and I will generate one.');
+    }
+  </script>
+</body>
+</html>

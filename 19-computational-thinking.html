@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chapter 19 — Computational Thinking & Problem Solving | 60‑minute Lesson</title>
+  <style>
+    :root{
+      --bg:#fff9c4; /* lemon yellow */
+      --card:#ffffff;
+      --accent:#2f7a3e; /* green foreground */
+      --muted:#5b604f;
+      --soft:#f0f7ee;
+    }
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:#12221a; margin:0; padding:22px}
+    .container{max-width:1200px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px}
+    h1{margin:0;font-size:1.6rem;color:var(--accent)}
+    .meta{color:var(--muted);font-size:0.95rem}
+    .grid{display:grid;grid-template-columns:1fr 340px;gap:18px;margin-top:18px}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(17,24,14,0.06)}
+    .phase{border-left:6px solid var(--accent);padding-left:12px;margin-bottom:14px}
+    .teacher{background:var(--soft);padding:10px;border-radius:8px;margin-top:8px}
+    pre{background:#0b1220;color:#e6f1ff;padding:12px;border-radius:8px;overflow:auto}
+    code{background:#f6fff6;padding:2px 6px;border-radius:4px;color:var(--accent);font-weight:600}
+    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    .btn-ghost{background:transparent;border:1px solid rgba(47,122,62,0.12);color:var(--accent);padding:8px 12px;border-radius:8px}
+    input,select,textarea{width:100%;padding:8px;border:1px solid #d6d6d1;border-radius:6px}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .collapsible{cursor:pointer;padding:8px;border-radius:8px;background:linear-gradient(180deg,#fbffd9,#f6f9d4);border:1px solid rgba(47,122,62,0.08)}
+    .quiz-item{margin-bottom:10px}
+    .score{font-weight:700;color:var(--accent)}
+    ol li{margin-bottom:6px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}.container{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Chapter 19 — Computational Thinking & Problem Solving</h1>
+        <div class="meta">Teacher-friendly 60-minute lesson • Focus: practical exam skills, pseudocode, test cases, trace tables</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="small">Lesson length</div>
+        <strong style="color:var(--accent)">60 minutes (15 | 10 | 15 | 12 | 8)</strong>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <!-- Phase 1 Starter -->
+        <section class="card">
+          <h2>Phase 1 — Starter (15 minutes)</h2>
+          <div class="phase">
+            <p><strong>Goal:</strong> Activate prior knowledge (algorithms, data representation, simple programming constructs) and surface misconceptions.</p>
+            <ol>
+              <li><strong>Quick written warm-up (8 min)</strong>: 6 short tasks on the board — binary to decimal, simple pseudocode trace, identify loop type, name a data structure, give one test case, spot the error in a 3-line pseudocode snippet.</li>
+              <li><strong>Pair discussion (4 min)</strong>: swap answers, explain one correction to partner.</li>
+              <li><strong>Teacher check (3 min)</strong>: sample 3 answers aloud and note class-wide issues.</li>
+            </ol>
+
+            <div class="teacher">
+              <strong>Teacher notes (script):</strong>
+              <ol>
+                <li>"We’ll do a short warm-up to prime your algorithmic thinking — don’t worry about perfect answers."</li>
+                <li>If many students miss the same item, plan to add a 2‑minute clarification during Lecture 1.</li>
+                <li>Collect one good answer from each pair for quick formative assessment."</li>
+              </ol>
+            </div>
+
+            <div style="margin-top:10px">
+              <button class="btn" onclick="startStarter()">Open Starter Tasks</button>
+            </div>
+
+            <div id="starter" style="display:none;margin-top:12px">
+              <div class="small">Starter tasks (write answers on paper or in the chat)</div>
+              <ol>
+                <li>Convert binary <code>10110</code> to decimal.</li>
+                <li>What does this pseudocode output? <pre>FOR i ← 1 TO 3\n  PRINT i\nENDFOR</pre></li>
+                <li>Identify the data structure: push, pop operations.</li>
+                <li>Give a normal test and a boundary test for reading a student's mark (0–100).</li>
+                <li>Spot the bug: <pre>IF x = 10 THEN\n  PRINT "Ten"\nENDIF\nELSE\n  PRINT "Not Ten"\n</pre></li>
+                <li>Which algorithm is best for sorted data searching? (one-word answer)</li>
+              </ol>
+              <div style="margin-top:8px"><button class="btn btn-ghost" onclick="document.getElementById('starter').style.display='none'">Close</button></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Phase 2 Lecture 1 -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 2 — Lecture 1 (10 minutes)</h2>
+          <div class="phase">
+            <h3>Key Concepts & Strategies (19.2)</h3>
+            <ol>
+              <li><strong>Decomposition</strong> — break problems into independent functions (show student grading system decomposition).</li>
+              <li><strong>Abstraction</strong> — ignore irrelevant detail; use clear interfaces.</li>
+              <li><strong>Pattern recognition</strong> — reuse known solutions.</li>
+              <li><strong>Algorithm design</strong> — step-by-step with clear pseudocode conventions.</li>
+              <li><strong>Testing & debugging</strong> — normal, boundary, invalid tests; trace tables and dry runs.</li>
+            </ol>
+
+            <div class="teacher">
+              <strong>What to say (script):</strong>
+              <ol>
+                <li>"Start by decomposing — write small functions, then integrate them."</li>
+                <li>"Always design test cases before coding — it saves time in debugging."</li>
+                <li>"Abstraction helps you ignore file formats or UI when designing core logic."</li>
+              </ol>
+            </div>
+
+            <h4>Pseudocode conventions (19.3) — display and explain:</h4>
+            <pre>DEFINE calculateAverage(marks[1..n])\n  total ← 0\n  FOR i ← 1 TO n\n    total ← total + marks[i]\n  ENDFOR\n  RETURN total / n\nENDDEFINE</pre>
+            <div class="small">Teacher note: remind students to state indexing (0‑ or 1‑based) and variable names clearly.</div>
+          </div>
+        </section>
+
+        <!-- Phase 3 Activity -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 3 — Activity (15 minutes)</h2>
+          <div class="phase">
+            <h3>Group practical tasks — trace tables & debugging</h3>
+            <ol>
+              <li>Split into groups of 3. Each group gets one of the following in printed form (or projected):</li>
+              <ul>
+                <li>Task A: Work the trace table for <code>findMax</code> on <code>[3,7,2,9,4]</code> and show intermediate steps.</li>
+                <li>Task B: Complete the trace table for one pass of the bubble-like pseudocode (given in 19.11 Q7).</li>
+                <li>Task C: Debug this pseudocode (find the logic error and correct it):<pre>IF x % 2 = 0 THEN\n  PRINT "Odd"\nELSE\n  PRINT "Even"\nENDIF</pre></li>
+              </ul>
+              <li>Groups swap papers and peer-mark using the provided mark scheme (quick feedback).</li>
+              <li>Teacher circulates and gives 1‑minute targeted feedback to two groups showing common errors.</li>
+            </ol>
+
+            <div class="teacher">
+              <strong>Marking tips (quick):</strong>
+              <ul>
+                <li>Trace table completeness (2 marks), correct updates (2 marks), final answer (1 mark).</li>
+                <li>For debugging: identify the incorrect condition and provide corrected code (3 marks).</li>
+              </ul>
+            </div>
+
+            <div style="margin-top:10px">
+              <button class="btn" onclick="openActivity()">Open Activity Pack</button>
+            </div>
+
+            <div id="activityPack" style="display:none;margin-top:10px">
+              <div class="small">Activity Pack — printable snippets</div>
+              <ol>
+                <li><strong>findMax trace:</strong> table header: i | arr[i] | maxVal | maxIndex | comments</li>
+                <li><strong>Bubble pass:</strong> initial [4,2,7,3] -> please show swaps for i=1..3</li>
+                <li><strong>Debug:</strong> the if condition prints wrong labels; correct to <code>IF x % 2 = 0 THEN PRINT "Even" ELSE PRINT "Odd" ENDIF</code></li>
+              </ol>
+              <div style="margin-top:8px"><button class="btn btn-ghost" onclick="document.getElementById('activityPack').style.display='none'">Close</button></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Phase 4 Lecture 2 -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 4 — Lecture 2 (12 minutes)</h2>
+          <div class="phase">
+            <h3>Worked examples: Searching, Sorting & Full Practical Problem</h3>
+            <h4>Linear vs Binary Search (19.5)</h4>
+            <pre>DEFINE binarySearch(arr[1..n], key)\n  low ← 1\n  high ← n\n  WHILE low ≤ high\n    mid ← (low + high) DIV 2\n    IF arr[mid] = key THEN\n      RETURN mid\n    ELSEIF arr[mid] < key THEN\n      low ← mid + 1\n    ELSE\n      high ← mid - 1\n    ENDIF\n  ENDWHILE\n  RETURN -1\nENDDEFINE</pre>
+            <div class="small">Explain: binary search O(log n), use only on sorted arrays.</div>
+
+            <h4>Selection Sort (19.6)</h4>
+            <pre>DEFINE selectionSort(arr[1..n])\n  FOR i ← 1 TO n-1\n    minIndex ← i\n    FOR j ← i+1 TO n\n      IF arr[j] < arr[minIndex] THEN minIndex ← j ENDIF\n    ENDFOR\n    swap arr[i] and arr[minIndex]\n  ENDFOR\n  RETURN arr\nENDDEFINE</pre>
+
+            <h4>Full Practical: Student Grade Report (19.9)</h4>
+            <p>Walk through decomposition, pseudocode for <code>assignGrade</code> and <code>calculateStats</code>, and show trace on sample input.</p>
+            <pre>DEFINE assignGrade(mark)\n  IF mark >= 70 THEN RETURN 'A'\n  ELSEIF mark >= 60 THEN RETURN 'B'\n  ELSEIF mark >= 50 THEN RETURN 'C'\n  ELSEIF mark >= 40 THEN RETURN 'D'\n  ELSE RETURN 'F'\n  ENDIF\nENDDEFINE</pre>
+
+            <div class="teacher">
+              <strong>Teaching tip:</strong> show a worked trace table for the sample 4 students (avg=71, highest=92, lowest=49).
+            </div>
+          </div>
+        </section>
+
+        <!-- Phase 5 Plenary -->
+        <section class="card" style="margin-top:14px">
+          <h2>Phase 5 — Plenary (8 minutes)</h2>
+          <div class="phase">
+            <ol>
+              <li><strong>Exit quiz (self-marking):</strong> 3 quick questions — scoring appears below.</li>
+              <li><strong>One-sentence reflection:</strong> Each student writes one thing they found easy and one they found hard.</li>
+              <li><strong>Homework:</strong> Complete the extra practice tasks (19.14) — prepare one trace table for submission.</li>
+            </ol>
+
+            <div style="margin-top:8px">
+              <div class="quiz-item">
+                <label>Q1) Which technique splits a problem into smaller parts?</label>
+                <select id="p1"><option value="">--</option><option value="decomp">Decomposition</option><option value="abst">Abstraction</option></select>
+              </div>
+              <div class="quiz-item">
+                <label>Q2) Which data structure uses FIFO?</label>
+                <select id="p2"><option value="">--</option><option value="stack">Stack</option><option value="queue">Queue</option></select>
+              </div>
+              <div class="quiz-item">
+                <label>Q3) Best search for unsorted list (worst case)?</label>
+                <select id="p3"><option value="">--</option><option value="linear">Linear search</option><option value="binary">Binary search</option></select>
+              </div>
+              <div style="margin-top:6px"><button class="btn" onclick="gradePlenary()">Check</button></div>
+              <div id="plenaryResult" style="margin-top:8px"></div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Sidebar -->
+      <aside>
+        <div class="card">
+          <h3 style="color:var(--accent)">Teacher Resources</h3>
+          <p class="small">Quick links for class flow and printable snippets.</p>
+          <ul>
+            <li><strong>Starter</strong> — 6 short tasks (use projected sheet)</li>
+            <li><strong>Activity</strong> — 3 task cards (trace, bubble pass, debug)</li>
+            <li><strong>Worked examples</strong> — selection/binary pseudocode</li>
+            <li><strong>Homework</strong> — 19.14 extra practice</li>
+          </ul>
+          <div style="margin-top:10px"><button class="btn" onclick="downloadPack()">Download activity pack (zip)</button></div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h4 style="color:var(--accent)">Mark Schemes (Quick)</h4>
+          <div class="small">
+            <ul>
+              <li>findMax trace: init(1), loop updates(2), final value(1)</li>
+              <li>Bubble pass: swaps recorded (3), final array (1)</li>
+              <li>Debug: corrected condition (3)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h4 style="color:var(--accent)">Common Mistakes (Exam)</h4>
+          <ol class="small">
+            <li>Not stating indexing (0 vs 1).</li>
+            <li>Missing initialization in trace tables.</li>
+            <li>Off-by-one errors in loop boundaries.</li>
+            <li>Lack of test cases (normal/boundary/invalid).</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top:18px">
+      <h3 style="color:var(--accent)">Full Content & Extra Exercises</h3>
+      <div class="small">
+        <p>This section contains the full chapter content (pseudocode, worked examples, practice exercises and full mark schemes) — printable for handouts.</p>
+        <details>
+          <summary class="collapsible">Show full chapter text and practice questions</summary>
+          <div style="padding:12px">
+            <!-- Insert full text blocks (collapsed) -->
+            <h4>Chapter 19 — Full Notes (condensed)</h4>
+            <p>Computational thinking is the process of formulating problems and solutions so a computer can execute them. Key skills include decomposition, abstraction, pattern recognition, algorithm design, testing and complexity analysis.</p>
+            <h4>Practice Exercises</h4>
+            <ol>
+              <li>MCQs (see 19.11)</li>
+              <li>Short answers (count even numbers, boundary tests, trace table uses)</li>
+              <li>Structured tasks (mergeSorted, insertion sort dry-run, file parsing pseudocode)</li>
+            </ol>
+            <h4>Full Mark Schemes</h4>
+            <p>All MCQs, short answers and structured questions have model solutions and mark allocations — use them when marking homework.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <footer style="margin-top:18px;color:var(--muted);font-size:0.9rem">Lesson created to fit a 60-minute practical class.By Ravi Raju</footer>
+  </div>
+
+  <script>
+    function startStarter(){document.getElementById('starter').style.display='block';window.scrollTo({top:document.getElementById('starter').offsetTop-60,behavior:'smooth'})}
+    function openActivity(){const el=document.getElementById('activityPack');el.style.display=(el.style.display==='none')?'block':'none';window.scrollTo({top:el.offsetTop-60,behavior:'smooth'})}
+    function gradePlenary(){let s=0; if(document.getElementById('p1').value==='decomp') s++; if(document.getElementById('p2').value==='queue') s++; if(document.getElementById('p3').value==='linear') s++; document.getElementById('plenaryResult').innerHTML=`<div class=\"score\">Score: ${s}/3</div>`;}
+    function downloadPack(){alert('I can generate a ZIP or printable PDF pack if you want — tell me and I will create it now.')}
+  </script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chapter 20 — Further Programming (Python) | 3×60min Lessons</title>
+<style>
+:root{--bg:#fff9c4;--card:#ffffff;--accent:#2f7a3e;--muted:#52604a;--soft:#f3f8ef}
+body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:#11220f; margin:0;padding:20px}
+.container{max-width:1200px;margin:0 auto}
+header{display:flex;align-items:center;gap:12px}
+h1{margin:0;color:var(--accent);font-size:1.6rem}
+.meta{color:var(--muted);font-size:0.95rem}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:18px;margin-top:16px}
+.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+.lesson{border-left:6px solid var(--accent);padding-left:12px;margin-bottom:14px}
+.teacher{background:var(--soft);padding:10px;border-radius:8px;margin-top:8px;color:#12220f}
+pre{background:#0b1220;color:#e6f1ff;padding:12px;border-radius:8px;overflow:auto}
+code.inline{background:#f1fff1;padding:2px 6px;border-radius:4px;color:var(--accent);font-weight:700}
+.btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid rgba(47,122,62,0.12);color:var(--accent);padding:8px 12px;border-radius:8px}
+input,select,textarea{width:100%;padding:8px;border:1px solid #d6d6d1;border-radius:6px}
+.small{font-size:0.9rem;color:var(--muted)}
+.collapsible{cursor:pointer;padding:8px;border-radius:8px;background:linear-gradient(180deg,#fbffd9,#f6f9d4);border:1px solid rgba(47,122,62,0.08)}
+.kv{display:flex;gap:8px;align-items:center}
+.kv div{background:#f6fff6;padding:6px 10px;border-radius:8px}
+.quiz-item{margin-bottom:10px}
+.score{font-weight:700;color:var(--accent)}
+@media(max-width:980px){.grid{grid-template-columns:1fr}.container{padding:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div>
+      <h1>Chapter 20 — Further Programming (Python)</h1>
+      <div class="meta">Comprehensive teacher-friendly unit: <strong>3 lessons × 60 minutes</strong>. All content Python-only, exam-focused.</div>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div class="small">Theme</div>
+      <strong style="color:var(--accent)">Lemon yellow background • Green foreground</strong>
+    </div>
+  </header>
+
+  <div class="grid">
+    <main>
+
+      <!-- LESSON 1 -->
+      <section class="card">
+        <h2>Lesson 1 — Structured & Modular Programming, Functions, Recursion (60 min)</h2>
+        <div class="lesson">
+          <h3>Phase breakdown (60 min)</h3>
+          <ol>
+            <li>Starter (10–12 min): quick warm-up + function-spotting</li>
+            <li>Lecture 1 (12 min): modular programming & functions</li>
+            <li>Activity (20 min): write & test small functions, containerized tasks</li>
+            <li>Lecture 2 (10 min): recursion (factorial, Fibonacci) + pitfalls</li>
+            <li>Plenary (6 min): exit quiz & homework</li>
+          </ol>
+
+          <div class="teacher">
+            <strong>Teacher notes (what to say)</strong>
+            <ol>
+              <li>"Modular programs are easier to test and maintain—always design functions for single responsibilities."</li>
+              <li>"Show students how main() orchestrates modules and why __name__ == '__main__' matters."</li>
+              <li>"Explain recursion with a simple base-case/tree visualization — recursion depth matters."</li>
+            </ol>
+          </div>
+
+          <h4>Starter (10–12 min)</h4>
+          <p>Quick tasks — on board or paper:</p>
+          <ol>
+            <li>Identify which block is a function in a short code snippet.</li>
+            <li>Trace the output of <code class="inline">calculate_area(2)</code> from the example.</li>
+            <li>Spot the missing return in a function example and explain consequences.</li>
+          </ol>
+
+          <h4>Lecture 1 — Modular Programming & Functions (12 min)</h4>
+          <p>Explain modules, functions with parameters, default args, return values, scope and docstrings. Show the modular example and discuss testability.</p>
+          <pre># Modular structure example
+def input_data():
+    name = input("Enter your name: ")
+    return name
+
+def greet(name):
+    print(f"Hello, {name}! Welcome to the program.")
+
+def main():
+    user_name = input_data()
+    greet(user_name)
+
+if __name__ == "__main__":
+    main()
+</pre>
+
+          <h4>Activity — Functions lab (20 min)</h4>
+          <ol>
+            <li>Pair up. Implement these functions (use any IDE):
+              <ol>
+                <li><code>calculate_area(radius)</code> — returns area (float)</li>
+                <li><code>is_prime(n)</code> — returns True/False</li>
+                <li><code>count_evens(lst)</code> — returns number of even ints</li>
+              </ol>
+            </li>
+            <li>Write 2 test cases for each function (normal + boundary/edge).</li>
+            <li>Swap with another pair and run their tests (peer review).</li>
+          </ol>
+
+          <div class="teacher">
+            <strong>Assessment checklist</strong>
+            <ul>
+              <li>Function name and parameters correct (1 mark)</li>
+              <li>Correct output for test cases (2 marks)</li>
+              <li>Reasonable edge tests provided (1 mark)</li>
+            </ul>
+          </div>
+
+          <h4>Lecture 2 — Recursion (10 min)</h4>
+          <p>Explain recursion via factorial and Fibonacci. Discuss base case, stack depth, and converting to iterative when appropriate.</p>
+          <pre>def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+print(factorial(5))  # 120
+</pre>
+
+          <h4>Plenary (6 min)</h4>
+          <div class="quiz-item">
+            <label>Q1) What does modular programming improve most?</label>
+            <select id="l1q1"><option value="">--</option><option value="test">Testing</option><option value="speed">Speed</option></select>
+          </div>
+          <div class="quiz-item">
+            <label>Q2) True/False: Recursion always faster than iteration.</label>
+            <select id="l1q2"><option value="">--</option><option value="true">True</option><option value="false">False</option></select>
+          </div>
+          <div style="margin-top:6px"><button class="btn" onclick="gradeL1()">Check</button></div>
+          <div id="l1res" style="margin-top:8px"></div>
+
+        </div>
+      </section>
+
+      <!-- LESSON 2 -->
+      <section class="card" style="margin-top:14px">
+        <h2>Lesson 2 — File Handling, Data Structures, Exception Handling (60 min)</h2>
+        <div class="lesson">
+          <h3>Phase breakdown</h3>
+          <ol>
+            <li>Starter (8–10 min): file reading short challenge</li>
+            <li>Lecture 1 (14 min): file handling (text & binary), parsing CSV</li>
+            <li>Activity (20 min): file-based tasks & dictionaries</li>
+            <li>Lecture 2 (8 min): data structures (lists, tuples, dicts, stacks, queues)</li>
+            <li>Plenary (8 min): exception handling recap & quiz</li>
+          </ol>
+
+          <div class="teacher">
+            <strong>Teacher notes:</strong>
+            <ul>
+              <li>Demonstrate file I/O live: create a small records.txt and append/view.</li>
+              <li>Show pitfalls: newline characters, strip(), split(',').</li>
+            </ul>
+          </div>
+
+          <h4>Starter — File challenge (8–10 min)</h4>
+          <p>Give students a small text file (projected):</p>
+          <pre>Alice,85\nBob,90\nCharlie,78\n</pre>
+          <p>Task: write the output of a loop that reads and prints "Name: Alice, Mark: 85" style lines.</p>
+
+          <h4>Lecture 1 — File Handling (14 min)</h4>
+          <pre># Writing to a file
+with open("students.txt", "w") as file:
+    file.write("Alice\nBob\nCharlie")
+
+# Reading from a file
+with open("students.txt", "r") as file:
+    for line in file:
+        print(line.strip())
+
+# Binary (pickle)
+import pickle
+data = {"id":101, "name":"Alice", "marks":88}
+with open("student.dat", "wb") as f: pickle.dump(data, f)
+</pre>
+
+          <h4>Activity — File & Dictionary lab (20 min)</h4>
+          <ol>
+            <li>Task A: Read 'students.csv' and build a dictionary mapping id->mark. Provide test for malformed lines.</li>
+            <li>Task B: Count occurrences of names and output top 2 names.
+            </li>
+            <li>Peer-review & run: swap code and run on teacher-provided malformed input (missing fields, extra commas).</li>
+          </ol>
+
+          <div class="teacher">
+            <strong>Mark scheme highlights</strong>
+            <ul>
+              <li>Correct file read & parsing (3 marks)</li>
+              <li>Handling malformed lines (2 marks)</li>
+              <li>Correct dictionary creation & counts (2 marks)</li>
+            </ul>
+          </div>
+
+          <h4>Lecture 2 — Data Structures (8 min)</h4>
+          <p>Discuss lists (mutable), tuples (immutable), dictionaries (key→value), sets; implement stack & queue examples in Python.</p>
+          <pre># Stack
+stack=[]
+stack.append('A')
+stack.append('B')
+stack.pop()  # 'B'
+
+# Queue (simple)
+queue=[]
+queue.append('Task1')
+queue.append('Task2')
+queue.pop(0)  # 'Task1'
+</pre>
+
+          <h4>Plenary — Exceptions & Quiz (8 min)</h4>
+          <pre>try:
+    a=int(input("Enter: "))
+    b=int(input("Enter: "))
+    print(a/b)
+except ZeroDivisionError:
+    print("Division by zero")
+except ValueError:
+    print("Invalid input")
+finally:
+    print("Done")
+</pre>
+          <div class="quiz-item">
+            <label>Q1) Which mode opens a file for binary writing?</label>
+            <select id="l2q1"><option value="">--</option><option value="wb">wb</option><option value="w">w</option></select>
+          </div>
+          <div class="quiz-item">
+            <label>Q2) Which data structure is unordered key→value?</label>
+            <select id="l2q2"><option value="">--</option><option value="dict">dict</option><option value="list">list</option></select>
+          </div>
+          <div style="margin-top:6px"><button class="btn" onclick="gradeL2()">Check</button></div>
+          <div id="l2res" style="margin-top:8px"></div>
+
+        </div>
+      </section>
+
+      <!-- LESSON 3 -->
+      <section class="card" style="margin-top:14px">
+        <h2>Lesson 3 — OOP, Testing, Debugging & Final Practical Project (60 min)</h2>
+        <div class="lesson">
+          <h3>Phase breakdown</h3>
+          <ol>
+            <li>Starter (8–10 min): identify classes/objects from snippets</li>
+            <li>Lecture 1 (15 min): classes, methods, inheritance, encapsulation</li>
+            <li>Activity (20 min): build BankAccount or Student class & small test harness</li>
+            <li>Lecture 2 (7 min): testing, assertions, unittest basics</li>
+            <li>Plenary (6–8 min): mini-project briefing & submission checklist</li>
+          </ol>
+
+          <div class="teacher">
+            <strong>Teacher tips:</strong>
+            <ul>
+              <li>Model one full example live (create class, instantiate, call methods).</li>
+              <li>Encourage docstrings and small unit tests — show simple unittest example.</li>
+            </ul>
+          </div>
+
+          <h4>Starter — Class spotting (8–10 min)</h4>
+          <p>Show snippets and ask: "Which are classes? Which are objects? Which are methods?" Collect answers.</p>
+
+          <h4>Lecture 1 — OOP fundamentals (15 min)</h4>
+          <pre>class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+    def display(self):
+        print(f"Name: {self.name}, Marks: {self.marks}")
+
+s1 = Student("Alice", 89)
+s1.display()
+
+# Inheritance
+class Person:
+    def __init__(self, name):
+        self.name = name
+class Teacher(Person):
+    def __init__(self, name, subject):
+        super().__init__(name)
+        self.subject = subject
+</pre>
+
+          <h4>Activity — Mini OOP Lab (20 min)</h4>
+          <ol>
+            <li>Create <code>BankAccount</code> class with <code>deposit</code>, <code>withdraw</code>, and <code>get_balance</code> methods. Include simple validation (no negative withdraw).</li>
+            <li>Write a short test harness that creates two accounts, performs operations and prints balances.</li>
+            <li>Peer-run each other's harness and note failures.</li>
+          </ol>
+
+          <div class="teacher">
+            <strong>Marking guide</strong>
+            <ul>
+              <li>Proper __init__ and methods (3 marks)</li>
+              <li>Validation checks (2 marks)</li>
+              <li>Test harness output correctness (2 marks)</li>
+            </ul>
+          </div>
+
+          <h4>Lecture 2 — Testing & Debugging (7 min)</h4>
+          <p>Use assertions, discuss unit tests. Show a tiny unittest example and explain test cases (normal, boundary, invalid).</p>
+          <pre>import unittest
+
+class TestMath(unittest.TestCase):
+    def test_square(self):
+        self.assertEqual(square(4), 16)
+
+if __name__ == '__main__':
+    unittest.main()
+</pre>
+
+          <h4>Plenary — Final project briefing & checklist (6-8 min)</h4>
+          <p>Project: Student Record Management System (file-based). Students will submit: pseudocode, code, test cases, sample input & output, and a short reflection.</p>
+          <div class="teacher">
+            <strong>Submission checklist:</strong>
+            <ol>
+              <li>Pseudocode & decomposition (10 marks)</li>
+              <li>Working code with comments (10 marks)</li>
+              <li>Test cases & trace tables (6 marks)</li>
+              <li>README: how to run, known issues (4 marks)</li>
+            </ol>
+          </div>
+
+          <div style="margin-top:8px">
+            <button class="btn" onclick="downloadProjectSpec()">Download Project Spec (PDF)</button>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <aside>
+      <div class="card">
+        <h3 style="color:var(--accent)">Teacher Resources</h3>
+        <p class="small">Quick links and printable materials for all 3 lessons.</p>
+        <ul>
+          <li>Starter packs for each lesson (printable)</li>
+          <li>Activity sheets & model answers</li>
+          <li>Project specification & marking rubric</li>
+        </ul>
+        <div style="margin-top:10px"><button class="btn" onclick="downloadAll()">Download all materials</button></div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h4 style="color:var(--accent)">Quick Mark Schemes</h4>
+        <div class="small">
+          <ul>
+            <li>Functions lab: tests & edge cases — 4 marks per function</li>
+            <li>File parsing: correct parse + handling — 5 marks</li>
+            <li>OOP lab: methods, validation, test harness — 7 marks</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h4 style="color:var(--accent)">Common Pitfalls</h4>
+        <ol class="small">
+          <li>Not closing files (use with open...)</li>
+          <li>Mutable default arguments</li>
+          <li>Off-by-one and indexing confusion</li>
+          <li>Not including test cases and trace tables</li>
+        </ol>
+      </div>
+
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top:18px">
+    <h3 style="color:var(--accent)">Extras: Full Exercises & Answers</h3>
+    <div class="small">
+      <details>
+        <summary class="collapsible">Show exercises, long tasks and full model answers</summary>
+        <div style="padding:12px">
+          <h4>Selected Exercises</h4>
+          <ol>
+            <li>Write <code>count_words(filename)</code> — returns a dict word→count. Provide trace for sample file.</li>
+            <li>Implement insertion sort and dry-run on [9,5,1,4].</li>
+            <li>BankAccount class: show deposit/withdraw edge cases and tests.</li>
+          </ol>
+          <h4>Model Answers (sketches)</h4>
+          <pre># count_words (sketch)
+def count_words(filename):
+    counts = {}
+    with open(filename,'r') as f:
+        for line in f:
+            for w in line.split():
+                w = w.strip().lower()
+                counts[w] = counts.get(w,0) + 1
+    return counts
+</pre>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer style="margin-top:18px;color:var(--muted);font-size:0.9rem">Ready for classroom — Tried by Ravi Raju </footer>
+</div>
+
+<script>
+function gradeL1(){let s=0; if(document.getElementById('l1q1').value==='test') s++; if(document.getElementById('l1q2').value==='false') s++; document.getElementById('l1res').innerHTML=`<div class='score'>Score: ${s}/2</div>`}
+function gradeL2(){let s=0; if(document.getElementById('l2q1').value==='wb') s++; if(document.getElementById('l2q2').value==='dict') s++; document.getElementById('l2res').innerHTML=`<div class='score'>Score: ${s}/2</div>`}
+function downloadAll(){alert('I can bundle all starter/activity sheets and project spec into a ZIP or PDF. Tell me if you want Word or PDF.')}
+function downloadProjectSpec(){alert('I will generate a downloadable project spec PDF when you confirm file format (docx or PDF).')}
+</script>
+</body>
+</html>

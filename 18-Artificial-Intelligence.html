@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chapter 18 — Artificial Intelligence (AI) | 60-minute Lesson (Teacher-Friendly)</title>
+  <style>
+    :root{--bg:#f8fbff;--card:#ffffff;--accent:#0f6cff;--muted:#6b7280;--success:#15803d}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.5;background:var(--bg);margin:0;padding:24px;color:#0b1220}
+    .container{max-width:1100px;margin:0 auto}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px}
+    h1{margin:0;font-size:1.6rem}
+    .meta{color:var(--muted);font-size:0.95rem}
+    .card{background:var(--card);border-radius:12px;padding:18px;margin-top:16px;box-shadow:0 4px 18px rgba(0,0,0,0.06)}
+    .phase{border-left:4px solid var(--accent);padding-left:12px;margin-bottom:10px}
+    .teacher-notes{background:#eef4ff;padding:10px;border-radius:8px;margin-top:8px}
+    pre{background:#0b1220;color:#e6f1ff;padding:10px;border-radius:8px;overflow:auto}
+    .btn{background:var(--accent);color:#fff;padding:8px 14px;border-radius:8px;border:none;cursor:pointer}
+    .btn-ghost{background:transparent;color:var(--accent);border:1px solid #cfe2ff}
+    .quiz-item{margin-bottom:8px}
+    input,select{width:100%;padding:8px;border:1px solid #d1d5db;border-radius:6px}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .score{font-weight:700;color:var(--success)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Chapter 18 — Artificial Intelligence (AI)</h1>
+        <div class="meta">Teacher-friendly 60-minute lesson plan | Starter → Lecture → Activity → Lecture → Plenary</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">Estimated Class Time</div>
+        <strong>60 minutes (15 | 10 | 15 | 12 | 8)</strong>
+      </div>
+    </header>
+
+    <!-- Phase 1: Starter -->
+    <section class="card">
+      <h2>Phase 1 — Starter (12-15 minutes)</h2>
+      <div class="phase">
+        <p><strong>Purpose:</strong> To activate prior knowledge of decision-making systems, logic gates, and data structures from earlier chapters.</p>
+        <ol>
+          <li>Ask students: “What makes a system intelligent?” and collect 3-5 answers on the board.</li>
+          <li>Play a 5-minute quick quiz (use Mentimeter, Kahoot, or paper) with questions like:<ul>
+            <li>What does a truth table show?</li>
+            <li>How does a computer make a decision?</li>
+            <li>Give an example of an algorithm that can ‘learn’.</li>
+          </ul></li>
+          <li>Show two short clips (e.g., a robot vacuum and a chess-playing AI). Ask: “Which one truly ‘thinks’?”</li>
+        </ol>
+        <div class="teacher-notes">
+          <strong>Teacher notes:</strong>
+          <ul>
+            <li>Identify misconceptions — most students think AI means ‘robots’. Emphasise software intelligence.</li>
+            <li>Bridge to today’s goal: “We’ll explore what AI really means and how it makes decisions.”</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase 2: Lecture 1 -->
+    <section class="card">
+      <h2>Phase 2 — Teacher Lecture 1 (10 minutes)</h2>
+      <div class="phase">
+        <h3>18.1 Introduction to Artificial Intelligence</h3>
+        <p>Artificial Intelligence (AI) refers to computer systems designed to perform tasks that normally require human intelligence. These include learning, reasoning, problem-solving, perception, and understanding language.</p>
+        <ul>
+          <li>AI systems <strong>process large amounts of data</strong> and <strong>identify patterns</strong>.</li>
+          <li>They can <strong>make decisions</strong> and <strong>improve performance over time</strong>.</li>
+          <li>Examples: voice assistants, self-driving cars, spam filters, and recommendation systems.</li>
+        </ul>
+
+        <div class="teacher-notes">
+          <strong>Lecture tips:</strong>
+          <ul>
+            <li>Use real-life visuals (e.g., Siri, Google Translate, Netflix recommendations).</li>
+            <li>Ask students to name AI tools they already use daily.</li>
+            <li>Explain that AI ≠ automation. Automation follows fixed rules; AI adapts and learns.</li>
+          </ul>
+        </div>
+
+        <h3>18.2 Components of an AI System</h3>
+        <ul>
+          <li><strong>Knowledge Base:</strong> facts, rules, and relationships.</li>
+          <li><strong>Inference Engine:</strong> applies logic to deduce conclusions.</li>
+          <li><strong>Learning Component:</strong> improves through experience or data.</li>
+          <li><strong>User Interface:</strong> interacts with users and presents results.</li>
+        </ul>
+
+        <div class="teacher-notes">
+          <strong>Illustration idea:</strong>
+          <p>Draw AI System Architecture diagram — arrows between KB → Inference → Learning → UI.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase 3: Activity -->
+    <section class="card">
+      <h2>Phase 3 — Student Activity (15 minutes)</h2>
+      <div class="phase">
+        <h3>Interactive Task — Build a Mini Expert System (group work)</h3>
+        <ol>
+          <li>Split class into small groups.</li>
+          <li>Give each group a domain (e.g., plant disease, car maintenance, choosing a laptop).</li>
+          <li>Ask them to identify <em>3 rules</em> for decisions (IF… THEN…).</li>
+          <li>Groups exchange their rule sets and test each other’s systems.</li>
+        </ol>
+        <div class="teacher-notes">
+          <ul>
+            <li>Encourage creativity — even humorous domains work well.</li>
+            <li>Use a whiteboard to show how simple expert systems mimic reasoning.</li>
+            <li>Students write the pseudocode of their rule-based decision system.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase 4: Lecture 2 -->
+    <section class="card">
+      <h2>Phase 4 — Teacher Lecture 2 (12 minutes)</h2>
+      <div class="phase">
+        <h3>18.4 Machine Learning</h3>
+        <p>Machine Learning (ML) allows computers to learn from data without explicit programming. It’s divided into three main categories:</p>
+        <ul>
+          <li><strong>Supervised Learning:</strong> trained on labelled data (input-output pairs). Example: spam detection.</li>
+          <li><strong>Unsupervised Learning:</strong> finds patterns or clusters in unlabelled data. Example: market segmentation.</li>
+          <li><strong>Reinforcement Learning:</strong> learns through trial and error with rewards and penalties. Example: AI in games like Chess or Go.</li>
+        </ul>
+        <pre># Example (simplified supervised learning)
+data = [(2,4),(3,6),(4,8)]  # input-output pairs
+model = lambda x: x*2
+print(model(5))  # predicts 10</pre>
+
+        <h3>18.5 Knowledge Representation</h3>
+        <p>Knowledge representation is how AI stores and processes information:</p>
+        <ul>
+          <li><strong>Rules and Facts:</strong> IF temperature &gt; 38 THEN fever.</li>
+          <li><strong>Semantic Networks:</strong> Concept maps connecting ideas.</li>
+          <li><strong>Frames:</strong> Data structures representing attributes of objects.</li>
+          <li><strong>Ontologies:</strong> Hierarchical models showing relationships between concepts.</li>
+        </ul>
+
+        <div class="teacher-notes">
+          <strong>Extension example:</strong>
+          <p>Demonstrate a mini semantic network on board — e.g., Animal → Mammal → Dog → Labrador.</p>
+        </div>
+
+        <h3>18.6 Expert Systems</h3>
+        <p>An expert system simulates human expertise using rules and logic.</p>
+        <ul>
+          <li><strong>Knowledge Base</strong> — domain information.</li>
+          <li><strong>Inference Engine</strong> — decision logic.</li>
+          <li><strong>User Interface</strong> — dialogue with user.</li>
+        </ul>
+        <p><em>Example:</em> A medical diagnosis system analyses symptoms and outputs likely diseases.</p>
+      </div>
+    </section>
+
+    <!-- Phase 5: Plenary -->
+    <section class="card">
+      <h2>Phase 5 — Plenary (8 minutes)</h2>
+      <div class="phase">
+        <ol>
+          <li>Quick reflection: Students write one advantage and one limitation of AI.</li>
+          <li>Short self-marking quiz below.</li>
+          <li>Homework: research 2 uses of AI in education.</li>
+        </ol>
+
+        <div id="exit-quiz">
+          <div class="quiz-item">
+            <label>1) Which component of an AI system applies logic to derive conclusions?</label>
+            <select id="q1"><option value="">--</option><option value="inference">Inference engine</option><option value="knowledge">Knowledge base</option><option value="user">User interface</option></select>
+          </div>
+          <div class="quiz-item">
+            <label>2) Which type of AI can only perform specific tasks?</label>
+            <select id="q2"><option value="">--</option><option value="narrow">Narrow AI</option><option value="general">General AI</option></select>
+          </div>
+          <div class="quiz-item">
+            <label>3) Which learning type uses labelled data?</label>
+            <select id="q3"><option value="">--</option><option value="supervised">Supervised</option><option value="unsupervised">Unsupervised</option></select>
+          </div>
+          <button class="btn" onclick="gradeAIQuiz()">Check Answers</button>
+          <div id="ai-result" style="margin-top:8px"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function gradeAIQuiz(){
+      let s=0; if(document.getElementById('q1').value==='inference') s++; if(document.getElementById('q2').value==='narrow') s++; if(document.getElementById('q3').value==='supervised') s++;
+      document.getElementById('ai-result').innerHTML=`<div class='score'>Score: ${s}/3</div>`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 19 - Computational Thinking and Problem Solving</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #222; }
+    h1, h2, h3 { color: #003366; }
+    details { background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 12px; padding: 10px 15px; }
+    summary { font-weight: bold; font-size: 1.1em; cursor: pointer; }
+    pre { background: #1e1e1e; color: #f8f8f2; padding: 12px; border-radius: 8px; overflow-x: auto; }
+    code { color: #ffd700; }
+    ul { line-height: 1.6; }
+    .example { background: #eef6ff; padding: 10px; border-left: 4px solid #007acc; border-radius: 5px; margin: 10px 0; }
+    .note { font-style: italic; color: #444; }
+  </style>
+</head>
+<body>
+  <h1>Chapter 19: Computational Thinking and Problem Solving</h1>
+  <p class="note">This page provides comprehensive, exam-ready notes for Cambridge A Level Computer Science (9618), focused on Python programming.</p>
+
+  <details open>
+    <summary>1. Problem-Solving Strategies</summary>
+    <h3>Understanding a Problem and Defining the Requirements</h3>
+    <p>Before writing code, students must understand what the problem actually demands. A computer scientist identifies the problem’s purpose, inputs, processing requirements, and desired outputs. This process ensures clarity and prevents inefficiency.</p>
+    <div class="example">
+      <strong>Example:</strong> Find the average of student marks.
+      <pre><code class="language-python">marks = [78, 92, 64, 83]
+average = sum(marks) / len(marks)
+print(f"Average mark: {average:.2f}")</code></pre>
+    </div>
+    <p>Effective problem solving starts by asking key questions: What does success look like? What are the constraints? What assumptions can be made?</p>
+
+    <h3>Identifying Inputs, Processes, and Outputs (IPO Model)</h3>
+    <ul>
+      <li><strong>Input:</strong> Raw data or user input</li>
+      <li><strong>Process:</strong> Computation or transformation of data</li>
+      <li><strong>Output:</strong> The final result or displayed information</li>
+    </ul>
+
+    <h3>Applying Abstraction and Decomposition</h3>
+    <p>Abstraction simplifies a problem by ignoring unnecessary details, while decomposition breaks it into smaller modules. These two principles lie at the heart of computational thinking.</p>
+    <pre><code class="language-python">def get_marks():
+    return [int(x) for x in input("Enter marks: ").split()]
+
+def calculate_average(marks):
+    return sum(marks) / len(marks)
+
+def display_result(avg):
+    print(f"Average: {avg:.2f}")
+
+marks = get_marks()
+avg = calculate_average(marks)
+display_result(avg)</code></pre>
+
+    <h3>Top-Down and Bottom-Up Approaches</h3>
+    <p>Top-down design begins with the overall system and divides it into subproblems. Bottom-up design starts from individual components and combines them into a system. Most programmers mix both: plan top-down, code bottom-up.</p>
+
+    <h3>Designing Algorithms Using Logical Reasoning</h3>
+    <p>Algorithms must be finite, clear, correct, efficient, and terminating. Logical reasoning ensures every possible case is considered. Each condition and loop must be justified with clear logic.</p>
+
+    <h3>Evaluating Alternative Solutions</h3>
+    <p>Choose algorithms based on efficiency, clarity, and maintainability. A binary search, for instance, is faster than linear search but only works on sorted data.</p>
+
+    <h3>Tracing and Testing Strategies</h3>
+    <p>Dry runs, trace tables, and systematic testing verify correctness before execution. Always test with normal, boundary, and invalid data.</p>
+  </details>
+
+  <details>
+    <summary>2. Algorithm Design and Refinement</summary>
+    <h3>Defining Algorithms Clearly</h3>
+    <p>Algorithms should be expressed in structured pseudocode or flowcharts before coding. Avoid ambiguity; use specific steps and expected outcomes.</p>
+
+    <h3>Stepwise Refinement</h3>
+    <p>Begin with a broad plan and refine until each instruction is implementable in Python. This iterative process ensures correctness and clarity.</p>
+
+    <h3>Modular Design and Reusable Components</h3>
+    <p>Use functions or modules to isolate tasks, promoting reuse, readability, and debugging ease.</p>
+
+    <h3>Data Types, Variables, and Constants</h3>
+    <p>Appropriate data typing avoids errors. Always use descriptive names and constants for fixed values.</p>
+
+    <h3>Control Structures</h3>
+    <p>Python uses structured constructs to define flow: Sequence, Selection, and Iteration. Selection is implemented via <code>if/elif/else</code>, while iteration uses <code>for</code> and <code>while</code> loops.</p>
+
+    <h3>Searching and Sorting Algorithms</h3>
+    <p>Students should master fundamental algorithms:</p>
+    <ul>
+      <li>Linear and Binary Search</li>
+      <li>Bubble, Insertion, and Merge Sort</li>
+    </ul>
+
+    <h3>Example: Merge Sort</h3>
+    <pre><code class="language-python">def merge_sort(arr):
+    if len(arr) &gt; 1:
+        mid = len(arr)//2
+        L = arr[:mid]
+        R = arr[mid:]
+        merge_sort(L)
+        merge_sort(R)
+        i = j = k = 0
+        while i &lt; len(L) and j &lt; len(R):
+            if L[i] &lt; R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+        while i &lt; len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+        while j &lt; len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1</code></pre>
+
+    <h3>Trace Tables and Dry Runs</h3>
+    <p>Trace tables record variable changes and decisions, ensuring every path is correct before execution.</p>
+  </details>
+
+  <details>
+    <summary>3. Pseudocode and Flowchart Practice</summary>
+    <p>Cambridge-style pseudocode helps bridge natural language and programming syntax. Flowcharts represent control flow visually.</p>
+    <pre><code>INPUT num
+IF num MOD 2 = 0 THEN
+    OUTPUT "Even"
+ELSE
+    OUTPUT "Odd"
+ENDIF</code></pre>
+
+    <h3>Input/Output and Validation</h3>
+    <pre><code class="language-python">while True:
+    age = input("Enter age: ")
+    if age.isdigit():
+        age = int(age)
+        break
+    print("Invalid input. Try again.")</code></pre>
+
+    <h3>Subroutines and Parameters</h3>
+    <pre><code class="language-python">def area_circle(r):
+    return 3.14 * r ** 2
+
+print(area_circle(5))</code></pre>
+  </details>
+
+  <details>
+    <summary>4. Stepwise Refinement and Decomposition</summary>
+    <p>Large problems are solved by decomposing them into smaller, testable modules. Each submodule performs a single role and can be tested independently.</p>
+    <h3>Example: Library System</h3>
+    <pre><code>Main Program
+│
+├── Borrow Book
+├── Return Book
+└── Manage Member</code></pre>
+
+    <h3>Unit Testing Example</h3>
+    <pre><code class="language-python">import unittest
+
+def square_root(x):
+    return x ** 0.5
+
+class TestMath(unittest.TestCase):
+    def test_sqrt(self):
+        self.assertEqual(square_root(9), 3)
+
+unittest.main()</code></pre>
+
+    <p>Testing ensures every submodule performs correctly before integration into the full system.</p>
+  </details>
+
+  <h2>End of Chapter Summary</h2>
+  <ul>
+    <li>Define problems before coding</li>
+    <li>Plan using abstraction and decomposition</li>
+    <li>Design clear, efficient algorithms</li>
+    <li>Write structured Python code with modularity</li>
+    <li>Test thoroughly using trace tables and unit tests</li>
+  </ul>
+</body>
+</html>
