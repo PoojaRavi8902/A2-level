@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15.1 Processors, Parallel Processing & Virtual Machines</title>
+<style>
+  body {font-family: 'Segoe UI', sans-serif; background-color: #f9fafb; color: #222; line-height: 1.7; margin: 0; padding: 0;}
+  header {background-color: #2563eb; color: white; padding: 20px; text-align: center; font-size: 1.5em;}
+  section {margin: 20px auto; max-width: 900px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}  
+  details {background: #f1f5f9; border-radius: 10px; padding: 15px; margin-bottom: 15px; cursor: pointer;}
+  summary {font-weight: bold; font-size: 1.1em; color: #1e3a8a;}
+  .activity {background-color: #e0f2fe; padding: 15px; border-left: 5px solid #0284c7; border-radius: 8px; margin: 15px 0;}
+  table {border-collapse: collapse; width: 100%; margin: 15px 0;}
+  table, th, td {border: 1px solid #ccc; padding: 8px; text-align: left;}
+  th {background-color: #f3f4f6;}
+  footer {text-align: center; padding: 15px; color: #555; font-size: 0.9em;}
+</style>
+</head>
+<body>
+<header>15.1 Processors, Parallel Processing & Virtual Machines</header>
+
+<section>
+  <details open>
+    <summary>🔹 1. Processor Architecture</summary>
+    <p><b>Central Processing Unit (CPU)</b><br>
+    The CPU is often called the brain of the computer. It performs all the calculations and decisions, and controls how information flows between memory and devices. Think of it as a manager who directs all operations inside the computer.</p>
+    <ul>
+      <li><b>ALU (Arithmetic Logic Unit):</b> Performs arithmetic (add, subtract) and logic (AND, OR, NOT) operations.</li>
+      <li><b>CU (Control Unit):</b> Tells the computer what to do next — fetch, decode, execute instructions.</li>
+      <li><b>Registers:</b> Tiny storage inside the CPU for very fast data access.</li>
+      <li><b>System Bus:</b> Connects CPU, memory, and input/output devices.</li>
+    </ul>
+
+    <div class="activity">
+      <h4>💬 Activity 1: Identify the Parts</h4>
+      <p>Look at a diagram of the CPU (teacher shows or draws). Label ALU, CU, and Registers. Discuss how they work together when a computer adds two numbers.</p>
+    </div>
+
+    <h3>Types of Processor Architecture</h3>
+    <p>There are two main processor types — <b>CISC</b> and <b>RISC</b>. Let’s understand how they differ.</p>
+
+    <h4>CISC (Complex Instruction Set Computer)</h4>
+    <p>Has many complex instructions. One command can do several things at once. For example, “ADD A, B, C” can load data, add them, and store the result — all in one instruction.</p>
+    <ul>
+      <li><b>Advantages:</b> Easier for software, shorter programs.</li>
+      <li><b>Disadvantages:</b> Hardware is complex, slower execution per instruction.</li>
+    </ul>
+
+    <h4>RISC (Reduced Instruction Set Computer)</h4>
+    <p>Uses fewer, simpler instructions. Each instruction does only one small task but executes quickly. Example: ARM processors found in phones and tablets.</p>
+    <ul>
+      <li><b>Advantages:</b> Fast, efficient, simpler design, good for mobile devices.</li>
+      <li><b>Disadvantages:</b> Needs more lines of code to complete a task.</li>
+    </ul>
+
+    <table>
+      <tr><th>Task</th><th>CISC Instruction</th><th>RISC Equivalent</th></tr>
+      <tr><td>Add two numbers</td><td>ADD A, B, C</td><td>LOAD R1, A → LOAD R2, B → ADD R3, R1, R2 → STORE R3, C</td></tr>
+    </table>
+
+    <div class="activity">
+      <h4>✍️ Activity 2: Quick Comparison</h4>
+      <p>Write one difference between CISC and RISC. Identify which one is likely used in a smartphone and why.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>🔹 2. Interrupt Handling</summary>
+    <p>An <b>interrupt</b> is a signal that tells the CPU to stop what it’s doing and handle something urgent. For example, when you press a keyboard key, the CPU pauses its current work to read that key press.</p>
+    <p><b>Steps:</b></p>
+    <ol>
+      <li>CPU finishes current instruction.</li>
+      <li>It saves its current state (registers, program counter).</li>
+      <li>It jumps to a special routine — the <b>Interrupt Service Routine (ISR)</b>.</li>
+      <li>After handling the event, it goes back to what it was doing.</li>
+    </ol>
+
+    <p><b>Types:</b></p>
+    <ul>
+      <li><b>Hardware interrupt:</b> Comes from devices like keyboard, printer.</li>
+      <li><b>Software interrupt:</b> Created by programs or errors (e.g., division by zero).</li>
+    </ul>
+
+    <div class="activity">
+      <h4>💡 Activity 3: Discuss and Relate</h4>
+      <p>Think about your phone. What might cause an interrupt? (e.g., incoming call, message alert). Share and list three examples.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>🔹 3. Pipelining</summary>
+    <p>Pipelining helps a CPU work faster by doing several parts of different instructions at the same time — just like an assembly line in a factory.</p>
+    <p><b>Stages:</b> Fetch → Decode → Execute → Write Back</p>
+    <table>
+      <tr><th>Cycle</th><th>Fetch</th><th>Decode</th><th>Execute</th></tr>
+      <tr><td>1</td><td>I1</td><td></td><td></td></tr>
+      <tr><td>2</td><td>I2</td><td>I1</td><td></td></tr>
+      <tr><td>3</td><td>I3</td><td>I2</td><td>I1</td></tr>
+      <tr><td>4</td><td>I4</td><td>I3</td><td>I2</td></tr>
+    </table>
+
+    <div class="activity">
+      <h4>🧩 Activity 4: Visualize</h4>
+      <p>Draw a 4-stage pipeline showing how three instructions overlap. Label each stage. Discuss why pipelining increases speed.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>🔹 4. Parallel Processing</summary>
+    <p><b>Parallel processing</b> means using more than one processor or core to perform tasks simultaneously. This helps computers complete more work in less time.</p>
+    <table>
+      <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+      <tr><td>SISD</td><td>One instruction, one data</td><td>Single-core CPU</td></tr>
+      <tr><td>SIMD</td><td>Same instruction, multiple data</td><td>Graphics cards (GPUs)</td></tr>
+      <tr><td>MISD</td><td>Multiple instructions, one data</td><td>Rare in practice</td></tr>
+      <tr><td>MIMD</td><td>Multiple instructions, multiple data</td><td>Modern multi-core CPUs</td></tr>
+    </table>
+
+    <div class="activity">
+      <h4>🧠 Activity 5: Try this smarties</h4>
+      <p>Hassan and Kenzy, pick one type of parallel processing and prepare a quick example (real-world or imagined) of where it could be used.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>🔹 5. Virtual Machines</summary>
+    <p>A <b>Virtual Machine (VM)</b> acts like a computer inside your computer. It lets you run another operating system (like Linux on a Windows PC) without affecting the main one.</p>
+    <p><b>How it works:</b> Hypervisor software manages different operating systems on the same physical hardware.</p>
+
+    <p><b>Types:</b></p>
+    <ul>
+      <li><b>System VM:</b> Runs a complete OS (e.g., Windows + Ubuntu).</li>
+      <li><b>Process VM:</b> Runs one program across platforms (e.g., Java Virtual Machine).</li>
+    </ul>
+
+    <p><b>Advantages:</b> Easy testing, isolation, and hardware efficiency.<br>
+    <b>Disadvantages:</b> Slower performance, more memory use.</p>
+
+    <div class="activity">
+      <h4>💻 Activity 6: Think and Apply</h4>
+      <p>Discuss why developers might prefer using a Virtual Machine. Can you think of a case when using one might slow things down?</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>🧾 Summary</summary>
+    <ul>
+      <li>RISC and CISC define how CPUs execute instructions.</li>
+      <li>Interrupts allow urgent events to be handled immediately.</li>
+      <li>Pipelining boosts performance by overlapping instruction stages.</li>
+      <li>Parallel processing improves speed using multiple cores.</li>
+      <li>Virtual Machines simulate other computers for testing or flexibility.</li>
+    </ul>
+  </details>
+</section>
+
+<footer>© Cambridge A Level Computer Science – Lesson 15.1 | Simplified for Year 12 learners</footer>
+</body>
+</html>
