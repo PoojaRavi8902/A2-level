@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chapter 19 — Logic Circuits & Boolean Algebra (Interactive)</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#1e90ff;--muted:#9aa8bf;--glass:rgba(255,255,255,0.03)}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,system-ui,-apple-system,Arial;background:linear-gradient(180deg,#071023 0%, #071428 60%);color:#e6eef8}
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;gap:16px}
+    header h1{margin:0;font-size:20px}
+    .meta{color:var(--muted);font-size:13px}
+    .card{background:var(--card);border-radius:12px;padding:16px;margin-top:16px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+    .collapsible{border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.04)}
+    .collapsible summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:600}
+    .collapsible[open] summary{background:linear-gradient(90deg,rgba(30,144,255,0.06),transparent)}
+    .collapsible details{padding:0}
+    .content{padding:12px 16px 20px;line-height:1.45;color:#d7e6fb}
+    img.diagram{max-width:540px;width:100%;display:block;margin:12px 0;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:var(--glass);padding:8px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+    .btn.primary{border-color:var(--accent);color:var(--accent)}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th,td{padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03);text-align:left}
+    .kbd{display:inline-block;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.02);font-family:monospace}
+    .example, .exercise{background:linear-gradient(180deg,rgba(255,255,255,0.012),transparent);padding:12px;border-radius:8px;margin-top:10px}
+    .feedback{margin-top:8px;color:#b7ffd6}
+    .truth{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-top:8px}
+    .cell{background:rgba(255,255,255,0.02);padding:8px;border-radius:6px;text-align:center}
+    .small{font-size:13px;color:var(--muted)}
+    footer{margin-top:20px;color:var(--muted);font-size:13px}
+    @media(max-width:700px){.container{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Chapter 19 — Logic Circuits &amp; Boolean Algebra (Interactive)</h1>
+        <div class="meta">Half adder · Full adder · SR &amp; JK flip-flops · Boolean algebra laws · Worked examples · Exercises</div>
+      </div>
+    </header>
+
+    <!-- INTRO -->
+    <section class="card">
+      <details class="collapsible" open>
+        <summary>Introduction (click to collapse/expand)</summary>
+        <div class="content">
+          <p>Chapter 4 introduced logic gate symbols and how logic circuits relate to truth tables and expressions. This page contains detailed teaching notes and interactive examples for:</p>
+          <ul class="small">
+            <li>Half adder</li>
+            <li>Full adder</li>
+            <li>Sequential circuits (SR &amp; JK flip-flops)</li>
+            <li>Boolean algebra basics and applications</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- HALF ADDER -->
+    <section class="card">
+      <details class="collapsible" open>
+        <summary>Half Adder — concept, diagram, truth table, interactive demo</summary>
+        <div class="content">
+          <h3>Concept</h3>
+          <p>Binary addition of two single bits produces a <strong>Sum (S)</strong> and a <strong>Carry (C)</strong>. Key row: when A=1 and B=1 → S=0, C=1.</p>
+
+          <h4>Diagram</h4>
+          <p>Replace the placeholder image files with your textbook figures. Filenames suggested below.</p>
+          <img class="diagram" id="fig-19-01" src="images/figure19_01.png" alt="Figure 19.01 — Half adder (placeholder)" data-fig="19.01">
+          <p class="small">Placeholder: <span class="kbd">images/figure19_01.png</span> (Replace with textbook figure 19.01)</p>
+
+          <h4>Truth table</h4>
+          <table>
+            <thead><tr><th>Input A</th><th>Input B</th><th>Sum (S)</th><th>Carry (C)</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+              <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+              <tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+            </tbody>
+          </table>
+
+          <h4>Explanation</h4>
+          <p class="small">C = AND(A,B) · S = XOR(A,B). One implementation uses an AND gate and an XOR gate. Another implementation uses only NAND gates (universal gates).</p>
+
+          <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:10px;align-items:center">
+            <div>
+              <h4>Interactive demo — half adder</h4>
+              <div class="controls">
+                <label class="btn" id="ha-A">A: <span id="ha-A-val">0</span></label>
+                <label class="btn" id="ha-B">B: <span id="ha-B-val">0</span></label>
+                <button class="btn primary" id="ha-random">Random</button>
+              </div>
+              <div class="truth" id="ha-truth">
+                <div class="cell">S: <strong id="ha-S">0</strong></div>
+                <div class="cell">C: <strong id="ha-C">0</strong></div>
+              </div>
+            </div>
+
+            <div style="min-width:220px">
+              <div class="example">
+                <strong>Exercise</strong>
+                <p class="small">Toggle A and B then predict S and C before the result appears. Use the <span class="kbd">Random</span> button for quick checks.</p>
+                <div class="feedback" id="ha-feedback"></div>
+              </div>
+            </div>
+          </div>
+
+          <h4>Question 19.01 &amp; Task 19.01</h4>
+          <p class="small">Use the NAND-only diagram (Figure 19.02). Identify which sub-network implements AND and which implements XOR. Use intermediate points W, X, Y to build the truth table and verify Table 19.01.</p>
+          <img class="diagram" id="fig-19-02" src="images/figure19_02.png" alt="Figure 19.02 — Half adder (NAND implementation)" data-fig="19.02">
+          <p class="small">Placeholder: <span class="kbd">images/figure19_02.png</span></p>
+
+        </div>
+      </details>
+    </section>
+
+    <!-- FULL ADDER -->
+    <section class="card">
+      <details class="collapsible">
+        <summary>Full Adder — concept, truth table, implementation &amp; demo</summary>
+        <div class="content">
+          <h3>Concept</h3>
+          <p>Full adder adds A, B and a carry-in <span class="kbd">Cin</span>, producing Sum <span class="kbd">S</span> and Carry-out <span class="kbd">Cout</span>.</p>
+
+          <h4>Diagram (suggested)</h4>
+          <img class="diagram" id="fig-19-03" src="images/figure19_03.png" alt="Figure 19.03 — Full adder (half-adders + OR)" data-fig="19.03">
+          <p class="small">Placeholder: <span class="kbd">images/figure19_03.png</span></p>
+
+          <h4>Truth table</h4>
+          <table>
+            <thead><tr><th>A</th><th>B</th><th>Cin</th><th>S</th><th>Cout</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+              <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+              <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+              <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+              <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+              <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+              <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            </tbody>
+          </table>
+
+          <h4>Implementation idea</h4>
+          <p class="small">One design: two half adders + OR gate. Also implementable using only NAND gates.</p>
+
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;align-items:flex-start">
+            <div>
+              <h4>Interactive demo — full adder</h4>
+              <div class="controls">
+                <label class="btn" id="fa-A">A: <span id="fa-A-val">0</span></label>
+                <label class="btn" id="fa-B">B: <span id="fa-B-val">0</span></label>
+                <label class="btn" id="fa-Cin">Cin: <span id="fa-Cin-val">0</span></label>
+                <button class="btn primary" id="fa-random">Random</button>
+              </div>
+              <div class="truth" id="fa-truth">
+                <div class="cell">S: <strong id="fa-S">0</strong></div>
+                <div class="cell">Cout: <strong id="fa-Cout">0</strong></div>
+              </div>
+            </div>
+
+            <div style="min-width:260px">
+              <div class="exercise">
+                <strong>Exercise</strong>
+                <p class="small">Predict S and Cout for several inputs. Combine full adders to add a 4-bit number: try chaining shows below.</p>
+                <button class="btn" id="chain-4bit">Demo 4-bit chain (random)</button>
+                <div id="chain-result" class="feedback"></div>
+              </div>
+            </div>
+          </div>
+
+          <img class="diagram" id="fig-19-04" src="images/figure19_04.png" alt="Figure 19.04 — Full adder (NAND implementation)" data-fig="19.04">
+          <p class="small">Placeholder: <span class="kbd">images/figure19_04.png</span></p>
+
+        </div>
+      </details>
+    </section>
+
+    <!-- SEQUENTIAL -->
+    <section class="card">
+      <details class="collapsible">
+        <summary>Sequential Logic — SR flip-flop, JK flip-flop, demos &amp; tasks</summary>
+        <div class="content">
+          <h3>Combinational vs Sequential</h3>
+          <p class="small">Combinational: output depends only on inputs. Sequential: output depends on inputs and previous output (has memory).</p>
+
+          <h4>SR Flip-Flop (NOR implementation)</h4>
+          <img class="diagram" id="fig-19-05" src="images/figure19_05.png" alt="Figure 19.05 — SR flip-flop (placeholder)" data-fig="19.05">
+          <p class="small">Placeholder: <span class="kbd">images/figure19_05.png</span></p>
+
+          <p>Set state: Q=1, Q' =0. Reset state: Q=0, Q'=1. Avoid S=1 and R=1 (invalid).</p>
+
+          <h4>Interactive SR latch</h4>
+          <div class="controls">
+            <button class="btn" id="sr-S">S: <span id="sr-S-val">0</span></button>
+            <button class="btn" id="sr-R">R: <span id="sr-R-val">0</span></button>
+            <button class="btn primary" id="sr-reset">Reset State</button>
+          </div>
+          <div class="truth" style="margin-top:8px">
+            <div class="cell">Q: <strong id="sr-Q">0</strong></div>
+            <div class="cell">Q': <strong id="sr-Qn">1</strong></div>
+          </div>
+          <div class="feedback small" id="sr-note">Note: S=1 &amp; R=1 is invalid — the UI will show invalid if applied.</div>
+
+          <h4>Task 19.02</h4>
+          <p class="small">Find the NAND version of an SR latch. Use the UI above to demonstrate set/reset behavior and then write the truth table in class.</p>
+
+          <hr style="border:none;border-top:1px dashed rgba(255,255,255,0.03);margin:14px 0">
+
+          <h4>JK Flip-Flop (with clock)</h4>
+          <img class="diagram" id="fig-19-06a" src="images/figure19_06a.png" alt="Figure 19.06a — JK symbol" data-fig="19.06a">
+          <img class="diagram" id="fig-19-06b" src="images/figure19_06b.png" alt="Figure 19.06b — JK possible circuit" data-fig="19.06b">
+          <p class="small">Placeholders: <span class="kbd">images/figure19_06a.png</span>, <span class="kbd">images/figure19_06b.png</span></p>
+
+          <p class="small">JK flip-flop mitigates invalid SR states; with Clock edge (↑) the JK inputs cause set, reset, no-change, or toggle.</p>
+
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px">
+            <div>
+              <div class="controls">
+                <label class="btn" id="jk-J">J: <span id="jk-J-val">0</span></label>
+                <label class="btn" id="jk-K">K: <span id="jk-K-val">0</span></label>
+                <button class="btn" id="jk-clock">Clock ↑</button>
+              </div>
+              <div class="truth" style="margin-top:8px">
+                <div class="cell">Q: <strong id="jk-Q">0</strong></div>
+                <div class="cell">Q': <strong id="jk-Qn">1</strong></div>
+              </div>
+            </div>
+            <div style="min-width:220px">
+              <div class="exercise">
+                <strong>Try this</strong>
+                <p class="small">Set J and K and press <span class="kbd">Clock ↑</span>. Observe set, reset, toggle, or retain behaviour. Use several pulses to demonstrate toggling when J=1,K=1.</p>
+              </div>
+            </div>
+          </div>
+
+          <h4>Partial truth table (for classroom board)</h4>
+          <table>
+            <thead><tr><th>J</th><th>K</th><th>Clock (↑)</th><th>Q next</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>0</td><td>↑</td><td>Q unchanged</td><td>State retained</td></tr>
+              <tr><td>1</td><td>0</td><td>↑</td><td>1</td><td>Set</td></tr>
+              <tr><td>0</td><td>1</td><td>↑</td><td>0</td><td>Reset</td></tr>
+              <tr><td>1</td><td>1</td><td>↑</td><td>Toggles</td><td>Q and Q' switch</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+      </details>
+    </section>
+
+    <!-- BOOLEAN ALGEBRA -->
+    <section class="card">
+      <details class="collapsible">
+        <summary>Boolean Algebra — notation, laws, worked examples &amp; exercises</summary>
+        <div class="content">
+          <h3>Notation &amp; meaning</h3>
+          <p class="small">1 = TRUE, 0 = FALSE, + = OR, dot or concatenation = AND, overbar = NOT.</p>
+
+          <h4>Examples for 1 + 1</h4>
+          <ul class="small">
+            <li>Denary: 1 + 1 = 2</li>
+            <li>Binary: 1 + 1 = 10</li>
+            <li>Bit arithmetic: 1 + 1 = 0 (ignore carry)</li>
+            <li>Boolean algebra: 1 + 1 = 1 (TRUE OR TRUE = TRUE)</li>
+          </ul>
+
+          <h4>Key laws (Table 19.05)</h4>
+          <div class="example small">
+            <strong>Selected identities</strong>
+            <ul>
+              <li>Identity: 1.A = A  &nbsp;&nbsp; / &nbsp;&nbsp; 0 + A = A</li>
+              <li>Null: 0.A = 0  &nbsp;&nbsp; / &nbsp;&nbsp; 1 + A = 1</li>
+              <li>Inverse: A.A̅ = 0  &nbsp;&nbsp; / &nbsp;&nbsp; A + A̅ = 1</li>
+              <li>Distributive: A.(B + C) = A.B + A.C</li>
+              <li>De Morgan: (A.B)̅ = A̅ + B̅</li>
+            </ul>
+            <p class="small">(Full table placeholder — replace with textbook Table 19.05 image if required)</p>
+          </div>
+
+          <h4>Worked Example 19.01</h4>
+          <p class="small">Simplify: A + A.B → (use absorption in reverse, distributive, inverse, identity) → result A + B (see worked steps in your notes)</p>
+
+          <h4>Sum of Products (SOP) — from a truth table</h4>
+          <p class="small">For every row where output=1, write the minterm (product of inputs, using inverses where input=0). Sum the minterms.</p>
+
+          <div class="controls" style="margin-top:8px">
+            <button class="btn" id="sop-generator">Open SOP generator</button>
+          </div>
+
+          <div id="sop-area" style="display:none;margin-top:10px">
+            <div class="small">Choose number of inputs:</div>
+            <div style="margin:8px 0;display:flex;gap:8px;align-items:center">
+              <select id="sop-n">
+                <option value="2">2 inputs</option>
+                <option value="3">3 inputs</option>
+              </select>
+              <button class="btn" id="sop-build">Build truth table</button>
+            </div>
+            <div id="sop-table"></div>
+            <div id="sop-result" class="feedback"></div>
+          </div>
+
+          <h4>Worked Example 19.02 (half adder using NAND network)</h4>
+          <p class="small">Derive W, X, Y then S using NAND logic and De Morgan's law. Final result S = A̅.B + A.B̅.</p>
+
+          <div class="exercise">
+            <strong>Extension Question 19.01</strong>
+            <ol class="small">
+              <li>Using Boolean algebra, derive C for the NAND-based half adder circuit shown earlier.</li>
+              <li>Re-derive S but start with the distributive law before using De Morgan.</li>
+            </ol>
+          </div>
+
+        </div>
+      </details>
+    </section>
+
+    <footer class="card">
+      <div class="small">Notes: Replace image placeholders in <span class="kbd">/images/</span> with textbook figures (file names suggested by data-fig attribute). If you want, I can embed the images you paste directly into this page. Use the interactive widgets in class for live demos.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Utility toggles
+    function toggleVal(el, stateId){
+      const val = el.dataset.val === '1' ? '0' : '1';
+      el.dataset.val = val; document.getElementById(stateId+'-val').textContent = val;
+      return val;
+    }
+
+    // Half adder
+    (function(){
+      const Abtn = document.getElementById('ha-A'); const Bbtn = document.getElementById('ha-B');
+      Abtn.dataset.val='0'; Bbtn.dataset.val='0';
+      function update(){
+        const A = +Abtn.dataset.val; const B = +Bbtn.dataset.val;
+        const S = (A ^ B) ? 1 : 0; const C = (A & B) ? 1 : 0;
+        document.getElementById('ha-S').textContent = S; document.getElementById('ha-C').textContent = C;
+      }
+      Abtn.addEventListener('click', ()=>{ Abtn.dataset.val = Abtn.dataset.val==='1' ? '0':'1'; document.getElementById('ha-A-val').textContent=Abtn.dataset.val; update();});
+      Bbtn.addEventListener('click', ()=>{ Bbtn.dataset.val = Bbtn.dataset.val==='1' ? '0':'1'; document.getElementById('ha-B-val').textContent=Bbtn.dataset.val; update();});
+      document.getElementById('ha-random').addEventListener('click', ()=>{ Abtn.dataset.val=Math.random()>0.5?'1':'0'; Bbtn.dataset.val=Math.random()>0.5?'1':'0'; document.getElementById('ha-A-val').textContent=Abtn.dataset.val; document.getElementById('ha-B-val').textContent=Bbtn.dataset.val; update();});
+      update();
+    })();
+
+    // Full adder
+    (function(){
+      const A=document.getElementById('fa-A'); const B=document.getElementById('fa-B'); const C=document.getElementById('fa-Cin');
+      A.dataset.val='0'; B.dataset.val='0'; C.dataset.val='0';
+      function update(){
+        const a=+A.dataset.val; const b=+B.dataset.val; const cin=+C.dataset.val;
+        const sum = (a ^ b ^ cin)?1:0; const cout = ((a & b) | (b & cin) | (a & cin))?1:0;
+        document.getElementById('fa-S').textContent=sum; document.getElementById('fa-Cout').textContent=cout;
+      }
+      A.addEventListener('click', ()=>{A.dataset.val=A.dataset.val==='1'?'0':'1'; document.getElementById('fa-A-val').textContent=A.dataset.val; update();});
+      B.addEventListener('click', ()=>{B.dataset.val=B.dataset.val==='1'?'0':'1'; document.getElementById('fa-B-val').textContent=B.dataset.val; update();});
+      C.addEventListener('click', ()=>{C.dataset.val=C.dataset.val==='1'?'0':'1'; document.getElementById('fa-Cin-val').textContent=C.dataset.val; update();});
+      document.getElementById('fa-random').addEventListener('click', ()=>{A.dataset.val=Math.random()>0.5?'1':'0';B.dataset.val=Math.random()>0.5?'1':'0';C.dataset.val=Math.random()>0.5?'1':'0'; document.getElementById('fa-A-val').textContent=A.dataset.val; document.getElementById('fa-B-val').textContent=B.dataset.val; document.getElementById('fa-Cin-val').textContent=C.dataset.val; update();});
+      document.getElementById('chain-4bit').addEventListener('click', ()=>{
+        // demo add two 4-bit numbers random
+        const a=[]; const b=[]; for(let i=0;i<4;i++){a.push(Math.random()>0.5?1:0); b.push(Math.random()>0.5?1:0);} 
+        // add LSB to MSB
+        let carry=0; const sum=[];
+        for(let i=0;i<4;i++){ const s=(a[i]^b[i]^carry)?1:0; const cout=((a[i]&b[i])|(b[i]&carry)|(a[i]&carry))?1:0; sum.push(s); carry=cout; }
+        document.getElementById('chain-result').textContent = 'A(bits LSB→MSB)='+a.join('')+' B='+b.join('')+' Sum='+sum.join('')+' Carry out='+carry;
+      });
+      update();
+    })();
+
+    // SR latch
+    (function(){
+      const S=document.getElementById('sr-S'); const R=document.getElementById('sr-R');
+      let Q=0, Qn=1; S.dataset.val='0'; R.dataset.val='0';
+      function refresh(){ document.getElementById('sr-Q').textContent=Q; document.getElementById('sr-Qn').textContent=Qn; document.getElementById('sr-S-val').textContent=S.dataset.val; document.getElementById('sr-R-val').textContent=R.dataset.val; }
+      S.addEventListener('click', ()=>{ S.dataset.val=S.dataset.val==='1'?'0':'1'; // evaluate
+        if(S.dataset.val==='1' && R.dataset.val==='1'){ document.getElementById('sr-note').textContent='Invalid: S=1 and R=1 -> undefined (avoid in circuits)'; Q=0; Qn=0; }
+        else if(S.dataset.val==='1'){ Q=1; Qn=0; }
+        else if(R.dataset.val==='1'){ Q=0; Qn=1; }
+        refresh();
+      });
+      R.addEventListener('click', ()=>{ R.dataset.val=R.dataset.val==='1'?'0':'1'; if(S.dataset.val==='1' && R.dataset.val==='1'){ document.getElementById('sr-note').textContent='Invalid: S=1 and R=1 -> undefined (avoid in circuits)'; Q=0; Qn=0;} else if(R.dataset.val==='1'){ Q=0; Qn=1; } else if(S.dataset.val==='1'){ Q=1; Qn=0; } refresh(); });
+      document.getElementById('sr-reset').addEventListener('click', ()=>{ S.dataset.val='0'; R.dataset.val='0'; Q=0; Qn=1; document.getElementById('sr-note').textContent='Note: S=1 & R=1 is invalid — the UI will show invalid if applied.'; refresh(); });
+      refresh();
+    })();
+
+    // JK flip-flop
+    (function(){
+      const J=document.getElementById('jk-J'); const K=document.getElementById('jk-K'); let Q=0, Qn=1; J.dataset.val='0'; K.dataset.val='0';
+      function refresh(){ document.getElementById('jk-J-val').textContent=J.dataset.val; document.getElementById('jk-K-val').textContent=K.dataset.val; document.getElementById('jk-Q').textContent=Q; document.getElementById('jk-Qn').textContent=Qn; }
+      J.addEventListener('click', ()=>{ J.dataset.val=J.dataset.val==='1'?'0':'1'; refresh(); });
+      K.addEventListener('click', ()=>{ K.dataset.val=K.dataset.val==='1'?'0':'1'; refresh(); });
+      document.getElementById('jk-clock').addEventListener('click', ()=>{
+        const j=J.dataset.val==='1'; const k=K.dataset.val==='1';
+        if(!j && !k){ /* no change */ }
+        else if(j && !k){ Q=1; Qn=0; }
+        else if(!j && k){ Q=0; Qn=1; }
+        else { Q = Q?0:1; Qn = Q?0:1; } // toggle
+        refresh();
+      });
+      refresh();
+    })();
+
+    // SOP generator
+    (function(){
+      const btn = document.getElementById('sop-generator'); const area=document.getElementById('sop-area'); const build=document.getElementById('sop-build'); const nsel=document.getElementById('sop-n');
+      btn.addEventListener('click', ()=>{ area.style.display = area.style.display==='none'?'block':'none'; });
+      build.addEventListener('click', ()=>{
+        const n = +nsel.value; const tot=1<<n; let html='<table><thead><tr>';
+        for(let i=0;i<n;i++) html+='<th>In'+(i+1)+'</th>';
+        html+='<th>Out</th></tr></thead><tbody>';
+        for(let i=0;i<tot;i++){
+          html+='<tr>'; for(let b=0;b<n;b++){ html+='<td>'+(((i>>b)&1)?1:0)+'</td>'; } html+='<td><input type="checkbox" data-row="'+i+'"></td></tr>';
+        }
+        html+='</tbody></table><div style="margin-top:8px"><button class="btn" id="sop-calc">Generate SOP</button></div>';
+        document.getElementById('sop-table').innerHTML=html;
+        document.getElementById('sop-calc').addEventListener('click', ()=>{
+          const checks = document.querySelectorAll('#sop-table input[type=checkbox]'); let terms=[];
+          checks.forEach(ch=>{ if(ch.checked){ const i=+ch.dataset.row; let term=''; for(let b=0;b<n;b++){ const bit=((i>>b)&1); term += (bit? ('I'+(b+1)) : ('I'+(b+1)+'\u0305')) + (b===n-1? '': '.'); } terms.push(term); }});
+          document.getElementById('sop-result').textContent = terms.length? 'SOP: ' + terms.join(' + ') : 'No minterms selected.';
+        });
+      });
+    })();
+
+  </script>
+</body>
+</html>
