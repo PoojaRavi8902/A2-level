@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boolean Algebra – A Level 9618 Teaching Page</title>
+<style>
+ body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background: #f7f7f7; }
+ h1, h2, h3 { color: #003366; }
+ .card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+ .example { background: #eef6ff; padding: 10px; border-left: 4px solid #0066cc; margin: 15px 0; }
+ .formula { font-family: Consolas, monospace; background: #fff3cd; padding: 5px 10px; border-radius: 4px; display: inline-block; margin: 5px 0; }
+ .steps li { margin-bottom: 8px; }
+ table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+ table, th, td { border: 1px solid #666; }
+ th, td { padding: 8px; text-align: center; }
+ .activity { background: #e8ffe8; padding: 10px; border-left: 4px solid #28a745; margin: 15px 0; }
+ .exam { background: #ffecec; padding: 10px; border-left: 4px solid #cc0000; margin: 15px 0; }
+</style>
+</head>
+<body>
+<h1>Boolean Algebra – A Level Computer Science (9618)</h1>
+<div class="card">
+<h2>1. Introduction</h2>
+<p>Boolean Algebra is the mathematical system used to analyse and simplify logic circuits. It deals only with two values: <strong>0 (False)</strong> and <strong>1 (True)</strong>. Every digital circuit—adders, flip-flops, CPUs, memory—uses Boolean operations internally.</p>
+<p>This page provides detailed explanations, teacher notes, student-friendly steps, examples, activities, and exam-style questions.</p>
+</div>
+
+<div class="card">
+<h2>2. Basic Boolean Operations</h2>
+<h3>2.1 AND Operation</h3>
+<p>Output is 1 only when <strong>all</strong> inputs are 1.</p>
+<table>
+<tr><th>A</th><th>B</th><th>A · B</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+
+<h3>2.2 OR Operation</h3>
+<p>Output is 1 if <strong>any</strong> input is 1.</p>
+
+<h3>2.3 NOT Operation</h3>
+<p>Inverts the input: 0→1 and 1→0.</p>
+</div>
+
+<div class="card">
+<h2>3. Boolean Algebra Laws</h2>
+
+<h3>3.1 Identity Laws</h3>
+<div class="formula">A + 0 = A</div><br>
+<div class="formula">A · 1 = A</div>
+
+<h3>3.2 Null Laws</h3>
+<div class="formula">A + 1 = 1</div><br>
+<div class="formula">A · 0 = 0</div>
+
+<h3>3.3 Idempotent Laws</h3>
+<div class="formula">A + A = A</div><br>
+<div class="formula">A · A = A</div>
+
+<h3>3.4 Complement Laws</h3>
+<div class="formula">A + A' = 1</div><br>
+<div class="formula">A · A' = 0</div>
+
+<h3>3.5 Commutative Laws</h3>
+<div class="formula">A + B = B + A</div><br>
+<div class="formula">A · B = B · A</div>
+
+<h3>3.6 Associative Laws</h3>
+<div class="formula">A + (B + C) = (A + B) + C</div><br>
+<div class="formula">A(B C) = (AB)C</div>
+
+<h3>3.7 Distributive Laws</h3>
+<div class="formula">A(B + C) = AB + AC</div><br>
+<div class="formula">A + BC = (A + B)(A + C)</div>
+
+<h3>3.8 De Morgan’s Laws</h3>
+<div class="formula">(A B)' = A' + B'</div><br>
+<div class="formula">(A + B)' = A' B'</div>
+
+</div>
+
+<div class="card">
+<h2>4. Step-by-Step Simplification Examples</h2>
+
+<h3>Example 1: Simplify A + A B</h3>
+<ol class="steps">
+<li>Use Distributive Law: A + AB = A(1 + B)</li>
+<li>Use Identity Law: 1 + B = 1</li>
+<li>Final result: <strong>A</strong></li>
+</ol>
+
+<h3>Example 2: Simplify (A + B)(A + B')</h3>
+<ol class="steps">
+<li>Expand: A(A + B') + B(A + B')</li>
+<li>Distribute: AA + AB' + AB + BB'</li>
+<li>Simplify: A + AB' + AB + 0</li>
+<li>Factor A: A(1 + B' + B)</li>
+<li>1 + anything = 1</li>
+<li>Final result: <strong>A</strong></li>
+</ol>
+
+</div>
+
+<div class="card">
+<h2>5. Teacher Notes</h2>
+<ul>
+<li>Always begin with truth tables before laws.</li>
+<li>Provide students with circuit diagrams and ask them to convert to Boolean expressions.</li>
+<li>Encourage identifying patterns—most A Level questions use De Morgan or Distributive laws.</li>
+<li>Use colour-highlighting when showing simplification steps.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>6. Student Activities</h2>
+
+<div class="activity">
+<h3>Activity 1 – Truth Table Construction</h3>
+<p>Build truth tables for:</p>
+<ul>
+<li>A'B + AB'</li>
+<li>(A + B)' + AB</li>
+</ul>
+</div>
+
+<div class="activity">
+<h3>Activity 2 – Expression to Circuit</h3>
+<p>Draw logic circuits for:</p>
+<ul>
+<li>F = A(B + C')</li>
+<li>F = (A + B')(C + A')</li>
+</ul>
+</div>
+
+<div class="activity">
+<h3>Activity 3 – Simplification</h3>
+<p>Simplify step-by-step:</p>
+<ul>
+<li>A'B + AB + AB'</li>
+<li>(A + B)(A' + C)</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h2>7. Exam-Style Questions (Scenario-Based)</h2>
+
+<div class="exam">
+<h3>Q1 (5 marks)</h3>
+<p>A traffic light controller uses sensors A (vehicle present) and B (pedestrian button pressed). The system outputs 1 for "allow pedestrian crossing". The logic is:</p>
+<p class="formula">F = A'B + AB'</p>
+<p>Explain the scenario in your own words and simplify the expression to its simplest form.</p>
+</div>
+
+<div class="exam">
+<h3>Q2 (5 marks)</h3>
+<p>A security system activates an alarm using doors A and B. The alarm should activate when exactly one door is open. The logic is:</p>
+<p class="formula">F = A B' + A' B</p>
+<p>Draw the logic circuit and provide the truth table.</p>
+</div>
+
+<div class="exam">
+<h3>Q3 (4 marks)</h3>
+<p>Given the expression used in a heating controller:</p>
+<p class="formula">F = (A + B)' + AB</p>
+<p>Simplify and state the output conditions.</p>
+</div>
+
+<div class="exam">
+<h3>Q4 (4 marks)</h3>
+<p>A manufacturing robot activates when:</p>
+<ul>
+<li>Safety sensor A is ON</li>
+<li>Obstacle sensor B is OFF</li>
+<li>Manual override C is ON</li>
+</ul>
+<p>Write the Boolean expression and simplify it.</p>
+</div>
+</div>
+
+</body>
+</html>
