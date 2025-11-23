@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Search & Sort — Teaching Page (Green Chalkboard Theme)</title>
+  <style>
+    :root{
+      --header:#0b6623; /* dark green */
+      --panel:#eaf6ea;  /* soft green */
+      --code-bg:#ffffff;
+      --accent:#196f3d;
+      --muted:#2f4f2f;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --maxwidth:1100px;
+    }
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f7fff7; color:#053018;
+      -webkit-font-smoothing:antialiased;
+    }
+    header{background:var(--header); color:white; padding:18px 12px;}
+    header .wrap{max-width:var(--maxwidth); margin:0 auto; display:flex; align-items:center; gap:12px}
+    header h1{margin:0; font-size:20px}
+    .container{max-width:var(--maxwidth); margin:18px auto; padding:0 12px}
+    .note{background:var(--panel); border-left:6px solid var(--accent); padding:12px; border-radius:6px; margin-bottom:18px}
+    section.program{display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:26px;}
+    section.program h2{margin:0 0 6px 0; font-size:18px; color:var(--muted)}
+    .split{display:grid; grid-template-columns: 1fr 1fr; gap:14px; align-items:start}
+    .panel{background:var(--panel); padding:12px; border-radius:8px; min-height:160px; box-shadow:0 1px 0 rgba(0,0,0,0.04)}
+    .explanation{overflow:auto; max-height:320px; font-size:14px; line-height:1.5; padding-right:8px}
+    .code{background:var(--code-bg); padding:12px; border-radius:8px; border:1px solid rgba(25,111,61,0.12); overflow:auto; max-height:320px}
+    pre{margin:0; font-family:var(--mono); font-size:13px; white-space:pre;}
+    code{display:block}
+    .line {display:flex; gap:10px}
+    .ln {width:28px; text-align:right; color:rgba(5,48,24,0.6); user-select:none}
+    .explain-text{flex:1}
+    .section-toolbar{display:flex; gap:8px; align-items:center; margin-bottom:6px}
+    button.small{background:var(--accent); color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer}
+    button.small[aria-pressed="true"]{background:#0f3f1f}
+    footer{max-width:var(--maxwidth); margin:18px auto; padding:12px; color:#124b2b}
+    @media (max-width:900px){ .split{grid-template-columns:1fr} .explanation, .code{max-height:260px} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Search & Sort — Teaching Page</h1>
+      <div style="margin-left:auto; font-size:13px; opacity:0.9">Theme: Green Chalkboard</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="note">
+      <strong>How to use this page</strong>
+      <p>Tried to explain few programs using Arrays.I will do the rest one by one in the coming days.</p>
+    </div>
+
+    <!-- Program block template: arrays 1 -->
+
+    <section id="arrays-1" class="program">
+      <h2>Arrays — Program 1: Print 12th element (List)</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-arrays-1">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-arrays-1')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Define main() as the program entry point.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Create a list named <code>words</code> with 12 string elements.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Print the 12th element. Python lists are zero-indexed so index 11 is the 12th.</div></div>
+            <div class="line"><div class="ln">4</div><div class="explain-text">Call main() to run the program.</div></div>
+          </div>
+        </div>
+
+        <div id="code-arrays-1" class="panel code" data-pair="explain-arrays-1">
+<pre><code># Program to store an array of strings and print the 12th element
+
+def main():
+    # Store 12 strings in a list
+    words = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+
+    # Print the 12th element
+    print("The 12th element is:", words[11])
+
+# Run the program
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Program: arrays 2 -->
+    <section id="arrays-2" class="program">
+      <h2>Arrays — Program 2: User Input (12 strings)</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-arrays-2">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-arrays-2')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Define main() — program starts here.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Create an empty list <code>items</code> to collect user input.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Prompt the user to enter 12 strings in a loop.</div></div>
+            <div class="line"><div class="ln">4</div><div class="explain-text">Append each entered string to the list.</div></div>
+            <div class="line"><div class="ln">5</div><div class="explain-text">After input, print the 12th element using index 11.</div></div>
+          </div>
+        </div>
+
+        <div id="code-arrays-2" class="panel code" data-pair="explain-arrays-2">
+<pre><code># Program to store user-entered strings in a list and print the 12th element
+
+def main():
+    items = []
+    print("Enter 12 strings:")
+    for i in range(12):
+        value = input("Enter string " + str(i+1) + ": ")
+        items.append(value)
+    print("The 12th element is:", items[11])
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Program: arrays 3 -->
+    <section id="arrays-3" class="program">
+      <h2>Arrays — Program 3: Loop to find 12th element</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-arrays-3">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-arrays-3')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Define main() and create a list <code>colours</code> with 12 items.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Loop over indices from 0 to length-1 using <code>range(len())</code>.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Check if current index is 11 (12th element) and print it.</div></div>
+          </div>
+        </div>
+
+        <div id="code-arrays-3" class="panel code" data-pair="explain-arrays-3">
+<pre><code># Program using a loop to locate and print the 12th element
+
+def main():
+    colours = ["red", "blue", "green", "yellow", "pink",
+               "black", "white", "orange", "violet",
+               "silver", "gold", "purple"]
+
+    for i in range(len(colours)):
+        if i == 11:  # index of 12th element
+            print("The 12th element is:", colours[i])
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sum of odd numbers programs -->
+    <section id="odd-sum-1" class="program">
+      <h2>Sum of odd numbers — Program 1: Predefined list</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-odd-1">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-odd-1')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Define main(); create sample list <code>numbers</code>.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Initialize <code>odd_sum</code> to zero to accumulate odd values.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Loop through each number in the list.</div></div>
+            <div class="line"><div class="ln">4</div><div class="explain-text">If number modulo 2 is not zero, it's odd — add to <code>odd_sum</code>.</div></div>
+            <div class="line"><div class="ln">5</div><div class="explain-text">After loop, print the total sum of odd integers.</div></div>
+          </div>
+        </div>
+
+        <div id="code-odd-1" class="panel code" data-pair="explain-odd-1">
+<pre><code># Program to find the sum of all odd integers in a 1-D array
+
+def main():
+    numbers = [12, 7, 5, 18, 21, 9, 14, 3]
+
+    odd_sum = 0
+
+    for n in numbers:
+        if n % 2 != 0:    # check odd
+            odd_sum += n
+
+    print("Sum of all odd integers =", odd_sum)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="odd-sum-2" class="program">
+      <h2>Sum of odd numbers — Program 2: User Input</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-odd-2">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-odd-2')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Ask user for the number of elements to read.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Read integers from the user and append to list <code>arr</code>.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Initialize <code>odd_sum</code> and add each odd number found.</div></div>
+            <div class="line"><div class="ln">4</div><div class="explain-text">Print the final sum of odd integers.</div></div>
+          </div>
+        </div>
+
+        <div id="code-odd-2" class="panel code" data-pair="explain-odd-2">
+<pre><code># Program to read numbers from user and find sum of all odd integers
+
+def main():
+    size = int(input("How many numbers? "))
+    arr = []
+
+    for i in range(size):
+        value = int(input("Enter number " + str(i+1) + ": "))
+        arr.append(value)
+
+    odd_sum = 0
+    for n in arr:
+        if n % 2 != 0:
+            odd_sum += n
+
+    print("Sum of all odd integers =", odd_sum)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prime numbers -->
+    <section id="primes-1" class="program">
+      <h2>Prime numbers — Program 1: Predefined array</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-prime-1">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-prime-1')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Define helper function <code>is_prime(n)</code> to test primality.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">If n ≤ 1 it's not prime; return False.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Check divisors from 2 up to sqrt(n). If any divide n, it's composite.</div></div>
+            <div class="line"><div class="ln">4</div><div class="explain-text">Main builds a list and prints numbers where <code>is_prime</code> returns True.</div></div>
+          </div>
+        </div>
+
+        <div id="code-prime-1" class="panel code" data-pair="explain-prime-1">
+<pre><code># Program to find all prime numbers in an array
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**2**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+def main():
+    numbers = [3, 8, 11, 15, 17, 22, 29, 31, 40, 41]
+
+    print("Prime numbers in the array:")
+    for num in numbers:
+        if is_prime(num):
+            print(num)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="primes-2" class="program">
+      <h2>Prime numbers — Program 2: User Input</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-prime-2">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-prime-2')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Same <code>is_prime</code> helper as before (uses sqrt optimization).</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Read how many integers, then read each and store in <code>arr</code>.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Loop over <code>arr</code> and print each value that is prime.</div></div>
+          </div>
+        </div>
+
+        <div id="code-prime-2" class="panel code" data-pair="explain-prime-2">
+<pre><code># Program to read integers from user and print all prime numbers
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+def main():
+    size = int(input("How many integers? "))
+    arr = []
+
+    for i in range(size):
+        value = int(input("Enter number " + str(i+1) + ": "))
+        arr.append(value)
+
+    print("Prime numbers in the array:")
+    for num in arr:
+        if is_prime(num):
+            print(num)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Linear search programs (5) -->
+    <section id="linear-1" class="program">
+      <h2>Linear Search — Program 1: Basic loop</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-linear-1">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-linear-1')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Create test list <code>arr</code> and <code>key</code> to search for.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Use a flag <code>found</code> initially False; set True on match and break.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">If not found after loop, print 'Not found'.</div></div>
+          </div>
+        </div>
+
+        <div id="code-linear-1" class="panel code" data-pair="explain-linear-1">
+<pre><code># Linear search - simple version
+
+def main():
+    arr = [10, 14, 23, 5, 19, 7]
+    key = 19
+
+    found = False
+
+    for i in range(len(arr)):
+        if arr[i] == key:
+            print("Found at position:", i)
+            found = True
+            break
+
+    if not found:
+        print("Not found")
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="linear-2" class="program">
+      <h2>Linear Search — Program 2: Function returning index</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-linear-2">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-linear-2')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Define <code>linear_search(arr, key)</code> that loops and returns index on match or -1.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Main calls the function and checks for -1 to report result.</div></div>
+          </div>
+        </div>
+
+        <div id="code-linear-2" class="panel code" data-pair="explain-linear-2">
+<pre><code># Linear search using a function
+
+def linear_search(arr, key):
+    for i in range(len(arr)):
+        if arr[i] == key:
+            return i
+    return -1
+
+
+def main():
+    data = [3, 9, 27, 6, 18]
+    item = 6
+
+    pos = linear_search(data, item)
+
+    if pos == -1:
+        print("Item not found")
+    else:
+        print("Item found at index:", pos)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="linear-3" class="program">
+      <h2>Linear Search — Program 3: For-each value checking</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-linear-3">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-linear-3')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Iterate directly over values (no indices). Keep an <code>index</code> counter.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">If match, print index; the loop's <code>else</code> runs only if not broken (prints Not found).</div></div>
+          </div>
+        </div>
+
+        <div id="code-linear-3" class="panel code" data-pair="explain-linear-3">
+<pre><code># Linear search using direct value checking
+
+def main():
+    arr = [4, 12, 8, 25, 30]
+    key = 25
+
+    index = 0
+    for value in arr:
+        if value == key:
+            print("Found at index:", index)
+            break
+        index += 1
+    else:
+        print("Not found")
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="linear-4" class="program">
+      <h2>Linear Search — Program 4: User Input Version</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-linear-4">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-linear-4')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Read size and then read each number into <code>arr</code>.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Read the <code>key</code> to search for and perform a loop to find it.</div></div>
+          </div>
+        </div>
+
+        <div id="code-linear-4" class="panel code" data-pair="explain-linear-4">
+<pre><code># Linear search with user-entered array
+
+def main():
+    size = int(input("How many numbers? "))
+    arr = []
+
+    for i in range(size):
+        arr.append(int(input("Enter number " + str(i+1) + ": ")))
+
+    key = int(input("Enter the number to search: "))
+
+    found = False
+
+    for i in range(size):
+        if arr[i] == key:
+            print("Found at index:", i)
+            found = True
+            break
+
+    if not found:
+        print("Not found")
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="linear-5" class="program">
+      <h2>Linear Search — Program 5: Using enumerate()</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-linear-5">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-linear-5')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Use <code>enumerate()</code> to get both index and value in the loop — concise and pythonic.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">If found, print index; the loop's <code>else</code> prints 'Not found' if no break occurred.</div></div>
+          </div>
+        </div>
+
+        <div id="code-linear-5" class="panel code" data-pair="explain-linear-5">
+<pre><code># Linear search using enumerate()
+
+def main():
+    arr = [5, 9, 15, 28, 33]
+    key = 28
+
+    for index, value in enumerate(arr):
+        if value == key:
+            print("Found at index:", index)
+            break
+    else:
+        print("Not found")
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bubble sort programs (8) -->
+    <section id="bubble-1" class="program">
+      <h2>Bubble Sort — Program 1: Simple list version</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-1">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-1')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Set up list <code>arr</code> to sort and get its length <code>n</code>.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Outer loop runs n times (each pass moves the next largest item to the end).</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Inner loop compares adjacent elements up to the unsorted portion and swaps if needed.</div></div>
+            <div class="line"><div class="ln">4</div><div class="explain-text">After all passes, the list is sorted in ascending order.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-1" class="panel code" data-pair="explain-bubble-1">
+<pre><code># Bubble Sort - Simple Version
+
+def main():
+    arr = [23, 5, 12, 9, 30, 1]
+
+    n = len(arr)
+
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+    print("Sorted list:", arr)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="bubble-2" class="program">
+      <h2>Bubble Sort — Program 2: Efficient (Early Exit)</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-2">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-2')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Define <code>bubble_sort(arr)</code> function that uses a <code>swapped</code> flag.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">If no swaps happen in a full pass, the list is already sorted — break early.</div></div>
+            <div class="line"><div class="ln">3</div><div class="explain-text">Main calls the function and prints the sorted list.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-2" class="panel code" data-pair="explain-bubble-2">
+<pre><code># Bubble Sort - Efficient Version with Early Exit
+
+def bubble_sort(arr):
+    n = len(arr)
+
+    for i in range(n):
+        swapped = False
+
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+
+        if not swapped:
+            break
+
+
+def main():
+    data = [14, 3, 20, 7, 11, 5]
+    bubble_sort(data)
+    print("Sorted:", data)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="bubble-3" class="program">
+      <h2>Bubble Sort — Program 3: While-loop version</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-3">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-3')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Use a <code>swapped</code> boolean to control the while loop; keep iterating until no swaps.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Inner for-loop compares adjacent elements and swaps when necessary.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-3" class="panel code" data-pair="explain-bubble-3">
+<pre><code># Bubble Sort using while loop
+
+def main():
+    arr = [19, 4, 16, 8, 2]
+
+    n = len(arr)
+    swapped = True
+
+    while swapped:
+        swapped = False
+        for i in range(n - 1):
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swapped = True
+
+    print("Sorted list:", arr)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="bubble-4" class="program">
+      <h2>Bubble Sort — Program 4: User Input</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-4">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-4')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Read size and values from the user into <code>arr</code>, then run bubble sort logic.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Print the sorted list at the end.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-4" class="panel code" data-pair="explain-bubble-4">
+<pre><code># Bubble Sort where user enters numbers
+
+def main():
+    size = int(input("How many elements? "))
+
+    arr = []
+    for i in range(size):
+        value = int(input("Enter number " + str(i+1) + ": "))
+        arr.append(value)
+
+    # Bubble Sort
+    for i in range(size):
+        for j in range(0, size - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+    print("Sorted list:", arr)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="bubble-5" class="program">
+      <h2>Bubble Sort — Program 5: Descending order</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-5">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-5')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Change comparison to <code>&lt;</code> to get descending order instead of ascending.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-5" class="panel code" data-pair="explain-bubble-5">
+<pre><code># Bubble Sort for descending order
+
+def bubble_desc(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] < arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+
+def main():
+    nums = [8, 2, 17, 5, 12]
+    bubble_desc(nums)
+    print("Sorted (Descending):", nums)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="bubble-6" class="program">
+      <h2>Bubble Sort — Program 6: Using array module</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-6">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-6')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">The <code>array</code> module provides typed arrays (here type 'i' for integers).</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Sorting logic is identical to list-based bubble sort but works on the array object.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-6" class="panel code" data-pair="explain-bubble-6">
+<pre><code># Bubble Sort using array module
+
+from array import array
+
+def main():
+    arr = array('i', [29, 3, 15, 8, 22])
+
+    n = len(arr)
+
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+    print("Sorted array:", arr)
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="bubble-7" class="program">
+      <h2>Bubble Sort — Program 7: Reusable function</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-7">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-7')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Create a function <code>bubble_sort</code> that returns the sorted list for reuse across your codebase.</div></div>
+            <div class="line"><div class="ln">2</div><div class="explain-text">Main demonstrates the function and prints the returned sorted list.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-7" class="panel code" data-pair="explain-bubble-7">
+<pre><code># Reusable bubble sort function
+
+def bubble_sort(arr):
+    n = len(arr)
+
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+    return arr
+
+
+def main():
+    data = [15, 4, 22, 1, 9]
+    print("Sorted:", bubble_sort(data))
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="bubble-8" class="program">
+      <h2>Bubble Sort — Program 8: Showing each pass</h2>
+      <div class="split">
+        <div class="panel explanation" data-pair="code-bubble-8">
+          <div class="section-toolbar">
+            <button class="small" onclick="copyCode('code-bubble-8')">Copy code</button>
+          </div>
+          <div>
+            <div class="line"><div class="ln">1</div><div class="explain-text">Print the array state at the start and end of each pass to demonstrate how elements move towards sorted positions.</div></div>
+          </div>
+        </div>
+
+        <div id="code-bubble-8" class="panel code" data-pair="explain-bubble-8">
+<pre><code># Bubble Sort with pass-by-pass display
+
+def main():
+    arr = [10, 7, 2, 15, 1]
+    n = len(arr)
+
+    for i in range(n):
+        print("Pass", i + 1, "starting:", arr)
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+        print("Pass", i + 1, "after sorting:", arr, "\n")
+
+main()
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Tip: Use the "Copy code" button for each section to paste the example into an editor and RUN it. Prepared for Kenzy and Hassan by Ravi Raju.
+    </footer>
+  </div>
+
+  <script>
+    // Sync scrolling between explanation and code for each split pair
+    document.querySelectorAll('.split').forEach(function(split){
+      const explain = split.querySelector('.explanation');
+      const code = split.querySelector('.code');
+      if(!explain || !code) return;
+
+      // When one scrolls, the other follows (simple proportional sync)
+      function sync(source, target){
+        const ratio = source.scrollTop / (source.scrollHeight - source.clientHeight || 1);
+        target.scrollTop = ratio * (target.scrollHeight - target.clientHeight);
+      }
+
+      explain.addEventListener('scroll', function(){ sync(explain, code); });
+      code.addEventListener('scroll', function(){ sync(code, explain); });
+    });
+
+    // Copy code helper
+    function copyCode(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      const text = el.innerText;
+      navigator.clipboard.writeText(text).then(()=>{
+        alert('Code copied to clipboard');
+      }).catch(()=>{
+        alert('Copy failed — select and copy manually');
+      });
+    }
+  </script>
+</body>
+</html>
