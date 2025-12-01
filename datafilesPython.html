@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python File Handling – Complete Learning Hub</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #fafafa;
+        margin: 0;
+        padding: 20px;
+        color: #222;
+        line-height: 1.6;
+    }
+    h1, h2, h3 {
+        color: #006699;
+    }
+    .section {
+        background: white;
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 6px solid #00aaff;
+        box-shadow: 0 0 6px rgba(0,0,0,0.08);
+    }
+    .collapsible {
+        background: #00aaff;
+        color: white;
+        cursor: pointer;
+        padding: 12px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        font-size: 17px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    .content {
+        display: none;
+        padding: 10px 0;
+    }
+    pre {
+        background: #272822;
+        padding: 12px;
+        color: #f8f8f2;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+</style>
+</head>
+<body>
+
+<h1>Python File Handling – Complete Learning Hub</h1>
+<p>Everything you need to understand Python files, records, classes, sequential access, reading, writing, and exception handling — with 10 extra examples and full explanations.</p>
+
+<!-- SECTION 1 -->
+<button class="collapsible">1. Introduction to Files</button>
+<div class="content section">
+    <h3>What is a File?</h3>
+    <p>A file stores data permanently in secondary storage such as HDD, SSD, or USB drives.</p>
+
+    <h3>Why Files Are Needed?</h3>
+    <ul>
+        <li>Save data permanently</li>
+        <li>Share/exchange data</li>
+        <li>Store structured data (records)</li>
+        <li>Create backups</li>
+        <li>Load external data</li>
+    </ul>
+
+    <h3>Two Access Types</h3>
+    <ul>
+        <li><b>Sequential Access</b> – reads line by line (your syllabus focus)</li>
+        <li><b>Random Access</b> – uses <code>seek()</code> to jump to any position</li>
+    </ul>
+</div>
+
+<!-- SECTION 2 -->
+<button class="collapsible">2. Records and Classes</button>
+<div class="content section">
+    <p>A <b>record</b> is a group of related fields.</p>
+
+    <table border="1" cellpadding="6">
+        <tr><th>Field</th><th>Example</th></tr>
+        <tr><td>ID</td><td>1</td></tr>
+        <tr><td>Make</td><td>Toyota</td></tr>
+        <tr><td>Model</td><td>Corolla</td></tr>
+        <tr><td>Price</td><td>25000</td></tr>
+    </table>
+
+<pre>
+class Car:
+    def __init__(self):
+        self.id = 0
+        self.make = ''
+        self.model = ''
+        self.price = 0.0
+</pre>
+
+    <p><b>Why classes?</b> They group related data neatly and make file storage structured.</p>
+</div>
+
+<!-- SECTION 3 -->
+<button class="collapsible">3. Storing Multiple Records in a List</button>
+<div class="content section">
+<pre>
+car_list = []
+
+car1 = Car()
+car1.id = 1
+car1.make = 'Toyota'
+car1.model = 'Corolla'
+car1.price = 25000
+car_list.append(car1)
+
+car2 = Car()
+car2.id = 2
+car2.make = 'Honda'
+car2.model = 'Civic'
+car2.price = 27000
+car_list.append(car2)
+</pre>
+    <p>This builds a list of structured records.</p>
+</div>
+
+<!-- SECTION 4 -->
+<button class="collapsible">4. Writing Records to a Sequential File</button>
+<div class="content section">
+<pre>
+file = open('CarData.txt', 'w')
+
+for car in car_list:
+    file.write(f"{car.id},{car.make},{car.model},{car.price}\n")
+
+file.close()
+</pre>
+    <p>Each record becomes a single line with comma-separated values.</p>
+</div>
+
+<!-- SECTION 5 -->
+<button class="collapsible">5. Reading Sequential Files</button>
+<div class="content section">
+<pre>
+file = open('CarData.txt', 'r')
+
+for line in file:
+    fields = line.strip().split(',')
+    print(fields)
+
+file.close()
+</pre>
+
+<table border="1" cellpadding="5">
+<tr><th>Problem</th><th>Fix</th></tr>
+<tr><td>Extra newline</td><td>Use <code>.strip()</code></td></tr>
+<tr><td>All fields are strings</td><td>Convert using <code>int()</code>, <code>float()</code></td></tr>
+</table>
+</div>
+
+<!-- SECTION 6 -->
+<button class="collapsible">6. Reading Until EOF</button>
+<div class="content section">
+<p>Python automatically stops when EOF is reached:</p>
+<pre>
+for line in file:
+    print(line)
+</pre>
+</div>
+
+<!-- SECTION 7 -->
+<button class="collapsible">7. .read() and .readline()</button>
+<div class="content section">
+<h3>.read()</h3>
+<pre>
+data = file.read()
+</pre>
+<h3>.readline()</h3>
+<pre>
+line = file.readline()
+while line != '':
+    print(line)
+    line = file.readline()
+</pre>
+</div>
+
+<!-- SECTION 8 -->
+<button class="collapsible">8. Writing Lists to Files</button>
+<div class="content section">
+<pre>
+L = [1, 'Geo', 3.5]
+file = open('Data.txt', 'w')
+file.write(str(L))
+file.close()
+</pre>
+    <p>This writes the raw list, but not recommended for real applications.</p>
+</div>
+
+<!-- SECTION 9 -->
+<button class="collapsible">9. Reading Back List Data</button>
+<div class="content section">
+<pre>
+file = open('Data.txt', 'r')
+content = file.read()
+print("The data that were stored in file are:")
+print(content)
+file.close()
+</pre>
+</div>
+
+<!-- SECTION 10 -->
+<button class="collapsible">10. Exception Handling</button>
+<div class="content section">
+<pre>
+try:
+    file = open('CarData.txt', 'r')
+    data = file.read()
+    print(data)
+except FileNotFoundError:
+    print("File does not exist.")
+except PermissionError:
+    print("You do not have permission.")
+except Exception as e:
+    print("Error:", e)
+finally:
+    file.close()
+</pre>
+</div>
+
+<!-- SECTION 11 -->
+<button class="collapsible">11. Assessment Question</button>
+<div class="content section">
+    <p>Scenario: A rental company wants to store and read car records.</p>
+    <p>Write two programs: one to store the records, one to display them.</p>
+</div>
+
+<!-- EXTRA EXAMPLES SECTION -->
+<h2 style="margin-top:40px;">Extra Examples (10 Fully Explained)</h2>
+
+<div class="section">
+<h3>Example 1 — Write a single line to a file</h3>
+<pre>
+with open('hello.txt', 'w') as f:
+    f.write("Hello students!")
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 2 — Write multiple lines at once</h3>
+<pre>
+lines = ["A\n", "B\n", "C\n"]
+open('letters.txt', 'w').writelines(lines)
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 3 — Read all lines into a list</h3>
+<pre>
+lines = open('letters.txt').readlines()
+print(lines)
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 4 — Count how many lines in a file</h3>
+<pre>
+count = 0
+for _ in open('letters.txt'):
+    count += 1
+print("Lines:", count)
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 5 — Save student marks as CSV</h3>
+<pre>
+with open('marks.csv', 'w') as f:
+    f.write("Name,Marks\n")
+    f.write("John,95\n")
+    f.write("Aisha,88\n")
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 6 — Read CSV with conversion</h3>
+<pre>
+file = open('marks.csv')
+for line in file:
+    name, marks = line.strip().split(',')
+    if marks.isdigit():
+        print(name, int(marks))
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 7 — Append a new record</h3>
+<pre>
+with open('marks.csv', 'a') as f:
+    f.write("Mina,91\n")
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 8 — Detect empty file</h3>
+<pre>
+if open('marks.csv').read().strip() == "":
+    print("Empty file")
+else:
+    print("Data exists")
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 9 — Safe open with exception handling</h3>
+<pre>
+try:
+    data = open('unknown.txt').read()
+except FileNotFoundError:
+    print("File not found.")
+</pre>
+</div>
+
+<div class="section">
+<h3>Example 10 — Convert file data into objects</h3>
+<pre>
+class Student:
+    def __init__(self, name, mark):
+        self.name = name
+        self.mark = mark
+
+students = []
+
+for line in open('marks.csv'):
+    name, mark = line.strip().split(',')
+    if mark.isdigit():
+        students.append(Student(name, int(mark)))
+
+print(students[0].name, students[0].mark)
+</pre>
+</div>
+
+<script>
+    const collapsibles = document.querySelectorAll(".collapsible");
+    collapsibles.forEach(btn => {
+        btn.addEventListener("click", () => {
+            btn.classList.toggle("active");
+            let content = btn.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+        });
+    });
+</script>
+
+</body>
+</html>
