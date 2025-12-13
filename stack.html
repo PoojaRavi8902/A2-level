@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stacks in Python – Cambridge 9618</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #fff9c4; /* lemon yellow */
+      color: #1b5e20; /* parrot green */
+    }
+    h1, h2, h3 { margin-top: 0; }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 16px;
+    }
+    .pane {
+      border: 2px solid #1b5e20;
+      border-radius: 10px;
+      padding: 12px;
+      background-color: #fffde7;
+    }
+    details {
+      margin-bottom: 12px;
+      border: 1px dashed #1b5e20;
+      border-radius: 8px;
+      padding: 8px;
+      background-color: #fffde7;
+    }
+    summary { cursor: pointer; font-weight: bold; }
+    pre {
+      background-color: #f1f8e9;
+      padding: 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: #33691e;
+    }
+    code {
+      background-color: #f1f8e9;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    ul, ol { margin-left: 20px; }
+    .note {
+      border-left: 4px solid #1b5e20;
+      padding-left: 8px;
+      margin: 8px 0;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+<h1 style="text-align:center;">Stacks in Python (Using LIST) – Cambridge AS & A Level 9618</h1>
+
+<div class="container">
+
+<!-- TEACHER PANE -->
+<div class="pane">
+<h2>Teacher Pane – Deep Explanation & Exam Coverage</h2>
+
+<details open>
+<summary>1. What is a Stack?</summary>
+<p>A <b>stack</b> is a linear data structure that follows:</p>
+<p><b>LIFO – Last In, First Out</b></p>
+<p>The last item added is the first item removed.</p>
+<div class="note">Classic analogy: stack of plates.</div>
+</details>
+
+<details>
+<summary>2. Stack Terminology (Exam Keywords)</summary>
+<ul>
+<li>PUSH – add an item</li>
+<li>POP – remove an item</li>
+<li>PEEK / TOP – view top item</li>
+<li>Stack Pointer (conceptual)</li>
+</ul>
+</details>
+
+<details>
+<summary>3. Why Use Python LIST for Stack?</summary>
+<ul>
+<li>Already known syntax</li>
+<li>append() and pop() match PUSH and POP</li>
+<li>Acceptable for Cambridge 9618</li>
+</ul>
+</details>
+
+<details>
+<summary>4. Creating an Empty Stack</summary>
+<pre><code>stack = []</code></pre>
+</details>
+
+<details>
+<summary>5. PUSH Operation</summary>
+<pre><code>stack.append("A")
+stack.append("B")
+stack.append("C")</code></pre>
+<p>Stack becomes: <code>["A", "B", "C"]</code></p>
+</details>
+
+<details>
+<summary>6. POP Operation</summary>
+<pre><code>item = stack.pop()</code></pre>
+<p>Removes last element.</p>
+<p>Stack becomes: <code>["A", "B"]</code></p>
+</details>
+
+<details>
+<summary>7. PEEK Operation</summary>
+<pre><code>top_item = stack[-1]</code></pre>
+</details>
+
+<details>
+<summary>8. Stack Underflow</summary>
+<pre><code>if len(stack) == 0:
+    print("Stack is empty")</code></pre>
+<div class="note">Very common theory question.</div>
+</details>
+
+<details>
+<summary>9. Full Stack? (Theory)</summary>
+<p>In theory, stack has fixed size.</p>
+<p>In Python, memory defines limit.</p>
+</details>
+
+<details>
+<summary>10. Complete Stack Program</summary>
+<pre><code>stack = []
+
+stack.append(10)
+stack.append(20)
+stack.append(30)
+print(stack)
+
+removed = stack.pop()
+print("Removed:", removed)
+print(stack)</code></pre>
+</details>
+
+<details>
+<summary>11. Stack Traversal (Exam)</summary>
+<pre><code>for item in stack:
+    print(item)</code></pre>
+</details>
+
+<details>
+<summary>12. Applications of Stack</summary>
+<ul>
+<li>Function calls</li>
+<li>Undo / Redo</li>
+<li>Expression evaluation</li>
+<li>Backtracking</li>
+</ul>
+</details>
+
+</div>
+
+<!-- STUDENT PANE -->
+<div class="pane">
+<h2>Student Pane – Many Examples & Exercises</h2>
+
+<details open>
+<summary>A. Remember This</summary>
+<p>LIFO → Last In, First Out</p>
+</details>
+
+<details>
+<summary>B. Step-by-Step Example</summary>
+<pre><code>stack = []
+stack.append(5)
+stack.append(10)
+stack.append(15)
+print(stack)</code></pre>
+</details>
+
+<details>
+<summary>C. POP Example</summary>
+<pre><code>stack.pop()
+print(stack)</code></pre>
+</details>
+
+<details>
+<summary>D. Trace This (Very Important)</summary>
+<pre><code>stack = []
+stack.append(1)
+stack.append(2)
+stack.append(3)
+stack.pop()
+print(stack)</code></pre>
+</details>
+
+<details>
+<summary>E. Exam-Style Short Questions</summary>
+<ol>
+<li>Define stack</li>
+<li>What does LIFO mean?</li>
+<li>Which operation removes data?</li>
+</ol>
+</details>
+
+<details>
+<summary>F. Coding Exercises</summary>
+<ol>
+<li>Create an empty stack</li>
+<li>Push 4 numbers</li>
+<li>Pop one number</li>
+<li>Display stack</li>
+</ol>
+</details>
+
+<details>
+<summary>G. Algorithm Exercises</summary>
+<ul>
+<li>Reverse a list using stack</li>
+<li>Check if stack is empty</li>
+<li>Count items in stack</li>
+</ul>
+</details>
+
+<details>
+<summary>H. Challenge (A Level)</summary>
+<p>Write a menu-driven stack program.</p>
+</details>
+
+</div>
+
+</div>
+
+
+
+<!-- MENU DRIVEN STACK PROGRAM -->
+<div class="pane">
+<h2>Menu-Driven Stack Program (Cambridge 9618 – Exam Standard)</h2>
+<details open>
+<summary>Complete Menu-Driven Stack Program</summary>
+<pre><code># Stack using Python List
+stack = []
+
+while True:
+    print("
+STACK MENU")
+    print("1. PUSH")
+    print("2. POP")
+    print("3. DISPLAY")
+    print("4. EXIT")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        item = input("Enter item to push: ")
+        stack.append(item)
+        print("Stack after PUSH:", stack)
+
+    elif choice == 2:
+        if len(stack) == 0:
+            print("Stack is empty. POP not possible")
+        else:
+            removed = stack.pop()
+            print("Popped item:", removed)
+            print("Stack after POP:", stack)
+
+    elif choice == 3:
+        print("Current Stack:", stack)
+
+    elif choice == 4:
+        print("Exiting program")
+        break
+
+    else:
+        print("Invalid choice")</code></pre>
+</details>
+
+<details>
+<summary>Trace Table – Sample Run</summary>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Step</th><th>Choice</th><th>Action</th><th>Stack Content</th></tr>
+<tr><td>1</td><td>1</td><td>PUSH 'A'</td><td>[] → ['A']</td></tr>
+<tr><td>2</td><td>1</td><td>PUSH 'B'</td><td>['A'] → ['A','B']</td></tr>
+<tr><td>3</td><td>2</td><td>POP</td><td>['A','B'] → ['A']</td></tr>
+<tr><td>4</td><td>3</td><td>DISPLAY</td><td>['A']</td></tr>
+</table>
+</details>
+
+<details>
+<summary>Blank Trace Table (Student Practice)</summary>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr><th>Step</th><th>Choice</th><th>Action</th><th>Stack Content</th></tr>
+<tr><td>1</td><td></td><td></td><td></td></tr>
+<tr><td>2</td><td></td><td></td><td></td></tr>
+<tr><td>3</td><td></td><td></td><td></td></tr>
+<tr><td>4</td><td></td><td></td><td></td></tr>
+</table>
+</details>
+</div>
+
+</body>
+</html>
