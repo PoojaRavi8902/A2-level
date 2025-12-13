@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -163,6 +164,93 @@ else:
 # Printing queue after DEQUEUE
 print("Queue after deletion:", queue)</code></pre>
       <div class="note">Explain line‑by‑line in class. Emphasise <code>append()</code> for ENQUEUE and <code>pop(0)</code> for DEQUEUE.</div>
+    </details>
+
+    <details>
+      <summary>10. Menu‑Driven Queue Program (Cambridge Style)</summary>
+      <p>This version is commonly asked in exams. It uses a simple menu and LIST‑based queue.</p>
+      <pre><code>queue = []
+choice = 0
+
+while choice != 4:
+    print("1. Enqueue")
+    print("2. Dequeue")
+    print("3. Display Queue")
+    print("4. Exit")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        item = input("Enter item to add: ")
+        queue.append(item)
+        print("Item added")
+
+    elif choice == 2:
+        if len(queue) > 0:
+            removed_item = queue.pop(0)
+            print("Removed:", removed_item)
+        else:
+            print("Queue is empty")
+
+    elif choice == 3:
+        print("Queue:", queue)
+
+    elif choice == 4:
+        print("Program ended")
+
+    else:
+        print("Invalid choice")</code></pre>
+      <div class="note">Perfect for explaining ENQUEUE, DEQUEUE and EMPTY check in one program.</div>
+    </details>
+
+    <details>
+      <summary>11. Trace Table for Menu‑Driven Program (Exam Focus)</summary>
+      <p>Assume the user enters the following choices:</p>
+      <ul>
+        <li>Choice 1 → Add "A"</li>
+        <li>Choice 1 → Add "B"</li>
+        <li>Choice 2 → Dequeue</li>
+        <li>Choice 3 → Display</li>
+      </ul>
+      <table border="1" cellpadding="6" cellspacing="0">
+        <tr>
+          <th>Step</th>
+          <th>User Action</th>
+          <th>queue</th>
+          <th>removed_item</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Initial state</td>
+          <td>[]</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Enqueue "A"</td>
+          <td>["A"]</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Enqueue "B"</td>
+          <td>["A", "B"]</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Dequeue</td>
+          <td>["B"]</td>
+          <td>"A"</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Display</td>
+          <td>["B"]</td>
+          <td>"A"</td>
+        </tr>
+      </table>
+      <div class="note">Students must show how the queue changes after each menu operation.</div>
     </details>
 
   </div>
