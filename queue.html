@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Queues in Python – Cambridge 9618</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #fff9c4; /* lemon yellow */
+      color: #1b5e20; /* parrot green */
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .pane {
+      border: 2px solid #1b5e20;
+      border-radius: 10px;
+      padding: 12px;
+      background-color: #fffde7;
+    }
+
+    details {
+      margin-bottom: 12px;
+      border: 1px dashed #1b5e20;
+      border-radius: 8px;
+      padding: 8px;
+      background-color: #fffde7;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.05em;
+    }
+
+    code {
+      background-color: #f1f8e9;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      color: #33691e;
+    }
+
+    pre {
+      background-color: #f1f8e9;
+      padding: 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: #33691e;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    .note {
+      border-left: 4px solid #1b5e20;
+      padding-left: 8px;
+      margin: 8px 0;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+<h1 style="text-align:center;">Queues in Python (Using LIST) – Cambridge AS Level 9618</h1>
+
+<div class="container">
+
+  <!-- TEACHER PANE -->
+  <div class="pane">
+    <h2>Teacher Pane – Explanation & Teaching Flow</h2>
+
+    <details open>
+      <summary>1. What is a Queue?</summary>
+      <p>A <b>queue</b> is a linear data structure that follows the rule:</p>
+      <p><b>FIFO – First In, First Out</b></p>
+      <p>This means the <b>first item added</b> is the <b>first item removed</b>.</p>
+      <div class="note">Textbook analogy: students standing in a line.</div>
+    </details>
+
+    <details>
+      <summary>2. Why use Python LIST for Queue?</summary>
+      <ul>
+        <li>Already known to students</li>
+        <li>Easy to visualise</li>
+        <li>Allowed and acceptable at 9618 level</li>
+      </ul>
+      <p>We treat the <b>front</b> of the queue as index <code>0</code>.</p>
+    </details>
+
+    <details>
+      <summary>3. Creating an Empty Queue</summary>
+      <pre><code>queue = []</code></pre>
+      <p>An empty list represents an empty queue.</p>
+    </details>
+
+    <details>
+      <summary>4. ENQUEUE (Add an item)</summary>
+      <p>ENQUEUE means <b>adding an item to the rear of the queue</b>.</p>
+      <pre><code>queue.append("A")
+queue.append("B")</code></pre>
+      <p>Queue now becomes: <code>["A", "B"]</code></p>
+    </details>
+
+    <details>
+      <summary>5. DEQUEUE (Remove an item)</summary>
+      <p>DEQUEUE means <b>removing the item at the front</b>.</p>
+      <pre><code>item = queue.pop(0)</code></pre>
+      <p>The first item is removed.</p>
+      <p>Queue becomes: <code>["B"]</code></p>
+    </details>
+
+    <details>
+      <summary>6. PEEK (View front item)</summary>
+      <p>PEEK means <b>looking at the front item without removing it</b>.</p>
+      <pre><code>front_item = queue[0]</code></pre>
+    </details>
+
+    <details>
+      <summary>7. Checking if Queue is Empty</summary>
+      <pre><code>if len(queue) == 0:
+    print("Queue is empty")</code></pre>
+    </details>
+
+    <details>
+      <summary>8. Full Queue? (Exam Note)</summary>
+      <p>With Python lists, we normally <b>do not worry about full queues</b>.</p>
+      <div class="note">In exams, mention: memory limitation defines full queue.</div>
+    </details>
+
+    <details>
+      <summary>9. Complete Queue Program (Exam‑Friendly)</summary>
+      <p>This is a <b>full working program</b> using Python LIST, suitable for Cambridge 9618 answers.</p>
+      <pre><code># Creating an empty queue
+queue = []
+
+# ENQUEUE operation
+queue.append("Ali")
+queue.append("Sara")
+queue.append("John")
+
+# Printing queue after ENQUEUE
+print("Queue after adding items:", queue)
+
+# DEQUEUE operation
+if len(queue) > 0:
+    removed_item = queue.pop(0)
+    print("Removed item:", removed_item)
+else:
+    print("Queue is empty, cannot remove")
+
+# Printing queue after DEQUEUE
+print("Queue after deletion:", queue)</code></pre>
+      <div class="note">Explain line‑by‑line in class. Emphasise <code>append()</code> for ENQUEUE and <code>pop(0)</code> for DEQUEUE.</div>
+    </details>
+
+  </div>
+
+  <!-- STUDENT PANE -->
+  <div class="pane">
+    <h2>Student Pane – Understanding, Examples & Practice</h2>
+
+    <details open>
+      <summary>A. Queue Rule (Remember This!)</summary>
+      <p><b>FIFO</b></p>
+      <p>First comes in → First goes out</p>
+    </details>
+
+    <details>
+      <summary>B. Real Life Example</summary>
+      <ul>
+        <li>School assembly line</li>
+        <li>Canteen food queue</li>
+        <li>Printer jobs</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>C. Step-by-Step Example</summary>
+      <pre><code>queue = []
+
+queue.append(10)
+queue.append(20)
+queue.append(30)</code></pre>
+      <p>Queue is now: <code>[10, 20, 30]</code></p>
+
+      <pre><code>queue.pop(0)</code></pre>
+      <p>Queue becomes: <code>[20, 30]</code></p>
+    </details>
+
+    <details>
+      <summary>D. Common Mistake</summary>
+      <p>❌ Using <code>pop()</code> without index</p>
+      <p>✅ Always use <code>pop(0)</code> for queues</p>
+    </details>
+
+    <details>
+      <summary>E. Exam-Style Short Questions</summary>
+      <ol>
+        <li>What does FIFO stand for?</li>
+        <li>Which end is used for ENQUEUE?</li>
+        <li>Which index is removed during DEQUEUE?</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>F. Coding Exercises</summary>
+      <ol>
+        <li>Create an empty queue</li>
+        <li>Add three numbers to the queue</li>
+        <li>Remove one item and display it</li>
+        <li>Check if the queue is empty</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>G. Challenge (Still Simple)</summary>
+      <p>Write a program to:</p>
+      <ul>
+        <li>ENQUEUE 5 names</li>
+        <li>DEQUEUE 2 names</li>
+        <li>Display the remaining queue</li>
+      </ul>
+    </details>
+
+  </div>
+
+</div>
+
+</body>
+</html>
