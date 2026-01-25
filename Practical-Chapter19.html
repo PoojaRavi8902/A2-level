@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cambridge A Level 9618 – Section 19</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fffacd; /* lemon yellow */
+    color: #006400; /* dark green */
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.pane {
+    width: 50%;
+    overflow-y: scroll;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.teacher {
+    border-right: 4px solid #228B22;
+    background-color: #fff8b0;
+}
+
+.student {
+    background-color: #fffacd;
+}
+
+h1, h2, h3 {
+    color: #006400;
+}
+
+.box {
+    border: 2px solid #228B22;
+    padding: 15px;
+    margin: 15px 0;
+    background-color: #f5ffdc;
+}
+
+.exam {
+    background-color: #e6ffe6;
+    border-left: 6px solid #006400;
+    padding: 15px;
+}
+
+.warning {
+    background-color: #fff0f0;
+    border-left: 6px solid red;
+    padding: 15px;
+}
+
+code {
+    background-color: #eef;
+    padding: 2px 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ================= TEACHER PANE ================= -->
+<div class="pane teacher">
+
+<h1>TEACHER PANE</h1>
+<h2>Section 19 – Computational Thinking & Problem-Solving</h2>
+
+<h3>Purpose of this Chapter</h3>
+<p>
+Section 19 prepares students for the <strong>thinking behind programming</strong>.
+This is not about syntax — it is about how Cambridge expects students to
+<strong>design, reason, and justify solutions</strong>.
+</p>
+
+<div class="box">
+<strong>Exam reality:</strong><br>
+Students who fail Paper 4 usually do not fail because of syntax.
+They fail because they cannot:
+<ul>
+<li>Break problems down</li>
+<li>Choose correct logic</li>
+<li>Justify recursion</li>
+</ul>
+</div>
+
+<hr>
+
+<h2>19.1 Algorithms</h2>
+
+<h3>Teacher Conceptual Focus</h3>
+<p>
+Cambridge defines an algorithm as a <strong>finite, ordered sequence of unambiguous steps</strong>.
+Students must understand that:
+</p>
+<ul>
+<li>An algorithm exists <strong>before code</strong></li>
+<li>It must be language-independent</li>
+<li>It must terminate</li>
+</ul>
+
+<div class="exam">
+<strong>Cambridge wording you should drill:</strong><br>
+“Design an algorithm to…”<br>
+“Express the algorithm using structured English or pseudocode”
+</div>
+
+<h3>Designing Algorithms to Solve Problems</h3>
+<p>
+Teach students a repeatable mental process:
+</p>
+<ol>
+<li>Understand the problem fully</li>
+<li>Identify inputs and outputs</li>
+<li>Break into steps</li>
+<li>Decide selection and repetition</li>
+<li>Check edge cases</li>
+</ol>
+
+<div class="warning">
+<strong>Common examiner comment:</strong><br>
+“Candidate jumped straight to code without designing an algorithm.”
+</div>
+
+<h3>Expressing Algorithms in Structured Form</h3>
+<p>
+Cambridge accepts:
+</p>
+<ul>
+<li>Structured English</li>
+<li>Pseudocode</li>
+<li>Flowcharts</li>
+</ul>
+
+<p>
+But **structured pseudocode is preferred** in Paper 4.
+</p>
+
+<h3>Using Logic Statements</h3>
+<p>
+You must explicitly teach:
+</p>
+<ul>
+<li>IF</li>
+<li>IF…ELSE</li>
+<li>Nested IF</li>
+<li>FOR loops</li>
+<li>WHILE loops</li>
+</ul>
+
+<div class="box">
+<strong>Teaching tip:</strong><br>
+Always ask: “How many times do I know this will repeat?”
+</div>
+
+</div>
+
+<!-- ================= STUDENT PANE ================= -->
+<div class="pane student">
+
+<h1>STUDENT PANE</h1>
+<h2>Section 19 – Algorithms</h2>
+
+<h3>What is an Algorithm?</h3>
+<p>
+An algorithm is a clear set of steps used to solve a problem.
+It is written so that <strong>any programmer</strong> can follow it.
+</p>
+
+<div class="exam">
+<strong>EXAM DEFINITION (MEMORISE):</strong><br>
+An algorithm is a finite sequence of well-defined steps used to solve a problem.
+</div>
+
+<h3>Designing an Algorithm</h3>
+<p>
+Before writing any code, always answer:
+</p>
+<ul>
+<li>What data do I receive?</li>
+<li>What result do I produce?</li>
+<li>What decisions must I make?</li>
+</ul>
+
+<h3>Example: Find the Largest Number</h3>
+
+<div class="box">
+<strong>Problem:</strong> Input three numbers and output the largest.
+</div>
+
+<pre>
+SET max ← first number
+IF second number > max
+    SET max ← second number
+IF third number > max
+    SET max ← third number
+OUTPUT max
+</pre>
+
+<div class="exam">
+<strong>Why this scores marks:</strong><br>
+Clear logic, structured steps, no programming language.
+</div>
+
+<h3>Logic Statements</h3>
+
+<h4>IF / ELSE</h4>
+<p>
+Used when a decision must be made.
+</p>
+
+<pre>
+IF mark >= 50
+    OUTPUT "Pass"
+ELSE
+    OUTPUT "Fail"
+</pre>
+
+<h4>FOR Loop</h4>
+<p>
+Used when the number of repetitions is known.
+</p>
+
+<pre>
+FOR i ← 1 TO 10
+    OUTPUT i
+NEXT i
+</pre>
+
+<h4>WHILE Loop</h4>
+<p>
+Used when repetition depends on a condition.
+</p>
+
+<pre>
+WHILE password ≠ "correct"
+    INPUT password
+ENDWHILE
+</pre>
+
+<div class="warning">
+<strong>Exam trap:</strong><br>
+Using FOR when the number of repeats is unknown.
+</div>
+
+<h3>Practice Questions</h3>
+
+<div class="box">
+1. Design an algorithm to calculate the average of 10 numbers.<br>
+2. Design an algorithm to count how many values are greater than 50.<br>
+3. Explain why a WHILE loop is suitable for password entry.
+</div>
+
+<div class="exam">
+<strong>Self-check:</strong><br>
+Did you:
+<ul>
+<li>Use clear steps?</li>
+<li>Avoid programming syntax?</li>
+<li>Show logic clearly?</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<!-- ================= PART 2 : RECURSION =================== -->
+<!-- ========================================================= -->
+
+<div class="container">
+
+<!-- ================= TEACHER PANE ================= -->
+<div class="pane teacher">
+
+<h1>TEACHER PANE</h1>
+<h2>19.2 Recursion</h2>
+
+<h3>Why Recursion Is Difficult for Students</h3>
+<p>
+Recursion is one of the most poorly understood topics at A Level.
+Most students can <em>write</em> a recursive function but cannot
+<strong>explain how it works</strong> — which is exactly what Cambridge tests.
+</p>
+
+<div class="warning">
+<strong>Examiner observation:</strong><br>
+“Candidates often write a recursive solution without identifying a base case,
+leading to infinite recursion.”
+</div>
+
+<hr>
+
+<h3>Definition and Purpose of Recursion</h3>
+<p>
+Recursion is a technique where a problem is solved by breaking it down into
+<strong>smaller versions of the same problem</strong>.
+A recursive algorithm is one that <strong>calls itself</strong>.
+</p>
+
+<div class="exam">
+<strong>Cambridge-approved definition:</strong><br>
+Recursion is a programming technique in which a procedure or function calls itself.
+</div>
+
+<h3>Purpose of Teaching Recursion</h3>
+<ul>
+<li>To solve problems with repetitive sub-structure</li>
+<li>To replace complex iteration in some cases</li>
+<li>To model problems that naturally repeat (trees, fractals, divide-and-conquer)</li>
+</ul>
+
+<div class="box">
+<strong>Teacher emphasis:</strong><br>
+Recursion is not “better than loops” — it is <em>appropriate in specific situations</em>.
+</div>
+
+<hr>
+
+<h3>Essential Features of Recursion</h3>
+
+<p>
+Every correct recursive solution MUST contain:
+</p>
+
+<ol>
+<li><strong>A base case</strong></li>
+<li><strong>A recursive case</strong></li>
+<li><strong>Progress toward the base case</strong></li>
+</ol>
+
+<div class="warning">
+<strong>Absolute exam rule:</strong><br>
+No base case = zero credit for recursion explanation.
+</div>
+
+<h4>Base Case</h4>
+<p>
+The base case is the condition that stops the recursion.
+It prevents infinite calls.
+</p>
+
+<h4>Recursive Case</h4>
+<p>
+The recursive case is where the function calls itself with a
+<strong>simpler input</strong>.
+</p>
+
+<div class="exam">
+<strong>Cambridge phrasing to model:</strong><br>
+“The base case stops further recursive calls.”
+</div>
+
+<hr>
+
+<h3>How Recursion Operates (Call Stack)</h3>
+
+<p>
+This is the most examinable part of recursion.
+Students must understand that:
+</p>
+
+<ul>
+<li>Each recursive call is stored on the <strong>call stack</strong></li>
+<li>Local variables are stored separately for each call</li>
+<li>Functions return values in reverse order</li>
+</ul>
+
+<div class="box">
+<strong>Teaching method:</strong><br>
+Physically draw the stack on the board. Do not skip this.
+</div>
+
+<h4>Stack Behaviour</h4>
+<ul>
+<li>Last call made is the first to complete</li>
+<li>Matches LIFO principle</li>
+<li>Very similar to stack data structure</li>
+</ul>
+
+<div class="warning">
+<strong>Examiner trap:</strong><br>
+Students describe recursion but do not mention the call stack.
+</div>
+
+<hr>
+
+<h3>When to Use Recursion</h3>
+
+<p>
+Recursion is suitable when:
+</p>
+
+<ul>
+<li>The problem can be divided into smaller identical problems</li>
+<li>The stopping condition is clear</li>
+<li>The solution is naturally hierarchical</li>
+</ul>
+
+<h4>Typical Exam Examples</h4>
+<ul>
+<li>Factorial</li>
+<li>Fibonacci sequence</li>
+<li>Searching tree structures</li>
+<li>Traversing nested data</li>
+</ul>
+
+<h3>When NOT to Use Recursion</h3>
+
+<ul>
+<li>When iteration is simpler</li>
+<li>When performance is critical</li>
+<li>When stack memory may overflow</li>
+</ul>
+
+<div class="exam">
+<strong>High-mark explanation:</strong><br>
+Recursion can be inefficient due to repeated function calls and stack usage.
+</div>
+
+</div>
+
+<!-- ================= STUDENT PANE ================= -->
+<div class="pane student">
+
+<h1>STUDENT PANE</h1>
+<h2>Recursion (19.2)</h2>
+
+<h3>What Is Recursion?</h3>
+<p>
+Recursion is when a function solves a problem by calling itself.
+Each call works on a smaller version of the problem.
+</p>
+
+<div class="exam">
+<strong>EXAM DEFINITION:</strong><br>
+Recursion is a programming technique where a function calls itself.
+</div>
+
+<h3>The Two Required Parts</h3>
+
+<h4>1. Base Case</h4>
+<p>
+The base case is the condition that stops the recursion.
+</p>
+
+<h4>2. Recursive Case</h4>
+<p>
+The recursive case is where the function calls itself with a simpler value.
+</p>
+
+<div class="warning">
+<strong>Exam warning:</strong><br>
+If you forget the base case, the program will never stop.
+</div>
+
+<h3>Example: Factorial</h3>
+
+<p>
+Factorial of a number n is:
+</p>
+
+<pre>
+n! = n × (n - 1)!
+</pre>
+
+<h4>Pseudocode</h4>
+
+<pre>
+FUNCTION factorial(n)
+    IF n = 0
+        RETURN 1
+    ELSE
+        RETURN n * factorial(n - 1)
+END FUNCTION
+</pre>
+
+<div class="exam">
+<strong>Why this scores full marks:</strong>
+<ul>
+<li>Clear base case</li>
+<li>Recursive call simplifies the problem</li>
+<li>Correct return value</li>
+</ul>
+</div>
+
+<h3>How Recursion Uses Memory</h3>
+
+<p>
+Each recursive call is placed on the call stack.
+</p>
+
+<h4>Example: factorial(3)</h4>
+
+<pre>
+factorial(3)
+→ factorial(2)
+→ factorial(1)
+→ factorial(0)
+</pre>
+
+<p>
+When the base case is reached, values return back up the stack.
+</p>
+
+<div class="box">
+<strong>Order of returns:</strong><br>
+factorial(0) → factorial(1) → factorial(2) → factorial(3)
+</div>
+
+<h3>Tracing Recursion (Exam Skill)</h3>
+
+<p>
+Cambridge often asks you to:
+</p>
+
+<ul>
+<li>Trace recursive calls</li>
+<li>Show return values</li>
+<li>Explain stack behaviour</li>
+</ul>
+
+<h4>Practice Trace</h4>
+
+<pre>
+FUNCTION sum(n)
+    IF n = 0
+        RETURN 0
+    ELSE
+        RETURN n + sum(n - 1)
+END FUNCTION
+</pre>
+
+<p>
+What is the output of <code>sum(3)</code>?
+</p>
+
+<div class="exam">
+<strong>Answer:</strong><br>
+3 + 2 + 1 + 0 = 6
+</div>
+
+<h3>When Should You Use Recursion?</h3>
+
+<ul>
+<li>When the problem repeats itself</li>
+<li>When the solution is easier to understand recursively</li>
+<li>When each step reduces the problem size</li>
+</ul>
+
+<h3>When Should You Avoid Recursion?</h3>
+
+<ul>
+<li>When loops are simpler</li>
+<li>When performance matters</li>
+<li>When memory is limited</li>
+</ul>
+
+<div class="warning">
+<strong>Exam trap:</strong><br>
+Never say “recursion is always better than iteration”.
+</div>
+
+<h3>Exam-Style Practice</h3>
+
+<div class="box">
+1. Define recursion.  
+2. Explain the purpose of a base case.  
+3. Trace the output of a recursive function with input 4.  
+4. State one advantage and one disadvantage of recursion.
+</div>
+
+<div class="exam">
+<strong>Self-check before exam:</strong>
+<ul>
+<li>Can I identify the base case?</li>
+<li>Can I explain stack behaviour?</li>
+<li>Can I trace recursive calls?</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+<!-- ========================================================= -->
+<!-- =============== PART 3 : EXAM MASTERY =================== -->
+<!-- ========================================================= -->
+
+<div class="container">
+
+<!-- ================= TEACHER PANE ================= -->
+<div class="pane teacher">
+
+<h1>TEACHER PANE</h1>
+<h2>Exam Mastery – Section 19 (Paper 4 Focus)</h2>
+
+<h3>How Section 19 Is Examined</h3>
+<p>
+Section 19 knowledge is examined primarily in <strong>Paper 4 (Practical)</strong>,
+but elements also appear in Paper 3 explanations.
+</p>
+
+<ul>
+<li>Algorithm design before coding</li>
+<li>Correct use of selection and iteration</li>
+<li>Appropriate use of recursion</li>
+<li>Clear logic and structure</li>
+</ul>
+
+<div class="exam">
+<strong>Examiner priority:</strong><br>
+Marks are awarded for <em>thinking</em>, not typing speed.
+</div>
+
+<hr>
+
+<h3>Typical Paper 4 Question Pattern</h3>
+
+<ol>
+<li>Problem description</li>
+<li>Inputs and outputs defined</li>
+<li>Requirement to design or complete an algorithm</li>
+<li>Implementation in a chosen language</li>
+<li>Testing or explanation</li>
+</ol>
+
+<div class="warning">
+<strong>Common failure:</strong><br>
+Students jump straight into code without a plan.
+</div>
+
+<hr>
+
+<h3>Teacher Diagnostic Checklist</h3>
+
+<ul>
+<li>Can the student design before coding?</li>
+<li>Can they choose IF vs WHILE correctly?</li>
+<li>Can they justify recursion?</li>
+<li>Can they trace recursive calls?</li>
+</ul>
+
+<div class="box">
+<strong>Intervention tip:</strong><br>
+If a student cannot trace recursion on paper, do not allow them to code it.
+</div>
+
+<hr>
+
+<h3>Mark Allocation Reality</h3>
+
+<p>
+Cambridge awards marks for:
+</p>
+<ul>
+<li>Correct logic</li>
+<li>Correct structure</li>
+<li>Appropriate control flow</li>
+<li>Clear termination conditions</li>
+</ul>
+
+<div class="warning">
+<strong>Zero marks scenario:</strong><br>
+Recursive function without a base case.
+</div>
+
+<hr>
+
+<h3>Teacher Pacing Guide</h3>
+
+<ul>
+<li>Algorithms: 4–6 lessons</li>
+<li>Logic & loops: 3–4 lessons</li>
+<li>Recursion: 5–6 lessons</li>
+<li>Exam mastery & practice: 4 lessons</li>
+</ul>
+
+</div>
+
+<!-- ================= STUDENT PANE ================= -->
+<div class="pane student">
+
+<h1>STUDENT PANE</h1>
+<h2>Exam Mastery – Section 19</h2>
+
+<h3>Paper 4 Practical Task – Example 1</h3>
+
+<div class="box">
+<strong>Task:</strong><br>
+Design an algorithm that inputs 10 numbers and outputs how many are greater than 50.
+</div>
+
+<h4>Step 1: Identify Inputs & Outputs</h4>
+<ul>
+<li>Input: 10 numbers</li>
+<li>Output: count of numbers > 50</li>
+</ul>
+
+<h4>Step 2: Algorithm (Pseudocode)</h4>
+
+<pre>
+SET count ← 0
+FOR i ← 1 TO 10
+    INPUT number
+    IF number > 50
+        count ← count + 1
+    ENDIF
+NEXT i
+OUTPUT count
+</pre>
+
+<div class="exam">
+<strong>Why this scores full marks:</strong>
+<ul>
+<li>Correct loop choice</li>
+<li>Clear condition</li>
+<li>Correct counting logic</li>
+</ul>
+</div>
+
+<hr>
+
+<h3>Paper 4 Practical Task – Example 2 (Recursion)</h3>
+
+<div class="box">
+<strong>Task:</strong><br>
+Write a recursive algorithm to calculate the sum of numbers from 1 to n.
+</div>
+
+<h4>Algorithm</h4>
+
+<pre>
+FUNCTION sum(n)
+    IF n = 0
+        RETURN 0
+    ELSE
+        RETURN n + sum(n - 1)
+END FUNCTION
+</pre>
+
+<div class="exam">
+<strong>Examiner comments:</strong>
+<ul>
+<li>Base case clearly stated</li>
+<li>Recursive case simplifies problem</li>
+<li>Terminates correctly</li>
+</ul>
+</div>
+
+<hr>
+
+<h3>Tracing Question (Very Common)</h3>
+
+<pre>
+FUNCTION mystery(n)
+    IF n = 1
+        RETURN 1
+    ELSE
+        RETURN n * mystery(n - 1)
+END FUNCTION
+</pre>
+
+<p>
+What is the output of <code>mystery(4)</code>?
+</p>
+
+<div class="exam">
+<strong>Answer:</strong><br>
+4 × 3 × 2 × 1 = 24
+</div>
+
+<div class="warning">
+<strong>Exam trap:</strong><br>
+Forgetting that recursive calls return values.
+</div>
+
+<hr>
+
+<h3>Mini Test (Exam Conditions)</h3>
+
+<div class="box">
+<strong>Answer without notes:</strong>
+<ol>
+<li>Define recursion.</li>
+<li>State the purpose of a base case.</li>
+<li>Design an algorithm to find the smallest of 5 numbers.</li>
+<li>Explain one advantage of recursion.</li>
+<li>Explain one disadvantage of recursion.</li>
+</ol>
+</div>
+
+<div class="exam">
+<strong>Model Points:</strong>
+<ul>
+<li>Function calling itself</li>
+<li>Stops infinite recursion</li>
+<li>Clear selection logic</li>
+<li>Elegant solution for repetitive problems</li>
+<li>Uses extra memory / stack</li>
+</ul>
+</div>
+
+<hr>
+
+<h3>Common Examiner Mistakes</h3>
+
+<ul>
+<li>No base case in recursion</li>
+<li>Wrong loop choice</li>
+<li>Unclear algorithm steps</li>
+<li>Using programming syntax in algorithm questions</li>
+</ul>
+
+<div class="warning">
+<strong>Critical warning:</strong><br>
+Do NOT write Python/Java when asked for an algorithm.
+</div>
+
+<hr>
+
+<h3>Final Exam Survival Checklist</h3>
+
+<div class="box">
+<ul>
+<li>I can design algorithms before coding</li>
+<li>I can choose IF, FOR, or WHILE correctly</li>
+<li>I can explain recursion clearly</li>
+<li>I can trace recursive calls</li>
+<li>I always include a base case</li>
+</ul>
+</div>
+
+<div class="exam">
+<strong>If you can tick all of these, you are exam-ready.</strong>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
