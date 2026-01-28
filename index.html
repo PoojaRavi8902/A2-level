@@ -1,304 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Computer Science Resources | Modern English School Cairo</title>
-  <style>
-    /* --- Base Styling --- */
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d0d0f;
-      color: #eaeaea;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8">
+    <title>A Level Computer Science – Learning Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    header {
-      text-align: center;
-      padding: 70px 20px 40px;
-      background: linear-gradient(145deg, #111, #181818, #101010);
-      border-bottom: 2px solid #333;
-    }
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f5f8;
+            color: #333;
+        }
 
-    header h1 {
-      font-size: 2.6rem;
-      color: #f1d18a;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
+        header {
+            background: linear-gradient(135deg, #232526, #414345);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-    header h2 {
-      color: #aaa;
-      font-weight: 400;
-      margin-bottom: 5px;
-    }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
 
-    header p {
-      color: #bbb;
-      font-size: 1rem;
-    }
+        header p {
+            margin-top: 10px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-      padding: 50px;
-      max-width: 1300px;
-      margin: auto;
-    }
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px;
+        }
 
-    /* --- Card Styling --- */
-    .card {
-      background-color: #1a1a1d;
-      border: 1px solid #2f2f33;
-      border-radius: 16px;
-      padding: 25px;
-      transition: 0.3s;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
+        section {
+            background: white;
+            margin-bottom: 28px;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
-      border-color: #f1d18a;
-    }
+        section h2 {
+            margin-top: 0;
+            color: #232526;
+            border-left: 6px solid #6c757d;
+            padding-left: 12px;
+        }
 
-    .card h3 {
-      color: #f1d18a;
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
+        ul {
+            list-style: none;
+            padding-left: 0;
+            columns: 2;
+        }
 
-    .card p {
-      font-size: 0.95rem;
-      color: #cfcfcf;
-      margin-bottom: 15px;
-      min-height: 50px;
-    }
+        li {
+            margin: 9px 0;
+        }
 
-    .card a {
-      text-decoration: none;
-      color: #00adb5;
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 5px;
-      transition: color 0.3s;
-    }
+        a {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 500;
+        }
 
-    .card a:hover {
-      color: #f1d18a;
-    }
+        a:hover {
+            text-decoration: underline;
+            color: #212529;
+        }
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      border-top: 1px solid #333;
-      font-size: 0.9rem;
-      color: #999;
-    }
+        footer {
+            background: #e9ecef;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
 
-    footer span {
-      color: #f1d18a;
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 2rem; }
-      .container { padding: 20px; }
-    }
-  </style>
+        @media (max-width: 800px) {
+            ul {
+                columns: 1;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <header>
-    <h1>Computer Science Interactive Resources</h1>
-    <h2>Modern English School Cairo</h2>
-    <p>Prepared by <strong>Ravi Raju</strong></p>
-  </header>
+<header>
+    <h1>A Level Computer Science</h1>
+    <p>AS • A2 • Programming • Logic • Advanced Topics</p>
+</header>
 
-  <main class="container">
-    <!-- --- Existing Pages --- -->
+<main>
 
-    <div class="card">
-      <h3>Chapter 13 – Data Representation (Year 12)</h3>
-      <p>Learn binary, hexadecimal, character encoding, and how text, images, and sound are represented in digital systems.</p>
-      <a href="data-representation-y12.html" target="_blank">Open Notes →</a>
-    </div>
+    <section>
+        <h2>📘 Core AS / Year 12 Topics</h2>
+        <ul>
+            <li><a href="12-Data-Representation1.html">Data Representation</a></li>
+            <li><a href="data-representation-y12.html">Data Representation – Year 12</a></li>
+            <li><a href="12-System-Software1.html">System Software</a></li>
+            <li><a href="12-Hardware-Virtual-Machines.html">Hardware & Virtual Machines</a></li>
+            <li><a href="15-1-processor-fundamentals.html">Processor Fundamentals</a></li>
+            <li><a href="12-Security.html">Security</a></li>
+            <li><a href="17-security.html">Security – Advanced</a></li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <h3>Chapter 13 – Data Representation Assessment</h3>
-      <p>Test your understanding of number systems, encoding, and binary conversions through this interactive assessment.</p>
-      <a href="data-representation-assessment.html" target="_blank">Open Assessment →</a>
-    </div>
+    <section>
+        <h2>🌐 Communication & Internet Technologies</h2>
+        <ul>
+            <li><a href="communication-internet-tech.html">Communication & Internet Technologies</a></li>
+            <li><a href="12-Communication-Internet-Tech1.html">Internet Technologies – Lesson</a></li>
+            <li><a href="communication-internet-tech-bookquestions.html">Book Questions</a></li>
+            <li><a href="communication-internet-tech-assessment.html">Assessment</a></li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <h3>Chapter 14 – Communication & Internet Technologies</h3>
-      <p>Understand how data is transmitted, protocols like TCP/IP, and OSI layers through clear diagrams and notes.</p>
-      <a href="communication-internet-tech.html" target="_blank">Open Notes →</a>
-    </div>
+    <section>
+        <h2>🖥️ Hardware & System Software</h2>
+        <ul>
+            <li><a href="Hardware and Virtual Machine.html">Hardware & Virtual Machines</a></li>
+            <li><a href="Hardware-assessment.html">Hardware – Assessment</a></li>
+            <li><a href="a2-system-software.html">A2 System Software</a></li>
+            <li><a href="software-development.html">Software Development</a></li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <h3>Chapter 14 – Communication & Internet Technologies Assessment</h3>
-      <p>Assess your grasp of networking, protocols, and security with detailed MCQs and short questions.</p>
-      <a href="communication-internet-tech-assessment.html" target="_blank">Open Assessment →</a>
-    </div>
+    <section>
+        <h2>🔢 Logic, Gates & Boolean Algebra</h2>
+        <ul>
+            <li><a href="LogicalGates.html">Logical Gates</a></li>
+            <li><a href="Boolean-Algebra2.html">Boolean Algebra</a></li>
+            <li><a href="logic-gates-boolean-algebra.html">Logic Gates & Boolean Algebra</a></li>
+            <li><a href="logicgates-booleanalgebra-assessment.html">Assessment</a></li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <h3>Chapter 14 – Bookback Questions</h3>
-      <p>Access textbook-style revision and structured questions from the Communication & Internet Technologies chapter.</p>
-      <a href="communication-internet-tech-bookquestions.html" target="_blank">View Questions →</a>
-    </div>
+    <section>
+        <h2>💻 Programming & Data Structures</h2>
+        <ul>
+            <li><a href="arraysnew.html">Arrays</a></li>
+            <li><a href="pythonArrays.html">Python Arrays</a></li>
+            <li><a href="queue.html">Queue</a></li>
+            <li><a href="stack.html">Stack</a></li>
+            <li><a href="oopdetailed.html">Object-Oriented Programming</a></li>
+            <li><a href="datafilesPython.html">Data Files – Python</a></li>
+            <li><a href="a2-java-prg-data-rep.html">Java Programming – Data Representation</a></li>
+            <li><a href="java-assessment.html">Java – Assessment</a></li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <h3>Chapter 15 – Hardware & Virtual Machine</h3>
-      <p>Explore computer architecture, processor design, instruction sets, and the concept of virtual machines.</p>
-      <a href="Hardware and Virtual Machine.html" target="_blank">Open Notes →</a>
-    </div>
+    <section>
+        <h2>🚀 Advanced A2 Topics</h2>
+        <ul>
+            <li><a href="18-Artificial-Intelligence.html">Artificial Intelligence</a></li>
+            <li><a href="19-computational-thinking.html">Computational Thinking</a></li>
+            <li><a href="20-further-programming.html">Further Programming</a></li>
+            <li><a href="ch-23-algorithms.html">Algorithms</a></li>
+            <li><a href="Chapter25_Programming_Paradigms_Ravi_Raju.html">Programming Paradigms</a></li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <h3>Chapter 15 – Hardware Assessment</h3>
-      <p>Interactive quiz and structured questions to evaluate your understanding of hardware components and virtualization.</p>
-      <a href="Hardware-assessment.html" target="_blank">Open Assessment →</a>
-    </div>
+    <section>
+        <h2>📝 Practicals & Assessments</h2>
+        <ul>
+            <li><a href="A-level-practical1.html">A Level Practical – 1</a></li>
+            <li><a href="A-level-practical2.html">A Level Practical – 2</a></li>
+            <li><a href="data-representation-assessment.html">Data Representation – Assessment</a></li>
+            <li><a href="Practical-Chapter19.html">Practical – Computational Thinking</a></li>
+        </ul>
+    </section>
 
-    <div class="card">
-      <h3>Chapter 19 – Logic Gates & Boolean Algebra</h3>
-      <p>Detailed notes on logic circuits, Boolean laws, simplification techniques, and Karnaugh maps with examples.</p>
-      <a href="logic-gates-boolean-algebra.html" target="_blank">Open Notes →</a>
-    </div>
+</main>
 
-    <div class="card">
-      <h3>Chapter 19 – Logic Gates & Boolean Algebra Assessment</h3>
-      <p>Challenge yourself with MCQs, short answers, and scenario-based problems on logic circuits and Boolean simplification.</p>
-      <a href="logicgates-booleanalgebra-assessment.html" target="_blank">Open Assessment →</a>
-    </div>
-
-    <!-- --- Newly Added Pages --- -->
-
-    <div class="card">
-      <h3>Chapter 17 – Security</h3>
-      <p>Explore cybersecurity concepts, encryption, malware, and best practices for protecting digital systems.</p>
-      <a href="17-security.html" target="_blank">Open Notes →</a>
-    </div>
-
-    <div class="card">
-      <h3>Chapter 18 – Artificial Intelligence (AI)</h3>
-      <p>Learn about AI concepts, machine learning, neural networks, and applications in modern technology.</p>
-      <a href="18-Artificial-Intelligence.html" target="_blank">Open Notes →</a>
-    </div>
-
-    <div class="card">
-      <h3>Chapter 19 – Computational Thinking & Problem Solving</h3>
-      <p>Develop logical thinking, problem-solving strategies, algorithms, and computational methods for effective programming.</p>
-      <a href="19-computational-thinking.html" target="_blank">Open Notes →</a>
-    </div>
-
-    <div class="card">
-      <h3>A-Level Practical 1</h3>
-      <p>Interactive exercises and practical tasks to strengthen your Python and programming skills at the A-Level.</p>
-      <a href="A-level-practical1.html" target="_blank">Open Practical →</a>
-    </div>
-
-    <div class="card">
-      <h3>A-Level Practical 2</h3>
-      <p>Advanced A-Level programming tasks with Python, focusing on algorithms, data structures, and problem solving.</p>
-      <a href="A-level-practical2.html" target="_blank">Open Practical →</a>
-      </div>
-
-     <div class="card">
-      <h3>A-Level Practical-Python Arrays-23/Nov/2025</h3>
-      <p>Advanced A-Level programming tasks with Python, focusing on Arrays.</p>
-      <a href="pythonArrays.html" target="_blank">Arrays Part1 →</a>
-    </div>
-
-    <div class="card">
-      <h3>Chapter 20 – Further Programming</h3>
-      <p>Deep dive into Python programming, covering functions, file handling, OOP concepts, and project-based exercises.</p>
-      <a href="20-further-programming.html" target="_blank">Open Notes →</a>
-    </div>
-
-    <!-- --- Existing Pages Continued --- -->
-
-    <div class="card">
-      <h3>Chapter 20 – Software Development</h3>
-      <p>Learn about software engineering principles, development life cycles, testing methods, and documentation standards.</p>
-      <a href="software-development.html" target="_blank">Open Notes →</a>
-    </div>
-        <div class="card">
-      <h3>Chapter 19 – Recursion</h3>
-      <p>All about Recursive function.</p>
-      <a href="Practical-Chapter19.html" target="_blank">Full details →</a>
-    </div>
-
-    <div class="card">
-      <h3>Chapter 23 – Algorithms</h3>
-      <p>Study algorithm design, efficiency, flowcharts, and pseudocode examples aligned with the Cambridge syllabus.</p>
-      <a href="ch-23-algorithms.html" target="_blank">Open Notes →</a>
-    </div>
-    <div class="card">
-      <h3>Chapter 15.1-Processor Fundamentals</h3>
-      <p>Study Processor Fundamental aligned with the Cambridge syllabus.</p>
-      <a href="15-1-processor-fundamentals.html" target="_blank">Open Notes →</a>
-    </div>
-
-
-    <div class="card">
-      <h3>Chapter 19-Logical Gates</h3>
-      <p>Study with the Cambridge syllabus.</p>
-      <a href="LogicalGates.html" target="_blank">Open Notes →</a>
-      <a href="Boolean-Algebra2.html" target="_blank"> teaching notes -></a>
-    </div>
-
-     <div class="card">
-      <h3>Data Files</h3>
-      <p>Study with the Cambridge syllabus.</p>
-      <a href="datafilesPython.html" target="_blank">Data Files →</a>
-      </div>
-
-    <div class="card">
-      <h3>Arrays the Basics</h3>
-      <p>Study with the Cambridge syllabus.</p>
-      <a href="arraysnew.html" target="_blank">Array Basics →</a>
-      </div>
-
-    <div class="card">
-      <h3>Stacks in Python</h3>
-      <p>Study with the Cambridge syllabus.</p>
-      <a href="stack.html" target="_blank">Stack-LIFO →</a>
-      </div>
-
-
-
-     <div class="card">
-      <h3>Queue Operations</h3>
-      <p>Study with the Cambridge syllabus.</p>
-      <a href="queue.html" target="_blank">Queue →</a>
-      </div>
-
-    <div class="card">
-      <h3>Class-OOPs</h3>
-      <p>Study with the Cambridge syllabus.</p>
-      <a href="oopdetailed.html" target="_blank">Class-Object →</a>
-</div>
-    
-  </main>
-
-  <footer>
-    © <span>Modern English School Cairo</span> | Prepared by <span>Ravi Raju</span> | All Rights Reserved
-  </footer>
+<footer>
+    © A Level Computer Science | Structured for mastery & depth
+</footer>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
