@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Level Computer Science – Algorithms & Data Structures</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f4f6f8;
+    }
+
+    header {
+        background-color: #1e3a8a;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1.2fr;
+        gap: 10px;
+        padding: 10px;
+        height: calc(100vh - 100px);
+    }
+
+    .pane {
+        background-color: white;
+        padding: 15px;
+        overflow-y: scroll;
+        border-radius: 6px;
+        box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        border-bottom: 2px solid #1e3a8a;
+        padding-bottom: 5px;
+    }
+
+    h3 {
+        color: #1e3a8a;
+    }
+
+    pre {
+        background-color: #eef2ff;
+        padding: 10px;
+        overflow-x: auto;
+        border-radius: 4px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 6px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #e0e7ff;
+    }
+
+    .tip {
+        background-color: #ecfeff;
+        border-left: 5px solid #0ea5e9;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .warning {
+        background-color: #fff7ed;
+        border-left: 5px solid #f97316;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .practice {
+        background-color: #f0fdf4;
+        border-left: 5px solid #22c55e;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+/* === VISUAL ARRAY === */
+.array {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.box {
+    width: 40px;
+    height: 40px;
+    background: #e0e7ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.active {
+    background: #22c55e;
+    color: white;
+}
+
+.checked {
+    background: #f97316;
+    color: white;
+}
+
+.swap {
+    background: #ef4444;
+    color: white;
+}
+
+button {
+    padding: 6px 10px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>A Level Computer Science – Algorithms, Recursion & Data Structures</h1>
+    <p>Chapter 19: Thinking About Code</p>
+</header>
+
+<div class="container">
+
+<!-- ================= TEACHER PANE ================= -->
+<div class="pane">
+<h2>Teacher Pane</h2>
+
+<h3>Chapter Philosophy</h3>
+<p>
+This chapter marks the conceptual shift from “writing working code” to
+“writing efficient, structured, and analysable code”. Students must learn
+to justify algorithm choice using <strong>Big O notation</strong> and
+to reason about behaviour using <strong>trace tables</strong>.
+</p>
+
+<div class="tip">
+<strong>Teaching Tip:</strong>  
+Always ask: “What happens if the data doubles?”  
+This reinforces complexity thinking naturally.
+</div>
+
+<h3>Searching Algorithms – Examiner Insight</h3>
+<p>
+Binary search is often incorrectly applied to unsorted lists.
+Deduct marks immediately if students fail to state the pre-condition.
+</p>
+
+<div class="warning">
+<strong>Common Error:</strong>  
+Students say “Binary search is always faster”.  
+Correct answer: “Binary search is faster <em>only if</em> the data is sorted.”
+</div>
+
+<h3>Sorting Algorithms – Mark Scheme Patterns</h3>
+<ul>
+<li>Bubble sort: reward understanding of swapping and passes</li>
+<li>Insertion sort: reward explanation of shifting, not swapping</li>
+<li>Big O must match worst case</li>
+</ul>
+
+<h3>Recursion – How to Teach It Safely</h3>
+<p>
+Students fear recursion. Use stack diagrams relentlessly.
+Force them to write the base case first in exams.
+</p>
+
+<h3>ADTs – Why They Matter</h3>
+<p>
+Emphasise that ADTs describe <strong>behaviour</strong>, not implementation.
+This distinction is crucial for higher-band answers.
+</p>
+
+<h3>File Handling – Paper 4 Gold Mine</h3>
+<p>
+Random access questions are high-value marks.
+Most students fail because they misunderstand record size.
+</p>
+
+</div>
+
+<!-- ================= STUDENT PANE ================= -->
+<div class="pane">
+<h2>Student Pane</h2>
+
+<h3>Introduction</h3>
+<p>
+In AS Level, you learned how to write programs that work.
+In A Level, you learn how to write programs that work <strong>well</strong>.
+This means writing code that is fast, efficient, and scalable.
+</p>
+
+<h3>Linear Search</h3>
+<p>
+Linear search checks each item one by one until the target is found.
+</p>
+
+<pre>
+FUNCTION LinearSearch(list, target) RETURNS INTEGER
+    FOR index ← 0 TO LENGTH(list) - 1
+        IF list[index] = target THEN
+            RETURN index
+        ENDIF
+    NEXT index
+    RETURN -1
+ENDFUNCTION
+</pre>
+
+<p><strong>Efficiency:</strong> O(n)</p>
+
+<h3>Binary Search</h3>
+<p>
+Binary search repeatedly cuts the search space in half.
+It only works on <strong>sorted data</strong>.
+</p>
+
+<pre>
+FUNCTION BinarySearch(list, target) RETURNS INTEGER
+    low ← 0
+    high ← LENGTH(list) - 1
+    WHILE low <= high
+        mid ← (low + high) DIV 2
+        IF list[mid] = target THEN
+            RETURN mid
+        ELSE IF list[mid] < target THEN
+            low ← mid + 1
+        ELSE
+            high ← mid - 1
+        ENDIF
+    ENDWHILE
+    RETURN -1
+ENDFUNCTION
+</pre>
+
+<p><strong>Efficiency:</strong> O(log n)</p>
+
+<h3>Bubble Sort</h3>
+<p>
+Bubble sort repeatedly swaps adjacent items if they are in the wrong order.
+</p>
+
+<h3>Insertion Sort</h3>
+<p>
+Insertion sort builds a sorted list one item at a time by shifting elements.
+</p>
+
+<h3>Recursion</h3>
+<p>
+A recursive function calls itself.  
+It must always have:
+</p>
+<ol>
+<li>A base case</li>
+<li>A recursive call</li>
+<li>Progress toward the base case</li>
+</ol>
+
+<pre>
+FUNCTION Factorial(n)
+    IF n = 0 THEN
+        RETURN 1
+    ELSE
+        RETURN n * Factorial(n - 1)
+    ENDIF
+ENDFUNCTION
+</pre>
+
+<h3>Abstract Data Types</h3>
+<ul>
+<li>Stacks – LIFO</li>
+<li>Queues – FIFO</li>
+<li>Linked Lists – dynamic structures</li>
+<li>Binary Trees – hierarchical data</li>
+</ul>
+
+<h3>Big O Summary</h3>
+<table>
+<tr><th>Algorithm</th><th>Worst Case</th></tr>
+<tr><td>Linear Search</td><td>O(n)</td></tr>
+<tr><td>Binary Search</td><td>O(log n)</td></tr>
+<tr><td>Bubble Sort</td><td>O(n²)</td></tr>
+<tr><td>Insertion Sort</td><td>O(n²)</td></tr>
+</table>
+
+</div>
+
+<!-- ================= PRACTICE PANE ================= -->
+<div class="pane">
+<h2>Practice Pane</h2>
+
+<!-- ================= HIDE / SHOW ANSWER ================= -->
+<div class="practice">
+<h3>Practice 1 – Big O</h3>
+<p>What is the worst-case complexity of Binary Search?</p>
+
+<input type="text" id="bigOAnswer" placeholder="Type answer here">
+<button onclick="checkBigO()">Check</button>
+<p id="bigOResult"></p>
+
+<button onclick="toggleAnswer('ans1')">Show Answer</button>
+<p id="ans1" style="display:none;"><strong>Answer:</strong> O(log n)</p>
+</div>
+
+<!-- ================= LINEAR SEARCH ANIMATION ================= -->
+<div class="practice">
+<h3>Practice 2 – Linear Search Animation</h3>
+<p>Target = 4</p>
+
+<div id="linearArray" class="array"></div>
+<button onclick="startLinearSearch()">Start Linear Search</button>
+<button onclick="resetLinear()">Reset</button>
+</div>
+
+<!-- ================= BINARY SEARCH ANIMATION ================= -->
+<div class="practice">
+<h3>Practice 3 – Binary Search Animation</h3>
+<p>Target = 7 (Sorted List)</p>
+
+<div id="binaryArray" class="array"></div>
+<button onclick="startBinarySearch()">Start Binary Search</button>
+<button onclick="resetBinary()">Reset</button>
+</div>
+
+<!-- ================= BUBBLE SORT ANIMATION ================= -->
+<div class="practice">
+<h3>Practice 4 – Bubble Sort Animation</h3>
+
+<div id="bubbleArray" class="array"></div>
+<button onclick="startBubbleSort()">Start Bubble Sort</button>
+<button onclick="resetBubble()">Reset</button>
+</div>
+
+</div>
+
+<div class="pane">
+<h2>Practice Pane</h2>
+
+<div class="practice">
+<h3>Practice 1 – Binary Search</h3>
+<p>
+State two reasons why binary search may fail in an exam answer.
+</p>
+</div>
+
+<div class="practice">
+<h3>Practice 2 – Trace Table</h3>
+<p>Complete the trace table for:</p>
+<pre>
+Puzzle(13, 3)
+</pre>
+</div>
+
+<div class="practice">
+<h3>Practice 3 – Big O</h3>
+<p>
+Explain why O(log n) is faster than O(n) for large values of n.
+</p>
+</div>
+
+<div class="practice">
+<h3>Practice 4 – Random Access Files</h3>
+<p>
+If RECORD_SIZE = 40 and part_id = 7, what byte address is used?
+</p>
+</div>
+
+<div class="practice">
+<h3>Stretch Challenge</h3>
+<p>
+Rewrite a recursive function using iteration.
+Explain which version uses more memory and why.
+</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+/* ================= UTILITIES ================= */
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function toggleAnswer(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === "none" ? "block" : "none";
+}
+
+/* ================= AUTO MARKING ================= */
+function checkBigO() {
+    const ans = document.getElementById("bigOAnswer").value.trim().toLowerCase();
+    const res = document.getElementById("bigOResult");
+    if (ans === "o(log n)" || ans === "log n") {
+        res.innerHTML = "✅ Correct!";
+        res.style.color = "green";
+    } else {
+        res.innerHTML = "❌ Incorrect. Try again.";
+        res.style.color = "red";
+    }
+}
+
+/* ================= LINEAR SEARCH ================= */
+let linearData = [3, 6, 1, 4, 9];
+let linearTarget = 4;
+
+function drawLinear() {
+    const container = document.getElementById("linearArray");
+    container.innerHTML = "";
+    linearData.forEach(v => {
+        const d = document.createElement("div");
+        d.className = "box";
+        d.textContent = v;
+        container.appendChild(d);
+    });
+}
+
+async function startLinearSearch() {
+    const boxes = document.querySelectorAll("#linearArray .box");
+    for (let i = 0; i < boxes.length; i++) {
+        boxes[i].classList.add("checked");
+        await sleep(600);
+        if (linearData[i] === linearTarget) {
+            boxes[i].classList.remove("checked");
+            boxes[i].classList.add("active");
+            break;
+        }
+    }
+}
+
+function resetLinear() {
+    drawLinear();
+}
+
+/* ================= BINARY SEARCH ================= */
+let binaryData = [1, 3, 5, 7, 9, 11, 13];
+let binaryTarget = 7;
+
+function drawBinary() {
+    const container = document.getElementById("binaryArray");
+    container.innerHTML = "";
+    binaryData.forEach(v => {
+        const d = document.createElement("div");
+        d.className = "box";
+        d.textContent = v;
+        container.appendChild(d);
+    });
+}
+
+async function startBinarySearch() {
+    let low = 0;
+    let high = binaryData.length - 1;
+    const boxes = document.querySelectorAll("#binaryArray .box");
+
+    while (low <= high) {
+        let mid = Math.floor((low + high) / 2);
+
+        boxes[mid].classList.add("active");
+        await sleep(800);
+
+        if (binaryData[mid] === binaryTarget) break;
+        if (binaryData[mid] < binaryTarget) low = mid + 1;
+        else high = mid - 1;
+
+        boxes[mid].classList.remove("active");
+    }
+}
+
+function resetBinary() {
+    drawBinary();
+}
+
+/* ================= BUBBLE SORT ================= */
+let bubbleData = [5, 1, 4, 2];
+
+function drawBubble() {
+    const container = document.getElementById("bubbleArray");
+    container.innerHTML = "";
+    bubbleData.forEach(v => {
+        const d = document.createElement("div");
+        d.className = "box";
+        d.textContent = v;
+        container.appendChild(d);
+    });
+}
+
+async function startBubbleSort() {
+    const n = bubbleData.length;
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+            const boxes = document.querySelectorAll("#bubbleArray .box");
+            boxes[j].classList.add("checked");
+            boxes[j + 1].classList.add("checked");
+            await sleep(600);
+
+            if (bubbleData[j] > bubbleData[j + 1]) {
+                [bubbleData[j], bubbleData[j + 1]] =
+                [bubbleData[j + 1], bubbleData[j]];
+                drawBubble();
+                await sleep(600);
+            }
+        }
+    }
+}
+
+function resetBubble() {
+    bubbleData = [5, 1, 4, 2];
+    drawBubble();
+}
+
+/* ================= INIT ================= */
+drawLinear();
+drawBinary();
+drawBubble();
+</script>
+
+</body>
+</html>
