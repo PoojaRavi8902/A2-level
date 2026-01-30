@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 26 – File Handling & Exception Handling (Full Deep Dive)</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#ffffff;color:#0033cc;line-height:1.75}
+header,footer{text-align:center;padding:24px;font-size:20px;font-weight:bold}
+main{max-width:1200px;margin:auto;padding:40px}
+h1,h2,h3,h4{color:#002699}
+section{margin-bottom:60px}
+pre{background:#f2f6ff;border-left:6px solid #0033cc;padding:18px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:24px 0}
+th,td{border:1px solid #0033cc;padding:12px;vertical-align:top}
+th{background:#e6eeff}
+.examtip{background:#eef3ff;border-left:6px solid #002699;padding:16px;margin:22px 0}
+.exercise,.quiz,.longq{border:2px dashed #0033cc;padding:20px;margin:28px 0}
+textarea{width:100%;min-height:160px;margin-top:10px;padding:12px}
+button{margin-top:12px;padding:10px 20px;font-size:16px;border:none;border-radius:6px;background:#0033cc;color:white;cursor:pointer}
+.answer{display:none;margin-top:16px;padding:16px;border-top:2px dashed #0033cc}
+</style>
+</head>
+<body>
+<header>
+Cambridge A Level Computer Science (9618)<br>
+<b>Chapter 26 – File Processing & Exception Handling</b><br>
+Prepared by Ravi
+</header>
+
+<main>
+
+<section>
+<h1>Introduction and Examiner Perspective</h1>
+<p>
+File handling is one of the most strategically important topics in the Cambridge International A Level Computer Science (9618) syllabus. Unlike many theoretical topics, file processing appears repeatedly across <b>Paper 2 (Algorithms & Programming)</b> and <b>Paper 4 (Practical)</b>. Candidates are expected to demonstrate conceptual understanding, trace program behaviour accurately, and write complete, error-free programs involving persistent storage.
+</p>
+<p>
+In real-world computing systems, data must persist beyond the execution of a program. A banking system must remember account balances, a school management system must store student records, and a library system must maintain details of books and borrowers. All such systems rely on file handling. This chapter therefore connects abstract programming concepts with realistic system design.
+</p>
+<p>
+In addition, programs that interact with files are particularly vulnerable to run-time errors: files may not exist, data may be corrupted, or the end of a file may be reached unexpectedly. For this reason, Cambridge explicitly links file processing with <b>exception handling</b>. Robust programs must anticipate these problems and handle them gracefully rather than crashing.
+</p>
+</section>
+
+<section>
+<h2>Learning Objectives</h2>
+<ul>
+<li>Open files in read, write, append and random-access modes</li>
+<li>Read and write complete records to files</li>
+<li>Distinguish between serial, sequential and random file access</li>
+<li>Trace file pointer movement accurately</li>
+<li>Understand and apply exception handling</li>
+<li>Write safe, exam-ready Python file-processing programs</li>
+</ul>
+</section>
+
+<section>
+<h2>26.01 Records – The Foundation of File Processing</h2>
+<p>
+A <b>record</b> is a user-defined data type that groups related data items together under a single name. Each field in a record can be of a different data type. Records are essential when modelling real-world entities because most real objects have multiple attributes.
+</p>
+<p>
+For example, a car cannot be adequately described using a single variable. Instead, we need a vehicle identifier, engine size, registration number, date of registration and purchase price. Grouping these into a record ensures that all information relating to one car is stored and processed together.
+</p>
+<p>
+Cambridge examiners frequently expect candidates to explicitly state that a record is a <b>user-defined data type</b>. This wording is important and often earns direct marks in theory questions.
+</p>
+
+<h3>Implementing Records in Python</h3>
+<p>
+Python does not provide a built-in record or structure type. However, a class with only attributes and a constructor can be used to represent a record. No additional methods are required.
+</p>
+<pre>
+class CarRecord:
+    def __init__(self):
+        self.VehicleID = ""
+        self.Registration = ""
+        self.DateOfRegistration = None
+        self.EngineSize = 0
+        self.PurchasePrice = 0.0
+</pre>
+<p>
+Each instance of <code>CarRecord</code> represents one record. Assigning values to the attributes is equivalent to assigning values to record fields in pseudocode.
+</p>
+
+<h3>Arrays (Lists) of Records</h3>
+<p>
+In most applications, multiple records must be processed together. Python allows objects to be stored in lists, effectively creating an array of records.
+</p>
+<pre>
+cars = [CarRecord() for i in range(100)]
+cars[0].VehicleID = "A123"
+cars[0].EngineSize = 2000
+</pre>
+<p>
+This structure is particularly important for <b>sequential file processing</b>, where all records are written to or read from a file in order.
+</p>
+
+<div class="examtip">
+<b>Exam Tip:</b> When asked about records, always mention grouping related fields and modelling real-world entities.
+</div>
+</section>
+
+<section>
+<h2>26.02 File Processing – Concepts and Terminology</h2>
+<p>
+File processing refers to the reading and writing of data to secondary storage. Unlike variables stored in memory, file data persists after the program terminates.
+</p>
+<p>
+Cambridge distinguishes between three file access methods: <b>serial</b>, <b>sequential</b> and <b>random (direct)</b>. These terms are frequently tested and must not be confused.
+</p>
+
+<h3>Serial vs Sequential vs Random Access</h3>
+<table>
+<tr>
+<th>Access Method</th>
+<th>Description</th>
+<th>Characteristics</th>
+<th>Typical Use</th>
+</tr>
+<tr>
+<td>Serial</td>
+<td>Data items are processed one at a time in a simple stream</td>
+<td>No structure, often text-based</td>
+<td>Logs, simple text output</td>
+</tr>
+<tr>
+<td>Sequential</td>
+<td>Records are stored and accessed in a fixed order</td>
+<td>Uses end-of-file detection</td>
+<td>Saving arrays of records</td>
+</tr>
+<tr>
+<td>Random</td>
+<td>Records accessed directly using calculated addresses</td>
+<td>Requires fixed-length records</td>
+<td>Databases, large systems</td>
+</tr>
+</table>
+
+<div class="examtip">
+<b>Exam Tip:</b> Random-access files require fixed-length records so that record addresses can be calculated.
+</div>
+</section>
+
+<section>
+<h2>Sequential File Processing (9618 Paper 4)</h2>
+<p>
+Sequential file processing is the most commonly examined form of file handling in Paper 4. Candidates are expected to write complete programs that save records to a file and restore them correctly.
+</p>
+
+<h3>Writing Records to a Sequential File</h3>
+<pre>
+import pickle
+
+cars = [CarRecord() for i in range(3)]
+cars[0].VehicleID = "A1"
+cars[1].VehicleID = "A2"
+
+with open("cars.dat", "wb") as f:
+    for car in cars:
+        pickle.dump(car, f)
+</pre>
+
+<h3>Reading Records from a Sequential File</h3>
+<pre>
+import pickle
+cars = []
+with open("cars.dat", "rb") as f:
+    try:
+        while True:
+            cars.append(pickle.load(f))
+    except EOFError:
+        pass
+</pre>
+
+<div class="examtip">
+<b>Paper 4 Requirement:</b> Programs must not crash at end-of-file. Use <code>EOFError</code> handling.
+</div>
+</section>
+
+<section>
+<h2>Trace Tables – File Pointer Behaviour</h2>
+<p>
+Trace-table questions are common in Paper 2. Candidates must understand how the file pointer moves as records are read.
+</p>
+<pre>
+file = open("cars.dat", "rb")
+a = pickle.load(file)
+b = pickle.load(file)
+file.close()
+</pre>
+
+<div class="quiz">
+<p><b>Trace Question:</b> How many records have been read when <code>b</code> is assigned?</p>
+<select id="trace1">
+<option value="">Select</option>
+<option value="a">1</option>
+<option value="b">2</option>
+<option value="c">3</option>
+</select>
+<button onclick="markTrace()">Check</button>
+<p id="traceRes"></p>
+</div>
+</section>
+
+<section>
+<h2>Random-Access File Processing</h2>
+<p>
+Random-access files allow direct retrieval and updating of records without reading all preceding records. This makes them suitable for large datasets.
+</p>
+<p>
+To achieve direct access, each record must be of fixed length so that its starting address can be calculated mathematically.
+</p>
+
+<h3>Address Calculation</h3>
+<pre>
+Address = (RecordNumber - 1) × RecordSize
+</pre>
+
+<h3>Python Example</h3>
+<pre>
+record_size = 80
+with open("cars.dat", "rb+") as f:
+    address = (3 - 1) * record_size
+    f.seek(address)
+    pickle.dump(thisCar, f)
+</pre>
+</section>
+
+<section>
+<h2>26.03 Exception Handling</h2>
+<p>
+An <b>exception</b> is a run-time error that occurs while a program is executing. Without exception handling, such errors would cause the program to crash.
+</p>
+
+<h3>Common Python Exceptions</h3>
+<ul>
+<li>IOError – file cannot be opened</li>
+<li>EOFError – end of file reached</li>
+<li>ValueError – invalid data conversion</li>
+</ul>
+
+<h3>Using try–except–finally</h3>
+<pre>
+try:
+    f = open("data.dat", "rb")
+    record = pickle.load(f)
+except EOFError:
+    print("End of file reached")
+except IOError:
+    print("File error")
+finally:
+    f.close()
+</pre>
+</section>
+
+<section>
+<h2>Exam-Style Long Question</h2>
+<div class="longq">
+<p>
+A hospital stores patient records in a random-access file.
+</p>
+<p>
+Explain why random-access file processing is suitable for this system. [4]
+</p>
+<textarea></textarea>
+<button onclick="showAns('lq')">Show Mark Scheme</button>
+<div id="lq" class="answer">
+<ul>
+<li>Large number of records</li>
+<li>Direct access to individual records</li>
+<li>Faster than sequential access</li>
+<li>Fixed-length records allow address calculation</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Chapter 26 Mini-Test (Timed Assessment)</h2>
+<p>
+This section is a <b>35-mark, 45-minute mini-test</b> designed to simulate Cambridge 9618 Paper 2 / Paper 4 style questions. Students should attempt this section under exam conditions.
+</p>
+
+<div id="timer">Time Remaining: 45:00</div>
+
+<h3>Instructions</h3>
+<p>
+Answer all questions. Use Python-style pseudocode where appropriate. Do not reveal mark schemes until you have completed each question.
+</p>
+
+<div class="question">
+<h4>Question 1 – File Access Concepts <span class="marks">[6]</span></h4>
+<p>(a) Define a sequential file. [2]<br>(b) State one advantage of sequential file processing. [1]<br>(c) Explain why random-access files require fixed-length records. [3]</p>
+<textarea></textarea>
+<button onclick="showAns('q1')">Submit</button>
+<div id="q1" class="answer">
+<ul>
+<li>Records stored and accessed one after another in order</li>
+<li>Simple to implement / suitable for processing all records</li>
+<li>Address calculation depends on record size / allows direct access</li>
+</ul>
+</div>
+</div>
+
+<div class="question">
+<h4>Question 2 – Sequential File Processing <span class="marks">[8]</span></h4>
+<p>(a) Write Python code to save records to a sequential file. [4]<br>(b) Write Python code to read the records back. [4]</p>
+<textarea></textarea>
+<button onclick="showAns('q2')">Submit</button>
+<div id="q2" class="answer">
+<pre>
+import pickle
+with open("students.dat","wb") as f:
+    for s in students:
+        pickle.dump(s,f)
+
+students=[]
+with open("students.dat","rb") as f:
+    try:
+        while True:
+            students.append(pickle.load(f))
+    except EOFError:
+        pass
+</pre>
+</div>
+</div>
+
+<div class="question">
+<h4>Question 3 – Trace Table <span class="marks">[6]</span></h4>
+<p>How many records have been read when variable <b>b</b> is assigned? State the file pointer position.</p>
+<textarea></textarea>
+<button onclick="showAns('q3')">Submit</button>
+<div id="q3" class="answer">
+<ul>
+<li>Two records read</li>
+<li>Pointer positioned at start of third record</li>
+</ul>
+</div>
+</div>
+
+<div class="question">
+<h4>Question 4 – Random Access Files <span class="marks">[7]</span></h4>
+<p>(a) Formula for nth record address. [3]<br>(b) One advantage. [2]<br>(c) One suitable application. [2]</p>
+<textarea></textarea>
+<button onclick="showAns('q4')">Submit</button>
+<div id="q4" class="answer">
+<ul>
+<li>(n − 1) × record length</li>
+<li>Faster direct access</li>
+<li>Large databases</li>
+</ul>
+</div>
+</div>
+
+<div class="question">
+<h4>Question 5 – Exception Handling <span class="marks">[8]</span></h4>
+<p>(a) Define an exception. [2]<br>(b) Two file-related exceptions. [2]<br>(c) Safe Python file-read code. [4]</p>
+<textarea></textarea>
+<button onclick="showAns('q5')">Submit</button>
+<div id="q5" class="answer">
+<ul>
+<li>Run-time error during execution</li>
+<li>EOFError, IOError</li>
+<li>try–except prevents crash</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Chapter Summary</h2>
+
+</main>
+
+<footer>
+Prepared by Ravi<br>
+Cambridge A Level Computer Science – Chapter 26
+</footer>
+
+<script>
+function markTrace(){document.getElementById('traceRes').innerText=(document.getElementById('trace1').value==='b')?'Correct ✓':'Incorrect ✗';}
+function showAns(id){document.getElementById(id).style.display='block';}
+</script>
+
+</body>
+</html>

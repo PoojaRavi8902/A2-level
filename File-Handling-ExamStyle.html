@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 26 – Exam Style Questions</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#ffffff;color:#0033cc;line-height:1.7}
+header,footer{text-align:center;padding:24px;font-size:20px;font-weight:bold}
+main{max-width:1200px;margin:auto;padding:40px}
+h1,h2,h3{color:#002699}
+.question{border:2px solid #0033cc;border-radius:12px;padding:22px;margin:28px 0}
+.marks{font-size:14px;font-weight:bold}
+textarea{width:100%;min-height:180px;margin-top:12px;padding:12px;font-family:Consolas,monospace}
+button{margin-top:14px;padding:10px 22px;font-size:16px;border:none;border-radius:6px;background:#0033cc;color:#fff;cursor:pointer}
+.answer{display:none;margin-top:18px;padding:18px;border-top:2px dashed #0033cc;background:#f2f6ff}
+pre{background:#eef3ff;padding:14px;overflow-x:auto}
+</style>
+</head>
+<body>
+
+<header>
+Cambridge A Level Computer Science (9618)<br>
+<b>Chapter 26 – File Handling: Exam-Style Questions</b><br>
+Prepared by Ravi
+</header>
+
+<main>
+
+<h1>End-of-Chapter Exam-Style Questions</h1>
+<p>
+Answer each question in the space provided. When you click <b>SUBMIT</b>, the model answer will be revealed so that you can compare your response with an examiner-style answer.
+</p>
+
+<div class="question">
+<h2>Question 1 – Customer Records and Hashing <span class="marks">[38]</span></h2>
+<p>
+A company stores details about their customers in a binary file of records.
+</p>
+<ul>
+<li>The key field is <b>CustomerID</b> (100001–999999)</li>
+<li>Customer name: 30-character field</li>
+<li>Telephone number: 14-character field</li>
+<li>Total value of orders: currency (decimal)</li>
+</ul>
+
+<h3>(a)(i) Record declaration <span class="marks">[6]</span></h3>
+<textarea placeholder="Write your program code here..."></textarea>
+<button onclick="showAns('q1ai')">SUBMIT</button>
+<div id="q1ai" class="answer">
+<pre>
+class CustomerRecord:
+    def __init__(self):
+        self.CustomerID = 0
+        self.CustomerName = ""   # max 30 characters
+        self.Telephone = ""      # max 14 characters
+        self.TotalOrders = 0.0
+</pre>
+</div>
+
+<h3>(a)(ii) Array declaration <span class="marks">[2]</span></h3>
+<textarea></textarea>
+<button onclick="showAns('q1aii')">SUBMIT</button>
+<div id="q1aii" class="answer">
+<pre>
+CustomerData = [CustomerRecord() for i in range(1000)]
+</pre>
+</div>
+
+<h3>(b)(i) Hash function <span class="marks">[3]</span></h3>
+<textarea></textarea>
+<button onclick="showAns('q1bi')">SUBMIT</button>
+<div id="q1bi" class="answer">
+<pre>
+def Hash(CustomerID):
+    return CustomerID % 1000
+</pre>
+</div>
+
+<h3>(b)(ii) AddRecord procedure with collision handling <span class="marks">[7]</span></h3>
+<textarea></textarea>
+<button onclick="showAns('q1bii')">SUBMIT</button>
+<div id="q1bii" class="answer">
+<pre>
+def AddRecord(Customer):
+    address = Hash(Customer.CustomerID)
+    while CustomerData[address].CustomerID != 0:
+        address = (address + 1) % 1000
+    CustomerData[address] = Customer
+</pre>
+</div>
+
+<h3>(b)(iii) FindRecord function <span class="marks">[7]</span></h3>
+<textarea></textarea>
+<button onclick="showAns('q1biii')">SUBMIT</button>
+<div id="q1biii" class="answer">
+<pre>
+def FindRecord(CustomerID):
+    address = Hash(CustomerID)
+    while CustomerData[address].CustomerID != 0:
+        if CustomerData[address].CustomerID == CustomerID:
+            return address
+        address = (address + 1) % 1000
+    return -1
+</pre>
+</div>
+
+<h3>(c) Store hash table in a sequential binary file <span class="marks">[6]</span></h3>
+<textarea></textarea>
+<button onclick="showAns('q1c')">SUBMIT</button>
+<div id="q1c" class="answer">
+<pre>
+import pickle
+with open("CustomerData.DAT","wb") as f:
+    for record in CustomerData:
+        pickle.dump(record, f)
+</pre>
+</div>
+
+<h3>(d) Direct-access file explanation <span class="marks">[6]</span></h3>
+<textarea placeholder="Explain in words..."></textarea>
+<button onclick="showAns('q1d')">SUBMIT</button>
+<div id="q1d" class="answer">
+<ul>
+<li>Records stored directly in file, not in an array</li>
+<li>File opened in random-access mode</li>
+<li>Address calculated from CustomerID</li>
+<li>SEEK used to move to record position</li>
+<li>Fixed-length records required</li>
+<li>No need for in-memory hash table</li>
+</ul>
+</div>
+</div>
+
+<div class="question">
+<h2>Question 2 – Exception Handling <span class="marks">[5]</span></h2>
+<p>
+Write program code with exception handling so the program does not crash if the file does not exist.
+</p>
+<textarea></textarea>
+<button onclick="showAns('q2')">SUBMIT</button>
+<div id="q2" class="answer">
+<pre>
+filename = input("Which file do you want to use? ")
+try:
+    f = open(filename, "rb+")
+except IOError:
+    print("File does not exist")
+else:
+    print("File opened successfully")
+    f.close()
+</pre>
+</div>
+</div>
+
+</main>
+
+<footer>
+Prepared by Ravi<br>
+Cambridge A Level Computer Science – Chapter 20
+</footer>
+
+<script>
+function showAns(id){document.getElementById(id).style.display='block';}
+</script>
+
+</body>
+</html>

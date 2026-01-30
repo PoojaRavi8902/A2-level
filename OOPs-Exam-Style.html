@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 27 OOP – Exam Style Questions</title>
+<style>
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#FFF44F; /* Lemon Yellow */
+  color:#2ECC40;      /* Parrot Green */
+}
+header, footer{
+  text-align:center;
+  padding:20px;
+  font-weight:bold;
+  font-size:20px;
+}
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:20px;
+}
+.question{
+  border:2px solid #2ECC40;
+  border-radius:10px;
+  padding:20px;
+  margin-bottom:25px;
+}
+.marks{
+  font-size:14px;
+  font-weight:bold;
+}
+textarea{
+  width:100%;
+  min-height:120px;
+  margin-top:10px;
+  border-radius:6px;
+  border:1px solid #2ECC40;
+  padding:10px;
+}
+button{
+  margin-top:10px;
+  padding:8px 16px;
+  font-size:16px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#2ECC40;
+  color:#FFF44F;
+}
+.answer{
+  display:none;
+  margin-top:15px;
+  padding:15px;
+  border-top:2px dashed #2ECC40;
+}
+.diagram{
+  font-family: monospace;
+  white-space: pre;
+}
+</style>
+</head>
+<body>
+
+<header>
+Cambridge A Level Computer Science – Chapter 27 (OOP)<br>
+Prepared by Ravi
+</header>
+
+<main>
+
+<div class="question">
+<h3>Question 1(a) – Inheritance Diagram <span class="marks">[3]</span></h3>
+<p>Draw an inheritance diagram for the classes BankAccount, PersonalAccount and SavingsAccount.</p>
+<textarea placeholder="Draw / describe the inheritance diagram here..."></textarea>
+<button onclick="showAnswer('a1')">SUBMIT</button>
+<div id="a1" class="answer">
+<b>Expected Answer:</b>
+<div class="diagram">
+BankAccount
+   |
+   |------ PersonalAccount
+   |
+   |------ SavingsAccount
+</div>
+</div>
+</div>
+
+<div class="question">
+<h3>Question 1(b) – Superclass Code <span class="marks">[5]</span></h3>
+<p>Write program code for the class definition of the superclass <b>BankAccount</b>.</p>
+<textarea placeholder="Write Python class code here..."></textarea>
+<button onclick="showAnswer('a2')">SUBMIT</button>
+<div id="a2" class="answer">
+<b>Expected Answer (Python):</b>
+<pre>
+class BankAccount:
+    def __init__(self, iban, name):
+        self.__IBAN = iban
+        self.__AccountHolderName = name
+
+    def SetAccountHolderName(self, name):
+        self.__AccountHolderName = name
+
+    def GetAccountHolderName(self):
+        return self.__AccountHolderName
+
+    def GetIBAN(self):
+        return self.__IBAN
+</pre>
+</div>
+</div>
+
+<div class="question">
+<h3>Question 1(c)(i) – PersonalAccount Design <span class="marks">[4]</span></h3>
+<p>State the attributes and/or methods required for the subclass <b>PersonalAccount</b>.</p>
+<textarea></textarea>
+<button onclick="showAnswer('a3')">SUBMIT</button>
+<div id="a3" class="answer">
+<b>Expected Answer:</b>
+<ul>
+<li>Attributes: OverdraftLimit, MonthlyFee</li>
+<li>Methods: SetOverdraftLimit(), GetOverdraftLimit()</li>
+</ul>
+</div>
+</div>
+
+<div class="question">
+<h3>Question 1(c)(ii) – SavingsAccount Design <span class="marks">[4]</span></h3>
+<p>State the attributes and/or methods required for the subclass <b>SavingsAccount</b>.</p>
+<textarea></textarea>
+<button onclick="showAnswer('a4')">SUBMIT</button>
+<div id="a4" class="answer">
+<b>Expected Answer:</b>
+<ul>
+<li>Attributes: InterestRate</li>
+<li>Methods: CalculateInterest(), GetInterestRate()</li>
+</ul>
+</div>
+</div>
+
+<div class="question">
+<h3>Question 1(c)(iii) – OOP Feature <span class="marks">[1]</span></h3>
+<p>Identify the feature of object-oriented programming that combines attributes and methods.</p>
+<textarea></textarea>
+<button onclick="showAnswer('a5')">SUBMIT</button>
+<div id="a5" class="answer">
+<b>Expected Answer:</b> Encapsulation
+</div>
+</div>
+
+<div class="question">
+<h3>Question 2(b)(i) – Private Attributes <span class="marks">[2]</span></h3>
+<p>Explain why SeasonTicketHolder attributes are declared as private.</p>
+<textarea></textarea>
+<button onclick="showAnswer('a6')">SUBMIT</button>
+<div id="a6" class="answer">
+<b>Expected Answer:</b><br>
+To protect data from direct access and prevent accidental or invalid modification. Access is controlled through methods.
+</div>
+</div>
+
+<div class="question">
+<h3>Question 3(a) – Class Relationship <span class="marks">[1]</span></h3>
+<p>State the relationship between QueueClass and NodeClass.</p>
+<textarea></textarea>
+<button onclick="showAnswer('a7')">SUBMIT</button>
+<div id="a7" class="answer">
+<b>Expected Answer:</b> Containment (Aggregation)
+</div>
+</div>
+
+<div class="question">
+<h3>Question 3(b) – NodeClass Definition <span class="marks">[10]</span></h3>
+<p>Write program code to define <b>NodeClass</b>, including constructor, getters and setters.</p>
+<textarea></textarea>
+<button onclick="showAnswer('a8')">SUBMIT</button>
+<div id="a8" class="answer">
+<b>Expected Answer (Python):</b>
+<pre>
+class NodeClass:
+    def __init__(self):
+        self.__Data = ""
+        self.__Pointer = -1
+
+    def SetData(self, d):
+        self.__Data = d
+
+    def SetPointer(self, x):
+        self.__Pointer = x
+
+    def GetData(self):
+        return self.__Data
+
+    def GetPointer(self):
+        return self.__Pointer
+</pre>
+</div>
+</div>
+
+</main>
+
+<footer>
+Prepared by Ravi<br>
+Cambridge A Level Computer Science – OOP Chapter 27
+</footer>
+
+<script>
+function showAnswer(id){
+  document.getElementById(id).style.display = 'block';
+}
+</script>
+
+</body>
+</html>
