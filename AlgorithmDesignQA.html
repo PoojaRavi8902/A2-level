@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Practice – Algorithms</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.question {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+}
+
+.marks {
+  font-weight: bold;
+  color: #1e40af;
+}
+
+pre {
+  background: #eef2f7;
+  padding: 15px;
+  overflow-x: auto;
+}
+
+textarea {
+  width: 100%;
+  height: 120px;
+  margin-top: 10px;
+  font-family: Consolas, monospace;
+}
+
+button {
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.submit {
+  background: #16a34a;
+}
+
+.answer {
+  display: none;
+  background: #ecfeff;
+  border-left: 5px solid #06b6d4;
+  padding: 15px;
+  margin-top: 10px;
+  white-space: pre-wrap;
+}
+</style>
+
+<script>
+function submitAnswer(id) {
+  document.getElementById(id).dataset.submitted = "true";
+  alert("Answer submitted. You may now view the mark scheme.");
+}
+
+function showAnswer(id) {
+  const box = document.getElementById(id);
+  if (box.dataset.submitted === "true") {
+    document.getElementById(id + "-ans").style.display = "block";
+  } else {
+    alert("Please submit your answer first.");
+  }
+}
+</script>
+</head>
+
+<body>
+
+<h1>Exam-Style Practice: Algorithms</h1>
+
+<!-- QUESTION 1 -->
+<div class="question">
+<p><strong>1 a</strong> Complete the algorithm for the binary search function FindName. 
+<span class="marks">[3]</span></p>
+
+<pre>
+WHILE (Last >= First) AND .................................. DO
+IF Names[Middle] > s
+  THEN
+    ..................................
+  ELSE
+    ..................................
+ENDIF
+</pre>
+
+<textarea id="q1a"></textarea>
+<br>
+<button class="submit" onclick="submitAnswer('q1a')">SUBMIT</button>
+<button onclick="showAnswer('q1a')">SHOW ANSWER</button>
+
+<div class="answer" id="q1a-ans">
+WHILE (Last >= First) AND (Index = -1)  
+Last ← Middle - 1  
+First ← Middle + 1
+</div>
+</div>
+
+<div class="question">
+<p><strong>1 b</strong> The binary search does not work if the data is … 
+<span class="marks">[1]</span></p>
+
+<textarea id="q1b"></textarea>
+<br>
+<button class="submit" onclick="submitAnswer('q1b')">SUBMIT</button>
+<button onclick="showAnswer('q1b')">SHOW ANSWER</button>
+
+<div class="answer" id="q1b-ans">
+• Not sorted.
+</div>
+</div>
+
+<div class="question">
+<p><strong>1 c</strong> State the return value of FindName when:
+<span class="marks">[2]</span></p>
+
+<p>i) The name exists in the array</p>
+<textarea id="q1ci"></textarea>
+
+<p>ii) The name does not exist in the array</p>
+<textarea id="q1cii"></textarea>
+
+<button class="submit" onclick="submitAnswer('q1ci')">SUBMIT</button>
+<button onclick="showAnswer('q1ci')">SHOW ANSWER</button>
+
+<div class="answer" id="q1ci-ans">
+i) Index position of the name  
+ii) −1
+</div>
+</div>
+
+<!-- QUESTION 2 -->
+<div class="question">
+<p><strong>2 a i</strong> Show the state of the queue after adding Apple, Pear, Banana. 
+<span class="marks">[3]</span></p>
+
+<textarea id="q2ai"></textarea>
+<br>
+<button class="submit" onclick="submitAnswer('q2ai')">SUBMIT</button>
+<button onclick="showAnswer('q2ai')">SHOW ANSWER</button>
+
+<div class="answer" id="q2ai-ans">
+FrontOfQueue → Apple → Pear → Banana → NullPointer  
+EndOfQueue → Banana
+</div>
+</div>
+
+<div class="question">
+<p><strong>2 a ii</strong> Show how unused nodes are linked as a free list. 
+<span class="marks">[2]</span></p>
+
+<textarea id="q2aii"></textarea>
+<br>
+<button class="submit" onclick="submitAnswer('q2aii')">SUBMIT</button>
+<button onclick="showAnswer('q2aii')">SHOW ANSWER</button>
+
+<div class="answer" id="q2aii-ans">
+Unused nodes linked sequentially from StartOfFreeList.
+</div>
+</div>
+
+<div class="question">
+<p><strong>2 b</strong> Declare Node record and initialise Queue array. 
+<span class="marks">[10]</span></p>
+
+<textarea id="q2b"></textarea>
+<br>
+<button class="submit" onclick="submitAnswer('q2b')">SUBMIT</button>
+<button onclick="showAnswer('q2b')">SHOW ANSWER</button>
+
+<div class="answer" id="q2b-ans">
+TYPE Node
+  DECLARE Data : STRING
+  DECLARE Pointer : INTEGER
+ENDTYPE
+
+DECLARE Queue : ARRAY[0:49] OF Node
+FrontOfQueue ← -1
+EndOfQueue ← -1
+StartOfFreeList ← 0
+
+FOR i ← 0 TO 48
+  Queue[i].Pointer ← i + 1
+NEXT i
+Queue[49].Pointer ← -1
+</div>
+</div>
+
+<!-- QUESTION 3 -->
+<div class="question">
+<p><strong>3</strong> Word list program (array, load, output, sort, test). 
+<span class="marks">[27]</span></p>
+
+<textarea id="q3"></textarea>
+<br>
+<button class="submit" onclick="submitAnswer('q3')">SUBMIT</button>
+<button onclick="showAnswer('q3')">SHOW ANSWER</button>
+
+<div class="answer" id="q3-ans">
+• Declare WordList[0:499]  
+• Initialise to empty string  
+• LoadWords with file existence and full array checks  
+• Bubble sort non-empty elements  
+• Output before and after sorting  
+• Test with missing file and 20-word file
+</div>
+</div>
+
+</body>
+</html>

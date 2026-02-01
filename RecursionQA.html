@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Practice – Recursion & Iteration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.question {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+}
+
+.marks {
+  font-weight: bold;
+  color: #1e40af;
+}
+
+textarea {
+  width: 100%;
+  height: 120px;
+  margin-top: 10px;
+  font-family: Consolas, monospace;
+}
+
+button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.answer {
+  display: none;
+  background: #ecfeff;
+  border-left: 5px solid #06b6d4;
+  padding: 15px;
+  margin-top: 10px;
+  white-space: pre-wrap;
+}
+</style>
+
+<script>
+function showAnswer(id) {
+  document.getElementById(id).style.display = "block";
+}
+</script>
+</head>
+
+<body>
+
+<h1>Exam-Style Practice: Recursion & Iteration</h1>
+
+<!-- QUESTION 1 -->
+<div class="question">
+  <p><strong>1 a</strong> Outline the differences between iteration and recursion. 
+  <span class="marks">[2]</span></p>
+  <textarea></textarea>
+  <button onclick="showAnswer('a1')">Show Answer</button>
+  <div class="answer" id="a1">
+• Iteration uses loops (FOR / WHILE) to repeat instructions.  
+• Recursion uses a function calling itself with a base case.
+  </div>
+
+  <p><strong>1 b</strong> Give one advantage and one disadvantage of using recursive subroutines. 
+  <span class="marks">[2]</span></p>
+  <textarea></textarea>
+  <button onclick="showAnswer('a2')">Show Answer</button>
+  <div class="answer" id="a2">
+Advantage:  
+• Recursive solutions can be simpler and easier to understand for some problems.
+
+Disadvantage:  
+• Recursion uses more memory because of stack usage.
+  </div>
+</div>
+
+<!-- QUESTION 2 -->
+<div class="question">
+<p><strong>2 a</strong> State what is meant by ‘recursively defined’. 
+<span class="marks">[1]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a3')">Show Answer</button>
+<div class="answer" id="a3">
+• A function that is defined in terms of a call to itself.
+</div>
+
+<p><strong>2 b</strong> Complete a trace table for the function call Power(2,4). 
+<span class="marks">[6]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a4')">Show Answer</button>
+<div class="answer" id="a4">
+Call stack trace:
+
+Power(2,4) → calls Power(2,3)  
+Power(2,3) → calls Power(2,2)  
+Power(2,2) → calls Power(2,1)  
+Power(2,1) → calls Power(2,0)  
+Power(2,0) returns 1  
+Power(2,1) returns 2  
+Power(2,2) returns 4  
+Power(2,3) returns 8  
+Power(2,4) returns 16
+</div>
+
+<p><strong>2 c</strong> Explain the role of the stack in the execution of the Power function. 
+<span class="marks">[3]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a5')">Show Answer</button>
+<div class="answer" id="a5">
+• The stack stores each recursive function call.  
+• It stores parameters and return addresses.  
+• It allows the function to return results in the correct order.
+</div>
+
+<p><strong>2 d</strong> Write a pseudocode non-recursive (iterative) version of the Power function. 
+<span class="marks">[6]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a6')">Show Answer</button>
+<div class="answer" id="a6">
+FUNCTION Power(Base, Exponent)
+  Result ← 1
+  FOR Count ← 1 TO Exponent
+    Result ← Result * Base
+  NEXT Count
+  RETURN Result
+ENDFUNCTION
+</div>
+
+<p><strong>2 e i</strong> Give one reason why a non-recursive Power function may be preferred. 
+<span class="marks">[1]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a7')">Show Answer</button>
+<div class="answer" id="a7">
+• It uses less memory than a recursive solution.
+</div>
+
+<p><strong>2 e ii</strong> Give one reason why a recursive Power function may be preferred. 
+<span class="marks">[1]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a8')">Show Answer</button>
+<div class="answer" id="a8">
+• It is easier to understand or matches the mathematical definition.
+</div>
+</div>
+
+<!-- QUESTION 3 -->
+<div class="question">
+<p><strong>3 a i</strong> Give the line number containing the base case. 
+<span class="marks">[1]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a9')">Show Answer</button>
+<div class="answer" id="a9">
+• Line 02
+</div>
+
+<p><strong>3 a ii</strong> Give the line number containing the general case. 
+<span class="marks">[1]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a10')">Show Answer</button>
+<div class="answer" id="a10">
+• Line 06
+</div>
+
+<p><strong>3 b</strong> Complete a trace table for Fibonacci(4). 
+<span class="marks">[7]</span></p>
+<textarea></textarea>
+<button onclick="showAnswer('a11')">Show Answer</button>
+<div class="answer" id="a11">
+Fibonacci(4)  
+= Fibonacci(3) + Fibonacci(2)  
+= (Fibonacci(2) + Fibonacci(1)) + (Fibonacci(1) + Fibonacci(0))  
+= (2 + 1) + (1 + 1)  
+= 5
+</div>
+</div>
+
+</body>
+</html>

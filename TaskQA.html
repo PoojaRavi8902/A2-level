@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 23 Tasks – Algorithms</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.task {
+  background: white;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+}
+
+textarea {
+  width: 100%;
+  height: 140px;
+  margin-top: 10px;
+  font-family: Consolas, monospace;
+}
+
+button {
+  margin-top: 8px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit {
+  background: #16a34a;
+  color: white;
+}
+
+.show {
+  background: #2563eb;
+  color: white;
+}
+
+.answer {
+  display: none;
+  background: #ecfeff;
+  border-left: 5px solid #06b6d4;
+  padding: 15px;
+  margin-top: 10px;
+  white-space: pre-wrap;
+}
+</style>
+
+<script>
+function submit(id) {
+  document.getElementById(id).dataset.submitted = "yes";
+  alert("Answer submitted. You may now view the model answer.");
+}
+
+function showAnswer(id) {
+  if (document.getElementById(id).dataset.submitted === "yes") {
+    document.getElementById(id + "-ans").style.display = "block";
+  } else {
+    alert("Please submit your answer first.");
+  }
+}
+</script>
+</head>
+
+<body>
+
+<h1>Chapter 23 – Algorithms Tasks</h1>
+
+<!-- TASK 23.01 -->
+<div class="task">
+<h3>TASK 23.01 – Linear Search</h3>
+<p>Write program code for the linear search algorithm.</p>
+<textarea id="t2301"></textarea>
+<br>
+<button class="submit" onclick="submit('t2301')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2301')">SHOW ANSWER</button>
+<div class="answer" id="t2301-ans">
+FOR Index ← 0 TO n - 1
+  IF List[Index] = SearchItem
+    THEN RETURN Index
+  ENDIF
+NEXT Index
+RETURN -1
+</div>
+</div>
+
+<!-- TASK 23.02 -->
+<div class="task">
+<h3>TASK 23.02 – Bubble Sort</h3>
+<p>Write program code for the most efficient bubble sort algorithm.</p>
+<textarea id="t2302"></textarea>
+<br>
+<button class="submit" onclick="submit('t2302')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2302')">SHOW ANSWER</button>
+<div class="answer" id="t2302-ans">
+Unsorted ← n - 1
+FOR i ← 0 TO n - 2
+  FOR j ← 0 TO Unsorted - 1
+    IF List[j] > List[j+1]
+      THEN
+        Swap List[j], List[j+1]
+    ENDIF
+  NEXT j
+  Unsorted ← Unsorted - 1
+NEXT i
+</div>
+</div>
+
+<!-- TASK 23.03 -->
+<div class="task">
+<h3>TASK 23.03 – Insertion Sort</h3>
+<p>1. Dry-run insertion sort for: 53, 21, 60, 18, 42, 19</p>
+<p>2. Write program code for insertion sort.</p>
+<textarea id="t2303"></textarea>
+<br>
+<button class="submit" onclick="submit('t2303')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2303')">SHOW ANSWER</button>
+<div class="answer" id="t2303-ans">
+FOR Pointer ← 1 TO n - 1
+  Item ← List[Pointer]
+  Current ← Pointer - 1
+  WHILE Current >= 0 AND List[Current] > Item
+    List[Current + 1] ← List[Current]
+    Current ← Current - 1
+  ENDWHILE
+  List[Current + 1] ← Item
+NEXT Pointer
+</div>
+</div>
+
+<!-- TASK 23.04 -->
+<div class="task">
+<h3>TASK 23.04 – Binary Search</h3>
+<p>Dry-run binary search and compare with linear search.</p>
+<textarea id="t2304"></textarea>
+<br>
+<button class="submit" onclick="submit('t2304')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2304')">SHOW ANSWER</button>
+<div class="answer" id="t2304-ans">
+Binary search halves the data set each iteration (O(log n)).
+Linear search checks items one by one (O(n)).
+Binary search is faster for large, sorted lists.
+</div>
+</div>
+
+<!-- TASK 23.05 -->
+<div class="task">
+<h3>TASK 23.05 – Linked Lists</h3>
+<p>Convert linked list pseudocode to program code and test it.</p>
+<textarea id="t2305"></textarea>
+<br>
+<button class="submit" onclick="submit('t2305')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2305')">SHOW ANSWER</button>
+<div class="answer" id="t2305-ans">
+Implement InitialiseList, InsertNode, FindNode, DeleteNode
+using arrays, pointers, and free list handling.
+</div>
+</div>
+
+<!-- TASK 23.06 -->
+<div class="task">
+<h3>TASK 23.06 – Binary Search Tree</h3>
+<p>Write program code to implement a binary search tree.</p>
+<textarea id="t2306"></textarea>
+<br>
+<button class="submit" onclick="submit('t2306')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2306')">SHOW ANSWER</button>
+<div class="answer" id="t2306-ans">
+Implement InitialiseTree, InsertNode, and FindNode using
+left and right pointers stored in an array.
+</div>
+</div>
+
+<!-- TASK 23.07 -->
+<div class="task">
+<h3>TASK 23.07 – Stacks</h3>
+<p>Implement stack subroutines and test using a menu.</p>
+<textarea id="t2307"></textarea>
+<br>
+<button class="submit" onclick="submit('t2307')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2307')">SHOW ANSWER</button>
+<div class="answer" id="t2307-ans">
+Implement InitialiseStack, Push, Pop
+using a 1D array and stack pointers.
+</div>
+</div>
+
+<!-- TASK 23.08 -->
+<div class="task">
+<h3>TASK 23.08 – Queues</h3>
+<p>Implement queue using array and linked list.</p>
+<textarea id="t2308"></textarea>
+<br>
+<button class="submit" onclick="submit('t2308')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2308')">SHOW ANSWER</button>
+<div class="answer" id="t2308-ans">
+Implement InitialiseQueue, AddToQueue, RemoveFromQueue
+Handle wrap-round using pointers.
+</div>
+</div>
+
+<!-- TASK 23.09 -->
+<div class="task">
+<h3>TASK 23.09 – Directed Graph</h3>
+<p>Draw labelled directed graph edges for the road system.</p>
+<textarea id="t2309"></textarea>
+<br>
+<button class="submit" onclick="submit('t2309')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2309')">SHOW ANSWER</button>
+<div class="answer" id="t2309-ans">
+A→B (2km), D→A (1km), B→D (3km),
+B→C (4km), C→E (7km), D→E (5km)
+</div>
+</div>
+
+<!-- TASK 23.10 -->
+<div class="task">
+<h3>TASK 23.10 – Graph Representation</h3>
+<p>Construct adjacency matrix and adjacency list.</p>
+<textarea id="t2310"></textarea>
+<br>
+<button class="submit" onclick="submit('t2310')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2310')">SHOW ANSWER</button>
+<div class="answer" id="t2310-ans">
+Adjacency matrix uses weights or ∞.
+Adjacency list stores connected nodes with weights.
+</div>
+</div>
+
+<!-- TASK 23.11 -->
+<div class="task">
+<h3>TASK 23.11 – Dictionaries</h3>
+<p>Write pseudocode to insert and lookup key–value pairs.</p>
+<textarea id="t2311"></textarea>
+<br>
+<button class="submit" onclick="submit('t2311')">SUBMIT</button>
+<button class="show" onclick="showAnswer('t2311')">SHOW ANSWER</button>
+<div class="answer" id="t2311-ans">
+Use hashing function to calculate index.
+Insert: find empty slot.
+Lookup: search until key found or empty slot.
+</div>
+</div>
+
+</body>
+</html>
