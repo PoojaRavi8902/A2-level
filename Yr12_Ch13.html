@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>IGCSE / Pre-AS CS — Data Representation (Advanced): UDTs, File Organisation, Floating Point</title>
+  <style>
+    :root{
+      --bg:#081422;
+      --panel:#0c1f34;
+      --card:#0f2a46;
+      --text:#eaf2ff;
+      --muted:#a9c2e6;
+      --accent:#5dd6ff;
+      --accent2:#60a5fa;
+      --ok:#34d399;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --border:rgba(255,255,255,.14);
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% 0%, rgba(93,214,255,.22), transparent 60%),
+        radial-gradient(900px 520px at 90% 10%, rgba(96,165,250,.18), transparent 55%),
+        var(--bg);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background:rgba(8,20,34,.88);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar{
+      max-width:1500px; margin:0 auto;
+      padding:14px 16px;
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+    }
+    h1{margin:0; font-size:16px}
+    .sub{font-size:12px; color:var(--muted); margin-top:2px}
+    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
+    .btn{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:rgba(93,214,255,.18);
+      border-color:rgba(93,214,255,.45);
+    }
+    .btn.ghost{background:transparent}
+    .wrap{max-width:1500px; margin:0 auto; padding:16px}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media(max-width:1150px){ .grid{grid-template-columns:1fr;} }
+
+    .pane{
+      background:rgba(12,31,52,.62);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:600px;
+    }
+    .paneHead{
+      padding:14px;
+      border-bottom:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .paneTitle{font-weight:800; font-size:14px}
+    .chip{
+      font-size:11px; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border); color:var(--muted);
+      white-space:nowrap;
+    }
+    .paneBody{padding:14px}
+
+    .section{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(15,42,70,.62);
+      margin:12px 0;
+      overflow:hidden;
+    }
+    .sectionHeader{
+      padding:12px;
+      background:rgba(255,255,255,.05);
+      cursor:pointer;
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+    }
+    .sectionHeader h2{margin:0; font-size:14px}
+    .kicker{font-size:12px; color:var(--muted); margin-top:4px}
+    .chev{color:var(--muted); font-size:12px; user-select:none}
+    .sectionContent{display:none; padding:12px}
+    .sectionContent.open{display:block}
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      padding:12px;
+      margin:10px 0;
+    }
+    h3{margin:0 0 6px; font-size:13px}
+    p, li{font-size:13px; line-height:1.6; color:rgba(234,242,255,.96)}
+    ul{margin:8px 0 8px 18px}
+    .mono{
+      font-family:var(--mono);
+      font-size:12.5px;
+      background:rgba(0,0,0,.28);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px;
+      white-space:pre-wrap;
+      overflow:auto;
+    }
+    .callout{
+      border-left:3px solid var(--accent);
+      background:rgba(93,214,255,.12);
+      border-radius:12px;
+      padding:10px 12px;
+      margin:10px 0;
+      font-size:13px;
+    }
+    .callout.warn{border-left-color:var(--warn); background:rgba(251,191,36,.12)}
+    .callout.ok{border-left-color:var(--ok); background:rgba(52,211,153,.12)}
+    .pill{
+      display:inline-block;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:12px;
+      color:var(--muted);
+      margin:2px 6px 2px 0;
+      background:rgba(255,255,255,.03);
+    }
+
+    /* Practice widgets */
+    .q{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      padding:12px;
+      margin:10px 0;
+    }
+    .qhead{
+      display:flex; gap:10px; align-items:flex-start; justify-content:space-between;
+      margin-bottom:8px;
+    }
+    .qtitle{font-weight:800; font-size:13px}
+    .marks{font-size:12px; color:var(--muted); white-space:nowrap}
+    textarea{
+      width:100%;
+      min-height:90px;
+      resize:vertical;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:10px;
+      font-size:13px;
+      outline:none;
+    }
+    .qactions{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+    .hint{font-size:12px; color:var(--muted); margin-top:8px}
+    .model{
+      display:none;
+      margin-top:10px;
+      border-top:1px dashed rgba(255,255,255,.25);
+      padding-top:10px;
+    }
+    .model.open{display:block}
+    .badge{
+      font-size:11px; padding:4px 8px; border-radius:999px; border:1px solid var(--border);
+      color:var(--muted);
+    }
+    .small{font-size:12px; color:var(--muted)}
+    footer{margin-top:10px; font-size:12px; color:var(--muted)}
+    .toc a{color:var(--accent); text-decoration:none}
+    .toc a:hover{text-decoration:underline}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="topbar">
+    <div>
+      <h1>Data Representation (Advanced) — User-Defined Data Types • File Organisation • Floating-Point</h1>
+      <div class="sub">Two student panes • Left: exam-ready notes • Right: practice with answer check</div>
+    </div>
+    <div class="controls">
+      <button class="btn primary" onclick="toggleAll(true)">Expand all</button>
+      <button class="btn" onclick="toggleAll(false)">Collapse all</button>
+      <button class="btn ghost" onclick="scrollToTop()">Top</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <!-- ================= LEFT PANE: NOTES ================= -->
+    <section class="pane">
+      <div class="paneHead">
+        <div class="paneTitle">Student Pane A — Notes, Definitions, Examples (Exam Ready)</div>
+        <span class="chip">Chapter: Data Representation (Advanced)</span>
+      </div>
+
+      <div class="paneBody">
+        <div class="card toc">
+          <h3>Quick navigation</h3>
+          <p class="small">
+            <a href="#udt">1) User-defined data types</a> •
+            <a href="#files">2) File organisation methods</a> •
+            <a href="#float">3) Floating-point representation</a>
+          </p>
+          <div class="callout">
+            Use this page like a revision book: open each section, read the <b>definition</b>, study the <b>worked examples</b>, then do the matching practice questions on the right.
+          </div>
+        </div>
+
+        <!-- 1. USER-DEFINED DATA TYPES -->
+        <div class="section" id="udt">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>1. User-Defined Data Types (UDTs)</h2>
+              <div class="kicker">Define • explain why used • design records/structs • model real data</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Definition (must be exam-perfect)</h3>
+              <p>
+                A <b>user-defined data type</b> is a data type <b>created by the programmer</b> to store data in a form that matches the problem. Instead of using only
+                built-in types (integer, real, string, boolean), a user-defined type lets you group related values or restrict values to a set that makes sense.
+              </p>
+              <div class="callout ok">
+                Examiner-friendly phrase: <b>UDTs improve clarity and reduce errors by modelling real-world data directly.</b>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Why UDTs are used</h3>
+              <ul>
+                <li><b>Readability:</b> Code becomes easier to understand because variables represent meaningful “things”.</li>
+                <li><b>Maintainability:</b> If the structure changes (e.g., add a field), you update it in one place.</li>
+                <li><b>Data integrity:</b> You can restrict values (e.g., a set of valid grades) to prevent invalid data.</li>
+                <li><b>Organisation:</b> Related pieces of data move together as one unit (useful for lists, files, databases).</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>Common UDT forms you should recognise</h3>
+              <p>
+                In school CS, “user-defined type” usually means one of these patterns:
+              </p>
+              <p>
+                <span class="pill">Record / Struct</span>
+                <span class="pill">Enumeration</span>
+                <span class="pill">Set of valid values</span>
+                <span class="pill">Composite type (record containing arrays)</span>
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>Record / Struct (the most important UDT)</h3>
+              <p>
+                A <b>record</b> (sometimes called a <b>struct</b>) groups multiple fields (attributes) into one new type.
+                Each field has its own data type.
+              </p>
+              <div class="mono">TYPE Student
+  DECLARE Name : STRING
+  DECLARE Age : INTEGER
+  DECLARE TutorGroup : STRING
+  DECLARE Attendance : REAL
+ENDTYPE
+
+DECLARE s : Student
+s.Name ← "Mina"
+s.Age ← 15
+s.TutorGroup ← "10A"
+s.Attendance ← 96.5</div>
+              <div class="callout">
+                Marking tip: When defining a record, include <b>field names + field types</b>. When using it, show how to access a field (dot notation).
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Enumeration (restricted set of values)</h3>
+              <p>
+                An <b>enumeration</b> creates a type where only a fixed list of values is allowed. This prevents invalid values.
+              </p>
+              <div class="mono">TYPE Day = (Mon, Tue, Wed, Thu, Fri, Sat, Sun)
+
+DECLARE Today : Day
+Today ← Wed</div>
+              <p>
+                If a student tries to store “Weds” or “Wednesday”, it can be rejected because it’s not in the allowed list.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>Design approach (how to build a good UDT)</h3>
+              <ol>
+                <li><b>Identify the real-world object</b> you need to store (e.g., Book, Customer, Flight, SensorReading).</li>
+                <li><b>List the attributes</b> you must store (e.g., BookTitle, ISBN, Copies, Price).</li>
+                <li><b>Choose correct field types</b> (integer for counts, real for measured values, string for names).</li>
+                <li><b>Add constraints</b> if needed (enumeration for limited options, boolean for yes/no).</li>
+              </ol>
+              <div class="callout warn">
+                Common mistake: using STRING for everything. Examiners prefer correct types (INTEGER for count, REAL for measurements).
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>UDTs and collections (arrays of records)</h3>
+              <p>
+                Once you define a UDT, you can store many of them in an array. This is common when reading/writing data files.
+              </p>
+              <div class="mono">DECLARE ClassList : ARRAY[1:30] OF Student
+ClassList[1].Name ← "Aya"
+ClassList[1].Age ← 16</div>
+              <p>
+                This approach makes your program structure match real data: a class is a list of students; a shop is a list of products; etc.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>Exam-style mini checklist</h3>
+              <ul>
+                <li>Can you define “user-defined data type” in one sentence?</li>
+                <li>Can you give a record example and show field access?</li>
+                <li>Can you explain one advantage (clarity) and one advantage (validation)?</li>
+                <li>Can you suggest correct field types for a scenario?</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. FILE ORGANISATION METHODS -->
+        <div class="section" id="files">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>2. File Organisation Methods</h2>
+              <div class="kicker">Serial • Sequential • Direct/Random • Indexing • when each is suitable</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>What does “file organisation” mean?</h3>
+              <p>
+                <b>File organisation</b> describes <b>how records are stored and accessed</b> in a file. The same data can be stored in different ways depending on what operations
+                you need: searching, updating, appending, or retrieving a single record quickly.
+              </p>
+              <div class="callout">
+                Exam phrase: <b>File organisation affects access speed, update cost, and storage overhead.</b>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Key words you must use correctly</h3>
+              <ul>
+                <li><b>Record</b>: a group of related fields in a file (e.g., one student).</li>
+                <li><b>Field</b>: one item inside a record (e.g., Name, Age).</li>
+                <li><b>Key field</b>: a field used to identify a record (e.g., StudentID).</li>
+                <li><b>Master file</b>: the main file of records (e.g., all customers).</li>
+                <li><b>Transaction file</b>: a file of changes to apply (e.g., new orders).</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>2.1 Serial file organisation</h3>
+              <p>
+                In a <b>serial file</b>, records are stored <b>in the order they are added</b>. There is no intentional ordering by a key.
+              </p>
+              <ul>
+                <li><b>Advantages:</b> simple to create; quick to append new records.</li>
+                <li><b>Disadvantages:</b> searching for a specific record can be slow because you may need to check many records.</li>
+                <li><b>Typical use:</b> logs (event logs), sensor readings, audit trails.</li>
+              </ul>
+              <div class="callout warn">
+                If you must find “one specific record” often, a pure serial file becomes inefficient.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>2.2 Sequential file organisation</h3>
+              <p>
+                In a <b>sequential file</b>, records are stored in a <b>sorted order</b> using a key field (e.g., StudentID ascending).
+                You process the file from start to end.
+              </p>
+              <ul>
+                <li><b>Advantages:</b> efficient for batch processing (e.g., printing a report for all students); can stop early in some searches when keys are ordered.</li>
+                <li><b>Disadvantages:</b> inserting a new record in the correct position may require rewriting the file.</li>
+                <li><b>Typical use:</b> payroll lists, class lists, printed registers, sorted reports.</li>
+              </ul>
+              <div class="mono">Example (sorted by StudentID):
+1003 ... 
+1005 ...
+1008 ...
+1012 ...</div>
+            </div>
+
+            <div class="card">
+              <h3>2.3 Direct / Random access (sometimes called “relative” files)</h3>
+              <p>
+                With <b>direct access</b>, you can jump straight to a record location without reading all previous records.
+                Usually this requires:
+              </p>
+              <ul>
+                <li>Fixed-size records <b>or</b> a method to compute an address (e.g., hashing), and</li>
+                <li>A way to map a key to a physical position in the file.</li>
+              </ul>
+              <ul>
+                <li><b>Advantages:</b> very fast access to a specific record.</li>
+                <li><b>Disadvantages:</b> more complex; may require extra storage (gaps, indexes).</li>
+                <li><b>Typical use:</b> systems that frequently fetch one record (bank account lookup, library member lookup).</li>
+              </ul>
+              <div class="callout">
+                Think: “I know the key, I want the record immediately” → direct access.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>2.4 Indexed sequential (best of both ideas)</h3>
+              <p>
+                An <b>index</b> is a separate structure that stores key values and pointers (addresses) to where records are.
+                An <b>indexed sequential file</b> keeps records in key order (sequential) but also has an index so you can locate areas quickly.
+              </p>
+              <div class="mono">Index entry: (Key, Pointer)
+(1003, address 0)
+(1008, address 200)
+(1015, address 400)</div>
+              <ul>
+                <li><b>Advantages:</b> faster searching than sequential; still good for processing in order.</li>
+                <li><b>Disadvantages:</b> index must be maintained; extra storage overhead.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>How to answer “Which file organisation is most suitable?”</h3>
+              <p>
+                Use this exam method:
+              </p>
+              <ol>
+                <li>State the file organisation.</li>
+                <li>Link to the key requirement (fast lookup / easy append / batch processing).</li>
+                <li>Give one advantage that matches the scenario.</li>
+                <li>(Optional) Mention why another method is worse.</li>
+              </ol>
+              <div class="callout ok">
+                Example: “A log file should be serial because new entries are added constantly and you rarely need instant access to a single old record.”
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. FLOATING-POINT REPRESENTATION -->
+        <div class="section" id="float">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>3. Floating-Point Representation</h2>
+              <div class="kicker">Why floats are used • mantissa & exponent • normalisation • precision & range • rounding errors</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>What problem does floating-point solve?</h3>
+              <p>
+                Integers are fine for whole numbers, but many real quantities need decimals (e.g., 3.14, 0.001, 1250000.0).
+                We want a way to store very <b>small</b> and very <b>large</b> numbers efficiently. Floating-point does this by storing numbers in a form similar to scientific notation.
+              </p>
+              <div class="mono">Scientific notation idea:
+  305,000  = 3.05 × 10^5
+  0.00072  = 7.2  × 10^-4</div>
+            </div>
+
+            <div class="card">
+              <h3>Core idea (mantissa + exponent)</h3>
+              <p>
+                A floating-point number is stored using two parts:
+              </p>
+              <ul>
+                <li><b>Mantissa (significand):</b> holds the significant digits of the number (its precision).</li>
+                <li><b>Exponent:</b> tells you the scale (how far to shift the “decimal point” in base 2).</li>
+              </ul>
+              <div class="callout">
+                Exam phrase: <b>Mantissa controls precision; exponent controls range.</b>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Binary floating-point (conceptual model)</h3>
+              <p>
+                In binary, “shifting the point” is done in base 2.
+                A simplified representation is:
+              </p>
+              <div class="mono">Value = Mantissa × (2 ^ Exponent)</div>
+              <p>
+                Example idea: if mantissa is 1.101 (binary) and exponent is 3, the value is 1.101 × 2^3.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>Normalisation (why we do it)</h3>
+              <p>
+                <b>Normalisation</b> means writing the mantissa in a standard form so there is exactly one non-zero digit before the binary point.
+                This maximises the precision for a fixed number of mantissa bits.
+              </p>
+              <div class="mono">Example (binary):
+  0.01101 × 2^5  is not normalised
+  1.101   × 2^3  is normalised (shift point right; decrease exponent)</div>
+              <div class="callout warn">
+                In exams, if asked to “normalise”, you must adjust the exponent correctly when you shift the point.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Precision and rounding</h3>
+              <p>
+                Because mantissa has a limited number of bits, not all real numbers can be represented exactly. Many decimals become repeating patterns in binary, so they must be rounded.
+              </p>
+              <ul>
+                <li><b>Rounding error:</b> the stored value is an approximation.</li>
+                <li><b>Accumulated error:</b> repeated calculations can increase error (e.g., adding small rounding errors many times).</li>
+              </ul>
+              <div class="callout">
+                Example idea: a number like 0.1 (denary) cannot be stored exactly in many binary float systems, so calculations may show 0.30000000000004.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Range and overflow/underflow</h3>
+              <p>
+                Exponent bits limit how large or small numbers can be.
+              </p>
+              <ul>
+                <li><b>Overflow:</b> result is too large for the exponent range.</li>
+                <li><b>Underflow:</b> result is too small (close to 0) to represent properly.</li>
+              </ul>
+              <div class="callout warn">
+                If a question asks why a float result is wrong, mention: limited mantissa (precision) OR limited exponent (range).
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Exam answers: “Why use floating-point instead of integer?”</h3>
+              <ul>
+                <li>Stores <b>fractional values</b> (decimals).</li>
+                <li>Can represent <b>very large and very small numbers</b> using exponent scaling.</li>
+                <li>Used in measurements, science, graphics, audio processing.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>Exam answers: “One disadvantage of floating-point”</h3>
+              <ul>
+                <li>Not all values are exact → <b>rounding errors</b>.</li>
+                <li>Arithmetic can be slower than integer operations.</li>
+                <li>Comparisons can be tricky (two computed floats may not be exactly equal).</li>
+              </ul>
+              <div class="callout ok">
+                Best 1-mark phrase: <b>Floating-point numbers are often stored as approximations, causing rounding errors.</b>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>End-of-chapter “exam language” recap</h3>
+          <ul>
+            <li><b>User-defined data type:</b> type created by programmer to model real data.</li>
+            <li><b>Record/struct:</b> UDT that groups fields of different types.</li>
+            <li><b>Serial file:</b> records stored in order added; easy append; slow search.</li>
+            <li><b>Sequential file:</b> records stored sorted by key; good for batch; costly insert.</li>
+            <li><b>Direct access:</b> jump straight to record; fast lookup; more complex.</li>
+            <li><b>Floating-point:</b> mantissa × 2^exponent; mantissa precision, exponent range; rounding errors possible.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RIGHT PANE: PRACTICE ================= -->
+    <section class="pane">
+      <div class="paneHead">
+        <div class="paneTitle">Student Pane B — Practice (Write answers + Check)</div>
+        <span class="chip">Answers hidden until you submit</span>
+      </div>
+
+      <div class="paneBody">
+
+        <div class="card">
+          <h3>How “Check” works</h3>
+          <p>
+            These questions are designed for self-marking. Type your answer, click <b>Check</b>, then compare with the model answer.
+            (Many exam questions have multiple valid wordings — focus on keywords.)
+          </p>
+        </div>
+
+        <!-- UDT QUESTIONS -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 1 — User-Defined Data Types</h2>
+              <div class="kicker">Definitions • design a record • choose field types • advantages</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent open">
+
+            <div class="q" data-answer-id="a1">
+              <div class="qhead">
+                <div class="qtitle">Q1. Define a user-defined data type. (2)</div>
+                <div class="marks">2 marks</div>
+              </div>
+              <textarea placeholder="Write your definition here..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'a1')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="a1">
+                <div class="badge">Model answer</div>
+                <p>
+                  A user-defined data type is a data type created by the programmer to represent data in a structure that suits the problem
+                  (e.g., grouping related fields or restricting values), rather than using only built-in types.
+                </p>
+                <div class="hint">Keywords: created by programmer, new type, models real data / groups fields.</div>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="a2">
+              <div class="qhead">
+                <div class="qtitle">Q2. Give two advantages of using a record (struct) as a UDT. (2)</div>
+                <div class="marks">2 marks</div>
+              </div>
+              <textarea placeholder="Two clear points..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'a2')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="a2">
+                <div class="badge">Model answer</div>
+                <ul>
+                  <li>Improves readability by grouping related data into one meaningful unit.</li>
+                  <li>Reduces errors / improves maintainability because the structure is defined once and reused consistently.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="a3">
+              <div class="qhead">
+                <div class="qtitle">Q3. Design a record type <span class="badge">Book</span> with suitable field names and types. Include at least 4 fields. (4)</div>
+                <div class="marks">4 marks</div>
+              </div>
+              <textarea placeholder="Write pseudocode TYPE Book ... ENDTYPE"></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'a3')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="a3">
+                <div class="badge">Model answer</div>
+                <div class="mono">TYPE Book
+  DECLARE Title : STRING
+  DECLARE Author : STRING
+  DECLARE ISBN : STRING
+  DECLARE Copies : INTEGER
+  DECLARE Price : REAL
+ENDTYPE</div>
+                <div class="hint">Marks usually for: sensible fields + correct types + correct record syntax.</div>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="a4">
+              <div class="qhead">
+                <div class="qtitle">Q4. Explain why an enumeration can reduce errors. (2)</div>
+                <div class="marks">2 marks</div>
+              </div>
+              <textarea placeholder="Explain in 2 sentences..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'a4')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="a4">
+                <div class="badge">Model answer</div>
+                <p>
+                  An enumeration restricts a variable to a fixed set of valid values. This prevents invalid values being stored
+                  (e.g., typos or out-of-range options), so input/data validation is improved.
+                </p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="a5">
+              <div class="qhead">
+                <div class="qtitle">Q5. A school stores: StudentID, Name, DateOfBirth, AttendancePercent. Choose suitable types for each field. (4)</div>
+                <div class="marks">4 marks</div>
+              </div>
+              <textarea placeholder="StudentID: ... Name: ..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'a5')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="a5">
+                <div class="badge">Model answer</div>
+                <ul>
+                  <li>StudentID: STRING (often includes leading zeros) or INTEGER (if guaranteed numeric)</li>
+                  <li>Name: STRING</li>
+                  <li>DateOfBirth: STRING (e.g., \"2009-11-25\") or a Date type if available</li>
+                  <li>AttendancePercent: REAL</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FILE ORGANISATION QUESTIONS -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 2 — File Organisation Methods</h2>
+              <div class="kicker">Serial vs sequential vs direct • scenario suitability • index idea</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+
+            <div class="q" data-answer-id="b1">
+              <div class="qhead">
+                <div class="qtitle">Q6. Distinguish between a serial file and a sequential file. (4)</div>
+                <div class="marks">4 marks</div>
+              </div>
+              <textarea placeholder="Write 2 clear differences..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'b1')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="b1">
+                <div class="badge">Model answer</div>
+                <ul>
+                  <li>Serial: records stored in the order they are added; not sorted by key.</li>
+                  <li>Sequential: records stored sorted by a key field (e.g., ID order).</li>
+                  <li>Serial is easy to append; sequential insertion may require rewriting to keep order.</li>
+                  <li>Sequential is better for processing/searching by key order than serial.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="b2">
+              <div class="qhead">
+                <div class="qtitle">Q7. A hospital keeps a log of every temperature reading from a sensor every 5 seconds. Choose the best file organisation and justify. (3)</div>
+                <div class="marks">3 marks</div>
+              </div>
+              <textarea placeholder="State method + reason..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'b2')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="b2">
+                <div class="badge">Model answer</div>
+                <p>
+                  Use a <b>serial file</b> because new readings are continuously appended in time order and the main requirement is to store
+                  many new records quickly; instant access to a specific old record is not usually needed.
+                </p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="b3">
+              <div class="qhead">
+                <div class="qtitle">Q8. A bank system must retrieve a customer record instantly using AccountNumber. Choose the best file organisation and justify. (3)</div>
+                <div class="marks">3 marks</div>
+              </div>
+              <textarea placeholder="Method + why it fits..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'b3')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="b3">
+                <div class="badge">Model answer</div>
+                <p>
+                  Use <b>direct/random access</b> (or indexed sequential) because the system frequently fetches one record by key and must jump
+                  straight to the record location without reading through all records first.
+                </p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="b4">
+              <div class="qhead">
+                <div class="qtitle">Q9. Explain what an index is in file organisation. (2)</div>
+                <div class="marks">2 marks</div>
+              </div>
+              <textarea placeholder="2 sentences max..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'b4')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="b4">
+                <div class="badge">Model answer</div>
+                <p>
+                  An index is a separate structure that stores key values and pointers/addresses to the location of the records in the file.
+                  It speeds up searching because the program can locate the correct area/record quickly.
+                </p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="b5">
+              <div class="qhead">
+                <div class="qtitle">Q10. Give one disadvantage of sequential file organisation. (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <textarea placeholder="One clear point..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'b5')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="b5">
+                <div class="badge">Model answer</div>
+                <p>Inserting a new record in the correct sorted position may require rewriting/reorganising the file.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLOATING-POINT QUESTIONS -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 3 — Floating-Point Representation</h2>
+              <div class="kicker">Mantissa/exponent • normalisation • precision vs range • errors</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+
+            <div class="q" data-answer-id="c1">
+              <div class="qhead">
+                <div class="qtitle">Q11. State what is meant by “mantissa” in floating-point representation. (2)</div>
+                <div class="marks">2 marks</div>
+              </div>
+              <textarea placeholder="Define mantissa..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'c1')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="c1">
+                <div class="badge">Model answer</div>
+                <p>
+                  The mantissa (significand) stores the significant digits/bits of the number. It determines the precision (how accurate the stored value can be).
+                </p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="c2">
+              <div class="qhead">
+                <div class="qtitle">Q12. State what is meant by “exponent” in floating-point representation. (2)</div>
+                <div class="marks">2 marks</div>
+              </div>
+              <textarea placeholder="Define exponent..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'c2')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="c2">
+                <div class="badge">Model answer</div>
+                <p>
+                  The exponent stores the power of the base (usually 2) used to scale the mantissa. It determines the range of values (how large/small the number can be).
+                </p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="c3">
+              <div class="qhead">
+                <div class="qtitle">Q13. Explain why floating-point numbers can be inaccurate. (2)</div>
+                <div class="marks">2 marks</div>
+              </div>
+              <textarea placeholder="Mention limited bits and rounding..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'c3')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="c3">
+                <div class="badge">Model answer</div>
+                <p>
+                  Because the mantissa has a limited number of bits, many real numbers cannot be stored exactly in binary and must be rounded.
+                  This causes rounding errors (and repeated calculations can accumulate error).
+                </p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="c4">
+              <div class="qhead">
+                <div class="qtitle">Q14. In one sentence: what does normalisation achieve? (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <textarea placeholder="One sentence..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'c4')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="c4">
+                <div class="badge">Model answer</div>
+                <p>Normalisation puts the mantissa into a standard form to maximise precision for a fixed number of mantissa bits.</p>
+              </div>
+            </div>
+
+            <div class="q" data-answer-id="c5">
+              <div class="qhead">
+                <div class="qtitle">Q15. Give one disadvantage of floating-point representation. (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <textarea placeholder="One point..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkAnswer(this,'c5')">Check</button>
+                <button class="btn" onclick="clearAnswer(this)">Clear</button>
+              </div>
+              <div class="model" id="c5">
+                <div class="badge">Model answer</div>
+                <p>Floating-point values are often approximate, so rounding errors can occur (not all numbers are stored exactly).</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Self-check checklist</h3>
+          <ul>
+            <li>Did you include keywords (<b>created by programmer</b>, <b>group fields</b>, <b>restricted values</b>) for UDT definitions?</li>
+            <li>Did you justify file organisation using <b>append</b>, <b>search speed</b>, or <b>processing in key order</b>?</li>
+            <li>For floating-point, did you clearly link <b>mantissa = precision</b> and <b>exponent = range</b>?</li>
+          </ul>
+          <footer>
+            Tip: Many exam answers are awarded for the correct keyword + correct link to the scenario.
+          </footer>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  function toggleSection(header){
+    const content = header.parentElement.querySelector('.sectionContent');
+    content.classList.toggle('open');
+  }
+  function toggleAll(open){
+    document.querySelectorAll('.sectionContent').forEach(el=>{
+      el.classList.toggle('open', open);
+    });
+  }
+  function checkAnswer(btn, id){
+    const model = document.getElementById(id);
+    model.classList.add('open');
+    btn.textContent = 'Checked ✓ (showing model)';
+  }
+  function clearAnswer(btn){
+    const q = btn.closest('.q');
+    const ta = q.querySelector('textarea');
+    ta.value = '';
+  }
+  function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
+</script>
+</body>
+</html>

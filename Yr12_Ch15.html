@@ -1,0 +1,1394 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>IGCSE / Pre-AS CS — Hardware & Virtual Machines: RISC vs CISC • Parallel Processing • VMs • Boolean Algebra & K-Maps</title>
+
+  <style>
+    :root{
+      --bg:#071a12;                 /* deep green */
+      --panel:#0a2418;
+      --card:#0d2e1f;
+      --text:#eafff5;
+      --muted:#b9f5d9;
+      --accent:#34d399;             /* emerald */
+      --accent2:#60a5fa;            /* blue */
+      --ok:#22c55e;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --border:rgba(255,255,255,.15);
+      --shadow:0 10px 30px rgba(0,0,0,.42);
+      --radius:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 12% 0%, rgba(52,211,153,.20), transparent 60%),
+        radial-gradient(900px 520px at 90% 10%, rgba(96,165,250,.16), transparent 55%),
+        var(--bg);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background:rgba(7,26,18,.88);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar{
+      max-width:1500px; margin:0 auto;
+      padding:14px 16px;
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+    }
+    h1{margin:0; font-size:16px}
+    .sub{font-size:12px; color:var(--muted); margin-top:2px}
+
+    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
+    .btn{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:rgba(52,211,153,.18);
+      border-color:rgba(52,211,153,.5);
+    }
+    .btn.ghost{background:transparent}
+
+    .wrap{max-width:1500px; margin:0 auto; padding:16px}
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px; align-items:start}
+    @media(max-width:1150px){ .grid{grid-template-columns:1fr;} }
+
+    .pane{
+      background:rgba(10,36,24,.62);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:600px;
+    }
+    .paneHead{
+      padding:14px;
+      border-bottom:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .paneTitle{font-weight:800; font-size:14px}
+    .chip{
+      font-size:11px; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border); color:var(--muted);
+      white-space:nowrap;
+    }
+    .paneBody{padding:14px}
+
+    .section{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(13,46,31,.65);
+      margin:12px 0;
+      overflow:hidden;
+    }
+    .sectionHeader{
+      padding:12px;
+      background:rgba(255,255,255,.05);
+      cursor:pointer;
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+    }
+    .sectionHeader h2{margin:0; font-size:14px}
+    .kicker{font-size:12px; color:var(--muted); margin-top:4px}
+    .chev{color:var(--muted); font-size:12px; user-select:none}
+    .sectionContent{display:none; padding:12px}
+    .sectionContent.open{display:block}
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      padding:12px;
+      margin:10px 0;
+    }
+    h3{margin:0 0 6px; font-size:13px}
+    p, li{font-size:13px; line-height:1.6; color:rgba(234,255,245,.96)}
+    ul{margin:8px 0 8px 18px}
+    ol{margin:8px 0 8px 20px}
+    .mono{
+      font-family:var(--mono);
+      font-size:12.5px;
+      background:rgba(0,0,0,.28);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px;
+      white-space:pre-wrap;
+      overflow:auto;
+    }
+    .callout{
+      border-left:3px solid var(--accent);
+      background:rgba(52,211,153,.12);
+      border-radius:12px;
+      padding:10px 12px;
+      margin:10px 0;
+      font-size:13px;
+    }
+    .callout.warn{border-left-color:var(--warn); background:rgba(251,191,36,.12)}
+    .callout.ok{border-left-color:var(--ok); background:rgba(34,197,94,.12)}
+    .callout.bad{border-left-color:var(--bad); background:rgba(251,113,133,.12)}
+
+    .pill{
+      display:inline-block;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:12px;
+      color:var(--muted);
+      margin:2px 6px 2px 0;
+      background:rgba(255,255,255,.03);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* PRACTICE UI */
+    .q{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      padding:12px;
+      margin:10px 0;
+    }
+    .qhead{display:flex; gap:10px; align-items:flex-start; justify-content:space-between; margin-bottom:8px}
+    .qtitle{font-weight:800; font-size:13px}
+    .marks{font-size:12px; color:var(--muted); white-space:nowrap}
+    textarea{
+      width:100%;
+      min-height:90px;
+      resize:vertical;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:10px;
+      font-size:13px;
+      outline:none;
+    }
+    input[type="text"]{
+      width:100%;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:10px;
+      font-size:13px;
+      outline:none;
+    }
+    .qactions{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+    .hint{font-size:12px; color:var(--muted); margin-top:8px}
+    .model{
+      display:none;
+      margin-top:10px;
+      border-top:1px dashed rgba(255,255,255,.25);
+      padding-top:10px;
+    }
+    .model.open{display:block}
+    .badge{
+      font-size:11px; padding:4px 8px; border-radius:999px; border:1px solid var(--border);
+      color:var(--muted);
+    }
+    .feedback{
+      margin-top:8px;
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.18);
+      display:none;
+    }
+    .feedback.ok{display:block; border-color:rgba(34,197,94,.55); background:rgba(34,197,94,.12)}
+    .feedback.bad{display:block; border-color:rgba(251,113,133,.55); background:rgba(251,113,133,.12)}
+    .small{font-size:12px; color:var(--muted)}
+    footer{margin-top:10px; font-size:12px; color:var(--muted)}
+
+    /* Matching + ordering + table */
+    .row{display:grid; grid-template-columns: 1.2fr 1fr; gap:10px; align-items:center; margin:8px 0;}
+    select{
+      width:100%;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:10px;
+      font-size:13px;
+      outline:none;
+    }
+    .box{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(0,0,0,.18);
+      padding:10px;
+    }
+    .item{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:8px 10px;
+      margin:8px 0;
+      background:rgba(255,255,255,.05);
+      cursor:grab;
+      user-select:none;
+    }
+
+    /* Karnaugh map */
+    .kmapWrap{
+      display:grid;
+      grid-template-columns: auto 1fr;
+      gap:10px;
+      align-items:start;
+      overflow:auto;
+    }
+    .kmap{
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      background:rgba(0,0,0,.18);
+      min-width:380px;
+    }
+    .kmap table{
+      width:100%;
+      border-collapse:collapse;
+      font-family:var(--mono);
+      font-size:13px;
+    }
+    .kmap th,.kmap td{
+      border:1px solid rgba(255,255,255,.18);
+      text-align:center;
+      padding:8px;
+    }
+    .kmap th{
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+      font-weight:700;
+    }
+    .cellBtn{
+      width:100%;
+      border:none;
+      background:transparent;
+      color:var(--text);
+      padding:10px 0;
+      cursor:pointer;
+      font-family:var(--mono);
+      font-size:14px;
+    }
+    .cellBtn.on{background:rgba(52,211,153,.18)}
+    .kmapLegend{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      padding:10px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="topbar">
+    <div>
+      <h1>Hardware & Virtual Machines — RISC vs CISC • Parallel Processing • Virtual Machines • Boolean Algebra & Karnaugh Maps</h1>
+      <div class="sub">Two student panes • Left: exam-ready notes • Right: mixed practice (writing + MCQ + fill + match + ordering + K-map)</div>
+    </div>
+    <div class="controls">
+      <button class="btn primary" onclick="toggleAll(true)">Expand all</button>
+      <button class="btn" onclick="toggleAll(false)">Collapse all</button>
+      <button class="btn ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">Top</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- ================= LEFT PANE ================= -->
+    <section class="pane">
+      <div class="paneHead">
+        <div class="paneTitle">Student Pane A — Notes, Definitions, Examples (Exam Ready)</div>
+        <span class="chip">Chapter 15: Hardware & Virtual Machines</span>
+      </div>
+
+      <div class="paneBody">
+        <div class="card">
+          <h3>Quick navigation</h3>
+          <p class="small">
+            <a href="#risc">1) RISC vs CISC</a> •
+            <a href="#parallel">2) Parallel processing types</a> •
+            <a href="#vm">3) Virtual machines</a> •
+            <a href="#bool">4) Boolean algebra & Karnaugh maps</a>
+          </p>
+          <div class="callout">
+            Exam method: for “compare”, write paired points (RISC does X, CISC does Y). For “explain”, use definition + how + benefit + example.
+          </div>
+        </div>
+
+        <!-- 1. RISC vs CISC -->
+        <div class="section" id="risc">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>1. Compare RISC vs CISC</h2>
+              <div class="kicker">Instruction set • cycles per instruction • complexity • pipeline • code size</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Definitions</h3>
+              <p><b>RISC</b> (Reduced Instruction Set Computer): uses a <b>small, simple</b> set of instructions, designed to execute quickly (often 1 clock cycle per instruction).</p>
+              <p><b>CISC</b> (Complex Instruction Set Computer): uses a <b>large</b> set of instructions, including complex instructions that can do more in one instruction (often multiple cycles).</p>
+              <div class="callout ok">Best phrase: <b>RISC simplifies hardware to increase speed; CISC reduces program size by using more powerful instructions.</b></div>
+            </div>
+
+            <div class="card">
+              <h3>Key comparison points (the ones examiners love)</h3>
+              <ul>
+                <li><b>Instruction complexity:</b> RISC simple; CISC complex.</li>
+                <li><b>Number of instructions:</b> RISC fewer; CISC more.</li>
+                <li><b>Instruction length:</b> RISC often fixed length; CISC often variable length.</li>
+                <li><b>Execution:</b> RISC often 1 cycle; CISC often multiple cycles.</li>
+                <li><b>Pipelining:</b> RISC easier to pipeline due to uniform instructions.</li>
+                <li><b>Code size:</b> RISC may need more instructions to do the same job; CISC may use fewer instructions.</li>
+                <li><b>Hardware complexity:</b> RISC simpler CPU design; CISC more complex control logic.</li>
+              </ul>
+              <div class="callout warn">
+                Common mistake: “RISC always faster” — not always. Correct: <b>RISC often enables higher throughput via pipelining; performance depends on implementation and workload.</b>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Exam-style comparison paragraph (4–6 marks)</h3>
+              <div class="mono">RISC uses a smaller set of simple, fixed-length instructions, often designed to run in a single clock cycle.
+This makes pipelining easier and can increase instruction throughput. However, more instructions may be needed for a task, increasing program length.
+CISC uses a larger instruction set with more complex, sometimes multi-cycle instructions, which can reduce program size but increases CPU complexity.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. PARALLEL PROCESSING TYPES -->
+        <div class="section" id="parallel">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>2. Parallel Processing Types</h2>
+              <div class="kicker">Why parallel? • multi-core • SIMD • distributed • GPU • pipeline idea</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Definition</h3>
+              <p><b>Parallel processing</b> is using <b>more than one processing unit</b> to perform tasks at the same time to improve performance (speed/throughput) or handle large problems.</p>
+              <div class="callout ok">Exam phrase: <b>Parallel processing divides a problem into smaller parts that can run simultaneously.</b></div>
+            </div>
+
+            <div class="card">
+              <h3>Types you should understand</h3>
+              <ul>
+                <li><b>Multi-core / multiprocessor:</b> several CPU cores run different threads/tasks at the same time.</li>
+                <li><b>SIMD (Single Instruction, Multiple Data):</b> one instruction applied to many data items simultaneously (common in GPUs/vector units).</li>
+                <li><b>Distributed processing:</b> multiple computers/servers share work over a network (e.g., render farms, cluster computing).</li>
+                <li><b>GPU parallelism:</b> many small cores handle large numbers of similar operations (graphics, AI, image processing).</li>
+                <li><b>Pipelining (conceptual):</b> overlapping stages of instruction execution (not multiple instructions in one stage, but stages in parallel).</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>Benefits and limitations</h3>
+              <ul>
+                <li><b>Benefits:</b> faster processing; handles bigger workloads; improves responsiveness (multitasking).</li>
+                <li><b>Limitations:</b> overhead to split/coordinate tasks; not all problems can be parallelised; risk of contention (shared resources).</li>
+              </ul>
+              <div class="callout warn">
+                Good evaluation point: if a task has many dependencies (one step must finish before the next), parallel processing gives little benefit.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Everyday examples (use in answers)</h3>
+              <ul>
+                <li>Video rendering and image filters (SIMD/GPU)</li>
+                <li>Web servers handling many user requests (multi-core/distributed)</li>
+                <li>Scientific simulations (distributed clusters)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. VIRTUAL MACHINES -->
+        <div class="section" id="vm">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>3. Virtual Machines (VMs)</h2>
+              <div class="kicker">Host vs guest • hypervisor • advantages & disadvantages • use cases</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Definition</h3>
+              <p>
+                A <b>virtual machine</b> is a software-based computer that behaves like a real computer. It runs an operating system and applications in an isolated environment
+                on a physical machine. A VM shares the physical hardware (CPU, RAM, disk) through a <b>hypervisor</b>.
+              </p>
+              <div class="callout ok">Best phrase: <b>A VM provides isolation while sharing the same physical hardware.</b></div>
+            </div>
+
+            <div class="card">
+              <h3>Key terms</h3>
+              <ul>
+                <li><b>Host machine:</b> the physical computer running the virtualization software.</li>
+                <li><b>Guest machine:</b> the virtual computer running inside the host.</li>
+                <li><b>Hypervisor:</b> software that creates/manages VMs and allocates CPU, memory and storage.</li>
+              </ul>
+              <div class="mono">Host (physical hardware)
+  └─ Hypervisor
+      ├─ VM 1 (Guest OS + apps)
+      ├─ VM 2 (Guest OS + apps)
+      └─ VM 3 (Guest OS + apps)</div>
+            </div>
+
+            <div class="card">
+              <h3>Advantages (exam points)</h3>
+              <ul>
+                <li><b>Isolation:</b> problems in one VM are less likely to affect others.</li>
+                <li><b>Testing:</b> safely try new software/OS without damaging the host.</li>
+                <li><b>Server consolidation:</b> multiple servers on one physical machine reduces cost and energy.</li>
+                <li><b>Snapshots:</b> revert to a previous state quickly.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>Disadvantages (exam points)</h3>
+              <ul>
+                <li><b>Performance overhead:</b> VMs can run slower due to virtualization.</li>
+                <li><b>Resource limits:</b> RAM/CPU shared — too many VMs can cause slowdowns.</li>
+                <li><b>Complexity:</b> managing hypervisors and VM images requires skill.</li>
+              </ul>
+              <div class="callout warn">
+                In evaluation questions, link to the scenario: “VMs are good for testing” OR “VM overhead may not suit real-time systems”.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Typical uses</h3>
+              <ul>
+                <li>Running a different OS on the same computer (e.g., Windows VM on Linux).</li>
+                <li>Testing malware safely in isolation (security labs).</li>
+                <li>Cloud computing: many virtual servers on large physical machines.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. BOOLEAN ALGEBRA & K-MAPS -->
+        <div class="section" id="bool">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>4. Boolean Algebra & Karnaugh Maps</h2>
+              <div class="kicker">Laws • simplification • SOP/POS idea • K-map grouping • common traps</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Boolean algebra basics</h3>
+              <p>Boolean variables take values <b>0 or 1</b>. Common operators:</p>
+              <ul>
+                <li><b>AND</b> (·): output 1 if both inputs are 1</li>
+                <li><b>OR</b> (+): output 1 if at least one input is 1</li>
+                <li><b>NOT</b> (¯): inverts 0↔1</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>Core laws you must know (and use)</h3>
+              <div class="mono">Identity:     A + 0 = A      A · 1 = A
+Null:         A + 1 = 1      A · 0 = 0
+Idempotent:   A + A = A      A · A = A
+Complement:   A + Ā = 1      A · Ā = 0
+De Morgan:    (A · B)̄ = Ā + B̄
+             (A + B)̄ = Ā · B̄
+Absorption:   A + (A · B) = A
+             A · (A + B) = A</div>
+              <div class="callout ok">
+                Examiner tip: In simplification questions, show steps using a named law (even briefly). That’s where marks come from.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Karnaugh maps (K-maps) — what they are</h3>
+              <p>
+                A <b>Karnaugh map</b> is a visual way to simplify Boolean expressions by grouping 1s (for SOP) or 0s (for POS) in powers of 2:
+                1, 2, 4, 8… Adjacent cells wrap around the edges.
+              </p>
+              <div class="callout warn">
+                Biggest student error: grouping diagonally. Only horizontal/vertical adjacency counts (with wrap-around).
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>2-variable K-map layout (for A,B)</h3>
+              <div class="mono">      B
+      0   1
+A 0  m0  m1
+  1  m2  m3</div>
+              <p class="small">For 3–4 variables, Gray code order is used. Many exams use 4-variable K-maps.</p>
+            </div>
+
+            <div class="card">
+              <h3>How to simplify using a K-map (SOP method)</h3>
+              <ol>
+                <li>Fill the K-map with 1s where the output is 1 (from truth table or minterms).</li>
+                <li>Make the largest possible groups of 1s (size 1,2,4,8...). Groups can overlap.</li>
+                <li>For each group, identify variables that stay the same; those form the simplified term.</li>
+                <li>OR the terms together to get the simplified expression.</li>
+              </ol>
+              <div class="callout">If asked “simplify”, you must reduce the number of literals/gates, not just rewrite.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>End-of-chapter exam language recap</h3>
+          <ul>
+            <li><b>RISC:</b> small simple instruction set; often fixed length; easier pipelining.</li>
+            <li><b>CISC:</b> large complex instruction set; fewer instructions per task; more complex CPU.</li>
+            <li><b>Parallel processing:</b> multiple processing units working simultaneously; types include multi-core, SIMD, distributed, GPU.</li>
+            <li><b>VM:</b> software computer running guest OS on host via hypervisor; advantages isolation/testing; disadvantage overhead.</li>
+            <li><b>K-map:</b> groups 1s/0s in powers of 2 to simplify expressions; adjacency includes wrap-around.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RIGHT PANE ================= -->
+    <section class="pane">
+      <div class="paneHead">
+        <div class="paneTitle">Student Pane B — Practice (Mixed types)</div>
+        <span class="chip">Write + Check • MCQ • Fill • Match • Order • K-map</span>
+      </div>
+
+      <div class="paneBody">
+
+        <!-- SET 1: RISC vs CISC -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 1 — RISC vs CISC</h2>
+              <div class="kicker">Compare • scenario • table style</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent open">
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q1. Give two differences between RISC and CISC. (4)</div><div class="marks">4 marks</div></div>
+              <textarea placeholder="Write paired points (RISC..., CISC...)."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <ul>
+                  <li>RISC has fewer, simpler instructions; CISC has a larger set of more complex instructions.</li>
+                  <li>RISC often uses fixed-length instructions and is easier to pipeline; CISC often uses variable-length instructions and more complex decoding.</li>
+                  <li>RISC may require more instructions for a task; CISC may use fewer instructions (smaller code size).</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="q" data-mcq="true" data-correct="B">
+              <div class="qhead"><div class="qtitle">Q2. Which feature is most associated with RISC? (1)</div><div class="marks">1 mark</div></div>
+              <label><input type="radio" name="mcq_r1" value="A"> A. Many complex instructions that do multiple operations</label><br/>
+              <label><input type="radio" name="mcq_r1" value="B"> B. Small set of simple instructions designed for fast execution</label><br/>
+              <label><input type="radio" name="mcq_r1" value="C"> C. Instructions always require many clock cycles</label><br/>
+              <label><input type="radio" name="mcq_r1" value="D"> D. Cannot be pipelined</label>
+              <div class="qactions"><button class="btn primary" onclick="checkMCQ(this)">Check</button></div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q3. A CPU design aims for efficient pipelining. Which architecture is usually preferred and why? (3)</div><div class="marks">3 marks</div></div>
+              <textarea placeholder="State architecture + explain using instruction uniformity/pipeline."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <p>
+                  RISC is usually preferred because its instructions are simpler and often fixed length, so the stages of the pipeline are more uniform and predictable.
+                  This makes pipelining easier and can increase instruction throughput.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SET 2: PARALLEL PROCESSING -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 2 — Parallel Processing</h2>
+              <div class="kicker">Match types • fill blanks • evaluation</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+
+            <div class="q" data-fill="true">
+              <div class="qhead"><div class="qtitle">Q4. SIMD stands for <b>____</b> Instruction, Multiple Data. (1)</div><div class="marks">1 mark</div></div>
+              <input type="text" placeholder="One word..." data-answers="single"/>
+              <div class="qactions"><button class="btn primary" onclick="checkFill(this)">Check</button></div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-match="true">
+              <div class="qhead"><div class="qtitle">Q5. Match the parallel type to the best example. (4)</div><div class="marks">4 marks</div></div>
+
+              <div class="row">
+                <div>Multi-core CPU</div>
+                <select data-correct="Running multiple apps/threads at once on one computer">
+                  <option value="">Choose…</option>
+                  <option>Many computers share a task over a network</option>
+                  <option>Running multiple apps/threads at once on one computer</option>
+                  <option>One instruction applied to many pixels simultaneously</option>
+                  <option>Reserved path for the whole communication session</option>
+                </select>
+              </div>
+
+              <div class="row">
+                <div>Distributed processing</div>
+                <select data-correct="Many computers share a task over a network">
+                  <option value="">Choose…</option>
+                  <option>One instruction applied to many pixels simultaneously</option>
+                  <option>Many computers share a task over a network</option>
+                  <option>Running multiple apps/threads at once on one computer</option>
+                  <option>Dedicated hardware for storing files</option>
+                </select>
+              </div>
+
+              <div class="row">
+                <div>SIMD / GPU style</div>
+                <select data-correct="One instruction applied to many pixels simultaneously">
+                  <option value="">Choose…</option>
+                  <option>One instruction applied to many pixels simultaneously</option>
+                  <option>Many computers share a task over a network</option>
+                  <option>Running multiple apps/threads at once on one computer</option>
+                  <option>Sending packets through different routes</option>
+                </select>
+              </div>
+
+              <div class="row">
+                <div>Pipelining</div>
+                <select data-correct="Overlapping different stages of instruction execution">
+                  <option value="">Choose…</option>
+                  <option>Overlapping different stages of instruction execution</option>
+                  <option>Many computers share a task over a network</option>
+                  <option>Running multiple apps/threads at once on one computer</option>
+                  <option>One instruction applied to many data items but in sequence</option>
+                </select>
+              </div>
+
+              <div class="qactions">
+                <button class="btn primary" onclick="checkMatching(this)">Check</button>
+                <button class="btn" onclick="resetMatching(this)">Reset</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q6. Give one reason why some tasks do not benefit much from parallel processing. (2)</div><div class="marks">2 marks</div></div>
+              <textarea placeholder="Mention dependencies/overhead/shared resources..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <p>
+                  Some tasks have strong dependencies where each step needs the result of the previous step, so they cannot be split into independent parts.
+                  Also, coordinating threads adds overhead and shared resources can cause contention.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SET 3: VIRTUAL MACHINES -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 3 — Virtual Machines</h2>
+              <div class="kicker">Definition • advantages/disadvantages • scenario</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+
+            <div class="q" data-mcq="true" data-correct="C">
+              <div class="qhead"><div class="qtitle">Q7. What is the hypervisor responsible for? (1)</div><div class="marks">1 mark</div></div>
+              <label><input type="radio" name="mcq_vm1" value="A"> A. Converting domain names to IP addresses</label><br/>
+              <label><input type="radio" name="mcq_vm1" value="B"> B. Encrypting web traffic</label><br/>
+              <label><input type="radio" name="mcq_vm1" value="C"> C. Creating/managing VMs and allocating hardware resources</label><br/>
+              <label><input type="radio" name="mcq_vm1" value="D"> D. Storing images in compressed form</label>
+              <div class="qactions"><button class="btn primary" onclick="checkMCQ(this)">Check</button></div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q8. Give one advantage and one disadvantage of using VMs on servers. (4)</div><div class="marks">4 marks</div></div>
+              <textarea placeholder="One advantage + explain; one disadvantage + explain."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <ul>
+                  <li><b>Advantage:</b> server consolidation / isolation — multiple virtual servers run on one physical machine and faults are contained.</li>
+                  <li><b>Disadvantage:</b> overhead and shared resources — virtualization can reduce performance and too many VMs can slow the host.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q9. A student wants to test a suspicious file safely. Explain how a VM helps. (3)</div><div class="marks">3 marks</div></div>
+              <textarea placeholder="Isolation + snapshot + host protection..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <p>
+                  A VM provides an isolated environment, so if the file contains malware it is less likely to affect the host OS.
+                  The VM can be reset using snapshots, allowing safe testing and quick recovery.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SET 4: BOOLEAN ALGEBRA & K-MAPS -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 4 — Boolean Algebra & Karnaugh Maps</h2>
+              <div class="kicker">Simplify • identify laws • interactive K-map (2 variables)</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+
+            <div class="q" data-fill="true">
+              <div class="qhead"><div class="qtitle">Q10. Use De Morgan: (A + B)̄ = Ā · ____. (1)</div><div class="marks">1 mark</div></div>
+              <input type="text" placeholder="Single symbol/letter..." data-answers="B̄,b̄"/>
+              <div class="qactions"><button class="btn primary" onclick="checkFill(this)">Check</button></div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q11. Simplify: A + (A · B). Show the law used. (2)</div><div class="marks">2 marks</div></div>
+              <textarea placeholder="Write steps..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <div class="mono">A + (A · B)
+= A        (Absorption law)</div>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q12. Simplify: (A · B) + (A · B̄). (3)</div><div class="marks">3 marks</div></div>
+              <textarea placeholder="Hint: factor A..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <div class="mono">(A · B) + (A · B̄)
+= A · (B + B̄)   (factor A)
+= A · 1          (complement law)
+= A              (identity)</div>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qhead"><div class="qtitle">Q13. Interactive 2-variable K-map: click cells to set 1s. Then simplify. (4)</div><div class="marks">4 marks</div></div>
+
+              <div class="kmapWrap">
+                <div class="kmap">
+                  <table>
+                    <tr>
+                      <th></th><th colspan="2">B</th>
+                    </tr>
+                    <tr>
+                      <th>A \\ B</th><th>0</th><th>1</th>
+                    </tr>
+                    <tr>
+                      <th>0</th>
+                      <td><button class="cellBtn" data-cell="m0" onclick="toggleCell(this)">0</button></td>
+                      <td><button class="cellBtn" data-cell="m1" onclick="toggleCell(this)">0</button></td>
+                    </tr>
+                    <tr>
+                      <th>1</th>
+                      <td><button class="cellBtn" data-cell="m2" onclick="toggleCell(this)">0</button></td>
+                      <td><button class="cellBtn" data-cell="m3" onclick="toggleCell(this)">0</button></td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="kmapLegend">
+                  <div class="badge">How to use</div>
+                  <ul>
+                    <li>Click cells to toggle 0/1.</li>
+                    <li>Try to make groups of 1s (1,2,4).</li>
+                    <li>Write simplified expression below.</li>
+                  </ul>
+                  <p class="small">
+                    Minterms: m0=(A=0,B=0), m1=(0,1), m2=(1,0), m3=(1,1)
+                  </p>
+                </div>
+              </div>
+
+              <textarea id="kmapAns" placeholder="Write your simplified expression, e.g., A, B, A + B, A·B, Ā·B ..."></textarea>
+
+              <div class="qactions">
+                <button class="btn primary" onclick="checkKMap2(this)">Check (example patterns)</button>
+                <button class="btn" onclick="resetKMap2()">Reset map</button>
+              </div>
+              <div class="feedback" id="kmapFb"></div>
+
+              <div class="model">
+                <div class="badge">Note</div>
+                <p class="small">
+                  Auto-check supports common patterns (all 0s, all 1s, single-variable groups, and basic pairs). For other patterns, use the notes and compare.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+<!-- ===================== EXTRA EXERCISES PACK (Paste into RIGHT PANE, inside .paneBody, near the end) ===================== -->
+
+<!-- SET 5: RISC vs CISC (More MCQ + Structured) -->
+<div class="section">
+  <div class="sectionHeader" onclick="toggleSection(this)">
+    <div>
+      <h2>Extra Practice Set — RISC vs CISC (More questions)</h2>
+      <div class="kicker">MCQ • structured • evaluation</div>
+    </div>
+    <div class="chev">Click to open/close ▾</div>
+  </div>
+  <div class="sectionContent">
+
+    <div class="q" data-mcq="true" data-correct="D">
+      <div class="qhead"><div class="qtitle">Q14. Which paired statement is most accurate? (1)</div><div class="marks">1 mark</div></div>
+      <label><input type="radio" name="mcq_r2" value="A"> A. RISC uses variable-length instructions; CISC uses fixed-length</label><br/>
+      <label><input type="radio" name="mcq_r2" value="B"> B. RISC always produces smaller code size than CISC</label><br/>
+      <label><input type="radio" name="mcq_r2" value="C"> C. CISC always executes every instruction in one clock cycle</label><br/>
+      <label><input type="radio" name="mcq_r2" value="D"> D. RISC tends to have simpler instructions; CISC tends to have more complex instructions</label>
+      <div class="qactions"><button class="btn primary" onclick="checkMCQ(this)">Check</button></div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q" data-mcq="true" data-correct="B">
+      <div class="qhead"><div class="qtitle">Q15. One reason CISC can reduce program size is because it: (1)</div><div class="marks">1 mark</div></div>
+      <label><input type="radio" name="mcq_r3" value="A"> A. Eliminates the need for registers</label><br/>
+      <label><input type="radio" name="mcq_r3" value="B"> B. Uses more powerful instructions that can do more per instruction</label><br/>
+      <label><input type="radio" name="mcq_r3" value="C"> C. Only uses 1-byte instructions</label><br/>
+      <label><input type="radio" name="mcq_r3" value="D"> D. Has no instruction decoding stage</label>
+      <div class="qactions"><button class="btn primary" onclick="checkMCQ(this)">Check</button></div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q16. Explain why “RISC is always faster than CISC” is not always true. (3)</div><div class="marks">3 marks</div></div>
+      <textarea placeholder="Mention: depends on implementation/workload, compiler, pipelining, micro-ops, caching..."></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <p>
+          Performance depends on CPU implementation and workload. A CISC CPU may translate complex instructions into fast internal micro-operations and can benefit from
+          caching and modern pipelines. RISC may need more instructions to perform a task, so total time can be similar; compilers and memory access patterns also affect speed.
+        </p>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q17. Complete this comparison (write 4 paired points). (4)</div><div class="marks">4 marks</div></div>
+      <textarea placeholder="Example: RISC: fixed length ... | CISC: variable length ... (write 4 pairs)."></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <div class="mono">RISC: fewer, simpler instructions     | CISC: larger, more complex instruction set
+RISC: often fixed-length encoding   | CISC: often variable-length encoding
+RISC: often 1 cycle per instruction | CISC: many instructions are multi-cycle
+RISC: easier pipelining/decoding    | CISC: more complex decode/control logic
+(Also acceptable: RISC more instructions per task; CISC fewer instructions per task)</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SET 6: Parallel Processing (More types + scenarios) -->
+<div class="section">
+  <div class="sectionHeader" onclick="toggleSection(this)">
+    <div>
+      <h2>Extra Practice Set — Parallel Processing (More questions)</h2>
+      <div class="kicker">MCQ • fill • scenario-based evaluation</div>
+    </div>
+    <div class="chev">Click to open/close ▾</div>
+  </div>
+  <div class="sectionContent">
+
+    <div class="q" data-mcq="true" data-correct="A">
+      <div class="qhead"><div class="qtitle">Q18. Which task is most suited to SIMD/GPU style parallelism? (1)</div><div class="marks">1 mark</div></div>
+      <label><input type="radio" name="mcq_p1" value="A"> A. Applying the same filter to every pixel in an image</label><br/>
+      <label><input type="radio" name="mcq_p1" value="B"> B. Printing a single document letter-by-letter</label><br/>
+      <label><input type="radio" name="mcq_p1" value="C"> C. Sorting a list using only one comparison at a time</label><br/>
+      <label><input type="radio" name="mcq_p1" value="D"> D. Reading one sensor value once per day</label>
+      <div class="qactions"><button class="btn primary" onclick="checkMCQ(this)">Check</button></div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q" data-fill="true">
+      <div class="qhead"><div class="qtitle">Q19. A major limitation of parallel processing is coordination <b>____</b>. (1)</div><div class="marks">1 mark</div></div>
+      <input type="text" placeholder="One word..." data-answers="overhead"/>
+      <div class="qactions"><button class="btn primary" onclick="checkFill(this)">Check</button></div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q20. A web server handles thousands of user requests per second. Name two parallel approaches and explain. (4)</div><div class="marks">4 marks</div></div>
+      <textarea placeholder="e.g., multi-core threads + distributed load-balanced servers..."></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <p>
+          Use a multi-core CPU to process multiple requests in parallel using threads/processes. Also use distributed processing: multiple servers behind a load balancer share
+          incoming requests, increasing throughput and resilience.
+        </p>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q21. Explain what “contention” means in parallel systems. (2)</div><div class="marks">2 marks</div></div>
+      <textarea placeholder="Shared resource conflicts..."></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <p>
+          Contention occurs when multiple threads/cores try to use the same shared resource (e.g., memory bus, cache, file, lock) at the same time, causing waiting and reducing speedup.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SET 7: Virtual Machines (More question types) -->
+<div class="section">
+  <div class="sectionHeader" onclick="toggleSection(this)">
+    <div>
+      <h2>Extra Practice Set — Virtual Machines (More questions)</h2>
+      <div class="kicker">MCQ • matching • structured</div>
+    </div>
+    <div class="chev">Click to open/close ▾</div>
+  </div>
+  <div class="sectionContent">
+
+    <div class="q" data-mcq="true" data-correct="B">
+      <div class="qhead"><div class="qtitle">Q22. Which is the best reason to use VMs in a school computer lab? (1)</div><div class="marks">1 mark</div></div>
+      <label><input type="radio" name="mcq_vm2" value="A"> A. To permanently increase the CPU clock speed</label><br/>
+      <label><input type="radio" name="mcq_vm2" value="B"> B. To isolate student experiments and restore machines quickly</label><br/>
+      <label><input type="radio" name="mcq_vm2" value="C"> C. To remove the need for storage devices</label><br/>
+      <label><input type="radio" name="mcq_vm2" value="D"> D. To make the internet connection faster</label>
+      <div class="qactions"><button class="btn primary" onclick="checkMCQ(this)">Check</button></div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q" data-match="true">
+      <div class="qhead"><div class="qtitle">Q23. Match the term to the description. (3)</div><div class="marks">3 marks</div></div>
+
+      <div class="row">
+        <div>Host</div>
+        <select data-correct="Physical machine running the hypervisor">
+          <option value="">Choose…</option>
+          <option>Virtual machine OS and apps running inside the host</option>
+          <option>Physical machine running the hypervisor</option>
+          <option>Software that creates and manages virtual machines</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div>Guest</div>
+        <select data-correct="Virtual machine OS and apps running inside the host">
+          <option value="">Choose…</option>
+          <option>Software that creates and manages virtual machines</option>
+          <option>Virtual machine OS and apps running inside the host</option>
+          <option>Physical machine running the hypervisor</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div>Hypervisor</div>
+        <select data-correct="Software that creates and manages virtual machines">
+          <option value="">Choose…</option>
+          <option>Physical machine running the hypervisor</option>
+          <option>Virtual machine OS and apps running inside the host</option>
+          <option>Software that creates and manages virtual machines</option>
+        </select>
+      </div>
+
+      <div class="qactions">
+        <button class="btn primary" onclick="checkMatching(this)">Check</button>
+        <button class="btn" onclick="resetMatching(this)">Reset</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q24. Explain “snapshots” in VMs and why they are useful. (3)</div><div class="marks">3 marks</div></div>
+      <textarea placeholder="Define snapshot + revert + testing/recovery..."></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <p>
+          A snapshot is a saved state of a VM at a point in time (disk + settings). It allows the VM to be reverted quickly after an experiment,
+          failed update, or malware test, making safe testing and rapid recovery possible.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SET 8: Boolean Algebra & K-Maps (More simplification drills) -->
+<div class="section">
+  <div class="sectionHeader" onclick="toggleSection(this)">
+    <div>
+      <h2>Extra Practice Set — Boolean Algebra (More drills)</h2>
+      <div class="kicker">De Morgan • absorption • factorisation • simplification</div>
+    </div>
+    <div class="chev">Click to open/close ▾</div>
+  </div>
+  <div class="sectionContent">
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q25. Apply De Morgan: (A·B·C)̄ = ____ + ____ + ____. (3)</div><div class="marks">3 marks</div></div>
+      <textarea placeholder="Write the expression... (use Ā, B̄, C̄)"></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <div class="mono">(A·B·C)̄ = Ā + B̄ + C̄</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q26. Simplify: (A + B)·(A + B̄). (4)</div><div class="marks">4 marks</div></div>
+      <textarea placeholder="Hint: Use distribution OR consensus style reasoning..."></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <div class="mono">(A + B)·(A + B̄)
+= A + (B·B̄)     (using (X+Y)(X+Z)=X+YZ)
+= A + 0
+= A</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><div class="qtitle">Q27. Simplify: A·(Ā + B) + Ā·B. (5)</div><div class="marks">5 marks</div></div>
+      <textarea placeholder="Show steps and laws."></textarea>
+      <div class="qactions">
+        <button class="btn primary" onclick="revealModel(this)">Check</button>
+        <button class="btn" onclick="clearTA(this)">Clear</button>
+      </div>
+      <div class="model">
+        <div class="badge">Model answer</div>
+        <div class="mono">A·(Ā + B) + Ā·B
+= (A·Ā) + (A·B) + Ā·B      (distribution)
+= 0 + (A·B) + (Ā·B)         (complement)
+= B·(A + Ā)                  (factor B)
+= B·1
+= B</div>
+      </div>
+    </div>
+
+    <div class="q" data-mcq="true" data-correct="C">
+      <div class="qhead"><div class="qtitle">Q28. Which is an absorption law? (1)</div><div class="marks">1 mark</div></div>
+      <label><input type="radio" name="mcq_b1" value="A"> A. A + 0 = 0</label><br/>
+      <label><input type="radio" name="mcq_b1" value="B"> B. A·1 = 0</label><br/>
+      <label><input type="radio" name="mcq_b1" value="C"> C. A + A·B = A</label><br/>
+      <label><input type="radio" name="mcq_b1" value="D"> D. A + A = 1</label>
+      <div class="qactions"><button class="btn primary" onclick="checkMCQ(this)">Check</button></div>
+      <div class="feedback"></div>
+    </div>
+
+  </div>
+</div>
+
+
+        <div class="card">
+          <h3>Exam checklist</h3>
+          <ul>
+            <li>RISC vs CISC: include <b>instruction complexity</b>, <b>cycles</b>, <b>pipelining</b>, <b>code size</b>.</li>
+            <li>Parallel: name at least two types and give a real example use.</li>
+            <li>VMs: define host/guest/hypervisor; 1 advantage + 1 disadvantage linked to scenario.</li>
+            <li>Boolean: quote a law (De Morgan / absorption) and show steps.</li>
+            <li>K-map: groups in powers of 2; wrap-around adjacency; no diagonal groups.</li>
+          </ul>
+          <footer>Tip: In simplification, marks are awarded for correct laws + correct reduction.</footer>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  // Expand/collapse
+  function toggleSection(header){
+    const content = header.parentElement.querySelector('.sectionContent');
+    content.classList.toggle('open');
+  }
+  function toggleAll(open){
+    document.querySelectorAll('.sectionContent').forEach(el => el.classList.toggle('open', open));
+  }
+
+  // Writing questions: reveal model
+  function revealModel(btn){
+    const q = btn.closest('.q');
+    const model = q.querySelector('.model');
+    if(model){ model.classList.add('open'); }
+    btn.textContent = 'Checked ✓ (showing model)';
+  }
+  function clearTA(btn){
+    const q = btn.closest('.q');
+    const ta = q.querySelector('textarea');
+    if(ta) ta.value = '';
+  }
+
+  // MCQ auto-check
+  function checkMCQ(btn){
+    const q = btn.closest('.q');
+    const correct = q.dataset.correct;
+    const inputs = q.querySelectorAll('input[type="radio"]');
+    let chosen = null;
+    inputs.forEach(i => { if(i.checked) chosen = i.value; });
+    const fb = q.querySelector('.feedback');
+    if(!chosen){
+      fb.className = 'feedback bad';
+      fb.textContent = 'Choose an option first.';
+      return;
+    }
+    if(chosen === correct){
+      fb.className = 'feedback ok';
+      fb.textContent = 'Correct ✓';
+    }else{
+      fb.className = 'feedback bad';
+      fb.textContent = 'Not quite ✗  Review the notes and try again.';
+    }
+  }
+
+  // Fill in the blanks
+  function normalise(s){
+    return (s || '').trim().toLowerCase().replace(/\s+/g,' ');
+  }
+  function checkFill(btn){
+    const q = btn.closest('.q');
+    const inp = q.querySelector('input[type="text"]');
+    const answers = (inp.dataset.answers || '').split(',').map(a => normalise(a));
+    const fb = q.querySelector('.feedback');
+    const user = normalise(inp.value);
+    if(!user){
+      fb.className='feedback bad';
+      fb.textContent='Type an answer first.';
+      return;
+    }
+    if(answers.includes(user)){
+      fb.className='feedback ok';
+      fb.textContent='Correct ✓';
+    }else{
+      fb.className='feedback bad';
+      fb.textContent='Not correct ✗  Hint: check the law/definition in the notes.';
+    }
+  }
+
+  // Matching (select)
+  function checkMatching(btn){
+    const q = btn.closest('.q');
+    const selects = q.querySelectorAll('select');
+    let ok = 0;
+    selects.forEach(s => { if(s.value === s.dataset.correct) ok++; });
+    const fb = q.querySelector('.feedback');
+    if(ok === selects.length){
+      fb.className='feedback ok';
+      fb.textContent=`Perfect ✓  (${ok}/${selects.length})`;
+    }else{
+      fb.className='feedback bad';
+      fb.textContent=`Not yet ✗  (${ok}/${selects.length}) — try again.`;
+    }
+  }
+  function resetMatching(btn){
+    const q = btn.closest('.q');
+    q.querySelectorAll('select').forEach(s => s.value = '');
+    const fb = q.querySelector('.feedback');
+    fb.className='feedback';
+    fb.textContent='';
+  }
+
+  // --- K-map (2 variable) interactive ---
+  // Map cell -> (A,B)
+  const cellMap = {
+    m0:{A:0,B:0, term:"Ā·B̄"},
+    m1:{A:0,B:1, term:"Ā·B"},
+    m2:{A:1,B:0, term:"A·B̄"},
+    m3:{A:1,B:1, term:"A·B"}
+  };
+
+  function toggleCell(btn){
+    btn.classList.toggle('on');
+    btn.textContent = btn.classList.contains('on') ? '1' : '0';
+  }
+
+  function resetKMap2(){
+    document.querySelectorAll('.cellBtn').forEach(b=>{
+      b.classList.remove('on');
+      b.textContent='0';
+    });
+    document.getElementById('kmapAns').value='';
+    const fb=document.getElementById('kmapFb');
+    fb.className='feedback';
+    fb.textContent='';
+  }
+
+  function getKMapState(){
+    const on = {};
+    document.querySelectorAll('.cellBtn').forEach(b=>{
+      on[b.dataset.cell]=b.classList.contains('on') ? 1 : 0;
+    });
+    return on;
+  }
+
+  // Basic pattern recogniser for 2-variable map
+  // Supports: all 0 -> 0 ; all 1 -> 1 ; single 1 -> minterm ; pairs -> single variable ; quad -> 1
+  function checkKMap2(btn){
+    const state = getKMapState();
+    const ones = Object.keys(state).filter(k=>state[k]===1);
+    const fb = document.getElementById('kmapFb');
+    const user = normalise(document.getElementById('kmapAns').value)
+      .replace(/·/g,'*')
+      .replace(/̄/g,'\''); // convert overbar to apostrophe for rough compare
+
+    // Expected simplified for common patterns:
+    // all 0
+    if(ones.length===0){
+      const ok = (user === "0" || user === "false");
+      fb.className = ok ? 'feedback ok' : 'feedback bad';
+      fb.textContent = ok ? 'Correct ✓  (All outputs 0 ⇒ expression = 0)' : 'Not matching. All 0s simplifies to 0.';
+      return;
+    }
+    // all 1
+    if(ones.length===4){
+      const ok = (user === "1" || user === "true");
+      fb.className = ok ? 'feedback ok' : 'feedback bad';
+      fb.textContent = ok ? 'Correct ✓  (All outputs 1 ⇒ expression = 1)' : 'Not matching. All 1s simplifies to 1.';
+      return;
+    }
+    // single 1
+    if(ones.length===1){
+      const c = ones[0];
+      // expected minterm
+      const t = cellMap[c].term;
+      const expected = normalise(t).replace(/·/g,'*').replace(/̄/g,'\'');
+      const ok = user === expected || user === normalise(t);
+      fb.className = ok ? 'feedback ok' : 'feedback bad';
+      fb.textContent = ok ? `Correct ✓  (Single 1 ⇒ ${t})` : `Expected minterm: ${t}`;
+      return;
+    }
+    // pairs
+    if(ones.length===2){
+      const set = new Set(ones);
+      // horizontal adjacency in this 2x2: (m0,m1) share A=0 => Ā ; (m2,m3) share A=1 => A
+      // vertical adjacency: (m0,m2) share B=0 => B̄ ; (m1,m3) share B=1 => B
+      let simplified = null;
+      if(set.has('m0') && set.has('m1')) simplified = 'Ā';
+      if(set.has('m2') && set.has('m3')) simplified = 'A';
+      if(set.has('m0') && set.has('m2')) simplified = 'B̄';
+      if(set.has('m1') && set.has('m3')) simplified = 'B';
+
+      if(!simplified){
+        fb.className='feedback bad';
+        fb.textContent='These two 1s are not adjacent in a 2-variable K-map. Try grouping differently.';
+        return;
+      }
+      const expected = normalise(simplified).replace(/̄/g,'\'');
+      const ok = (user === expected || user === normalise(simplified));
+      fb.className = ok ? 'feedback ok' : 'feedback bad';
+      fb.textContent = ok ? `Correct ✓  (Pair simplifies to ${simplified})` : `Expected simplification: ${simplified}`;
+      return;
+    }
+    // triples not a standard group — should be covered by overlap groups. Provide guidance.
+    if(ones.length===3){
+      fb.className='feedback bad';
+      fb.textContent='A group of 3 is not allowed. Use a group of 2 plus overlap with another group, or simplify using Boolean algebra.';
+      return;
+    }
+
+    fb.className='feedback bad';
+    fb.textContent='This pattern is more complex than the built-in checker. Use grouping rules and compare with your teacher/model steps.';
+  }
+</script>
+</body>
+</html>

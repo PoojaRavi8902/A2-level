@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>IGCSE / Pre-AS CS — Communication (Advanced): Protocols • TCP/IP • Packet vs Circuit Switching</title>
+
+  <style>
+    :root{
+      --bg:#1b1207;                 /* dark amber */
+      --panel:#2a1a0a;
+      --card:#36210c;
+      --text:#fff2e6;
+      --muted:#ffd0a6;
+      --accent:#ffb020;             /* amber */
+      --accent2:#fb7185;            /* rose accent */
+      --ok:#34d399;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --border:rgba(255,255,255,.15);
+      --shadow:0 10px 30px rgba(0,0,0,.42);
+      --radius:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 12% 0%, rgba(255,176,32,.20), transparent 60%),
+        radial-gradient(900px 520px at 90% 10%, rgba(251,113,133,.18), transparent 55%),
+        var(--bg);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background:rgba(27,18,7,.88);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar{
+      max-width:1500px; margin:0 auto;
+      padding:14px 16px;
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+    }
+    h1{margin:0; font-size:16px}
+    .sub{font-size:12px; color:var(--muted); margin-top:2px}
+
+    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
+    .btn{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:rgba(255,176,32,.18);
+      border-color:rgba(255,176,32,.5);
+    }
+    .btn.ghost{background:transparent}
+
+    .wrap{max-width:1500px; margin:0 auto; padding:16px}
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px; align-items:start}
+    @media(max-width:1150px){ .grid{grid-template-columns:1fr;} }
+
+    .pane{
+      background:rgba(42,26,10,.62);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:600px;
+    }
+    .paneHead{
+      padding:14px;
+      border-bottom:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .paneTitle{font-weight:800; font-size:14px}
+    .chip{
+      font-size:11px; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border); color:var(--muted);
+      white-space:nowrap;
+    }
+    .paneBody{padding:14px}
+
+    .section{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(54,33,12,.65);
+      margin:12px 0;
+      overflow:hidden;
+    }
+    .sectionHeader{
+      padding:12px;
+      background:rgba(255,255,255,.05);
+      cursor:pointer;
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+    }
+    .sectionHeader h2{margin:0; font-size:14px}
+    .kicker{font-size:12px; color:var(--muted); margin-top:4px}
+    .chev{color:var(--muted); font-size:12px; user-select:none}
+    .sectionContent{display:none; padding:12px}
+    .sectionContent.open{display:block}
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      padding:12px;
+      margin:10px 0;
+    }
+    h3{margin:0 0 6px; font-size:13px}
+    p, li{font-size:13px; line-height:1.6; color:rgba(255,242,230,.96)}
+    ul{margin:8px 0 8px 18px}
+    ol{margin:8px 0 8px 20px}
+    .mono{
+      font-family:var(--mono);
+      font-size:12.5px;
+      background:rgba(0,0,0,.28);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px;
+      white-space:pre-wrap;
+      overflow:auto;
+    }
+    .callout{
+      border-left:3px solid var(--accent);
+      background:rgba(255,176,32,.12);
+      border-radius:12px;
+      padding:10px 12px;
+      margin:10px 0;
+      font-size:13px;
+    }
+    .callout.warn{border-left-color:var(--warn); background:rgba(251,191,36,.12)}
+    .callout.ok{border-left-color:var(--ok); background:rgba(52,211,153,.12)}
+    .callout.bad{border-left-color:var(--bad); background:rgba(251,113,133,.12)}
+
+    .pill{
+      display:inline-block;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:12px;
+      color:var(--muted);
+      margin:2px 6px 2px 0;
+      background:rgba(255,255,255,.03);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* PRACTICE UI */
+    .q{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      padding:12px;
+      margin:10px 0;
+    }
+    .qhead{display:flex; gap:10px; align-items:flex-start; justify-content:space-between; margin-bottom:8px}
+    .qtitle{font-weight:800; font-size:13px}
+    .marks{font-size:12px; color:var(--muted); white-space:nowrap}
+    textarea{
+      width:100%;
+      min-height:90px;
+      resize:vertical;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:10px;
+      font-size:13px;
+      outline:none;
+    }
+    input[type="text"]{
+      width:100%;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:10px;
+      font-size:13px;
+      outline:none;
+    }
+    .qactions{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+    .hint{font-size:12px; color:var(--muted); margin-top:8px}
+    .model{
+      display:none;
+      margin-top:10px;
+      border-top:1px dashed rgba(255,255,255,.25);
+      padding-top:10px;
+    }
+    .model.open{display:block}
+    .badge{
+      font-size:11px; padding:4px 8px; border-radius:999px; border:1px solid var(--border);
+      color:var(--muted);
+    }
+    .feedback{
+      margin-top:8px;
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.18);
+      display:none;
+    }
+    .feedback.ok{display:block; border-color:rgba(52,211,153,.5); background:rgba(52,211,153,.12)}
+    .feedback.bad{display:block; border-color:rgba(251,113,133,.55); background:rgba(251,113,133,.12)}
+    .small{font-size:12px; color:var(--muted)}
+    footer{margin-top:10px; font-size:12px; color:var(--muted)}
+
+    /* Matching + ordering */
+    .flex{display:flex; gap:12px; flex-wrap:wrap}
+    .col{flex:1; min-width:260px}
+    .box{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(0,0,0,.18);
+      padding:10px;
+    }
+    .item{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:8px 10px;
+      margin:8px 0;
+      background:rgba(255,255,255,.05);
+      cursor:grab;
+      user-select:none;
+    }
+    .drop{
+      border:1px dashed rgba(255,255,255,.35);
+      border-radius:12px;
+      padding:8px 10px;
+      margin:8px 0;
+      background:rgba(255,255,255,.03);
+      min-height:40px;
+    }
+    .drop.over{border-color:rgba(255,176,32,.8); background:rgba(255,176,32,.10)}
+    .row{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap:10px;
+      align-items:center;
+      margin:8px 0;
+    }
+    select{
+      width:100%;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:10px;
+      font-size:13px;
+      outline:none;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="topbar">
+    <div>
+      <h1>Communication (Advanced) — Protocols • TCP/IP Model • Packet vs Circuit Switching</h1>
+      <div class="sub">Two student panes • Left: exam-ready notes • Right: mixed practice types (writing + MCQ + drag + fill + table)</div>
+    </div>
+    <div class="controls">
+      <button class="btn primary" onclick="toggleAll(true)">Expand all</button>
+      <button class="btn" onclick="toggleAll(false)">Collapse all</button>
+      <button class="btn ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">Top</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <!-- ================= LEFT PANE ================= -->
+    <section class="pane">
+      <div class="paneHead">
+        <div class="paneTitle">Student Pane A — Notes, Definitions, Examples (Exam Ready)</div>
+        <span class="chip">Chapter 14: Communication (Advanced)</span>
+      </div>
+
+      <div class="paneBody">
+        <div class="card">
+          <h3>Quick navigation</h3>
+          <p class="small">
+            <a href="#proto">1) Purpose of protocols</a> •
+            <a href="#tcpip">2) TCP/IP model</a> •
+            <a href="#switch">3) Packet vs circuit switching</a>
+          </p>
+          <div class="callout">
+            Exam method: for “explain” questions, use <b>definition + how it works + benefit + example</b>.
+          </div>
+        </div>
+
+        <!-- 1. PURPOSE OF PROTOCOLS -->
+        <div class="section" id="proto">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>1. Purpose of Protocols</h2>
+              <div class="kicker">Rules for communication • reliability • addressing • timing • error control</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Definition (2-mark perfect)</h3>
+              <p>
+                A <b>protocol</b> is a set of <b>rules</b> that devices follow so they can communicate successfully over a network.
+                These rules define <b>how data is formatted, transmitted, received, and checked</b>.
+              </p>
+              <div class="callout ok">
+                Examiner-friendly phrase: <b>Protocols ensure different devices and software can communicate reliably and consistently.</b>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Why protocols are needed (what marks are awarded for)</h3>
+              <p>Protocols prevent confusion by agreeing on:</p>
+              <ul>
+                <li><b>Data format:</b> how bits/bytes are grouped (frames, packets) and what headers mean.</li>
+                <li><b>Addressing:</b> how sender/receiver are identified (IP address, MAC address, port number).</li>
+                <li><b>Timing & order:</b> when to send, how fast, and how to reassemble in the correct order.</li>
+                <li><b>Error detection/correction:</b> how to detect corruption and what happens next (retransmission).</li>
+                <li><b>Flow control:</b> preventing a fast sender from overwhelming a slow receiver.</li>
+                <li><b>Security:</b> how data can be encrypted and verified (e.g., HTTPS/TLS).</li>
+              </ul>
+              <div class="callout warn">
+                Common exam mistake: saying “protocols are needed to connect to the internet” (too vague). Always mention <b>rules</b> + at least one specific rule area (format, timing, error control, addressing).
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Real examples you can drop into answers</h3>
+              <p>
+                You don’t need deep technical detail, but you should know what each does:
+              </p>
+              <ul>
+                <li><b>HTTP / HTTPS:</b> rules for requesting and sending web pages.</li>
+                <li><b>TCP:</b> reliable delivery (acknowledgements, retransmission, correct order).</li>
+                <li><b>IP:</b> addressing and routing across networks.</li>
+                <li><b>DNS:</b> converts domain names to IP addresses.</li>
+              </ul>
+              <div class="callout">
+                Exam phrasing: “For example, <b>TCP</b> uses acknowledgements to confirm packets arrived, so lost packets can be resent.”
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Mini worked explanation (3–4 marks)</h3>
+              <p><b>Question style:</b> “Explain the purpose of protocols on a network.”</p>
+              <div class="mono">A protocol is a set of rules for communication.
+It defines how data is formatted and addressed so different devices understand it.
+It can include error control and acknowledgements so data is delivered reliably.
+This ensures consistent communication between devices made by different manufacturers.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. TCP/IP MODEL -->
+        <div class="section" id="tcpip">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>2. TCP/IP Model</h2>
+              <div class="kicker">Layers • roles • encapsulation • examples of protocols at each layer</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Big idea</h3>
+              <p>
+                The <b>TCP/IP model</b> is a layered way to describe how data moves across networks.
+                Each layer has a clear job. Layering makes networks easier to design, troubleshoot, and update.
+              </p>
+              <div class="callout ok">
+                Examiner-friendly phrase: <b>Each layer provides services to the layer above and uses services from the layer below.</b>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>TCP/IP layers (common 4-layer version used in school)</h3>
+              <div class="mono">1) Application layer
+2) Transport layer
+3) Internet layer
+4) Link (Network Access) layer</div>
+
+              <p class="small">Some textbooks split Link into Data Link + Physical. For exam answers, stick to the 4 layers unless your teacher specifies otherwise.</p>
+            </div>
+
+            <div class="card">
+              <h3>Layer roles + examples</h3>
+              <ul>
+                <li><b>Application layer:</b> services used by applications (web, email). Examples: HTTP/HTTPS, SMTP, FTP, DNS.</li>
+                <li><b>Transport layer:</b> end-to-end communication, reliability, flow control. Examples: TCP (reliable), UDP (faster, less overhead).</li>
+                <li><b>Internet layer:</b> addressing and routing between networks. Example: IP.</li>
+                <li><b>Link layer:</b> moving frames on the local network and physical connection. Examples: Ethernet, Wi-Fi (conceptual).</li>
+              </ul>
+              <div class="callout warn">
+                Common confusion: <b>IP is not responsible for reliability</b>. IP routes packets; <b>TCP</b> can provide reliability.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Encapsulation (exam favourite)</h3>
+              <p>
+                As data goes down the layers, each layer adds its own header information. This is called <b>encapsulation</b>.
+                At the receiver, headers are removed in reverse order (<b>decapsulation</b>).
+              </p>
+              <div class="mono">Application data
+↓ (Transport adds TCP header)   => Segment
+↓ (Internet adds IP header)     => Packet
+↓ (Link adds frame header/trailer) => Frame
+↓ (Physical sends bits)</div>
+              <div class="callout">
+                Quick marks: define encapsulation + state “headers added at each layer” + mention reverse at receiver.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Worked web example (from URL to page)</h3>
+              <ol>
+                <li>You enter a URL in a browser.</li>
+                <li>Application layer uses <b>DNS</b> to find the server IP address.</li>
+                <li>Browser uses <b>HTTP/HTTPS</b> to request the page.</li>
+                <li>Transport layer uses <b>TCP</b> to send reliably (acknowledgements, retransmission).</li>
+                <li>Internet layer uses <b>IP</b> to route packets to the server.</li>
+                <li>Link layer uses Ethernet/Wi-Fi to deliver frames across local links.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. PACKET VS CIRCUIT SWITCHING -->
+        <div class="section" id="switch">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>3. Packet Switching vs Circuit Switching</h2>
+              <div class="kicker">How each works • pros/cons • when to use • exam comparison structure</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="card">
+              <h3>Packet switching (how it works)</h3>
+              <p>
+                In <b>packet switching</b>, data is broken into small units called <b>packets</b>. Each packet can travel independently across the network.
+                Packets may take different routes and can arrive out of order; the destination reassembles them.
+              </p>
+              <ul>
+                <li>Each packet includes headers (source/destination address, sequence number, error checks).</li>
+                <li>Routers forward packets based on addressing.</li>
+              </ul>
+              <div class="callout ok">
+                Best exam phrase: <b>Packet switching shares network links efficiently because many users can interleave packets.</b>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Circuit switching (how it works)</h3>
+              <p>
+                In <b>circuit switching</b>, a dedicated communication path is set up between sender and receiver before data is sent.
+                The path stays reserved for the whole session, then is released.
+              </p>
+              <ul>
+                <li>Predictable performance (reserved bandwidth).</li>
+                <li>But the circuit is wasted if no data is currently being sent.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>Comparison table (use this structure in 4–6 mark answers)</h3>
+              <div class="mono">Packet switching:
+• Data split into packets; packets may take different routes
+• Efficient use of network (shared links)
+• Variable delay; packets can arrive out of order
+• Suits the internet, email, web browsing, file transfers
+
+Circuit switching:
+• Dedicated path set up then used for whole session
+• Fixed bandwidth; predictable delay once connected
+• Setup time required; inefficient if circuit idle
+• Suits traditional voice calls / real-time dedicated links</div>
+              <div class="callout warn">
+                High-mark answers must include: <b>how it works</b> + <b>one advantage</b> + <b>one disadvantage</b> + <b>example use</b>.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Quality/latency idea (evaluation)</h3>
+              <p>
+                Packet switching can have <b>variable latency</b> during congestion because packets compete for links.
+                Circuit switching can provide stable performance after setup because resources are reserved.
+              </p>
+              <div class="callout">
+                If a question mentions “congestion” or “many users”, packet switching discussion should include queues, delays, and possible packet loss/retransmission.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>End-of-chapter exam language recap</h3>
+          <ul>
+            <li><b>Protocol:</b> agreed rules for communication (format, addressing, timing, error control).</li>
+            <li><b>TCP/IP model:</b> layered network model; each layer has a role.</li>
+            <li><b>Encapsulation:</b> headers added at each layer; removed in reverse at receiver.</li>
+            <li><b>Packet switching:</b> split data into packets; shared links; variable delay; packets may arrive out of order.</li>
+            <li><b>Circuit switching:</b> dedicated path reserved for session; predictable; inefficient if idle; setup time.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RIGHT PANE ================= -->
+    <section class="pane">
+      <div class="paneHead">
+        <div class="paneTitle">Student Pane B — Practice (More question types)</div>
+        <span class="chip">Write + Check • MCQ • Fill • Match • Order • Table</span>
+      </div>
+
+      <div class="paneBody">
+        <div class="card">
+          <h3>How self-check works</h3>
+          <p>
+            Some tasks check automatically (MCQ, fill blanks, matching, ordering).
+            For longer writing questions, click <b>Check</b> to reveal a <b>model answer</b>.
+          </p>
+        </div>
+
+        <!-- SET 1: SHORT ANSWER -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 1 — Short answer (writing)</h2>
+              <div class="kicker">Protocols • TCP/IP • switching</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent open">
+
+            <div class="q">
+              <div class="qhead">
+                <div class="qtitle">Q1. Explain the purpose of protocols on a network. (4)</div>
+                <div class="marks">4 marks</div>
+              </div>
+              <textarea placeholder="Definition + 2–3 specific rule areas + benefit..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <p>
+                  A protocol is a set of rules for communication. It defines how data is formatted and addressed so different devices can understand it.
+                  It can include timing/sequence rules and error control (e.g., acknowledgement and retransmission) so data is delivered reliably.
+                  This ensures consistent communication between devices and software from different manufacturers.
+                </p>
+                <div class="hint">Keywords: rules, format, addressing, timing/order, error control/reliability.</div>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qhead">
+                <div class="qtitle">Q2. Describe encapsulation in the TCP/IP model. (3)</div>
+                <div class="marks">3 marks</div>
+              </div>
+              <textarea placeholder="Mention headers added at each layer; removed at receiver..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <p>
+                  Encapsulation is the process where each TCP/IP layer adds its own header information to the data as it passes down the stack.
+                  This creates units such as segments, packets and frames. At the receiver the headers are removed in reverse order (decapsulation).
+                </p>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qhead">
+                <div class="qtitle">Q3. Compare packet switching and circuit switching. (6)</div>
+                <div class="marks">6 marks</div>
+              </div>
+              <textarea placeholder="How each works + 2 differences + example uses..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <p>
+                  Packet switching splits data into packets that can take different routes and be reassembled at the destination. It uses shared links efficiently
+                  but can have variable delay and packets may arrive out of order during congestion. It suits the internet (web, email, file transfer).
+                </p>
+                <p>
+                  Circuit switching establishes a dedicated path before sending data and reserves bandwidth for the session. This gives predictable performance after setup
+                  but wastes resources if the circuit is idle and has setup time. It suits traditional voice calls or dedicated connections.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SET 2: MCQ -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 2 — MCQ (auto-check)</h2>
+              <div class="kicker">Click an option, then Check</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+
+            <div class="q" data-mcq="true" data-correct="B">
+              <div class="qhead">
+                <div class="qtitle">Q4. Which statement best describes a protocol? (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <label><input type="radio" name="mcq1" value="A"> A. A physical cable used to connect two computers</label><br/>
+              <label><input type="radio" name="mcq1" value="B"> B. A set of rules for formatting and transmitting data</label><br/>
+              <label><input type="radio" name="mcq1" value="C"> C. A type of computer memory used by routers</label><br/>
+              <label><input type="radio" name="mcq1" value="D"> D. A device that converts domain names to IP addresses</label>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkMCQ(this)">Check</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-mcq="true" data-correct="C">
+              <div class="qhead">
+                <div class="qtitle">Q5. Which layer is mainly responsible for routing across networks? (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <label><input type="radio" name="mcq2" value="A"> A. Application</label><br/>
+              <label><input type="radio" name="mcq2" value="B"> B. Transport</label><br/>
+              <label><input type="radio" name="mcq2" value="C"> C. Internet</label><br/>
+              <label><input type="radio" name="mcq2" value="D"> D. Link</label>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkMCQ(this)">Check</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-mcq="true" data-correct="A">
+              <div class="qhead">
+                <div class="qtitle">Q6. Which is a key feature of circuit switching? (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <label><input type="radio" name="mcq3" value="A"> A. A dedicated path is reserved for the whole session</label><br/>
+              <label><input type="radio" name="mcq3" value="B"> B. Packets take different routes and arrive out of order</label><br/>
+              <label><input type="radio" name="mcq3" value="C"> C. No setup time is required before sending</label><br/>
+              <label><input type="radio" name="mcq3" value="D"> D. It can only be used on Wi-Fi networks</label>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkMCQ(this)">Check</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SET 3: FILL IN THE BLANKS -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 3 — Fill in the blanks (auto-check)</h2>
+              <div class="kicker">Type the missing keywords</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+
+            <div class="q" data-fill="true">
+              <div class="qhead">
+                <div class="qtitle">Q7. A protocol is a set of <b>____</b> that devices follow to communicate. (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <input type="text" placeholder="One word..." data-answers="rules"/>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkFill(this)">Check</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-fill="true">
+              <div class="qhead">
+                <div class="qtitle">Q8. In packet switching, data is split into <b>____</b>. (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <input type="text" placeholder="One word..." data-answers="packets,packet"/>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkFill(this)">Check</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-fill="true">
+              <div class="qhead">
+                <div class="qtitle">Q9. The TCP/IP layer that provides reliability is the <b>____</b> layer. (1)</div>
+                <div class="marks">1 mark</div>
+              </div>
+              <input type="text" placeholder="One word..." data-answers="transport"/>
+              <div class="qactions">
+                <button class="btn primary" onclick="checkFill(this)">Check</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SET 4: MATCHING (SELECT) -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 4 — Matching (drop-down)</h2>
+              <div class="kicker">Match each TCP/IP layer to its main job</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+          <div class="sectionContent">
+            <div class="q" data-match="true">
+              <div class="qhead">
+                <div class="qtitle">Q10. Match the layer to the description. (4)</div>
+                <div class="marks">4 marks</div>
+              </div>
+
+              <div class="row">
+                <div>Application layer</div>
+                <select data-correct="Services used by applications (e.g., web/email)">
+                  <option value="">Choose…</option>
+                  <option>Routing and addressing between networks</option>
+                  <option>Services used by applications (e.g., web/email)</option>
+                  <option>Reliable delivery / flow control</option>
+                  <option>Local delivery over physical/link</option>
+                </select>
+              </div>
+
+              <div class="row">
+                <div>Transport layer</div>
+                <select data-correct="Reliable delivery / flow control">
+                  <option value="">Choose…</option>
+                  <option>Services used by applications (e.g., web/email)</option>
+                  <option>Local delivery over physical/link</option>
+                  <option>Reliable delivery / flow control</option>
+                  <option>Routing and addressing between networks</option>
+                </select>
+              </div>
+
+              <div class="row">
+                <div>Internet layer</div>
+                <select data-correct="Routing and addressing between networks">
+                  <option value="">Choose…</option>
+                  <option>Local delivery over physical/link</option>
+                  <option>Routing and addressing between networks</option>
+                  <option>Reliable delivery / flow control</option>
+                  <option>Services used by applications (e.g., web/email)</option>
+                </select>
+              </div>
+
+              <div class="row">
+                <div>Link layer</div>
+                <select data-correct="Local delivery over physical/link">
+                  <option value="">Choose…</option>
+                  <option>Routing and addressing between networks</option>
+                  <option>Services used by applications (e.g., web/email)</option>
+                  <option>Local delivery over physical/link</option>
+                  <option>Reliable delivery / flow control</option>
+                </select>
+              </div>
+
+              <div class="qactions">
+                <button class="btn primary" onclick="checkMatching(this)">Check</button>
+                <button class="btn" onclick="resetMatching(this)">Reset</button>
+              </div>
+              <div class="feedback"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SET 5: ORDERING (DRAG) -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 5 — Ordering (drag-and-drop)</h2>
+              <div class="kicker">Put encapsulation units in correct order</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="q" data-order="true" data-order-answer="Application data,Segment,Packet,Frame,Bits">
+              <div class="qhead">
+                <div class="qtitle">Q11. Drag to order: Encapsulation from top (application) to bottom (physical). (5)</div>
+                <div class="marks">5 marks</div>
+              </div>
+
+              <div class="box" id="orderBox">
+                <div class="item" draggable="true">Packet</div>
+                <div class="item" draggable="true">Frame</div>
+                <div class="item" draggable="true">Bits</div>
+                <div class="item" draggable="true">Segment</div>
+                <div class="item" draggable="true">Application data</div>
+              </div>
+
+              <div class="qactions">
+                <button class="btn primary" onclick="checkOrdering(this)">Check</button>
+                <button class="btn" onclick="shuffleOrdering(this)">Shuffle</button>
+              </div>
+              <div class="feedback"></div>
+              <div class="model">
+                <div class="badge">Expected order</div>
+                <div class="mono">Application data → Segment → Packet → Frame → Bits</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SET 6: TABLE COMPLETION -->
+        <div class="section">
+          <div class="sectionHeader" onclick="toggleSection(this)">
+            <div>
+              <h2>Practice Set 6 — Structured table (write + check)</h2>
+              <div class="kicker">2–4 mark comparison style</div>
+            </div>
+            <div class="chev">Click to open/close ▾</div>
+          </div>
+
+          <div class="sectionContent">
+            <div class="q">
+              <div class="qhead">
+                <div class="qtitle">Q12. Complete the comparison table: Packet switching vs Circuit switching. (4)</div>
+                <div class="marks">4 marks</div>
+              </div>
+              <textarea placeholder="Write 4 clear entries (two for each). You can format as a table or bullet points."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <div class="mono">Packet switching:
+• Data split into packets; packets may take different routes
+• Efficient sharing of links; variable delay possible
+
+Circuit switching:
+• Dedicated path set up and reserved for session
+• Predictable performance after setup; inefficient if circuit idle</div>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qhead">
+                <div class="qtitle">Q13. Scenario: Video call in heavy congestion. Which switching is better and why? (4)</div>
+                <div class="marks">4 marks</div>
+              </div>
+              <textarea placeholder="Pick one and justify using latency, reliability, reserved bandwidth, congestion..."></textarea>
+              <div class="qactions">
+                <button class="btn primary" onclick="revealModel(this)">Check</button>
+                <button class="btn" onclick="clearTA(this)">Clear</button>
+              </div>
+              <div class="model">
+                <div class="badge">Model answer</div>
+                <p>
+                  A dedicated circuit would give more predictable bandwidth and delay once connected, which helps real-time voice/video quality.
+                  However, modern internet video calls typically use packet switching; during congestion packets may be delayed or lost, causing jitter.
+                  A good answer explains the trade-off: predictable performance vs efficient sharing and practicality on the internet.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Exam checklist (use before tests)</h3>
+          <ul>
+            <li>Protocols: always write <b>rules</b> + at least two of (format, addressing, timing/order, error control, flow control).</li>
+            <li>TCP/IP: know the <b>4 layers</b> and one example protocol for each (at least Application/Transport/Internet).</li>
+            <li>Encapsulation: <b>headers added at each layer</b>, removed in reverse at receiver.</li>
+            <li>Switching: include <b>how it works</b> + <b>advantage</b> + <b>disadvantage</b> + <b>example use</b>.</li>
+          </ul>
+          <footer>Tip: In comparisons, write paired points (packet does X, circuit does Y).</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  // Expand/collapse
+  function toggleSection(header){
+    const content = header.parentElement.querySelector('.sectionContent');
+    content.classList.toggle('open');
+  }
+  function toggleAll(open){
+    document.querySelectorAll('.sectionContent').forEach(el => el.classList.toggle('open', open));
+  }
+
+  // Writing questions
+  function revealModel(btn){
+    const q = btn.closest('.q');
+    const model = q.querySelector('.model');
+    if(model){ model.classList.add('open'); }
+    btn.textContent = 'Checked ✓ (showing model)';
+  }
+  function clearTA(btn){
+    const q = btn.closest('.q');
+    const ta = q.querySelector('textarea');
+    if(ta) ta.value = '';
+  }
+
+  // MCQ auto-check
+  function checkMCQ(btn){
+    const q = btn.closest('.q');
+    const correct = q.dataset.correct;
+    const inputs = q.querySelectorAll('input[type="radio"]');
+    let chosen = null;
+    inputs.forEach(i => { if(i.checked) chosen = i.value; });
+    const fb = q.querySelector('.feedback');
+    if(!chosen){
+      fb.className = 'feedback bad';
+      fb.textContent = 'Choose an option first.';
+      return;
+    }
+    if(chosen === correct){
+      fb.className = 'feedback ok';
+      fb.textContent = 'Correct ✓';
+    }else{
+      fb.className = 'feedback bad';
+      fb.textContent = 'Not quite ✗  (Try again, then check notes on the left.)';
+    }
+  }
+
+  // Fill in the blanks (keyword match, case-insensitive)
+  function normalise(s){
+    return (s || '').trim().toLowerCase().replace(/\s+/g,' ');
+  }
+  function checkFill(btn){
+    const q = btn.closest('.q');
+    const inp = q.querySelector('input[type="text"]');
+    const answers = (inp.dataset.answers || '').split(',').map(a => normalise(a));
+    const fb = q.querySelector('.feedback');
+    const user = normalise(inp.value);
+    if(!user){
+      fb.className='feedback bad';
+      fb.textContent='Type an answer first.';
+      return;
+    }
+    if(answers.includes(user)){
+      fb.className='feedback ok';
+      fb.textContent='Correct ✓';
+    }else{
+      fb.className='feedback bad';
+      fb.textContent='Not correct ✗  Hint: look for the key term in the notes.';
+    }
+  }
+
+  // Matching (select)
+  function checkMatching(btn){
+    const q = btn.closest('.q');
+    const selects = q.querySelectorAll('select');
+    let ok = 0;
+    selects.forEach(s => {
+      const correct = s.dataset.correct;
+      if(s.value === correct) ok++;
+    });
+    const fb = q.querySelector('.feedback');
+    if(ok === selects.length){
+      fb.className='feedback ok';
+      fb.textContent=`Perfect ✓  (${ok}/${selects.length})`;
+    }else{
+      fb.className='feedback bad';
+      fb.textContent=`Not yet ✗  (${ok}/${selects.length}) — try again.`;
+    }
+  }
+  function resetMatching(btn){
+    const q = btn.closest('.q');
+    q.querySelectorAll('select').forEach(s => s.value = '');
+    const fb = q.querySelector('.feedback');
+    fb.className='feedback';
+    fb.textContent='';
+  }
+
+  // Ordering (drag-and-drop list)
+  let dragItem = null;
+  document.addEventListener('dragstart', (e)=>{
+    if(e.target.classList.contains('item')){
+      dragItem = e.target;
+      e.dataTransfer.setData('text/plain','x');
+    }
+  });
+  document.addEventListener('dragover', (e)=>{
+    const box = e.target.closest('.box');
+    if(box){
+      e.preventDefault();
+      const after = getDragAfterElement(box, e.clientY);
+      if(after == null){
+        box.appendChild(dragItem);
+      }else{
+        box.insertBefore(dragItem, after);
+      }
+    }
+  });
+
+  function getDragAfterElement(container, y){
+    const draggableElements = [...container.querySelectorAll('.item:not(.dragging)')];
+    return draggableElements.reduce((closest, child)=>{
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if(offset < 0 && offset > closest.offset){
+        return { offset, element: child };
+      }else{
+        return closest;
+      }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+
+  function checkOrdering(btn){
+    const q = btn.closest('.q');
+    const answer = (q.dataset.orderAnswer || '').split(',').map(s=>s.trim());
+    const items = [...q.querySelectorAll('.box .item')].map(el => el.textContent.trim());
+    const fb = q.querySelector('.feedback');
+    const model = q.querySelector('.model');
+    if(model) model.classList.add('open');
+    const same = answer.length === items.length && answer.every((v,i)=>v===items[i]);
+    if(same){
+      fb.className='feedback ok';
+      fb.textContent='Correct order ✓';
+    }else{
+      fb.className='feedback bad';
+      fb.textContent='Order not correct ✗  Compare with the expected order shown.';
+    }
+  }
+  function shuffleOrdering(btn){
+    const q = btn.closest('.q');
+    const box = q.querySelector('.box');
+    const items = [...box.querySelectorAll('.item')];
+    for(let i=items.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+    items.forEach(it => box.appendChild(it));
+    const fb = q.querySelector('.feedback');
+    fb.className='feedback';
+    fb.textContent='';
+  }
+</script>
+</body>
+</html>
