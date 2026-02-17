@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AS/A Level CS 9618 – Security (Threats, Authentication, Encryption)</title>
+
+  <!--
+    Single-file, offline-friendly, colorful, interactive revision site.
+    Includes: detailed notes + SVG diagrams + practice + self-check + mini-simulators.
+    Topic: Cambridge 9618 Security (AS + A Level extension).
+  -->
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.58);
+      --accent: #7c3aed;
+      --accent2:#22c55e;
+      --accent3:#06b6d4;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --good:#22c55e;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 26px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 900px at 15% 12%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(900px 700px at 85% 22%, rgba(6,182,212,.25), transparent 55%),
+        radial-gradient(1100px 900px at 45% 110%, rgba(34,197,94,.20), transparent 60%),
+        linear-gradient(180deg, #071022 0%, #0b1220 45%, #070c16 100%);
+      overflow-x:hidden;
+    }
+
+    a{color:#93c5fd; text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Topbar */
+    .topbar{
+      position: sticky; top: 0; z-index: 60;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 12, 22, .65);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .topbar .inner{
+      max-width: 1240px; margin:0 auto;
+      display:flex; align-items:center; gap:14px;
+      padding: 12px 16px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 300px;
+    }
+    .logo{
+      width:44px; height:44px;
+      border-radius: 14px;
+      background:
+        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.55), transparent 60%),
+        linear-gradient(135deg, rgba(239,68,68,.92), rgba(124,58,237,.85));
+      box-shadow: 0 18px 30px rgba(0,0,0,.35);
+      display:grid; place-items:center;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .logo svg{filter: drop-shadow(0 10px 14px rgba(0,0,0,.35))}
+    .brand .title{
+      display:flex; flex-direction:column; line-height:1.05;
+    }
+    .brand .title b{font-size: 14px; letter-spacing:.2px}
+    .brand .title span{font-size: 12px; color: var(--muted)}
+    .toolbar{
+      display:flex; flex:1;
+      gap:10px; align-items:center; justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+    .chip{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 999px;
+      display:flex; align-items:center; gap:8px;
+      font-size: 12px;
+    }
+    .chip input{
+      background: transparent; border:none; outline:none;
+      color: var(--text);
+      width: 160px;
+      font-size: 12px;
+    }
+    .btn{
+      border:none; cursor:pointer;
+      color: var(--text);
+      background: rgba(255,255,255,.07);
+      border:1px solid var(--stroke);
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      display:inline-flex; align-items:center; gap:10px;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      font-weight: 650;
+      letter-spacing:.2px;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.25)}
+    .btn:active{transform: translateY(0px)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(239,68,68,.90), rgba(124,58,237,.65));
+      border-color: rgba(255,255,255,.18);
+    }
+    .btn.good{background: linear-gradient(135deg, rgba(34,197,94,.9), rgba(6,182,212,.55)); border-color: rgba(255,255,255,.18)}
+    .btn.warn{background: linear-gradient(135deg, rgba(245,158,11,.9), rgba(124,58,237,.55)); border-color: rgba(255,255,255,.18)}
+    .btn.bad{background: linear-gradient(135deg, rgba(239,68,68,.95), rgba(6,182,212,.45)); border-color: rgba(255,255,255,.18)}
+
+    .container{
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 18px 16px 60px;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      position: sticky;
+      top: 78px;
+      align-self:start;
+      border-radius: var(--radius2);
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .sidebar header{
+      padding: 14px 14px 10px;
+      background:
+        radial-gradient(600px 220px at 30% 0%, rgba(239,68,68,.30), transparent 55%),
+        radial-gradient(600px 220px at 75% 0%, rgba(124,58,237,.25), transparent 55%),
+        rgba(255,255,255,.04);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .sidebar header h2{margin:0; font-size: 14px; letter-spacing:.2px;}
+    .sidebar header p{margin: 6px 0 0; color: var(--muted); font-size: 12px;}
+    .sidebar .search{padding: 10px 14px 14px; display:flex; gap:10px;}
+    .sidebar .search input{
+      width:100%;
+      border-radius: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      padding: 10px 12px;
+      outline:none;
+    }
+
+    .nav{
+      padding: 0 6px 10px;
+      max-height: calc(100vh - 210px);
+      overflow:auto;
+    }
+    .nav a{
+      display:flex; align-items:center; gap:10px;
+      padding: 10px 10px;
+      margin: 6px;
+      border-radius: 14px;
+      border:1px solid transparent;
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-size: 13px;
+      line-height:1.15;
+    }
+    .nav a small{color: var(--muted2)}
+    .nav a:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.14);
+      text-decoration:none;
+    }
+    .nav a.active{
+      background: rgba(239,68,68,.18);
+      border-color: rgba(239,68,68,.55);
+    }
+
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(255,255,255,.18);
+      box-shadow: 0 8px 16px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.18);
+      flex: 0 0 auto;
+    }
+    .dot.r{background: rgba(239,68,68,.9)}
+    .dot.p{background: rgba(124,58,237,.85)}
+    .dot.c{background: rgba(6,182,212,.85)}
+    .dot.g{background: rgba(34,197,94,.85)}
+    .dot.w{background: rgba(245,158,11,.9)}
+
+    /* Main */
+    main{
+      border-radius: var(--radius2);
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .hero{
+      padding: 18px 18px 10px;
+      background:
+        radial-gradient(900px 260px at 12% 0%, rgba(239,68,68,.30), transparent 55%),
+        radial-gradient(900px 260px at 85% 0%, rgba(124,58,237,.22), transparent 55%),
+        rgba(255,255,255,.04);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .hero h1{margin:0; font-size: 22px; letter-spacing:.2px;}
+    .hero p{margin: 8px 0 0; color: var(--muted); max-width: 980px;}
+
+    .pillrow{display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0 0}
+    .pill{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .tabs{
+      display:flex; flex-wrap:wrap;
+      gap:10px;
+      padding: 12px 18px 14px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(0,0,0,.10);
+    }
+    .tab{
+      user-select:none;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      cursor:pointer;
+      font-weight: 800;
+      font-size: 13px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .tab.active{
+      background: linear-gradient(135deg, rgba(239,68,68,.22), rgba(124,58,237,.15));
+      border-color: rgba(239,68,68,.45);
+    }
+
+    .content{padding: 18px;}
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+    }
+    @media (max-width: 1060px){
+      .container{grid-template-columns: 1fr}
+      .sidebar{position:relative; top:auto}
+      .grid2{grid-template-columns: 1fr}
+    }
+
+    .card{
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 14px 30px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(255,255,255,.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .card .hd h3{margin:0; font-size: 15px;}
+    .card .hd .hint{color: var(--muted2); font-size: 12px; margin-top: 3px; max-width: 620px;}
+    .card .bd{padding: 14px}
+
+    .badge{
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      white-space:nowrap;
+      height: fit-content;
+    }
+
+    .callout{
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(135deg, rgba(239,68,68,.16), rgba(124,58,237,.10));
+      padding: 12px 12px;
+      border-radius: 16px;
+      margin: 12px 0;
+    }
+    .callout b{color:#fecaca}
+    .callout .small{color: var(--muted); font-size: 13px; margin-top:6px}
+
+    .twoCols{display:grid; grid-template-columns: 1fr 1fr; gap: 12px;}
+    @media (max-width: 780px){.twoCols{grid-template-columns: 1fr}}
+
+    .kbd{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 2px 7px;
+      border-radius: 9px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.28);
+      color: rgba(255,255,255,.92);
+    }
+    .mono{font-family: var(--mono); font-size: 13px; color: rgba(255,255,255,.88);}
+    .muted{color: var(--muted)}
+    .muted2{color: var(--muted2)}
+    .divider{height:1px; background: var(--stroke); margin: 14px 0;}
+
+    details{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      border-radius: 16px;
+      padding: 10px 12px;
+      margin: 10px 0;
+    }
+    details > summary{
+      cursor:pointer;
+      font-weight: 900;
+      font-size: 13px;
+      list-style:none;
+      display:flex; align-items:center; gap:10px;
+    }
+    details > summary::-webkit-details-marker{display:none}
+
+    /* Practice widgets */
+    .q{
+      padding: 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      margin: 10px 0;
+    }
+    .q .qtop{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom: 10px;}
+    .q .qtop b{font-size: 13px}
+    .q textarea, .q input[type="text"], .q input[type="password"]{
+      width:100%;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.20);
+      color: var(--text);
+      padding: 10px 12px;
+      outline:none;
+      font-family: var(--sans);
+      line-height:1.35;
+    }
+    .q textarea{min-height: 110px; resize: vertical}
+    .q .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; align-items:center;}
+    .reveal{
+      display:none;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(34,197,94,.10);
+      padding: 10px 12px;
+      margin-top: 10px;
+    }
+    .reveal .mark{
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+    }
+
+    .progress{
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(239,68,68,.85), rgba(124,58,237,.85), rgba(6,182,212,.75), rgba(34,197,94,.8));
+      transition: width .25s ease;
+    }
+
+    /* MCQ */
+    .mcq .opt{
+      display:flex; gap:10px; align-items:flex-start;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
+      margin: 8px 0;
+      cursor:pointer;
+    }
+    .mcq .opt:hover{background: rgba(255,255,255,.06)}
+    .mcq .opt input{margin-top: 3px}
+    .tag{
+      font-size:11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .scoreBox{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.16);
+      margin-top: 10px;
+    }
+    .scoreBox b{font-size: 13px}
+    .scoreBox span{color: var(--muted)}
+
+    /* Simulators */
+    .simRow{display:grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items:start;}
+    @media(max-width:980px){.simRow{grid-template-columns:1fr}}
+    .panel{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.14);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .panel h4{margin:0 0 8px; font-size: 14px}
+    .panel p{margin:0 0 10px; color: var(--muted)}
+    .table{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow:hidden;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+    }
+    .table th,.table td{
+      padding: 10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      font-size: 12.5px;
+      vertical-align:top;
+    }
+    .table th{color: rgba(255,255,255,.92); text-align:left; background: rgba(255,255,255,.04)}
+    .table tr:last-child td{border-bottom:none}
+
+    .footer{
+      padding: 16px 18px;
+      border-top: 1px solid var(--stroke);
+      background: rgba(255,255,255,.03);
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      color: var(--muted2);
+      font-size: 12px;
+    }
+
+    @media print{
+      .topbar, .sidebar, .tabs, .btn, .chip, .actions, .footer {display:none !important}
+      body{background:white; color:black}
+      main{box-shadow:none; border:none}
+      .card, details, .q, .panel{break-inside: avoid}
+      a{color:black}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2l7 4v6c0 5-3 8-7 10C8 20 5 17 5 12V6l7-4Z" stroke="rgba(255,255,255,.92)" stroke-width="2"/>
+            <path d="M9.5 12.5l1.8 1.8L15.8 9.8" stroke="rgba(255,255,255,.78)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="title">
+          <b>Security Mastery</b>
+          <span>Threats • Authentication • Encryption • Certificates (Exam Prep)</span>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="chip" title="Your name is used for saving answers in this browser.">
+          <span>Student:</span>
+          <input id="studentName" placeholder="Type your name…" />
+        </div>
+        <button class="btn" id="btnSave"><span>💾</span>Save</button>
+        <button class="btn warn" id="btnReset"><span>🧹</span>Reset</button>
+        <button class="btn primary" id="btnPrint"><span>🖨️</span>Print Notes</button>
+        <button class="btn good" id="btnFocus"><span>🎯</span>Focus Mode</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <header>
+        <h2>Quick Navigation</h2>
+        <p>Search keywords like <span class="kbd">phishing</span>, <span class="kbd">hashing</span>, <span class="kbd">RSA</span>, <span class="kbd">TLS</span>.</p>
+      </header>
+
+      <div class="search">
+        <input id="navSearch" placeholder="Search sections…" />
+      </div>
+
+      <nav class="nav" id="nav">
+        <a href="#start" data-keywords="overview how to use exam tips" class="active"><span class="dot r"></span><div><b>Start Here</b><br/><small>How to use this page</small></div></a>
+
+        <a href="#bigpicture" data-keywords="cia confidentiality integrity availability threat risk controls"><span class="dot p"></span><div><b>Security Big Picture</b><br/><small>CIA + risk</small></div></a>
+
+        <a href="#threats" data-keywords="malware virus worm trojan ransomware spyware keylogger rootkit phishing social engineering"><span class="dot r"></span><div><b>Threats & Attacks</b><br/><small>What can go wrong</small></div></a>
+
+        <a href="#auth" data-keywords="authentication authorization access control password biometrics mfa"><span class="dot c"></span><div><b>Authentication & Access</b><br/><small>Prove identity</small></div></a>
+
+        <a href="#integrity" data-keywords="integrity hashing checksum digital signature salting"><span class="dot g"></span><div><b>Integrity (Hashing)</b><br/><small>Detect changes</small></div></a>
+
+        <a href="#encryption" data-keywords="encryption symmetric asymmetric public private key rsa aes session key"><span class="dot p"></span><div><b>Encryption</b><br/><small>Keep secrets</small></div></a>
+
+        <a href="#certs" data-keywords="digital certificate ca ssl tls https public key infrastructure pki"><span class="dot w"></span><div><b>Certificates & TLS</b><br/><small>Trust on the internet</small></div></a>
+
+        <a href="#practice" data-keywords="practice mcq structured exam questions mark scheme"><span class="dot g"></span><div><b>Practice Zone</b><br/><small>MCQ + structured</small></div></a>
+
+        <a href="#simulators" data-keywords="simulators caesar hashing rsa password strength"><span class="dot w"></span><div><b>Mini Simulators</b><br/><small>Learn by doing</small></div></a>
+
+        <a href="#checklist" data-keywords="checklist exam checklist common mistakes"><span class="dot r"></span><div><b>Exam Checklist</b><br/><small>What examiners want</small></div></a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="main">
+      <section class="hero" id="start">
+        <h1>Security (Cambridge 9618) – Complete Exam Revision</h1>
+        <p>
+          This page teaches the complete Security unit: <b>threats & attacks</b>, <b>authentication and access control</b>,
+          <b>data integrity (hashing)</b>, <b>encryption (symmetric + asymmetric)</b>, and <b>digital certificates / TLS</b>.
+          You also get a large practice bank and interactive simulators (password strength, hashing demo, Caesar cipher, RSA toy model).
+        </p>
+
+        <div class="pillrow">
+          <span class="pill">Offline friendly</span>
+          <span class="pill">Auto-saves answers (this browser)</span>
+          <span class="pill">MCQ + structured practice</span>
+          <span class="pill">Simulators: hashing • Caesar • RSA • passwords</span>
+        </div>
+      </section>
+
+      <div class="tabs" role="tablist" aria-label="Main tabs">
+        <div class="tab active" data-tab="learn" role="tab" aria-selected="true">📚 Learn</div>
+        <div class="tab" data-tab="practice" role="tab" aria-selected="false">🧠 Practice</div>
+        <div class="tab" data-tab="sim" role="tab" aria-selected="false">🧩 Simulators</div>
+        <div class="tab" data-tab="teacher" role="tab" aria-selected="false">🧑‍🏫 Teacher Notes</div>
+      </div>
+
+      <div class="content">
+        <!-- =================== LEARN =================== -->
+        <div class="tabPane" id="pane-learn">
+
+          <div class="grid2">
+            <div class="card">
+              <div class="hd">
+                <div>
+                  <h3>How to use this page (students)</h3>
+                  <div class="hint">Revise like a textbook, then practise immediately under each section.</div>
+                </div>
+                <span class="badge">Start</span>
+              </div>
+              <div class="bd">
+                <ol style="margin:0; padding-left: 18px; color: var(--muted)">
+                  <li><b>Read one section</b> → then attempt the practice questions under it.</li>
+                  <li>Use <span class="kbd">Show answer</span> to compare with the model answer.</li>
+                  <li>Use simulators to understand encryption, hashing, and password security.</li>
+                  <li>Use the sidebar search before exams for quick recall.</li>
+                </ol>
+                <div class="callout">
+                  <b>Exam strategy:</b>
+                  <div class="small">
+                    Security questions reward <b>clear cause → effect</b>: “what is the threat” + “what damage happens” + “how the control reduces it”.
+                  </div>
+                </div>
+                <div class="progress" title="Overall practice completion">
+                  <div id="overallProgress"></div>
+                </div>
+                <div class="muted2" style="margin-top:8px; font-size:12px">
+                  Completion updates as you submit practice answers.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="hd">
+                <div>
+                  <h3>Security Map (CIA + Controls)</h3>
+                  <div class="hint">A picture view: what security protects and how controls fit together.</div>
+                </div>
+                <span class="badge">Diagram</span>
+              </div>
+              <div class="bd">
+                <svg viewBox="0 0 720 420" width="100%" height="auto" role="img" aria-label="Security concept map">
+                  <defs>
+                    <linearGradient id="sg1" x1="0" x2="1">
+                      <stop offset="0" stop-color="rgba(239,68,68,.92)"/>
+                      <stop offset="1" stop-color="rgba(124,58,237,.85)"/>
+                    </linearGradient>
+                    <linearGradient id="sg2" x1="0" x2="1">
+                      <stop offset="0" stop-color="rgba(6,182,212,.85)"/>
+                      <stop offset="1" stop-color="rgba(34,197,94,.70)"/>
+                    </linearGradient>
+                  </defs>
+
+                  <rect x="20" y="18" width="680" height="384" rx="22" fill="rgba(0,0,0,.18)" stroke="rgba(255,255,255,.16)" />
+                  <rect x="245" y="40" width="230" height="64" rx="18" fill="url(#sg1)" stroke="rgba(255,255,255,.18)"/>
+                  <text x="360" y="78" text-anchor="middle" fill="white" font-size="22" font-weight="800">Security Goals</text>
+
+                  <rect x="70" y="130" width="180" height="66" rx="18" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+                  <text x="160" y="160" text-anchor="middle" fill="rgba(255,255,255,.92)" font-size="16" font-weight="800">Confidentiality</text>
+                  <text x="160" y="183" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="12">Keep data secret</text>
+
+                  <rect x="270" y="130" width="180" height="66" rx="18" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+                  <text x="360" y="160" text-anchor="middle" fill="rgba(255,255,255,.92)" font-size="16" font-weight="800">Integrity</text>
+                  <text x="360" y="183" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="12">Detect changes</text>
+
+                  <rect x="470" y="130" width="180" height="66" rx="18" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+                  <text x="560" y="160" text-anchor="middle" fill="rgba(255,255,255,.92)" font-size="16" font-weight="800">Availability</text>
+                  <text x="560" y="183" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="12">Keep services running</text>
+
+                  <rect x="70" y="230" width="260" height="70" rx="18" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+                  <text x="200" y="260" text-anchor="middle" fill="rgba(255,255,255,.92)" font-size="16" font-weight="800">Threats / Attacks</text>
+                  <text x="200" y="283" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="12">Malware • Phishing • DoS</text>
+
+                  <rect x="390" y="230" width="260" height="70" rx="18" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+                  <text x="520" y="260" text-anchor="middle" fill="rgba(255,255,255,.92)" font-size="16" font-weight="800">Controls</text>
+                  <text x="520" y="283" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="12">Auth • Encryption • Backups</text>
+
+                  <rect x="245" y="330" width="230" height="60" rx="18" fill="url(#sg2)" stroke="rgba(255,255,255,.18)"/>
+                  <text x="360" y="363" text-anchor="middle" fill="white" font-size="16" font-weight="900">Risk = Threat × Vulnerability</text>
+
+                  <path d="M360 104 L160 130" stroke="rgba(255,255,255,.26)" stroke-width="3"/>
+                  <path d="M360 104 L360 130" stroke="rgba(255,255,255,.26)" stroke-width="3"/>
+                  <path d="M360 104 L560 130" stroke="rgba(255,255,255,.26)" stroke-width="3"/>
+
+                  <path d="M200 196 L200 230" stroke="rgba(255,255,255,.22)" stroke-width="3"/>
+                  <path d="M520 196 L520 230" stroke="rgba(255,255,255,.22)" stroke-width="3"/>
+
+                  <path d="M200 300 L360 330" stroke="rgba(255,255,255,.20)" stroke-width="3"/>
+                  <path d="M520 300 L360 330" stroke="rgba(255,255,255,.20)" stroke-width="3"/>
+                </svg>
+
+                <div class="muted" style="margin-top:10px; font-size:13px">
+                  In exam answers, link everything to CIA: <b>confidentiality</b> (encryption), <b>integrity</b> (hashing/signatures),
+                  <b>availability</b> (backups/DoS protection).
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BIG PICTURE -->
+          <section class="card" id="bigpicture" style="margin-top:16px">
+            <div class="hd">
+              <div>
+                <h3>Security Big Picture: CIA, Threats, Vulnerabilities, Risk</h3>
+                <div class="hint">This section helps you write high-scoring “explain why security matters” answers.</div>
+              </div>
+              <span class="badge">Core</span>
+            </div>
+            <div class="bd">
+              <p class="muted">
+                In Computer Science exams, security is not only “hackers”. It is about protecting data and systems so they remain
+                <b>confidential</b>, <b>accurate</b>, and <b>available</b>. A good security answer usually includes:
+                (1) the goal (CIA), (2) the threat, (3) the weakness (vulnerability), and (4) the control (solution).
+              </p>
+
+              <div class="twoCols">
+                <div class="panel">
+                  <h4>CIA Triad (must know)</h4>
+                  <ul class="muted" style="margin:0; padding-left:18px">
+                    <li><b>Confidentiality:</b> only authorised people can read the data.</li>
+                    <li><b>Integrity:</b> data is correct and has not been altered without permission.</li>
+                    <li><b>Availability:</b> systems/data are accessible when needed.</li>
+                  </ul>
+                </div>
+                <div class="panel">
+                  <h4>Threat vs Vulnerability vs Risk</h4>
+                  <div class="muted">
+                    <b>Threat:</b> something that can cause harm (virus, attacker, fire).<br/>
+                    <b>Vulnerability:</b> a weakness that allows the threat to succeed (weak password, unpatched OS).<br/>
+                    <b>Risk:</b> likelihood × impact — often summarised as <span class="kbd">Risk = Threat × Vulnerability</span>.
+                  </div>
+                </div>
+              </div>
+
+              <div class="callout">
+                <b>Exam sentence template:</b>
+                <div class="small">
+                  “The threat is ______. The vulnerability is ______. This can cause ______ (impact on CIA). A suitable control is ______ because ______.”
+                </div>
+              </div>
+
+              <div class="q" data-qid="bp1">
+                <div class="qtop">
+                  <b>Quick Practice (4 marks): Explain the difference between a threat and a vulnerability with an example.</b>
+                  <span class="tag">Core</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    A threat is something that can cause harm, such as a hacker or malware. A vulnerability is a weakness that makes the harm possible,
+                    such as using a weak password or not installing security updates. For example, the threat is a brute-force attack, and the vulnerability
+                    is a short password with no lockout policy.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> 1 mark definition threat + 1 mark definition vulnerability + 2 marks for a linked example.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- THREATS -->
+          <section class="card" id="threats" style="margin-top:16px">
+            <div class="hd">
+              <div>
+                <h3>Threats & Attacks: Malware, Phishing, Social Engineering, DoS</h3>
+                <div class="hint">Learn the “definition + how it spreads + effect + prevention” pattern.</div>
+              </div>
+              <span class="badge">Threats</span>
+            </div>
+            <div class="bd">
+              <p class="muted">
+                A security threat can be technical (malware) or human (social engineering). Exams often ask you to
+                <b>identify the attack</b>, explain <b>how it works</b>, then suggest <b>controls</b>.
+              </p>
+
+              <div class="twoCols">
+                <div class="panel">
+                  <h4>Malware (general definition)</h4>
+                  <p class="muted">
+                    <b>Malware</b> means “malicious software”: software designed to harm a system, steal data, or take control.
+                    Common malware types differ in how they spread and what damage they cause.
+                  </p>
+                </div>
+                <div class="panel">
+                  <h4>Common exam method</h4>
+                  <div class="muted">
+                    For any threat: <b>How it enters</b> → <b>What it does</b> → <b>Which CIA part is affected</b> → <b>Control</b>.
+                  </div>
+                </div>
+              </div>
+
+              <details>
+                <summary>🦠 Virus vs Worm (easy marks) <span class="badge">Core</span></summary>
+                <div class="muted">
+                  <b>Virus:</b> attaches to a host file/program and spreads when that file is executed (often needs user action).<br/>
+                  <b>Worm:</b> self-contained program that copies itself automatically (often spreads across networks without user action).<br/>
+                  <div class="divider"></div>
+                  <b>Typical impacts:</b> data corruption (integrity), slow system/network (availability), data leakage (confidentiality).
+                </div>
+              </details>
+
+              <details>
+                <summary>🎭 Trojan & Ransomware <span class="badge">Very common</span></summary>
+                <div class="muted">
+                  <b>Trojan:</b> malware disguised as a legitimate program. User installs it believing it is safe.
+                  Once installed, it may create a backdoor, steal data, or install more malware.<br/><br/>
+                  <b>Ransomware:</b> encrypts files and demands payment for decryption. Mainly affects <b>availability</b> of data,
+                  and can also impact integrity (files changed/encrypted).<br/>
+                  <div class="divider"></div>
+                  <b>Controls:</b> backups (offline/immutable), patching, least privilege, user training, anti-malware.
+                </div>
+              </details>
+
+              <details>
+                <summary>🕵️ Spyware / Keylogger / Rootkit <span class="badge">Higher marks</span></summary>
+                <div class="muted">
+                  <b>Spyware:</b> secretly collects information (browsing habits, credentials).<br/>
+                  <b>Keylogger:</b> records keystrokes to capture passwords and messages (confidentiality breach).<br/>
+                  <b>Rootkit:</b> hides malware and gives attacker privileged access (hard to detect).<br/>
+                  <div class="divider"></div>
+                  <b>Controls:</b> anti-malware, OS updates, least privilege, secure boot, monitoring.
+                </div>
+              </details>
+
+              <details>
+                <summary>🎣 Phishing & Social Engineering <span class="badge">Must know</span></summary>
+                <div class="muted">
+                  <b>Phishing:</b> fake messages (email/SMS/social media) that trick users into giving passwords or clicking malicious links.
+                  Often uses urgency (“Your account will be closed!”) and looks like a trusted brand.<br/><br/>
+                  <b>Social engineering:</b> manipulating people to break security rules (e.g., pretending to be IT support).<br/>
+                  <div class="divider"></div>
+                  <b>Controls:</b> user training, verify sender, MFA, email filtering, do not click unknown links, check URLs.
+                </div>
+              </details>
+
+              <details>
+                <summary>🚦 Denial of Service (DoS / DDoS) <span class="badge">Availability</span></summary>
+                <div class="muted">
+                  <b>DoS:</b> makes a service unavailable by overwhelming it with requests or exploiting resource limits (CPU/memory/bandwidth).<br/>
+                  <b>DDoS:</b> distributed DoS using many infected devices (botnet).<br/>
+                  <div class="divider"></div>
+                  <b>Controls:</b> rate limiting, filtering, CDN, firewall rules, traffic scrubbing, redundancy.
+                </div>
+              </details>
+
+              <div class="q" data-qid="th1">
+                <div class="qtop">
+                  <b>Q1 (6 marks): Compare a virus and a worm and explain one control for each.</b>
+                  <span class="tag">Threats</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    A virus attaches to a host file/program and spreads when the infected program is executed, usually requiring user action.
+                    A worm is a standalone program that copies itself automatically, often spreading across networks without user action.
+                    A control for viruses is anti-virus software with real-time scanning and not running unknown executables.
+                    A control for worms is patching vulnerabilities and using firewalls/network filtering to block unauthorised traffic.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> Marks for: host+execution vs self-copy+network + one suitable control each.</div>
+                </div>
+              </div>
+
+              <div class="q" data-qid="th2">
+                <div class="qtop">
+                  <b>Q2 (6 marks): Explain phishing and give two methods to reduce its success.</b>
+                  <span class="tag">Threats</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    Phishing is a social engineering attack where fake messages impersonate trusted organisations to trick users into revealing
+                    credentials or clicking malicious links. Two methods to reduce it are user training (check sender/URL and avoid urgent requests),
+                    and using multi-factor authentication so stolen passwords alone are not enough. Email filtering and reporting suspicious messages also help.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> Define phishing + 2 clear methods with reasons.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- AUTH -->
+          <section class="card" id="auth" style="margin-top:16px">
+            <div class="hd">
+              <div>
+                <h3>Authentication & Access Control: Proving Identity and Limiting Permissions</h3>
+                <div class="hint">Exams often ask “authentication vs authorisation” and “MFA factors”.</div>
+              </div>
+              <span class="badge">Auth</span>
+            </div>
+            <div class="bd">
+              <p class="muted">
+                Security is not only stopping attackers. It is also making sure the right people can access the right resources.
+                This is done through <b>authentication</b> (prove who you are) and <b>authorisation</b> (what you are allowed to do).
+              </p>
+
+              <div class="twoCols">
+                <div class="panel">
+                  <h4>Authentication vs Authorisation</h4>
+                  <div class="muted">
+                    <b>Authentication:</b> “Who are you?” (login, biometrics).<br/>
+                    <b>Authorisation:</b> “What can you do?” (permissions/roles).<br/><br/>
+                    Example: You authenticate to the school portal, but authorisation decides whether you can edit grades.
+                  </div>
+                </div>
+                <div class="panel">
+                  <h4>Access control models (basic)</h4>
+                  <div class="muted">
+                    <b>Least privilege:</b> give users only the minimum permissions needed.<br/>
+                    <b>Role-based access control (RBAC):</b> permissions are assigned to roles (teacher/student/admin).
+                  </div>
+                </div>
+              </div>
+
+              <details>
+                <summary>🔑 Passwords (strength + policies) <span class="badge">Common exam</span></summary>
+                <div class="muted">
+                  A good password policy includes:
+                  <ul>
+                    <li>Minimum length (longer is stronger).</li>
+                    <li>Mix of character types (upper/lower/digits/symbols).</li>
+                    <li>Block common passwords and dictionary words.</li>
+                    <li>Lockout / rate-limiting after repeated failures (stops brute-force).</li>
+                    <li>Do not reuse passwords; use password manager.</li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary>🧬 Biometrics (pros/cons) <span class="badge">Higher marks</span></summary>
+                <div class="muted">
+                  <b>Biometrics:</b> fingerprint, face, iris, voice.
+                  <ul>
+                    <li><b>Pros:</b> convenient, hard to guess/steal like a password.</li>
+                    <li><b>Cons:</b> false accept/reject rates, privacy concerns, cannot be changed if leaked (you can’t change your fingerprint).</li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary>🔐 Multi-Factor Authentication (MFA) <span class="badge">Must know</span></summary>
+                <div class="muted">
+                  MFA uses two or more factors from different categories:
+                  <ul>
+                    <li><b>Something you know:</b> password, PIN.</li>
+                    <li><b>Something you have:</b> phone, token, smart card.</li>
+                    <li><b>Something you are:</b> biometrics.</li>
+                  </ul>
+                  It reduces risk because stealing one factor is not enough.
+                </div>
+              </details>
+
+              <div class="q" data-qid="au1">
+                <div class="qtop">
+                  <b>Q3 (6 marks): Distinguish authentication and authorisation, with an example.</b>
+                  <span class="tag">Auth</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    Authentication verifies a user’s identity, for example by checking a username and password or biometric scan.
+                    Authorisation decides what an authenticated user is allowed to do, such as whether they can view, edit, or delete files.
+                    Example: a teacher and student both authenticate to the school system, but only the teacher is authorised to edit marks.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> 2 marks definitions + 2 marks example + 2 marks linking “identity vs permissions”.</div>
+                </div>
+              </div>
+
+              <div class="q" data-qid="au2">
+                <div class="qtop">
+                  <b>Q4 (6 marks): Explain how MFA reduces the risk of unauthorised access.</b>
+                  <span class="tag">MFA</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    MFA requires two or more factors from different categories (something you know/have/are). Even if an attacker steals a password
+                    (something you know), they still need the second factor, such as a phone code (something you have) or fingerprint (something you are).
+                    This makes brute-force and phishing less effective because a single credential is not enough.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> Mention factor categories + explain “one stolen factor not enough”.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- INTEGRITY / HASHING -->
+          <section class="card" id="integrity" style="margin-top:16px">
+            <div class="hd">
+              <div>
+                <h3>Integrity: Hashing, Checksums, and Digital Signatures (conceptual)</h3>
+                <div class="hint">Integrity = detect tampering. Hashes are a very common exam topic.</div>
+              </div>
+              <span class="badge">Integrity</span>
+            </div>
+            <div class="bd">
+              <p class="muted">
+                <b>Integrity</b> means data has not been changed without permission. A core tool is a <b>hash function</b>, which takes an input
+                (message/file/password) and produces a fixed-size output called a <b>hash</b> (digest). If the data changes, the hash changes a lot.
+              </p>
+
+              <div class="twoCols">
+                <div class="panel">
+                  <h4>Hash function properties (exam-friendly)</h4>
+                  <ul class="muted" style="margin:0; padding-left:18px">
+                    <li>Same input → same output (deterministic).</li>
+                    <li>Small input change → big output change (avalanche effect).</li>
+                    <li>Hard to reverse (one-way).</li>
+                    <li>Hard to find two different inputs with same hash (collision resistance).</li>
+                  </ul>
+                </div>
+                <div class="panel">
+                  <h4>Hashing vs Encryption (important)</h4>
+                  <div class="muted">
+                    <b>Encryption:</b> reversible with a key (confidentiality).<br/>
+                    <b>Hashing:</b> one-way, not meant to be reversed (integrity, password storage).
+                  </div>
+                </div>
+              </div>
+
+              <details>
+                <summary>🧾 Checksums (simple integrity) <span class="badge">Foundation</span></summary>
+                <div class="muted">
+                  A checksum is a simple value calculated from data to detect errors during transmission/storage.
+                  If the checksum changes, data likely changed. Hashes are usually stronger than simple checksums.
+                </div>
+              </details>
+
+              <details>
+                <summary>🧂 Salting passwords (why?) <span class="badge">Higher marks</span></summary>
+                <div class="muted">
+                  If passwords are stored as hashes, attackers may use a <b>rainbow table</b> of precomputed hashes.
+                  A <b>salt</b> is a random value added to the password before hashing. This means the same password produces different hashes for different users,
+                  making rainbow tables far less effective.
+                </div>
+              </details>
+
+              <details>
+                <summary>✍️ Digital signatures (idea level) <span class="badge">A Level extension</span></summary>
+                <div class="muted">
+                  A digital signature helps prove <b>integrity</b> and <b>authenticity</b>.
+                  The sender hashes the message and signs the hash with their private key. The receiver verifies using the sender’s public key.
+                  This shows the message was not altered and came from the sender (non-repudiation in higher-level discussion).
+                </div>
+              </details>
+
+              <div class="q" data-qid="in1">
+                <div class="qtop">
+                  <b>Q5 (6 marks): Explain what hashing is and how it can be used for integrity checking.</b>
+                  <span class="tag">Hashing</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    Hashing uses a one-way function to convert data into a fixed-length hash (digest). The same input produces the same output,
+                    but even a small change to the input produces a very different hash. For integrity checking, the sender calculates the hash of a file/message
+                    and sends the data plus the hash. The receiver recalculates the hash and compares; if they match, the data is likely unchanged.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> Define hash + fixed length + avalanche + comparison method.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ENCRYPTION -->
+          <section class="card" id="encryption" style="margin-top:16px">
+            <div class="hd">
+              <div>
+                <h3>Encryption: Symmetric vs Asymmetric (Public/Private Key)</h3>
+                <div class="hint">This is a high-frequency exam area. Learn clear comparisons and use cases.</div>
+              </div>
+              <span class="badge">Encryption</span>
+            </div>
+            <div class="bd">
+              <p class="muted">
+                <b>Encryption</b> protects confidentiality by converting plaintext into ciphertext using an algorithm and a key.
+                Only someone with the correct key (or matching key) can decrypt and read the message.
+              </p>
+
+              <div class="twoCols">
+                <div class="panel">
+                  <h4>Symmetric encryption</h4>
+                  <div class="muted">
+                    Uses <b>one shared key</b> for encryption and decryption (same key both ways).<br/>
+                    <b>Pros:</b> fast, good for large data (files, streams).<br/>
+                    <b>Cons:</b> key distribution problem (how to share the key safely?).
+                  </div>
+                </div>
+                <div class="panel">
+                  <h4>Asymmetric encryption</h4>
+                  <div class="muted">
+                    Uses a <b>key pair</b>: public key and private key.<br/>
+                    Public key can be shared; private key must be kept secret.<br/>
+                    <b>Pros:</b> solves key distribution, supports signatures.<br/>
+                    <b>Cons:</b> slower than symmetric.
+                  </div>
+                </div>
+              </div>
+
+              <details>
+                <summary>🔁 How hybrid encryption works (TLS idea) <span class="badge">Must know</span></summary>
+                <div class="muted">
+                  In real systems, asymmetric encryption is used to exchange a <b>session key</b> securely.
+                  Then symmetric encryption uses that session key to encrypt all further data (fast for large amounts).
+                </div>
+              </details>
+
+              <div class="q" data-qid="en1">
+                <div class="qtop">
+                  <b>Q6 (8 marks): Compare symmetric and asymmetric encryption and give one use case for each.</b>
+                  <span class="tag">Encryption</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    Symmetric encryption uses the same shared key for encryption and decryption. It is fast and suitable for encrypting large files or data streams,
+                    but it has the key distribution problem because the key must be shared securely. Asymmetric encryption uses a public/private key pair;
+                    the public key can be shared while the private key remains secret. It helps with secure key exchange and digital signatures but is slower.
+                    A use case for symmetric encryption is encrypting stored files or a VPN data stream; a use case for asymmetric encryption is exchanging a session key
+                    or encrypting a message to a recipient using their public key.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> 3+ differences + 1 use case each.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CERTS -->
+          <section class="card" id="certs" style="margin-top:16px">
+            <div class="hd">
+              <div>
+                <h3>Digital Certificates & TLS (HTTPS): Building Trust Online</h3>
+                <div class="hint">Learn the CA concept and why HTTPS prevents “fake website” attacks.</div>
+              </div>
+              <span class="badge">TLS</span>
+            </div>
+            <div class="bd">
+              <p class="muted">
+                A major internet problem is: “How do you know this public key really belongs to the website you want?”
+                A <b>digital certificate</b> solves this by having a trusted organisation (a <b>Certificate Authority</b> or CA) vouch for identity.
+              </p>
+
+              <div class="panel">
+                <h4>Certificate basics (exam-friendly)</h4>
+                <ul class="muted" style="margin:0; padding-left:18px">
+                  <li>Certificate contains: website identity + website public key + CA signature.</li>
+                  <li>Browser trusts the CA (CA certificates pre-installed).</li>
+                  <li>Browser verifies CA signature → trusts the website public key.</li>
+                </ul>
+              </div>
+
+              <details>
+                <summary>🔒 What TLS/HTTPS achieves <span class="badge">Core</span></summary>
+                <div class="muted">
+                  TLS provides:
+                  <ul>
+                    <li><b>Confidentiality:</b> encryption prevents eavesdropping.</li>
+                    <li><b>Integrity:</b> detects tampering in transit.</li>
+                    <li><b>Authentication:</b> certificates help confirm the server identity (reduce MITM risk).</li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary>🧠 Man-in-the-middle (MITM) and why certificates matter <span class="badge">Higher marks</span></summary>
+                <div class="muted">
+                  In a MITM attack, an attacker intercepts communication and pretends to be the server.
+                  Certificates prevent this because the attacker cannot produce a valid CA-signed certificate for the real site.
+                  The browser warns the user if the certificate is invalid or mismatched.
+                </div>
+              </details>
+
+              <div class="q" data-qid="ce1">
+                <div class="qtop">
+                  <b>Q7 (6 marks): Explain how digital certificates help prevent a user connecting to a fake website.</b>
+                  <span class="tag">TLS</span>
+                </div>
+                <textarea placeholder="Write your answer…"></textarea>
+                <div class="actions">
+                  <button class="btn primary" data-action="reveal">Show answer</button>
+                  <button class="btn" data-action="save">Save answer</button>
+                  <button class="btn good" data-action="submit">Submit</button>
+                </div>
+                <div class="reveal">
+                  <b>Model answer:</b>
+                  <div class="muted" style="margin-top:6px">
+                    A digital certificate links a website’s identity to its public key and is signed by a trusted Certificate Authority (CA).
+                    When a browser connects via HTTPS, it receives the certificate and verifies the CA signature using the CA’s trusted public key.
+                    If valid and the domain matches, the browser trusts that the public key belongs to that website, reducing the risk of a man-in-the-middle
+                    or fake site presenting its own key. If invalid, the browser warns the user.
+                  </div>
+                  <div class="mark"><b>Mark hint:</b> Mention CA, signature verification, identity↔key link, browser trust/warning.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- =================== PRACTICE =================== -->
+        <div class="tabPane" id="pane-practice" style="display:none">
+          <section class="card" id="practice">
+            <div class="hd">
+              <div>
+                <h3>Practice Zone – MCQ + Structured (Auto-reveal explanations)</h3>
+                <div class="hint">Do the MCQs first, then the structured questions for exam-level answers.</div>
+              </div>
+              <span class="badge">Practice</span>
+            </div>
+
+            <div class="bd">
+              <div class="callout">
+                <b>Marking note:</b>
+                <div class="small">
+                  The page reveals model answers and key points. Use them to improve your wording and include precise vocabulary.
+                </div>
+              </div>
+
+              <div class="card" style="margin-top:12px">
+                <div class="hd">
+                  <div>
+                    <h3>MCQ Set (15 questions)</h3>
+                    <div class="hint">Choose an option and click “Mark MCQ”.</div>
+                  </div>
+                  <span class="badge">MCQ</span>
+                </div>
+                <div class="bd">
+                  <div class="mcq" id="mcqBlock"></div>
+                  <div class="actions">
+                    <button class="btn primary" id="btnMarkMcq">✅ Mark MCQ</button>
+                    <button class="btn" id="btnResetMcq">↩ Reset MCQ</button>
+                  </div>
+                  <div class="scoreBox" id="mcqScore" style="display:none">
+                    <b>MCQ Score</b>
+                    <span id="mcqScoreText"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <h3 style="margin:0 0 8px">Structured Questions (Exam-style)</h3>
+              <p class="muted">
+                Write in full sentences. Aim to include definitions, mechanisms, and “why it reduces risk”.
+              </p>
+
+              <div id="structuredBank"></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- =================== SIMULATORS =================== -->
+        <div class="tabPane" id="pane-sim" style="display:none">
+          <section class="card" id="simulators">
+            <div class="hd">
+              <div>
+                <h3>Mini Simulators – Security in action</h3>
+                <div class="hint">Explore password strength, hashing, Caesar cipher, and a toy RSA demonstration.</div>
+              </div>
+              <span class="badge">Sim</span>
+            </div>
+
+            <div class="bd">
+              <div class="simRow">
+                <!-- Password strength -->
+                <div class="panel">
+                  <h4>Password Strength & Brute-force Risk</h4>
+                  <p class="muted">Type a password. See estimated strength and suggestions. (Teaching model)</p>
+
+                  <input id="pwIn" type="password" placeholder="Type a password…" />
+                  <div class="divider"></div>
+                  <div class="muted2">Strength:</div>
+                  <div class="progress" style="margin:8px 0"><div id="pwBar"></div></div>
+                  <div id="pwMsg" class="muted"></div>
+
+                  <details>
+                    <summary>What this tool is checking <span class="badge">Info</span></summary>
+                    <div class="muted">
+                      Length, variety (upper/lower/digits/symbols), and common patterns. Real systems also check breached passwords
+                      and apply rate-limits / lockout.
+                    </div>
+                  </details>
+                </div>
+
+                <!-- Caesar cipher -->
+                <div class="panel">
+                  <h4>Caesar Cipher (Classic Symmetric Example)</h4>
+                  <p class="muted">This shows the idea of shifting letters. Real encryption is much stronger (AES/RSA etc.).</p>
+
+                  <div class="twoCols">
+                    <div>
+                      <div class="muted2" style="font-size:12px">Plaintext:</div>
+                      <input id="caPlain" type="text" value="HELLO WORLD" />
+                    </div>
+                    <div>
+                      <div class="muted2" style="font-size:12px">Shift (0–25):</div>
+                      <input id="caShift" type="number" min="0" max="25" value="3" />
+                    </div>
+                  </div>
+
+                  <div class="actions" style="margin-top:10px">
+                    <button class="btn primary" id="btnCaEnc">Encrypt</button>
+                    <button class="btn" id="btnCaDec">Decrypt</button>
+                    <button class="btn" id="btnCaReset">Reset</button>
+                  </div>
+
+                  <div class="divider"></div>
+                  <div class="muted2">Output:</div>
+                  <pre id="caOut" class="mono" style="white-space:pre-wrap; margin:0; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18); border-radius:16px; padding:12px; min-height: 92px"></pre>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="simRow">
+                <!-- Hash demo -->
+                <div class="panel">
+                  <h4>Hashing Demo (Teaching Hash)</h4>
+                  <p class="muted">Not a real cryptographic hash, but it shows how small changes change the digest.</p>
+
+                  <input id="hashIn" type="text" value="attack at dawn" />
+                  <div class="actions" style="margin-top:10px">
+                    <button class="btn primary" id="btnHash">Hash</button>
+                    <button class="btn" id="btnHashFlip">Flip 1 char</button>
+                  </div>
+
+                  <div class="divider"></div>
+                  <div class="muted2">Digest (hex-like):</div>
+                  <pre id="hashOut" class="mono" style="white-space:pre-wrap; margin:0; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18); border-radius:16px; padding:12px; min-height: 92px"></pre>
+
+                  <details>
+                    <summary>How to describe hashing in exams <span class="badge">Tip</span></summary>
+                    <div class="muted">
+                      “Hash produces fixed-length digest. Receiver recomputes digest and compares. If different, data changed.”
+                      Mention avalanche effect and collision resistance for higher marks.
+                    </div>
+                  </details>
+                </div>
+
+                <!-- RSA toy -->
+                <div class="panel">
+                  <h4>Toy RSA Demonstration (Asymmetric Idea)</h4>
+                  <p class="muted">Small numbers so students can see the steps. This is not secure, only for learning.</p>
+
+                  <div class="twoCols">
+                    <div>
+                      <div class="muted2" style="font-size:12px">Choose primes p, q:</div>
+                      <div style="display:flex; gap:8px">
+                        <input id="rsaP" type="number" min="2" value="11" />
+                        <input id="rsaQ" type="number" min="2" value="13" />
+                      </div>
+                    </div>
+                    <div>
+                      <div class="muted2" style="font-size:12px">Public exponent e:</div>
+                      <input id="rsaE" type="number" min="3" value="7" />
+                    </div>
+                  </div>
+
+                  <div class="actions" style="margin-top:10px">
+                    <button class="btn primary" id="btnRsaKeys">Generate keys</button>
+                    <button class="btn" id="btnRsaReset">Reset</button>
+                  </div>
+
+                  <div class="divider"></div>
+
+                  <div class="twoCols">
+                    <div>
+                      <div class="muted2" style="font-size:12px">Message (number):</div>
+                      <input id="rsaM" type="number" min="0" value="9" />
+                      <div class="actions" style="margin-top:10px">
+                        <button class="btn good" id="btnRsaEnc">Encrypt</button>
+                        <button class="btn" id="btnRsaDec">Decrypt</button>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="muted2" style="font-size:12px">RSA output:</div>
+                      <pre id="rsaOut" class="mono" style="white-space:pre-wrap; margin:0; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18); border-radius:16px; padding:12px; min-height: 140px"></pre>
+                    </div>
+                  </div>
+
+                  <details>
+                    <summary>Exam wording for asymmetric encryption <span class="badge">Tip</span></summary>
+                    <div class="muted">
+                      “Public key encrypts (or verifies). Private key decrypts (or signs). Key distribution is easier because public key can be shared.”
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- =================== TEACHER =================== -->
+        <div class="tabPane" id="pane-teacher" style="display:none">
+          <section class="card">
+            <div class="hd">
+              <div>
+                <h3>Teacher Notes – Suggested lesson flow + common misconceptions</h3>
+                <div class="hint">Use this pane for lesson planning and targeted revision.</div>
+              </div>
+              <span class="badge">Teacher</span>
+            </div>
+
+            <div class="bd">
+              <div class="twoCols">
+                <div class="panel">
+                  <h4>Suggested 5-lesson flow (40–50 mins)</h4>
+                  <ol class="muted" style="margin:0; padding-left:18px">
+                    <li><b>CIA + risk:</b> threat vs vulnerability; risk analysis; real examples.</li>
+                    <li><b>Malware:</b> virus/worm/trojan/ransomware; prevention; user behaviour.</li>
+                    <li><b>Auth:</b> passwords, MFA factors, RBAC, least privilege; brute-force and lockout.</li>
+                    <li><b>Integrity + hashing:</b> checksums vs hashes; salting; intro to signatures.</li>
+                    <li><b>Encryption + certificates:</b> symmetric vs asymmetric; session keys; CA + TLS concept; practice paper-style questions.</li>
+                  </ol>
+                </div>
+
+                <div class="panel">
+                  <h4>Common student misconceptions</h4>
+                  <ul class="muted" style="margin:0; padding-left:18px">
+                    <li>Thinking hashing = encryption (hash is one-way).</li>
+                    <li>Thinking “HTTPS means the website is safe” (it only secures connection and identity checks).</li>
+                    <li>Confusing authentication with authorisation.</li>
+                    <li>Assuming “MFA = strong password only” (needs different factor categories).</li>
+                    <li>Forgetting availability threats (DoS, ransomware).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="panel" id="checklist">
+                <h4>Exam Checklist (student-ready)</h4>
+                <ul class="muted" style="margin:0; padding-left:18px">
+                  <li>I can explain CIA with examples of each.</li>
+                  <li>I can define threat, vulnerability, risk and link them.</li>
+                  <li>I can compare virus vs worm and describe prevention.</li>
+                  <li>I can explain phishing and two controls.</li>
+                  <li>I can distinguish authentication vs authorisation.</li>
+                  <li>I can explain hashing for integrity checking and why salting helps.</li>
+                  <li>I can compare symmetric vs asymmetric encryption and give use cases.</li>
+                  <li>I can explain digital certificates and why they reduce fake website/MITM risk.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+
+      <div class="footer">
+        <div>
+          Prepared for exam revision • Topic: <b>Security</b> (9618)
+        </div>
+        <div>
+          Auto-save uses <b>this browser only</b> • Print notes from the top bar.
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    /* ==========================
+       Helpers + Local Storage
+    ========================== */
+    const $ = (q, el = document) => el.querySelector(q);
+    const $$ = (q, el = document) => Array.from(el.querySelectorAll(q));
+
+    const store = {
+      key(name) { return `sec9618_${name || 'anon'}`; },
+      get(name) {
+        try { return JSON.parse(localStorage.getItem(this.key(name)) || "{}"); }
+        catch (e) { return {}; }
+      },
+      set(name, data) { localStorage.setItem(this.key(name), JSON.stringify(data)); }
+    };
+
+    const studentNameEl = $("#studentName");
+    const btnSave = $("#btnSave");
+    const btnReset = $("#btnReset");
+    const btnPrint = $("#btnPrint");
+    const btnFocus = $("#btnFocus");
+    const overallProgressBar = $("#overallProgress");
+
+    function currentName() { return (studentNameEl.value || "anon").trim(); }
+
+    function toast(msg) {
+      let t = document.createElement("div");
+      t.style.position = "fixed";
+      t.style.bottom = "18px";
+      t.style.left = "50%";
+      t.style.transform = "translateX(-50%)";
+      t.style.padding = "10px 14px";
+      t.style.borderRadius = "14px";
+      t.style.border = "1px solid rgba(255,255,255,.18)";
+      t.style.background = "rgba(0,0,0,.55)";
+      t.style.backdropFilter = "blur(10px)";
+      t.style.color = "rgba(255,255,255,.92)";
+      t.style.zIndex = 9999;
+      t.style.boxShadow = "0 18px 40px rgba(0,0,0,.45)";
+      t.style.fontWeight = "800";
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity .35s ease"; }, 1200);
+      setTimeout(() => t.remove(), 1700);
+    }
+
+    /* ==========================
+       Tabs
+    ========================== */
+    const tabs = $$(".tab");
+    const panes = {
+      learn: $("#pane-learn"),
+      practice: $("#pane-practice"),
+      sim: $("#pane-sim"),
+      teacher: $("#pane-teacher")
+    };
+
+    tabs.forEach(t => {
+      t.addEventListener("click", () => {
+        tabs.forEach(x => x.classList.remove("active"));
+        t.classList.add("active");
+        const id = t.getAttribute("data-tab");
+        Object.values(panes).forEach(p => p.style.display = "none");
+        panes[id].style.display = "";
+        $("#main").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    /* ==========================
+       Sidebar search + active
+    ========================== */
+    const nav = $("#nav");
+    const navLinks = $$("a", nav);
+    function setActiveNav(hash) {
+      navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === hash));
+    }
+    window.addEventListener("hashchange", () => setActiveNav(location.hash || "#start"));
+
+    const navSearch = $("#navSearch");
+    navSearch.addEventListener("input", () => {
+      const q = navSearch.value.toLowerCase().trim();
+      navLinks.forEach(a => {
+        const kw = (a.getAttribute("data-keywords") || "").toLowerCase();
+        const text = a.innerText.toLowerCase();
+        a.style.display = (!q || kw.includes(q) || text.includes(q)) ? "" : "none";
+      });
+    });
+
+    /* ==========================
+       Submitted tracking + progress
+    ========================== */
+    const submitted = new Set();
+
+    function updateProgress() {
+      const total = $$("[data-qid]").length;
+      const done = submitted.size;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      if (overallProgressBar) overallProgressBar.style.width = pct + "%";
+    }
+
+    function captureMcqSelections() {
+      const mcq = {};
+      mcqData.forEach((q, idx) => {
+        const sel = document.querySelector(`input[name="mcq_${idx}"]:checked`);
+        if (sel) mcq[idx] = sel.value;
+      });
+      return mcq;
+    }
+
+    function saveAll() {
+      const data = store.get(currentName());
+      data.answers = data.answers || {};
+
+      $$("[data-qid]").forEach(q => {
+        const id = q.getAttribute("data-qid");
+        const ta = $("textarea, input[type='text'], input[type='password']", q);
+        if (ta) data.answers[id] = ta.value;
+      });
+
+      data.submitted = Array.from(submitted);
+      data.mcq = captureMcqSelections();
+      store.set(currentName(), data);
+    }
+
+    function loadAll() {
+      const data = store.get(currentName());
+
+      if (Array.isArray(data.submitted)) {
+        submitted.clear();
+        data.submitted.forEach(x => submitted.add(x));
+      }
+
+      if (data.answers) {
+        $$("[data-qid]").forEach(q => {
+          const id = q.getAttribute("data-qid");
+          const ta = $("textarea, input[type='text'], input[type='password']", q);
+          if (ta && data.answers[id] !== undefined) ta.value = data.answers[id];
+        });
+      }
+
+      if (data.mcq) {
+        for (const [qid, val] of Object.entries(data.mcq)) {
+          const radio = document.querySelector(`input[name="mcq_${qid}"][value="${val}"]`);
+          if (radio) radio.checked = true;
+        }
+      }
+
+      updateProgress();
+    }
+
+    // Persist student name
+    const nameKey = "sec9618_studentName";
+    studentNameEl.value = localStorage.getItem(nameKey) || "";
+    studentNameEl.addEventListener("input", () => {
+      localStorage.setItem(nameKey, studentNameEl.value || "");
+      loadAll();
+    });
+
+    btnSave.addEventListener("click", () => { saveAll(); toast("Saved ✅"); });
+
+    btnReset.addEventListener("click", () => {
+      const ok = confirm("Reset saved answers for this student name in this browser?");
+      if (!ok) return;
+
+      localStorage.removeItem(store.key(currentName()));
+      submitted.clear();
+
+      $$("[data-qid]").forEach(q => {
+        const ta = $("textarea, input[type='text'], input[type='password']", q);
+        if (ta) ta.value = "";
+        const rev = $(".reveal", q);
+        if (rev) rev.style.display = "none";
+      });
+
+      $$("input[type='radio']").forEach(r => r.checked = false);
+      $("#mcqScore").style.display = "none";
+
+      updateProgress();
+      toast("Reset done 🧹");
+    });
+
+    btnPrint.addEventListener("click", () => window.print());
+
+    let focusMode = false;
+    btnFocus.addEventListener("click", () => {
+      focusMode = !focusMode;
+      const sb = document.querySelector(".sidebar");
+      if (sb) sb.style.display = focusMode ? "none" : "";
+      toast(focusMode ? "Focus mode ON 🎯" : "Focus mode OFF");
+    });
+
+    function wireQuestionButtons() {
+      $$("[data-qid]").forEach(box => {
+        const qid = box.getAttribute("data-qid");
+        const revealBtn = box.querySelector("[data-action='reveal']");
+        const saveBtn = box.querySelector("[data-action='save']");
+        const submitBtn = box.querySelector("[data-action='submit']");
+        const revealDiv = $(".reveal", box);
+
+        revealBtn?.addEventListener("click", () => {
+          if (!revealDiv) return;
+          revealDiv.style.display = (revealDiv.style.display === "block") ? "none" : "block";
+        });
+
+        saveBtn?.addEventListener("click", () => { saveAll(); toast("Saved ✅"); });
+
+        submitBtn?.addEventListener("click", () => {
+          submitted.add(qid);
+          saveAll();
+          updateProgress();
+          toast("Submitted ✅");
+          if (revealDiv) revealDiv.style.display = "block";
+        });
+      });
+    }
+
+    /* ==========================
+       MCQs
+    ========================== */
+    const mcqData = [
+      { q:"Which part of CIA is mainly affected by a DDoS attack?", opts:["Confidentiality","Integrity","Availability","Authenticity"], ans:"C", why:"DDoS aims to make services unavailable." },
+      { q:"Which malware encrypts your files and demands payment?", opts:["Trojan","Ransomware","Spyware","Worm"], ans:"B", why:"Ransomware locks data by encrypting it." },
+      { q:"Phishing is best described as…", opts:["Installing software updates","Pretending to be a trusted source to steal info","Encrypting data with a key","Breaking a password using math"], ans:"B", why:"Phishing uses deception to steal credentials." },
+      { q:"Authentication answers the question…", opts:["What can you do?","Who are you?","Is data changed?","Is service available?"], ans:"B", why:"Authentication verifies identity." },
+      { q:"Which is a 'something you have' factor in MFA?", opts:["Password","Fingerprint","Smart card","A secret question"], ans:"C", why:"A smart card/token is something you possess." },
+      { q:"Hashing is mainly used to…", opts:["Hide data and later recover it","Detect changes to data","Speed up networks","Create more RAM"], ans:"B", why:"Hashes help verify integrity." },
+      { q:"Encryption differs from hashing because encryption is…", opts:["Always shorter","One-way only","Reversible with a key","Only for passwords"], ans:"C", why:"Encryption can be decrypted with a key." },
+      { q:"A worm spreads mainly by…", opts:["Attaching to a host file","Automatic replication across networks","Needing a user to install it manually","Only via USB"], ans:"B", why:"Worms self-replicate often via networks." },
+      { q:"What does a digital certificate primarily link?", opts:["A password to a user","A website identity to a public key","A file name to a folder","A hash to a checksum"], ans:"B", why:"Certificates bind identity to public key via CA signature." },
+      { q:"Why is a salt added to passwords before hashing?", opts:["To make passwords shorter","To make rainbow tables less effective","To enable decryption later","To speed up hashing"], ans:"B", why:"Salt ensures same passwords hash differently." },
+      { q:"A Trojan is…", opts:["A self-replicating network program","Malware disguised as legitimate software","A secure encryption method","A type of firewall"], ans:"B", why:"Trojans trick users into installing them." },
+      { q:"Least privilege means…", opts:["Give every user admin access","Give minimum permissions needed","Use the longest password possible","Encrypt everything twice"], ans:"B", why:"Limit access reduces damage if compromised." },
+      { q:"Which control best reduces brute-force password attacks?", opts:["Disable the monitor","Account lockout / rate limiting","Use a bigger screen","Increase RAM"], ans:"B", why:"Slows/blocks repeated guesses." },
+      { q:"Which is an example of spyware?", opts:["Program that records keystrokes","Program that updates Windows","Program that compiles code","Program that manages files"], ans:"A", why:"Keylogger is a spyware type." },
+      { q:"TLS is typically used to…", opts:["Store files faster","Secure communication over networks (HTTPS)","Convert code to machine code","Schedule CPU processes"], ans:"B", why:"TLS secures connections." }
+    ];
+
+    function renderMcq() {
+      const mcqBlock = $("#mcqBlock");
+      if (!mcqBlock) return;
+      const letters = ["A","B","C","D"];
+
+      mcqBlock.innerHTML = mcqData.map((item, idx) => {
+        const optionsHTML = item.opts.map((opt, oi) => {
+          const letter = letters[oi];
+          return `
+            <label class="opt">
+              <input type="radio" name="mcq_${idx}" value="${letter}">
+              <div><b>${letter}.</b> ${opt}</div>
+            </label>`;
+        }).join("");
+
+        return `
+          <div class="q mcq" data-mcq="${idx}">
+            <div class="qtop">
+              <b>MCQ ${idx + 1}:</b>
+              <span class="tag">MCQ</span>
+            </div>
+            <div class="muted" style="margin-bottom:8px">${item.q}</div>
+            ${optionsHTML}
+            <div class="reveal" id="mcqExplain_${idx}" style="display:none; background: rgba(124,58,237,.10)">
+              <b>Answer:</b> ${item.ans}<br/>
+              <div class="muted" style="margin-top:6px">${item.why}</div>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    $("#btnMarkMcq")?.addEventListener("click", () => {
+      let score = 0;
+      mcqData.forEach((item, idx) => {
+        const sel = document.querySelector(`input[name="mcq_${idx}"]:checked`);
+        const exp = $(`#mcqExplain_${idx}`);
+        if (exp) exp.style.display = "block";
+        if (sel && sel.value === item.ans) score++;
+      });
+      const box = $("#mcqScore");
+      const text = $("#mcqScoreText");
+      if (box && text) {
+        box.style.display = "flex";
+        text.textContent = `${score} / ${mcqData.length}`;
+      }
+      saveAll();
+    });
+
+    $("#btnResetMcq")?.addEventListener("click", () => {
+      $$("input[type='radio']").forEach(r => r.checked = false);
+      mcqData.forEach((_, idx) => {
+        const exp = $(`#mcqExplain_${idx}`);
+        if (exp) exp.style.display = "none";
+      });
+      $("#mcqScore").style.display = "none";
+      saveAll();
+    });
+
+    /* ==========================
+       Structured bank
+    ========================== */
+    const structuredData = [
+      {
+        id:"s1", marks:8, tag:"Threats",
+        prompt:"Explain ransomware and describe two controls that reduce its impact.",
+        answer:"Ransomware is malware that encrypts a victim’s files (or locks the system) and demands payment for the decryption key. It mainly affects availability of data and can also impact integrity. Controls include maintaining regular offline/immutable backups so files can be restored without paying, keeping systems patched to close vulnerabilities, using anti-malware and email filtering to reduce infection, and applying least privilege so malware has limited access."
+      },
+      {
+        id:"s2", marks:6, tag:"Threats",
+        prompt:"Describe a DDoS attack and explain how it affects availability.",
+        answer:"A DDoS attack uses many devices (often a botnet) to send huge numbers of requests to a target server/network. The target becomes overloaded, using up bandwidth/CPU/memory and cannot respond to legitimate users. This reduces availability because the service becomes slow or unreachable. Controls include filtering/rate limiting, traffic scrubbing, CDNs, redundancy and firewall rules."
+      },
+      {
+        id:"s3", marks:6, tag:"Auth",
+        prompt:"Explain how brute-force attacks work and give two controls that reduce their success.",
+        answer:"A brute-force attack attempts many password guesses until the correct one is found. Controls include rate limiting or account lockouts after repeated failures, using long complex passwords (high keyspace), MFA so password alone is not enough, and monitoring/logging to detect unusual login attempts."
+      },
+      {
+        id:"s4", marks:7, tag:"Integrity",
+        prompt:"Explain hashing for integrity checking and describe the avalanche effect.",
+        answer:"Hashing converts data into a fixed-length digest using a one-way function. For integrity, the sender sends the data plus its hash; the receiver recomputes the hash and compares. If they match, the data likely hasn’t changed. The avalanche effect means a small input change causes a very large, unpredictable change in the output hash."
+      },
+      {
+        id:"s5", marks:8, tag:"Encryption",
+        prompt:"Compare symmetric and asymmetric encryption and explain why hybrid encryption is used in TLS.",
+        answer:"Symmetric encryption uses one shared key for encryption/decryption; it is fast but suffers from key distribution problems. Asymmetric encryption uses a public/private key pair; it helps with secure key exchange and signatures but is slower. TLS uses hybrid encryption because it uses asymmetric methods to securely exchange a random session key, then uses fast symmetric encryption with that session key for the large volume of data."
+      },
+      {
+        id:"s6", marks:6, tag:"TLS",
+        prompt:"Explain how a digital certificate helps a browser trust a website’s public key.",
+        answer:"A digital certificate contains the website’s identity and its public key, signed by a trusted Certificate Authority (CA). The browser verifies the CA signature using a trusted CA public key. If valid and the domain matches, the browser trusts that the public key belongs to that website, reducing the risk of a fake site or man-in-the-middle attack."
+      }
+    ];
+
+    function renderStructured() {
+      const host = $("#structuredBank");
+      if (!host) return;
+
+      host.innerHTML = structuredData.map((q, i) => `
+        <div class="q" data-qid="${q.id}">
+          <div class="qtop">
+            <b>Structured ${i + 1} (${q.marks} marks): ${q.prompt}</b>
+            <span class="tag">${q.tag}</span>
+          </div>
+          <textarea placeholder="Write your answer..."></textarea>
+          <div class="actions">
+            <button class="btn primary" data-action="reveal">Show answer</button>
+            <button class="btn" data-action="save">Save answer</button>
+            <button class="btn good" data-action="submit">Submit</button>
+          </div>
+          <div class="reveal">
+            <b>Model answer:</b>
+            <div class="muted" style="margin-top:6px">${q.answer}</div>
+            <div class="mark"><b>Mark hint:</b> Use the vocabulary from the prompt and link to CIA (confidentiality/integrity/availability).</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    /* ==========================
+       Reveal / Save / Submit
+    ========================== */
+    function wireQuestionButtons() {
+      $$("[data-qid]").forEach(box => {
+        const qid = box.getAttribute("data-qid");
+        const revealBtn = box.querySelector("[data-action='reveal']");
+        const saveBtn = box.querySelector("[data-action='save']");
+        const submitBtn = box.querySelector("[data-action='submit']");
+        const revealDiv = $(".reveal", box);
+
+        revealBtn?.addEventListener("click", () => {
+          if (!revealDiv) return;
+          revealDiv.style.display = (revealDiv.style.display === "block") ? "none" : "block";
+        });
+
+        saveBtn?.addEventListener("click", () => { saveAll(); toast("Saved ✅"); });
+
+        submitBtn?.addEventListener("click", () => {
+          submitted.add(qid);
+          saveAll();
+          updateProgress();
+          toast("Submitted ✅");
+          if (revealDiv) revealDiv.style.display = "block";
+        });
+      });
+    }
+
+    /* ==========================
+       Simulators
+    ========================== */
+
+    // Password strength
+    const pwIn = $("#pwIn");
+    const pwBar = $("#pwBar");
+    const pwMsg = $("#pwMsg");
+
+    function pwScore(pw) {
+      pw = pw || "";
+      let score = 0;
+
+      const len = pw.length;
+      if (len >= 8) score += 20;
+      if (len >= 12) score += 20;
+      if (len >= 16) score += 15;
+
+      const hasLower = /[a-z]/.test(pw);
+      const hasUpper = /[A-Z]/.test(pw);
+      const hasDigit = /\d/.test(pw);
+      const hasSym = /[^A-Za-z0-9]/.test(pw);
+
+      score += (hasLower ? 10 : 0) + (hasUpper ? 10 : 0) + (hasDigit ? 10 : 0) + (hasSym ? 10 : 0);
+
+      // penalties for common patterns
+      if (/^(password|123456|qwerty|letmein|admin)$/i.test(pw)) score = Math.min(score, 10);
+      if (/^(.)\1+$/.test(pw) && pw.length >= 4) score = Math.min(score, 15); // repeated
+      if (/1234|abcd|qwer/i.test(pw)) score = Math.min(score, score - 10);
+
+      // clamp
+      score = Math.max(0, Math.min(100, score));
+      return score;
+    }
+
+    function pwFeedback(pw, score) {
+      const tips = [];
+      if ((pw || "").length < 12) tips.push("Use 12+ characters.");
+      if (!/[A-Z]/.test(pw || "")) tips.push("Add uppercase letters.");
+      if (!/[a-z]/.test(pw || "")) tips.push("Add lowercase letters.");
+      if (!/\d/.test(pw || "")) tips.push("Add digits.");
+      if (!/[^A-Za-z0-9]/.test(pw || "")) tips.push("Add symbols.");
+      if (/password|123456|qwerty|admin/i.test(pw || "")) tips.push("Avoid common passwords.");
+
+      let label = "Weak";
+      if (score >= 75) label = "Strong";
+      else if (score >= 45) label = "Moderate";
+
+      return `${label} (${score}/100). ${tips.length ? "Improve: " + tips.join(" ") : "Good! Still use MFA where possible."}`;
+    }
+
+    pwIn?.addEventListener("input", () => {
+      const pw = pwIn.value || "";
+      const score = pwScore(pw);
+      pwBar.style.width = score + "%";
+      pwMsg.textContent = pwFeedback(pw, score);
+    });
+
+    // Caesar cipher
+    function caShiftChar(ch, shift) {
+      const A = "A".charCodeAt(0);
+      const Z = "Z".charCodeAt(0);
+      const a = "a".charCodeAt(0);
+      const z = "z".charCodeAt(0);
+
+      const c = ch.charCodeAt(0);
+      if (c >= A && c <= Z) return String.fromCharCode(A + ((c - A + shift) % 26));
+      if (c >= a && c <= z) return String.fromCharCode(a + ((c - a + shift) % 26));
+      return ch;
+    }
+
+    function caTransform(text, shift) {
+      return (text || "").split("").map(ch => caShiftChar(ch, shift)).join("");
+    }
+
+    $("#btnCaEnc")?.addEventListener("click", () => {
+      const t = $("#caPlain").value || "";
+      const s = parseInt($("#caShift").value, 10) || 0;
+      $("#caOut").textContent = caTransform(t, s);
+    });
+
+    $("#btnCaDec")?.addEventListener("click", () => {
+      const t = $("#caPlain").value || "";
+      const s = parseInt($("#caShift").value, 10) || 0;
+      $("#caOut").textContent = caTransform(t, (26 - (s % 26)) % 26);
+    });
+
+    $("#btnCaReset")?.addEventListener("click", () => {
+      $("#caPlain").value = "HELLO WORLD";
+      $("#caShift").value = 3;
+      $("#caOut").textContent = "";
+    });
+
+    // Teaching hash (not cryptographic)
+    function teachHash(str) {
+      str = str || "";
+      let h1 = 2166136261 >>> 0;
+      for (let i = 0; i < str.length; i++) {
+        h1 ^= str.charCodeAt(i);
+        h1 = Math.imul(h1, 16777619) >>> 0;
+      }
+      // expand to pseudo 128-bit by mixing
+      let h2 = (h1 ^ (h1 >>> 16)) >>> 0;
+      let h3 = Math.imul(h2, 2246822507) >>> 0;
+      let h4 = Math.imul(h3 ^ (h3 >>> 13), 3266489909) >>> 0;
+
+      const toHex = (x) => x.toString(16).padStart(8, "0");
+      return `${toHex(h1)}${toHex(h2)}${toHex(h3)}${toHex(h4)}`;
+    }
+
+    function updateHash() {
+      const s = $("#hashIn").value || "";
+      $("#hashOut").textContent = teachHash(s);
+    }
+
+    $("#btnHash")?.addEventListener("click", updateHash);
+    $("#btnHashFlip")?.addEventListener("click", () => {
+      let s = $("#hashIn").value || "";
+      if (!s.length) s = "a";
+      const i = Math.floor(Math.random() * s.length);
+      const ch = s[i];
+      const flipped = ch === "a" ? "b" : "a";
+      s = s.substring(0, i) + flipped + s.substring(i + 1);
+      $("#hashIn").value = s;
+      updateHash();
+    });
+
+    // Toy RSA
+    function gcd(a,b){ while(b){ [a,b] = [b, a%b]; } return a; }
+    function modPow(base, exp, mod){
+      base%=mod; let res=1n;
+      let b=BigInt(base), e=BigInt(exp), m=BigInt(mod);
+      while(e>0n){
+        if(e&1n) res=(res*b)%m;
+        b=(b*b)%m; e >>= 1n;
+      }
+      return res;
+    }
+    function egcd(a,b){
+      if(b===0) return [a,1,0];
+      const [g,x1,y1]=egcd(b,a%b);
+      return [g, y1, x1 - Math.floor(a/b)*y1];
+    }
+    function modInv(e, phi){
+      const [g,x,_]=egcd(e,phi);
+      if(g!==1) return null;
+      return (x%phi + phi)%phi;
+    }
+
+    let rsa = { n:null, phi:null, e:null, d:null, c:null };
+
+    function rsaOutput(text){
+      $("#rsaOut").textContent = text;
+    }
+
+    $("#btnRsaReset")?.addEventListener("click", () => {
+      $("#rsaP").value = 11;
+      $("#rsaQ").value = 13;
+      $("#rsaE").value = 7;
+      $("#rsaM").value = 9;
+      rsa = { n:null, phi:null, e:null, d:null, c:null };
+      rsaOutput("");
+    });
+
+    $("#btnRsaKeys")?.addEventListener("click", () => {
+      const p = parseInt($("#rsaP").value,10);
+      const q = parseInt($("#rsaQ").value,10);
+      const e = parseInt($("#rsaE").value,10);
+
+      if(!Number.isFinite(p) || !Number.isFinite(q) || p<2 || q<2) return rsaOutput("Choose valid primes p and q.");
+      if(p===q) return rsaOutput("p and q should be different primes.");
+      const n = p*q;
+      const phi = (p-1)*(q-1);
+
+      if(!Number.isFinite(e) || e<=1 || e>=phi) return rsaOutput("Choose e such that 1 < e < φ(n).");
+      if(gcd(e,phi)!==1) return rsaOutput("e must be coprime with φ(n) (gcd(e,φ)=1). Try 3,5,7,11...");
+
+      const d = modInv(e, phi);
+      if(d===null) return rsaOutput("Could not find modular inverse for d. Choose another e.");
+
+      rsa = { n, phi, e, d, c:null };
+
+      rsaOutput(
+`KEY GENERATION
+p=${p}, q=${q}
+n=p×q=${n}
+φ(n)=(p-1)(q-1)=${phi}
+
+Choose e=${e} such that gcd(e,φ)=1 ✅
+Compute d = e⁻¹ mod φ(n) = ${d}
+
+Public key:  (e=${e}, n=${n})
+Private key: (d=${d}, n=${n})
+`);
+    });
+
+    $("#btnRsaEnc")?.addEventListener("click", () => {
+      if(!rsa.n || !rsa.e) return rsaOutput("Generate keys first.");
+      const m = parseInt($("#rsaM").value,10);
+      if(!Number.isFinite(m) || m<0 || m>=rsa.n) return rsaOutput(`Message m must be 0 ≤ m < n (${rsa.n}).`);
+      const c = modPow(m, rsa.e, rsa.n);
+      rsa.c = c;
+      rsaOutput(
+`ENCRYPTION
+m=${m}
+c = m^e mod n
+c = ${m}^${rsa.e} mod ${rsa.n}
+c = ${c}
+
+(Keep c as ciphertext. Decrypt with d.)
+`);
+    });
+
+    $("#btnRsaDec")?.addEventListener("click", () => {
+      if(!rsa.n || !rsa.d) return rsaOutput("Generate keys first.");
+      if(rsa.c===null) return rsaOutput("Encrypt first to create ciphertext c.");
+      const m2 = modPow(Number(rsa.c), rsa.d, rsa.n);
+      rsaOutput(
+`DECRYPTION
+c=${rsa.c}
+m = c^d mod n
+m = ${rsa.c}^${rsa.d} mod ${rsa.n}
+m = ${m2}
+
+(Should match original message.)
+`);
+    });
+
+    /* ==========================
+       Boot
+    ========================== */
+    renderMcq();
+    renderStructured();
+
+    // wire buttons AFTER structured questions are injected
+    wireQuestionButtons();
+
+    // Load + set initial simulator outputs
+    updateHash();
+
+    // initial password strength bar
+    if (pwIn) {
+      const score = pwScore("");
+      pwBar.style.width = score + "%";
+      pwMsg.textContent = pwFeedback("", score);
+    }
+
+    // Load saved progress
+    loadAll();
+
+    // autosave on exit
+    window.addEventListener("beforeunload", () => saveAll());
+
+  </script>
+</body>
+</html>
