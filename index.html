@@ -3,192 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <title>Computer Science Learning Hub</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #f4f6f8;
-            color: #333;
+            background-color: #f4f6f8;
         }
 
         header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background-color: #2c3e50;
             color: white;
-            padding: 30px 20px;
+            padding: 20px;
             text-align: center;
         }
 
-        header h1 {
+        h2 {
+            background-color: #34495e;
+            color: white;
+            padding: 10px;
             margin: 0;
-            font-size: 2.2em;
         }
 
-        header p {
-            margin-top: 8px;
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        main {
-            max-width: 1100px;
-            margin: auto;
+        .container {
             padding: 20px;
         }
 
-        section {
-            background: white;
+        .section {
             margin-bottom: 25px;
-            padding: 20px;
+            background: white;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-        }
-
-        section h2 {
-            border-left: 5px solid #2a5298;
-            padding-left: 12px;
-            color: #1e3c72;
-            margin-top: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         ul {
             list-style: none;
-            padding-left: 0;
-            columns: 2;
+            padding: 0;
+            margin: 0;
         }
 
         li {
-            margin: 8px 0;
+            border-bottom: 1px solid #ddd;
         }
 
-        a {
+        li a {
+            display: block;
+            padding: 12px;
             text-decoration: none;
-            color: #2a5298;
-            font-weight: 500;
+            color: #2c3e50;
         }
 
-        a:hover {
-            text-decoration: underline;
-            color: #1e3c72;
-        }
-
-        footer {
-            text-align: center;
-            padding: 15px;
-            background: #e9ecf1;
-            font-size: 0.9em;
-            color: #555;
-        }
-
-        @media (max-width: 700px) {
-            ul {
-                columns: 1;
-            }
+        li a:hover {
+            background-color: #ecf0f1;
         }
     </style>
 </head>
-
 <body>
 
 <header>
     <h1>Computer Science Learning Hub</h1>
-    <p>Notes • Assessments • Practical Work • Tests</p>
+    <p>Interactive Lessons, Labs & Practice</p>
 </header>
 
-<main>
-     <section>
-        <h2>Chapters in Detail</h2>
-        <ul>
-            <li><a href="Yr12_Ch13.html">Information Representation</a></li>
-            <li><a href="Yr12_Ch14.html">Communication</a></li>
-            <li><a href="Yr12_Ch15.html">Hardware and virtual Machine</a></li>
-            <li><a href="Yr12_Ch16.html">System Software-advance</a></li>
-         </ul>
-    </section>
+<div class="container">
 
-<section>
-        <h2>SECURITY</h2>
+    <!-- IGCSE CORE -->
+    <div class="section">
+        <h2>IGCSE Topics</h2>
         <ul>
-            <li><a href="17-security.html">Security1</a></li>
-            <li><a href="Security.html">Security2</a></li>
-         </ul>
-    </section>
-    
-    <section>
-        <h2>📘 Core Computer Science Topics</h2>
+            <li><a href="12-Communication-Internet-Tech1.html">Communication & Internet Technologies</a></li>
+            <li><a href="12-Data-Representation1.html">Data Representation</a></li>
+            <li><a href="12-Hardware-Virtual-Machines.html">Hardware & Virtual Machines</a></li>
+            <li><a href="12-Security.html">Security (IGCSE)</a></li>
+            <li><a href="12-System-Software1.html">System Software</a></li>
+        </ul>
+    </div>
+
+    <!-- YEAR 12 -->
+    <div class="section">
+        <h2>Year 12 Chapters</h2>
         <ul>
-            <li><a href="as-1-information-representation.html">Information Representation</a></li>
-            <li><a href="as-2-communication.html">Communication</a></li>
-            <li><a href="as-3-hardware.html">Hardware</a></li>
-            <li><a href="as-4-processor-fundamentals.html">Processor Fundamentals</a></li>
-            <li><a href="as-5-system-software.html">System Software</a></li>
-            <li><a href="Computer-Architecture.html">Computer Architecture</a></li>
-            <li><a href="Data-Types-structure.html">Data Types & Structures</a></li>
+            <li><a href="Yr12_Ch13.html">Chapter 13</a></li>
+            <li><a href="Yr12_Ch14.html">Chapter 14</a></li>
+            <li><a href="Yr12_Ch15.html">Chapter 15</a></li>
+            <li><a href="Yr12_Ch16.html">Chapter 16</a></li>
+        </ul>
+    </div>
+
+    <!-- A LEVEL -->
+    <div class="section">
+        <h2>A-Level Topics</h2>
+        <ul>
+            <li><a href="15-1-processor-fundamentals.html">Processor Fundamentals</a></li>
+            <li><a href="17-security.html">Security (Advanced)</a></li>
+            <li><a href="18-Artificial-Intelligence.html">Artificial Intelligence</a></li>
+            <li><a href="19-computational-thinking.html">Computational Thinking</a></li>
+            <li><a href="20-further-programming.html">Further Programming</a></li>
+            <li><a href="Chapter25_Programming_Paradigms_Ravi_Raj...">Programming Paradigms</a></li>
+            <li><a href="a2-system-software.html">System Software (A2)</a></li>
+            <li><a href="ch-23-algorithms.html">Algorithms</a></li>
+        </ul>
+    </div>
+
+    <!-- PROGRAMMING -->
+    <div class="section">
+        <h2>Programming (Java & Python)</h2>
+        <ul>
+            <li><a href="a2-java-prg-data-rep.html">Java Data Representation</a></li>
+            <li><a href="java-assessment.html">Java Assessment</a></li>
             <li><a href="arraysnew.html">Arrays</a></li>
-            <li><a href="ch-13-datatypes-structure.html">Chapter 13 – Data Types & Structures</a></li>
-            <li><a href="as-csc-chapter-12.html">Chapter 12 – CSC</a></li>
-            <li><a href="as-cs-chapter-13.html">Chapter 13 – CSC</a></li>
-            <li><a href="as-chapter14.html">Chapter 14</a></li>
+            <li><a href="pythonArrays.html">Python Arrays</a></li>
+            <li><a href="datafilesPython.html">Python File Handling</a></li>
+            <li><a href="FileHandling-Part1.html">File Handling Part 1</a></li>
+            <li><a href="File-Handling-ExamStyle.html">File Handling Exam Practice</a></li>
         </ul>
-    </section>
+    </div>
 
-    <section>
-        <h2>🧠 Algorithm Design & Problem Solving</h2>
+    <!-- THEORY + LOGIC -->
+    <div class="section">
+        <h2>Logic, Algorithms & Concepts</h2>
         <ul>
-            <li><a href="8-Algorithm-Design-Assessment.html">Algorithm Design – Assessment</a></li>
-            <li><a href="9-Prob-Solving-Prog-Assessment.html">Problem Solving & Programming – Assessment</a></li>
-            <li><a href="AS-ch8-prac.html">Chapter 8 – Practical</a></li>
-            <li><a href="AS-ch9-ProbSolving-Program.html">Chapter 9 – Problem Solving</a></li>
-            <li><a href="as-cs-alg-des-prob-solving.html">Algorithm Design & Problem Solving</a></li>
-            <li><a href="as-cs-alg-des-prob-assessment.html">Algorithm Design – Assessment</a></li>
+            <li><a href="LogicalGates.html">Logic Gates</a></li>
+            <li><a href="Boolean-Algebra2.html">Boolean Algebra</a></li>
+            <li><a href="logic-gates-boolean-algebra.html">Logic + Boolean Combined</a></li>
+            <li><a href="AlgorithmDesignQA.html">Algorithm Design Q&A</a></li>
+            <li><a href="RecursionQA.html">Recursion Q&A</a></li>
         </ul>
-    </section>
+    </div>
 
-    <section>
-        <h2>📂 File Handling & OOP (NEW)</h2>
+    <!-- PRACTICAL -->
+    <div class="section">
+        <h2>Practical & Exam Practice</h2>
         <ul>
-            <li><a href="FileHandling-Part1.html">File Handling – Concepts & Records</a></li>
-            <li><a href="File-Handling-ExamStyle.html">File Handling – Exam Style Questions</a></li>
-            <li><a href="Oops Part2.html">Object-Oriented Programming – Part 2</a></li>
-            <li><a href="OOPs-Exam-Style.html">OOP – Exam Style Questions</a></li>
+            <li><a href="A-level-practical1.html">A-Level Practical 1</a></li>
+            <li><a href="A-level-practical2.html">A-Level Practical 2</a></li>
+            <li><a href="Chap19-Practical.html">Chapter 19 Practical</a></li>
+            <li><a href="Practical-Chapter19.html">Practical Chapter 19</a></li>
+            <li><a href="TaskQA.html">Task Q&A</a></li>
+            <li><a href="OOPs-Exam-Style.html">OOP Exam Questions</a></li>
         </ul>
-    </section>
+    </div>
 
-    <section>
-        <h2>📝 Assessments</h2>
+    <!-- SYSTEMS -->
+    <div class="section">
+        <h2>Systems & Hardware</h2>
         <ul>
-            <li><a href="as-1-assessment.html">AS Level – Assessment 1</a></li>
-            <li><a href="as-2-assessment.html">AS Level – Assessment 2</a></li>
-            <li><a href="as-3-assessment.html">AS Level – Assessment 3</a></li>
-            <li><a href="as-4-assessment.html">AS Level – Assessment 4</a></li>
-            <li><a href="as-5-assessment.html">AS Level – Assessment 5</a></li>
-            <li><a href="AlgorithmDesignQA.html">AS Level – Assessment 6</a></li>
-            <li><a href="RecursionQA.html">AS Level – Assessment 7</a></li>
-            <li><a href="TaskQA.html">AS Level – Assessment 8</a></li>
-            <li><a href="database-assessment-7-12-2025.html">Database Assessment</a></li>
+            <li><a href="Hardware and Virtual Machine.html">Hardware & VM</a></li>
+            <li><a href="Hardware-assessment.html">Hardware Assessment</a></li>
+            <li><a href="software-development.html">Software Development</a></li>
         </ul>
-    </section>
+    </div>
 
-    <section>
-        <h2>💻 Practical & Test Pages</h2>
+    <!-- DATA + COMMUNICATION -->
+    <div class="section">
+        <h2>Assessments & Extras</h2>
         <ul>
-            <li><a href="as-Csc-prac1.html">CSC Practical 1</a></li>
-            <li><a href="Hardware-test.html">Hardware Test</a></li>
-            <li><a href="Test-November.html">November Test</a></li>
-            <li><a href="SpillOvers.html">Spill Overs</a></li>
+            <li><a href="communication-internet-tech.html">Communication Tech</a></li>
+            <li><a href="communication-internet-tech-assessment.html">Communication Assessment</a></li>
+            <li><a href="communication-internet-tech-bookquestions.html">Book Questions</a></li>
+            <li><a href="data-representation-y12.html">Data Representation Y12</a></li>
+            <li><a href="data-representation-assessment.html">Data Representation Assessment</a></li>
+            <li><a href="Security.html">Security (General)</a></li>
         </ul>
-    </section>
+    </div>
 
-</main>
+    <!-- DATA STRUCTURES -->
+    <div class="section">
+        <h2>Data Structures</h2>
+        <ul>
+            <li><a href="stack.html">Stack</a></li>
+            <li><a href="queue.html">Queue</a></li>
+        </ul>
+    </div>
 
-<footer>
-    © Computer Science Teaching/Learning Resources | Designed with clarity & purpose
-</footer>
+</div>
 
 </body>
 </html>
-
-
-
-
